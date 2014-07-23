@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ItemCommon"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/item_iv_cover"
+        android:layout_width="70dp"
+        android:layout_height="80dp"
+        android:background="@drawable/cover_border"
+        android:contentDescription="@string/str_empty"
+        android:padding="1px"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="@dimen/default_item_padding_small" >
+
+        <TextView
+            android:id="@+id/item_tv_title"
+            style="@style/ItemTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="最强弃少" />
+
+        <TextView
+            android:id="@+id/item_tv_author"
+            style="@style/ItemSummary"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="城东" />
+
+        <TextView
+            android:id="@+id/item_tv_summary"
+            style="@style/ItemSummary"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="三小时前更新：第一千八百章" />
+    </LinearLayout>
+
+</LinearLayout>

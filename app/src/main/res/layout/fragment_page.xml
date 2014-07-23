@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/font_size_big" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <com.qiwenge.android.ui.SlowViewPager
+            android:id="@+id/viewpager_reader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </com.qiwenge.android.ui.SlowViewPager>
+
+        <com.qiwenge.android.reader.ReadPagerView
+            android:id="@+id/tv_test"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:lineSpacingExtra="5dp"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <include layout="@layout/layout_read_page_bottom" />
+
+</LinearLayout>

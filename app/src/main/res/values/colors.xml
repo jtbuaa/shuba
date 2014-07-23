@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ActionBar -->
+    <color name="action_bar_bg_color">#303030</color>
+    <color name="action_bar_overlay_color">#000000</color>
+    <color name="action_bar_text_color">#e6e6e6</color>
+    <color name="action_bar_item_bg_color">#20000000</color>
+
+    <!-- Main点缀颜色 -->
+    <color name="main_dress_color">#ee7a31</color>
+    <color name="main_divder_color">#9d999b</color>
+    <color name="main_bg_color">#ffffff</color>
+    <color name="main_second_bg_color">#eeeeee</color>
+    <color name="main_yellow_color">#fc9634</color>
+    <color name="main_gray_color">#cccccc</color>
+    <color name="main_shadow_color">#cccccc</color>
+
+    <!-- f0f0f0 -->
+
+
+    <!-- Common -->
+    <color name="item_selected_bg_color">#20000000</color>
+    <color name="common_line_color">@color/main_gray_color</color>
+    <color name="lv_divider_color">#cdcdcd</color>
+
+    <!-- item -->
+    <color name="tv_title_color">#303030</color>
+    <color name="tv_desc_color">#939393</color>
+
+    <!-- Reader -->
+    <color name="read_normal_text_color">#666666</color>
+    <color name="read_green_bg">#ffcce8cf</color>
+    <color name="read_light_blue_bg">#ffd6f4f7</color>
+
+    <!-- 夜间模式 -->
+    <color name="read_night_bg">#ff000000</color>
+    <color name="read_night_text_color">#474545</color>
+
+    <!-- ReadTheme -->
+    <color name="read_theme_white">#f4f4f4</color>
+    <color name="read_theme_green">#c5e7cb</color>
+    <color name="read_theme_yellow">#e6dbbf</color>
+
+</resources>

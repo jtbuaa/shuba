@@ -1,0 +1,182 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_second_bg_color"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="15dp" >
+
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:background="@drawable/cover_border"
+                android:contentDescription="@string/str_empty"
+                android:padding="1px"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:paddingLeft="10dp" >
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/tv_title_color"
+                    android:textSize="@dimen/font_size_middle" />
+
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/book_intro_author_format"
+                    android:textColor="@color/tv_desc_color"
+                    android:textSize="@dimen/font_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/book_intro_category_format"
+                    android:textColor="@color/tv_desc_color"
+                    android:textSize="@dimen/font_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/book_intro_status_format"
+                    android:textColor="@color/tv_desc_color"
+                    android:textSize="@dimen/font_size_small" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" >
+
+            <Button
+                android:id="@+id/btn_chapter"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_hollow_yellow"
+                android:text="@string/book_intro_chapters"
+                android:textColor="@color/btn_yellow_text_color"
+                android:textSize="@dimen/font_size_middle" />
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_hollow_yellow"
+                android:text="@string/book_intro_add"
+                android:textColor="@color/btn_yellow_text_color"
+                android:textSize="@dimen/font_size_middle" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/main_shadow_color" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:paddingBottom="10dp" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:text="@string/str_intro"
+                android:textSize="@dimen/font_size_middle" />
+
+            <TextView
+                android:id="@+id/tv_intro"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/str_intro"
+                android:textColor="@color/tv_desc_color"
+                android:textSize="@dimen/font_size_small" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/main_shadow_color" />
+
+        <LinearLayout
+            android:id="@+id/layout_related"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:text="@string/book_intro_related"
+                android:textColor="@color/tv_title_color"
+                android:textSize="@dimen/font_size_middle" />
+
+            <ListView
+                android:id="@+id/gv_recommend"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:listSelector="@drawable/item_common_bg"
+                android:numColumns="4"
+                android:scrollbars="none" >
+            </ListView>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/main_shadow_color" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

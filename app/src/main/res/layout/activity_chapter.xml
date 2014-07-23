@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color" >
+
+    <com.qiwenge.android.ui.ScrollPageListView
+        android:id="@+id/listview_common"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:listSelector="@drawable/item_common_bg" >
+    </com.qiwenge.android.ui.ScrollPageListView>
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/empty_chapter"
+        android:textColor="@color/tv_desc_color"
+        android:textSize="@dimen/font_size_middle" />
+
+</RelativeLayout>

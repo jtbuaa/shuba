@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_bottom_menu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/action_bar_bg_color"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/layout_menu_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_brightness_minus"
+                android:textColor="@android:color/white" />
+
+            <SeekBar
+                android:id="@+id/seekbar_screen_brightness"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:maxHeight="2dp"
+                android:minHeight="2dp"
+                android:progressDrawable="@drawable/seekbar_bg"
+                android:thumb="@drawable/seekbar_thumb"
+                android:thumbOffset="10dp" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_brightness_add" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Aa-"
+                android:textColor="@color/tv_desc_color"
+                android:textSize="@dimen/font_size_small" />
+
+            <SeekBar
+                android:id="@+id/seekBar_font_size"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:max="30"
+                android:maxHeight="2dp"
+                android:minHeight="2dp"
+                android:progressDrawable="@drawable/seekbar_bg"
+                android:thumb="@drawable/seekbar_thumb"
+                android:thumbOffset="10dp" />
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Aa+"
+                android:textColor="@color/tv_desc_color"
+                android:textSize="@dimen/font_size_small" />
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/gv_theme"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="4"
+            android:scrollbars="none" >
+        </GridView>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:alpha="0.5"
+        android:background="@android:color/black" />
+
+    <GridView
+        android:id="@+id/gv_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:listSelector="@drawable/item_common_bg"
+        android:numColumns="4"
+        android:scrollbars="none" >
+    </GridView>
+
+</LinearLayout>

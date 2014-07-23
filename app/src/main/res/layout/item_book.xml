@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/item_iv_cover"
+        android:layout_width="60dp"
+        android:layout_height="75dp"
+        android:background="@drawable/cover_border"
+        android:contentDescription="@string/str_empty"
+        android:padding="1px"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="75dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp" >
+
+        <TextView
+            android:id="@+id/item_tv_title"
+            style="@style/ItemTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="老五"
+            android:textColor="@color/tv_title_color" />
+
+        <TextView
+            android:id="@+id/item_tv_author"
+            style="@style/ItemSummary"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="老五"
+            android:textColor="@color/tv_desc_color" />
+
+        <TextView
+            android:id="@+id/item_tv_desc"
+            style="@style/ItemSummary"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五"
+            android:textColor="@color/tv_desc_color" />
+    </LinearLayout>
+
+</LinearLayout>

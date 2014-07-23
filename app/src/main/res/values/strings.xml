@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Config -->
+    <string name="app_name">奇文阁</string>
+    <string name="UMENG_APPKEY">5368adef56240b3e410337a7</string>
+    <string name="JPUSH_APPKEY">f0638222933af84af96ecad9</string>
+
+    <!-- Action -->
+    <string name="action_settings">Settings</string>
+
+    <!-- Common -->
+    <string name="double_click_to_quit">双击返回键,退出奇文阁</string>
+    <string name="str_share_format">%s (分享自 @奇文阁)</string>
+    <string name="str_book_shelf">书架</string>
+    <string name="str_book_library">发现</string>
+    <string name="str_set">设置</string>
+    <string name="str_empty"></string>
+    <string name="str_intro">简介</string>
+    <string name="str_category">类型</string>
+    <string name="str_chapter_title" formatted="false">第%s章 %s</string>
+    <string name="lipsum">&#160;&#160;&#160;&#160;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\n\n&#160;&#160;&#160;&#160;On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.\n\n&#160;&#160;&#160;&#160;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n&#160;&#160;&#160;&#160;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\n\n&#160;&#160;&#160;&#160;At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</string>
+    <string name="page_number">Page %1$d of %2$d</string>
+    <string name="str_unknow">未知</string>
+    <string name="str_book_finish">完结</string>
+    <string name="str_book_publishing">连载中</string>
+
+    <!-- BookIntro -->
+    <string name="book_intro_detail">小说详情</string>
+    <string name="book_intro_author_format">作者 : %s</string>
+    <string name="book_intro_category_format">类型 : %s</string>
+    <string name="book_intro_status_format">状态 : %s</string>
+    <string name="book_intro_chapters">查看目录</string>
+    <string name="book_intro_add">加入书架</string>
+    <string name="book_intro_remove">移出书架</string>
+    <string name="book_intro_read_continue">继续阅读</string>
+    <string name="book_intro_related">相关推荐</string>
+
+    <!-- BookCity -->
+    <string name="book_city_recommend">推荐</string>
+    <string name="book_city_rank">排行</string>
+    <string name="book_city_category">分类</string>
+
+    <!-- Set -->
+    <string name="set_title">设置</string>
+    <string name="set_more">更多</string>
+    <string name="set_night_model">夜间模式</string>
+    <string name="set_save_model">流量控制</string>
+    <string name="set_save_model_summary">仅在WI-FI下加载小说封面</string>
+    <string name="set_legal">免责声明</string>
+    <string name="set_rating">评分</string>
+    <string name="set_update">检查版本更新</string>
+    <string name="set_version">版本</string>
+
+    <!-- search -->
+    <string name="search_recommend">推荐几本精彩的小说</string>
+
+    <!-- Empty -->
+    <string name="empty_bookshelf">闲的无聊,看本书吧</string>
+    <string name="empty_search">抱歉,没有找到您想要的小说</string>
+    <string name="empty_chapter">恭喜您发现一本无字天书</string>
+
+</resources>

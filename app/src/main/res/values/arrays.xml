@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ReadMenu -->
+    <string-array name="read_menu_titles">
+        <item>夜间</item>
+        <item>设置</item>
+        <item>目录</item>
+        <item>分享</item>
+    </string-array>
+
+    <integer-array name="read_menu_icon">
+        <item>@drawable/icon_menu_mode_night</item>
+        <item>@drawable/icon_menu_aa</item>
+        <item>@drawable/icon_menu_chapters</item>
+        <item>@drawable/icon_menu_share</item>
+    </integer-array>
+    <integer-array name="read_theme_color">
+        <item>@color/read_theme_white</item>
+        <item>@color/read_theme_yellow</item>
+        <item>@color/read_theme_green</item>
+        <item>@color/read_theme_yellow</item>
+    </integer-array>
+
+    <!--  -->
+    <string-array name="left_menu_titles">
+        <item>推荐</item>
+        <item>排行</item>
+        <item>分类</item>
+    </string-array>
+
+    <!-- Category -->
+    <string-array name="left_category_titles">
+        <item>奇幻</item>
+        <item>玄幻</item>
+        <item>仙侠</item>
+        <item>武侠</item>
+        <item>都市</item>
+        <item>网游</item>
+        <item>军事</item>
+        <item>历史</item>
+        <item>科幻</item>
+        <item>灵异</item>
+    </string-array>
+
+</resources>
