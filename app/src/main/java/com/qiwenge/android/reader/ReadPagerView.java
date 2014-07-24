@@ -8,10 +8,11 @@ import android.text.Layout;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.dev1024.utils.LogUtils;
+
 /**
- * 
  * 分页器.
- *
+ * <p/>
  * Created by John on 2014-5.
  */
 public class ReadPagerView extends TextView {
@@ -33,9 +34,11 @@ public class ReadPagerView extends TextView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+
+
     /**
      * 分页。
-     * 
+     *
      * @param listener
      */
     public void onPage(OnReaderPageListener listener) {
@@ -51,7 +54,7 @@ public class ReadPagerView extends TextView {
         int pagesCount = (int) Math.ceil(lineCount / (double) lastLine);
 
         int[] offsets = new int[pagesCount];
-        int end = 0;
+        int end;
         for (int i = 0; i < pagesCount; i++) {
             end = layout.getLineStart(i * lastLine);
             if (end > length) end = length;

@@ -13,17 +13,22 @@ import android.widget.TextView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.models.Page;
 
+/**
+ * 阅读适配器。Created by John at 2014.
+ */
 public class ReaderAdapter extends PagerAdapter {
 
     private List<Page> pages = new ArrayList<Page>();
     private LayoutInflater mInflater;
-
-    // private MyOnItemClickListener onItemClickListener;
+    private int mTextSize=20;
 
     public ReaderAdapter(Context context, List<Page> pages) {
         this.pages = pages;
-        // this.onItemClickListener = listener;
         mInflater = LayoutInflater.from(context);
+    }
+
+    public void setTextSize(int textSize){
+        mTextSize=textSize;
     }
 
     @Override
@@ -31,15 +36,7 @@ public class ReaderAdapter extends PagerAdapter {
         View view = mInflater.inflate(R.layout.item_reader, container, false);
         TextView tv = (TextView) view.findViewById(R.id.tv_reader);
         tv.setText(pages.get(position).content);
-        // if (onItemClickListener != null) {
-        // tv.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        // onItemClickListener.onItemClick(position);
-        // }
-        // });
-        // }
+        tv.setTextSize(mTextSize);
         container.addView(view, 0);
         return view;
     }

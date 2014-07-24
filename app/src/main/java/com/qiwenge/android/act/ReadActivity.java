@@ -127,7 +127,7 @@ public class ReadActivity extends FragmentActivity {
     /**
      * 原始字体大小。
      */
-    private int fontSizeOrigin = 22;
+    private int fontSizeOrigin = 20;
 
     private Handler mHandler = new MyHandler(this);
 
@@ -236,10 +236,12 @@ public class ReadActivity extends FragmentActivity {
         seekBarBrightness.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -255,12 +257,12 @@ public class ReadActivity extends FragmentActivity {
 
         // 字体大小。
         seekFontSize = (SeekBar) this.findViewById(R.id.seekBar_font_size);
-        seekFontSize.setMax(30);
+        seekFontSize.setMax(100);
         seekFontSize.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                System.out.println("seekFontSize-onStop:" + (mFontSizeOffest + fontSizeOrigin));
+                setReadTextSize();
             }
 
             @Override
@@ -271,7 +273,7 @@ public class ReadActivity extends FragmentActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    mFontSizeOffest = progress;
+                    mFontSizeOffest = progress/5;
                 }
             }
         });
@@ -318,7 +320,7 @@ public class ReadActivity extends FragmentActivity {
 
     /**
      * 选择主题。
-     * 
+     *
      * @param i
      */
     private void selectTheme(int i, boolean cacheable) {
@@ -340,7 +342,7 @@ public class ReadActivity extends FragmentActivity {
 
     /**
      * 设置，是否为夜间模式。
-     * 
+     *
      * @param isNight
      */
     private void showNighitModel(boolean isNight) {
@@ -452,6 +454,14 @@ public class ReadActivity extends FragmentActivity {
     }
 
     /**
+     * TODO 设置字体大小。
+     */
+    private void setReadTextSize() {
+        int textSize=fontSizeOrigin+mFontSizeOffest;
+        fragment.setTextSize(textSize);
+    }
+
+    /**
      * 静态的内部类，继承了Handler，防内存泄露
      */
     static class MyHandler extends Handler {
@@ -461,7 +471,8 @@ public class ReadActivity extends FragmentActivity {
         private int progress = 0;
 
         public MyHandler(Activity act) {
-            mActivity = new WeakReference<Activity>(act);;
+            mActivity = new WeakReference<Activity>(act);
+            ;
         }
 
         @Override

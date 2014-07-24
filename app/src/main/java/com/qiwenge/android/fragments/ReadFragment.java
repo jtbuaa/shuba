@@ -15,11 +15,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dev1024.utils.DialogUtils;
+import com.dev1024.utils.LogUtils;
+import com.dev1024.utils.StringUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
@@ -60,7 +63,11 @@ public class ReadFragment extends BaseFragment {
     /**
      * 小说分页器。
      */
-    private ReadPagerView readerView;
+    private ReadPagerView readerCurrent;
+
+    private ReadPagerView readerNext;
+
+    private ReadPagerView readerPrev;
 
     private SlowViewPager viewPager;
 
@@ -84,15 +91,22 @@ public class ReadFragment extends BaseFragment {
      */
     private Chapter current;
 
+
     /**
      * 下一章
      */
-    private Chapter next;
+    private Chapter nextChapter;
 
     /**
      * 上一章
      */
-    private Chapter prev;
+    private Chapter prevChapter;
+
+    private String currentContent;
+
+    private String nextContent;
+
+    private String prevContent;
 
     /**
      * 小说Id
@@ -143,8 +157,6 @@ public class ReadFragment extends BaseFragment {
         removeBatteryReceiver();
     }
 
-    private String content = "";
-
     private void initData() {
         mScaledTouchSlop =
                 ViewConfiguration.get(getActivity().getApplicationContext()).getScaledTouchSlop();
@@ -162,26 +174,27 @@ public class ReadFragment extends BaseFragment {
         adapter = new ReaderAdapter(getActivity(), pageList);
         viewPager = (SlowViewPager) getView().findViewById(R.id.viewpager_reader);
         viewPager.setAdapter(adapter);
-        readerView = (ReadPagerView) getView().findViewById(R.id.tv_test);
-
+        readerCurrent = (ReadPagerView) getView().findViewById(R.id.reader_current);
+        readerNext = (ReadPagerView) getView().findViewById(R.id.reader_next);
+        readerPrev = (ReadPagerView) getView().findViewById(R.id.reader_prev);
         viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int arg0) {
                 Page p = pageList.get(arg0);
 
-                if (next != null && next.getId().equals(p.chapterId)) {
+                if (nextChapter != null && nextChapter.getId().equals(p.chapterId)) {
                     System.out.println("已经进入下一章");
-                    current = next;
+                    current = nextChapter;
                     saveRecord(current.getId());
-                    if (next.next != null) getNext(next.next.ref);
+                    if (nextChapter.next != null) getNext(nextChapter.next.ref);
                 }
 
-                if (prev != null && prev.getId().equals(p.chapterId)) {
+                if (prevChapter != null && prevChapter.getId().equals(p.chapterId)) {
                     System.out.println("已经进入上一章");
-                    current = prev;
+                    current = prevChapter;
                     saveRecord(current.getId());
-                    if (prev.prev != null) getPrev(prev.prev.ref);
+                    if (prevChapter.prev != null) getPrev(prevChapter.prev.ref);
                 }
 
                 currentItem = arg0;
@@ -251,7 +264,7 @@ public class ReadFragment extends BaseFragment {
 
     /**
      * 获取上一页
-     * 
+     *
      * @param link
      */
     public void getPrev(String link) {
@@ -261,11 +274,11 @@ public class ReadFragment extends BaseFragment {
             @Override
             public void onSuccess(final Chapter result) {
                 if (result != null && result.content != null && result.content.length() > 100) {
-                    prev = result;
-                    content = result.content.trim();
-                    content = ReaderUtils.formatContent(content);
-                    readerView.setText(content);
-                    readerView.onPage(new OnReaderPageListener() {
+                    prevChapter = result;
+                    prevContent = result.content.trim();
+                    prevContent = ReaderUtils.formatContent(prevContent);
+                    readerPrev.setText(prevContent);
+                    readerPrev.onPage(new OnReaderPageListener() {
 
                         @Override
                         public void onSuccess(List<String> pages) {
@@ -280,6 +293,7 @@ public class ReadFragment extends BaseFragment {
 
             @Override
             public void onFailure(String msg) {
+                if (msg == null) msg = "unknow msg";
                 System.out.println(msg);
             }
 
@@ -288,7 +302,7 @@ public class ReadFragment extends BaseFragment {
 
     /**
      * 获取下一页
-     * 
+     *
      * @param link
      */
     public void getNext(String link) {
@@ -299,11 +313,11 @@ public class ReadFragment extends BaseFragment {
             public void onSuccess(final Chapter result) {
 
                 if (result != null && result.content != null && result.content.length() > 100) {
-                    next = result;
-                    content = result.content.trim();
-                    content = ReaderUtils.formatContent(content);
-                    readerView.setText(content);
-                    readerView.onPage(new OnReaderPageListener() {
+                    nextChapter = result;
+                    nextContent = result.content.trim();
+                    nextContent = ReaderUtils.formatContent(nextContent);
+                    readerNext.setText(nextContent);
+                    readerNext.onPage(new OnReaderPageListener() {
 
                         @Override
                         public void onSuccess(List<String> pages) {
@@ -316,6 +330,7 @@ public class ReadFragment extends BaseFragment {
 
             @Override
             public void onFailure(String msg) {
+                if (msg == null) msg = "unknow msg";
                 System.out.println(msg);
             }
 
@@ -325,7 +340,7 @@ public class ReadFragment extends BaseFragment {
 
     /**
      * 获取章节内容
-     * 
+     *
      * @param chapterId
      */
     public void getChapter(final String chapterId) {
@@ -339,11 +354,12 @@ public class ReadFragment extends BaseFragment {
                     tvTitle.setText(String.format(getString(R.string.str_chapter_title),
                             result.number, result.title));
                     if (result.content != null && result.content.length() > 100) {
+                        currentContent = result.content.toString();
                         current = result;
-                        content = result.content.trim();
-                        content = ReaderUtils.formatContent(content);
-                        readerView.setText(content);
-                        readerView.onPage(new OnReaderPageListener() {
+                        currentContent = result.content.trim();
+                        currentContent = ReaderUtils.formatContent(currentContent);
+                        readerCurrent.setText(currentContent);
+                        readerCurrent.onPage(new OnReaderPageListener() {
                             @Override
                             public void onSuccess(List<String> pages) {
                                 pageList.addAll(covertPageList(pages, result));
@@ -372,6 +388,7 @@ public class ReadFragment extends BaseFragment {
 
             @Override
             public void onFailure(String msg) {
+                if (msg == null) msg = "unknow msg";
                 System.out.println(msg);
             }
 
@@ -412,7 +429,7 @@ public class ReadFragment extends BaseFragment {
 
     /**
      * 改变主题背景颜色
-     * 
+     *
      * @param bgColor
      */
     public void setThemeBgColor(int bgColor) {
@@ -421,7 +438,7 @@ public class ReadFragment extends BaseFragment {
 
     /**
      * 获取分享内容
-     * 
+     *
      * @return
      */
     public String getShareContent() {
@@ -436,7 +453,7 @@ public class ReadFragment extends BaseFragment {
 
     /**
      * 保存阅读记录。
-     * 
+     *
      * @param chapterId
      */
     private void saveRecord(String chapterId) {
@@ -444,8 +461,104 @@ public class ReadFragment extends BaseFragment {
     }
 
     /**
+     * TODO 设置字体大小。
+     *
+     * @param textSize
+     */
+    public void setTextSize(final int textSize) {
+        readerNext.setTextSize(textSize);
+        readerPrev.setTextSize(textSize);
+        readerCurrent.setTextSize(textSize);
+        refreshText(textSize);
+    }
+
+    private int mTextSize = 20;
+
+    private void refreshText(int textSize) {
+        this.mTextSize = textSize;
+        setCurrentText();
+    }
+
+    /**
+     * 设置当前章节内容。
+     */
+    private void setCurrentText() {
+        if (StringUtils.isEmptyOrNull(currentContent)) return;
+        setText(readerCurrent, currentContent, new OnReaderPageListener() {
+            @Override
+            public void onSuccess(List<String> pages) {
+                pageList.clear();
+                pageList.addAll(covertPageList(pages, current));
+                pageCount = pages.size();
+                tvPage.setText(String.format(PAGE_FORMAT, 1, pageCount));
+                adapter.setTextSize(mTextSize);
+                adapter.notifyDataSetChanged();
+                currentItem = 0;
+                viewPager.setCurrentItem(0, false);
+                if (current.prev != null) getPrev(current.prev.ref);
+
+                if (current.next != null) getNext(current.next.ref);
+            }
+        });
+    }
+
+    /**
+     * 设置下一章内容。
+     */
+    private void setNextText() {
+        if (StringUtils.isEmptyOrNull(nextContent)) return;
+        setText(readerNext, nextContent, new OnReaderPageListener() {
+            @Override
+            public void onSuccess(List<String> pages) {
+                pageList.addAll(covertPageList(pages, nextChapter));
+                adapter.setTextSize(mTextSize);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    /**
+     * 设置上一章内容。
+     */
+    private void setPrevText() {
+        if (StringUtils.isEmptyOrNull(prevContent)) return;
+        setText(readerPrev, prevContent, new OnReaderPageListener() {
+            @Override
+            public void onSuccess(List<String> pages) {
+                adapter.setTextSize(mTextSize);
+                pageList.addAll(0, covertPageList(pages, prevChapter));
+                adapter.notifyDataSetChanged();
+                currentItem = currentItem + pages.size();
+                if (currentItem < pageList.size())
+                    viewPager.setCurrentItem(currentItem, false);
+            }
+        });
+    }
+
+    //TODO
+    private void setText(ReadPagerView reader, String content, final OnReaderPageListener listener) {
+        reader.setTextSize(mTextSize);
+        reader.setText(content);
+        final ViewTreeObserver treeObserver = reader.getViewTreeObserver();
+        treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                treeObserver.removeOnGlobalLayoutListener(this);
+                readerCurrent.onPage(new OnReaderPageListener() {
+                    @Override
+                    public void onSuccess(List<String> pages) {
+                        listener.onSuccess(pages);
+                    }
+                });
+
+            }
+        });
+    }
+
+
+    /**
      * 手机电量改变，广播接收。
-     * 
+     * <p/>
      * Created by John on 2014年5月14日
      */
     private class BatteryReceiver extends BroadcastReceiver {

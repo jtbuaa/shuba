@@ -29,7 +29,25 @@
         </com.qiwenge.android.ui.SlowViewPager>
 
         <com.qiwenge.android.reader.ReadPagerView
-            android:id="@+id/tv_test"
+            android:id="@+id/reader_current"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:lineSpacingExtra="5dp"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <com.qiwenge.android.reader.ReadPagerView
+            android:id="@+id/reader_next"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:lineSpacingExtra="5dp"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <com.qiwenge.android.reader.ReadPagerView
+            android:id="@+id/reader_prev"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:lineSpacingExtra="5dp"
