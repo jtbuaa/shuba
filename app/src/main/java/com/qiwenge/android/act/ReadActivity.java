@@ -476,7 +476,7 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
-     * TODO 设置字体大小。
+     * 设置字体大小。
      */
     private void setReadTextSize() {
         int textSize=fontSizeOrigin+mFontSizeOffest;

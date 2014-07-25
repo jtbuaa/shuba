@@ -10,9 +10,9 @@ import android.view.WindowManager;
 import com.dev1024.utils.PreferencesUtils;
 
 /**
- * 屏幕亮度。 ScreenBrightnessUtils
- * 
- * Created by John on 2014年5月31日
+ * 屏幕亮度工具类.
+ *
+ * Created by John on 2014-5-31
  */
 public class ScreenBrightnessUtils {
 

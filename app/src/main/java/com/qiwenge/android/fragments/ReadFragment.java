@@ -534,7 +534,7 @@ public class ReadFragment extends BaseFragment {
     }
 
     /**
-     * TODO 设置字体大小。
+     * 设置字体大小。
      *
      * @param textSize
      */
@@ -547,13 +547,17 @@ public class ReadFragment extends BaseFragment {
 
     private int mTextSize = 20;
 
+    /**
+     * 刷新。
+     * @param textSize
+     */
     private void refreshText(int textSize) {
         this.mTextSize = textSize;
         setCurrentText();
     }
 
     /**
-     * TODO 设置当前章节内容。
+     * 设置当前章节内容。
      */
     private void setCurrentText() {
         if (StringUtils.isEmptyOrNull(currentContent)) return;
@@ -574,7 +578,6 @@ public class ReadFragment extends BaseFragment {
                     pageindex = 0;
                 }
 
-                LogUtils.i("pageindex", "" + pageindex);
                 adapter.notifyDataSetChanged();
                 viewPager.setCurrentItem(pageindex, false);
                 currentChapterPageIndex = pageindex;
@@ -592,7 +595,6 @@ public class ReadFragment extends BaseFragment {
      * @return
      */
     private int getReadTextCount() {
-        LogUtils.i("currentChapterPageIndex", "" + currentChapterPageIndex);
         int size = 0;
         if (listCurrent != null && !listCurrent.isEmpty()) {
             for (int i = 0; i < currentChapterPageIndex; i++) {
@@ -621,7 +623,12 @@ public class ReadFragment extends BaseFragment {
         return pageindex;
     }
 
-    //TODO
+    /**
+     * 设置内容，在callback中返回分页数据。
+     * @param reader
+     * @param content
+     * @param listener
+     */
     private void setText(ReadPagerView reader, String content, final OnReaderPageListener listener) {
         reader.setTextSize(mTextSize);
         reader.setText(content);
