@@ -1,6 +1,7 @@
 package com.qiwenge.android.fragments;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.BroadcastReceiver;
@@ -8,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -133,6 +136,21 @@ public class ReadFragment extends BaseFragment {
      */
     private int oneThird = Constants.WIDTH / 3;
 
+    /**
+     * 章节临时缓存。
+     */
+    private HashMap<String, Chapter> chapterCache = new HashMap<String, Chapter>();
+
+    /**
+     * 在当前章节中的页码。
+     */
+    private int currentChapterPageIndex = 0;
+
+    private List<String> listCurrent;
+
+    private List<String> listNext;
+
+    private List<String> listPrev;
 
     public void setOnReadPageClickListener(ReadPageClickListener listener) {
         this.clickListener = listener;
@@ -160,7 +178,17 @@ public class ReadFragment extends BaseFragment {
     private void initData() {
         mScaledTouchSlop =
                 ViewConfiguration.get(getActivity().getApplicationContext()).getScaledTouchSlop();
-        System.out.println("mScaledTouchSlop:" + mScaledTouchSlop);
+    }
+
+    /**
+     * 初始化字体大小
+     */
+    private void initTextSize(){
+        int textSize=ReaderUtils.getTextSize(getActivity().getApplicationContext());
+        readerCurrent.setTextSize(textSize);
+        readerNext.setTextSize(textSize);
+        readerPrev.setTextSize(textSize);
+        adapter.setTextSize(textSize);
     }
 
     /**
@@ -177,6 +205,7 @@ public class ReadFragment extends BaseFragment {
         readerCurrent = (ReadPagerView) getView().findViewById(R.id.reader_current);
         readerNext = (ReadPagerView) getView().findViewById(R.id.reader_next);
         readerPrev = (ReadPagerView) getView().findViewById(R.id.reader_prev);
+        initTextSize();
         viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
@@ -186,22 +215,25 @@ public class ReadFragment extends BaseFragment {
                 if (nextChapter != null && nextChapter.getId().equals(p.chapterId)) {
                     System.out.println("已经进入下一章");
                     current = nextChapter;
+                    listCurrent = listNext;
                     saveRecord(current.getId());
-                    if (nextChapter.next != null) getNext(nextChapter.next.ref);
+                    if (nextChapter.next != null) getNext(nextChapter.next.getId());
                 }
 
                 if (prevChapter != null && prevChapter.getId().equals(p.chapterId)) {
                     System.out.println("已经进入上一章");
                     current = prevChapter;
+                    listCurrent = listPrev;
                     saveRecord(current.getId());
-                    if (prevChapter.prev != null) getPrev(prevChapter.prev.ref);
+                    if (prevChapter.prev != null) getPrev(prevChapter.prev.getId());
                 }
 
                 currentItem = arg0;
                 if (isAdded()) {
-                    tvTitle.setText(String.format(getString(R.string.str_chapter_title),
+                    currentChapterPageIndex = pageList.get(arg0).pageIndex;
+                    setTitle(String.format(getString(R.string.str_chapter_title),
                             pageList.get(arg0).chapterNumber, pageList.get(arg0).chapterTitle));
-                    tvPage.setText(String.format(PAGE_FORMAT, pageList.get(arg0).pageIndex,
+                    setPager(String.format(PAGE_FORMAT, pageList.get(arg0).pageIndex,
                             pageList.get(arg0).pageSize));
                 }
             }
@@ -265,30 +297,24 @@ public class ReadFragment extends BaseFragment {
     /**
      * 获取上一页
      *
-     * @param link
+     * @param chapterId
      */
-    public void getPrev(String link) {
-        System.out.println("getPrev:" + link);
-        JHttpClient.get(link, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
+    public void getPrev(final String chapterId) {
+        if (chapterCache.containsKey(chapterId)) {
+            handlePrev(chapterCache.get(chapterId));
+            LogUtils.i("Reader", "get prev chapter from cache");
+            return;
+        }
+
+        String url = ApiUtils.getChapter(chapterId);
+        JHttpClient.get(url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
 
             @Override
             public void onSuccess(final Chapter result) {
-                if (result != null && result.content != null && result.content.length() > 100) {
-                    prevChapter = result;
-                    prevContent = result.content.trim();
-                    prevContent = ReaderUtils.formatContent(prevContent);
-                    readerPrev.setText(prevContent);
-                    readerPrev.onPage(new OnReaderPageListener() {
-
-                        @Override
-                        public void onSuccess(List<String> pages) {
-                            pageList.addAll(0, covertPageList(pages, result));
-                            adapter.notifyDataSetChanged();
-                            currentItem = currentItem + pages.size();
-                            viewPager.setCurrentItem(currentItem, false);
-                        }
-                    });
+                if (result != null) {
+                    chapterCache.put(chapterId, result);
                 }
+                handlePrev(result);
             }
 
             @Override
@@ -303,29 +329,24 @@ public class ReadFragment extends BaseFragment {
     /**
      * 获取下一页
      *
-     * @param link
+     * @param chapterId
      */
-    public void getNext(String link) {
-        System.out.println("getNext:" + link);
-        JHttpClient.get(link, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
+    public void getNext(final String chapterId) {
+        if (chapterCache.containsKey(chapterId)) {
+            handleNext(chapterCache.get(chapterId));
+            LogUtils.i("Reader", "get next chapter from cache");
+            return;
+        }
+
+        String url = ApiUtils.getChapter(chapterId);
+        JHttpClient.get(url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
 
             @Override
             public void onSuccess(final Chapter result) {
-
-                if (result != null && result.content != null && result.content.length() > 100) {
-                    nextChapter = result;
-                    nextContent = result.content.trim();
-                    nextContent = ReaderUtils.formatContent(nextContent);
-                    readerNext.setText(nextContent);
-                    readerNext.onPage(new OnReaderPageListener() {
-
-                        @Override
-                        public void onSuccess(List<String> pages) {
-                            pageList.addAll(covertPageList(pages, result));
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
+                if (result != null) {
+                    chapterCache.put(chapterId, result);
                 }
+                handleNext(result);
             }
 
             @Override
@@ -344,36 +365,21 @@ public class ReadFragment extends BaseFragment {
      * @param chapterId
      */
     public void getChapter(final String chapterId) {
+        if (chapterCache.containsKey(chapterId)) {
+            handleCurrent(chapterId, chapterCache.get(chapterId));
+            LogUtils.i("Reader", "get current chapter from cache");
+            return;
+        }
+
         String url = ApiUtils.getChapter(chapterId);
         JHttpClient.get(url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
 
             @Override
             public void onSuccess(final Chapter result) {
-                if (result != null && result.content != null && result.content.length() > 100) {
-                    saveRecord(chapterId);
-                    tvTitle.setText(String.format(getString(R.string.str_chapter_title),
-                            result.number, result.title));
-                    if (result.content != null && result.content.length() > 100) {
-                        currentContent = result.content.toString();
-                        current = result;
-                        currentContent = result.content.trim();
-                        currentContent = ReaderUtils.formatContent(currentContent);
-                        readerCurrent.setText(currentContent);
-                        readerCurrent.onPage(new OnReaderPageListener() {
-                            @Override
-                            public void onSuccess(List<String> pages) {
-                                pageList.addAll(covertPageList(pages, result));
-                                pageCount = pages.size();
-                                tvPage.setText(String.format(PAGE_FORMAT, 1, pageCount));
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-
-                        if (result.prev != null) getPrev(result.prev.ref);
-
-                        if (result.next != null) getNext(result.next.ref);
-                    }
+                if (result != null) {
+                    chapterCache.put(chapterId, result);
                 }
+                handleCurrent(chapterId, result);
             }
 
             @Override
@@ -409,6 +415,73 @@ public class ReadFragment extends BaseFragment {
             pages.add(p);
         }
         return pages;
+    }
+
+    private void handleCurrent(String chapterId, final Chapter result) {
+        if (isAdded() && result != null && result.content != null && result.content.length() > 100) {
+            saveRecord(chapterId);
+            tvTitle.setText(String.format(getString(R.string.str_chapter_title),
+                    result.number, result.title));
+            if (result.content != null && result.content.length() > 100) {
+                currentContent = result.content.toString();
+                current = result;
+                currentContent = result.content.trim();
+                currentContent = ReaderUtils.formatContent(currentContent);
+                readerCurrent.setText(currentContent);
+                readerCurrent.onPage(new OnReaderPageListener() {
+                    @Override
+                    public void onSuccess(List<String> pages) {
+                        listCurrent = pages;
+                        pageList.addAll(covertPageList(pages, result));
+                        pageCount = pages.size();
+                        tvPage.setText(String.format(PAGE_FORMAT, 1, pageCount));
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+                if (result.prev != null) getPrev(result.prev.getId());
+
+                if (result.next != null) getNext(result.next.getId());
+            }
+        }
+    }
+
+    private void handleNext(final Chapter result) {
+        if (result != null && result.content != null && result.content.length() > 100) {
+            nextChapter = result;
+            nextContent = result.content.trim();
+            nextContent = ReaderUtils.formatContent(nextContent);
+            readerNext.setText(nextContent);
+            readerNext.onPage(new OnReaderPageListener() {
+
+                @Override
+                public void onSuccess(List<String> pages) {
+                    listNext = pages;
+                    pageList.addAll(covertPageList(pages, result));
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    private void handlePrev(final Chapter result) {
+        if (result != null && result.content != null && result.content.length() > 100) {
+            prevChapter = result;
+            prevContent = result.content.trim();
+            prevContent = ReaderUtils.formatContent(prevContent);
+            readerPrev.setText(prevContent);
+            readerPrev.onPage(new OnReaderPageListener() {
+
+                @Override
+                public void onSuccess(List<String> pages) {
+                    listPrev = pages;
+                    pageList.addAll(0, covertPageList(pages, result));
+                    adapter.notifyDataSetChanged();
+                    currentItem = currentItem + pages.size();
+                    viewPager.setCurrentItem(currentItem, false);
+                }
+            });
+        }
     }
 
     /**
@@ -480,59 +553,72 @@ public class ReadFragment extends BaseFragment {
     }
 
     /**
-     * 设置当前章节内容。
+     * TODO 设置当前章节内容。
      */
     private void setCurrentText() {
         if (StringUtils.isEmptyOrNull(currentContent)) return;
         setText(readerCurrent, currentContent, new OnReaderPageListener() {
             @Override
             public void onSuccess(List<String> pages) {
+                int readCount = getReadTextCount();
+                listCurrent = pages;
                 pageList.clear();
                 pageList.addAll(covertPageList(pages, current));
                 pageCount = pages.size();
                 tvPage.setText(String.format(PAGE_FORMAT, 1, pageCount));
                 adapter.setTextSize(mTextSize);
-                adapter.notifyDataSetChanged();
-                currentItem = 0;
-                viewPager.setCurrentItem(0, false);
-                if (current.prev != null) getPrev(current.prev.ref);
 
-                if (current.next != null) getNext(current.next.ref);
+                int pageindex = getNewPageIndex(readCount, pages);
+
+                if (pageindex > pageCount) {
+                    pageindex = 0;
+                }
+
+                LogUtils.i("pageindex", "" + pageindex);
+                adapter.notifyDataSetChanged();
+                viewPager.setCurrentItem(pageindex, false);
+                currentChapterPageIndex = pageindex;
+                if (current.prev != null) getPrev(current.prev.getId());
+
+                if (current.next != null) getNext(current.next.getId());
             }
         });
     }
 
-    /**
-     * 设置下一章内容。
-     */
-    private void setNextText() {
-        if (StringUtils.isEmptyOrNull(nextContent)) return;
-        setText(readerNext, nextContent, new OnReaderPageListener() {
-            @Override
-            public void onSuccess(List<String> pages) {
-                pageList.addAll(covertPageList(pages, nextChapter));
-                adapter.setTextSize(mTextSize);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
 
     /**
-     * 设置上一章内容。
+     * 获取上次阅读到的内容的字数。
+     *
+     * @return
      */
-    private void setPrevText() {
-        if (StringUtils.isEmptyOrNull(prevContent)) return;
-        setText(readerPrev, prevContent, new OnReaderPageListener() {
-            @Override
-            public void onSuccess(List<String> pages) {
-                adapter.setTextSize(mTextSize);
-                pageList.addAll(0, covertPageList(pages, prevChapter));
-                adapter.notifyDataSetChanged();
-                currentItem = currentItem + pages.size();
-                if (currentItem < pageList.size())
-                    viewPager.setCurrentItem(currentItem, false);
+    private int getReadTextCount() {
+        LogUtils.i("currentChapterPageIndex", "" + currentChapterPageIndex);
+        int size = 0;
+        if (listCurrent != null && !listCurrent.isEmpty()) {
+            for (int i = 0; i < currentChapterPageIndex; i++) {
+                if (currentChapterPageIndex == i - 1)
+                    size = size + (listCurrent.get(i).length()/2);
+                else
+                    size = size + listCurrent.get(i).length();
             }
-        });
+        }
+        return size;
+    }
+
+    private int getNewPageIndex(int readCount, List<String> pages) {
+        int total = 0;
+        int pageindex = 0;
+        for (int i = 0; i < pages.size(); i++) {
+            total = total + pages.get(i).length();
+            if (total >= readCount) {
+                pageindex = i - 1;
+                break;
+            }
+        }
+
+        if (pageindex < 0) pageindex = 0;
+
+        return pageindex;
     }
 
     //TODO
@@ -571,4 +657,53 @@ public class ReadFragment extends BaseFragment {
             }
         }
     }
+
+
+    private final int HANDLER_SET_TITLE = 1;
+
+    private final int HANDLER_SET_PAGER = 2;
+
+    private String mTitle;
+
+    private String mPager;
+
+    /**
+     * 设置标题
+     *
+     * @param title
+     */
+    private void setTitle(String title) {
+        mTitle = title;
+        Message msg = new Message();
+        msg.what = HANDLER_SET_TITLE;
+        mHandle.sendMessage(msg);
+    }
+
+    /**
+     * 设置页码
+     *
+     * @param pager
+     */
+    private void setPager(String pager) {
+        mPager = pager;
+        Message msg = new Message();
+        msg.what = HANDLER_SET_PAGER;
+        mHandle.sendMessage(msg);
+    }
+
+    private Handler mHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case HANDLER_SET_TITLE:
+                    tvTitle.setText(mTitle);
+                    break;
+                case HANDLER_SET_PAGER:
+                    tvPage.setText(mPager);
+                    break;
+            }
+        }
+    };
+
+
 }

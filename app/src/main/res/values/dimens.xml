@@ -16,5 +16,6 @@
 
     <!-- Common Size -->
     <dimen name="set_item_height">70dp</dimen>
+    <dimen name="reader_text_size">16sp</dimen>
 
 </resources>

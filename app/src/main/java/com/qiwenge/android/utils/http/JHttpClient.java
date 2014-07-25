@@ -27,12 +27,13 @@ public class JHttpClient {
     /**
      * HTTP request with GET.
      *
-     * @param url 地址
-     * @param params 参数
+     * @param url     地址
+     * @param params  参数
      * @param handler
      */
     public static void get(String url, RequestParams params, final BaseResponseHandler handler) {
         if (params != null) LogUtils.i(TAG, "get-latest:" + url + "?" + params.toString());
+        else LogUtils.i(TAG, "get-latest:" + url);
         if (httpClient == null) httpClient = createHttpCilent();
         httpClient.get(url, params, new TextHttpResponseHandler() {
             @Override

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qiwenge.android.R;
+import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.models.Page;
 
 /**
@@ -20,7 +21,7 @@ public class ReaderAdapter extends PagerAdapter {
 
     private List<Page> pages = new ArrayList<Page>();
     private LayoutInflater mInflater;
-    private int mTextSize=20;
+    private int mTextSize= Constants.DEFAULT_TEXT_SIZE;
 
     public ReaderAdapter(Context context, List<Page> pages) {
         this.pages = pages;

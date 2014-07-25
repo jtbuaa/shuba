@@ -16,4 +16,14 @@ public class Constants {
 
     public static int WIDTH = 0;
 
+    /**
+     * 默认字体大小
+     */
+    public static int DEFAULT_TEXT_SIZE=20;
+
+    /**
+     * 最小字体大小
+     */
+    public static int MIN_TEXT_SIZE=16;
+
 }

@@ -27,7 +27,7 @@ import com.qiwenge.android.utils.http.StringResponseHandler;
 /**
  * 目录。
  * 
- * Created by John on 2014年5月5日
+ * Created by John on 2014-5-5
  */
 public class ChapterActivity extends BaseActivity {
 

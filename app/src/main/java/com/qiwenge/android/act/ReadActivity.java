@@ -23,18 +23,21 @@ import android.widget.TextView;
 
 import com.dev1024.utils.AnimUtils;
 import com.dev1024.utils.IntentUtils;
+import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.listener.AnimListener;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ReadMenuAdapter;
 import com.qiwenge.android.adapters.ReadThemeAdapter;
+import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.fragments.ReadFragment;
 import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.models.ReadMenu;
 import com.qiwenge.android.models.ReadTheme;
+import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ScreenBrightnessUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 
-public class ReadActivity extends FragmentActivity {
+public class ReadActivity extends FragmentActivity implements View.OnClickListener {
 
     /**
      * 是否初始化完毕。
@@ -127,7 +130,12 @@ public class ReadActivity extends FragmentActivity {
     /**
      * 原始字体大小。
      */
-    private int fontSizeOrigin = 20;
+    private int fontSizeOrigin = Constants.MIN_TEXT_SIZE;
+
+    /**
+     * 上次修改的字体大小。
+     */
+    private int lastTextSize=0;
 
     private Handler mHandler = new MyHandler(this);
 
@@ -166,6 +174,16 @@ public class ReadActivity extends FragmentActivity {
             finish();
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.layout_bottom_menu:
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -221,6 +239,7 @@ public class ReadActivity extends FragmentActivity {
 
         layoutBottomMenu = (LinearLayout) this.findViewById(R.id.layout_bottom_menu);
         layoutBottomMenu.setVisibility(View.GONE);
+        layoutBottomMenu.setOnClickListener(this);
 
         menuAdapter = new ReadMenuAdapter(getApplicationContext(), menuData);
         gvMenu = (GridView) this.findViewById(R.id.gv_menu);
@@ -257,7 +276,10 @@ public class ReadActivity extends FragmentActivity {
 
         // 字体大小。
         seekFontSize = (SeekBar) this.findViewById(R.id.seekBar_font_size);
+        int textSize= ReaderUtils.getTextSize(getApplicationContext());
+        int progress=(textSize-fontSizeOrigin)*5;
         seekFontSize.setMax(100);
+        seekFontSize.setProgress(progress);
         seekFontSize.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
             @Override
@@ -458,7 +480,13 @@ public class ReadActivity extends FragmentActivity {
      */
     private void setReadTextSize() {
         int textSize=fontSizeOrigin+mFontSizeOffest;
-        fragment.setTextSize(textSize);
+        LogUtils.i("textSize",""+textSize);
+        if(textSize!=lastTextSize) {
+            //如果没有修改字体大小，如，来回滑动，不修改阅读器的字体大小
+            lastTextSize=textSize;
+            fragment.setTextSize(textSize);
+            ReaderUtils.saveTextSize(getApplicationContext(),textSize);
+        }
     }
 
     /**
