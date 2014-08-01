@@ -5,10 +5,15 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
@@ -19,12 +24,14 @@ import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.BookList;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.LoadAnim;
+import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 /**
  * 搜索。
- * 
+ * <p/>
  * Created by John on 2014-7-6
  */
 public class SearchActivity extends BaseActivity {
@@ -44,11 +51,16 @@ public class SearchActivity extends BaseActivity {
 
     private ListView lv;
     private LinearLayout layoutNoResult;
+    private RelativeLayout layoutContainer;
+    private RelativeLayout layoutTop;
 
     private List<Book> data = new ArrayList<Book>();
     private BooksAdapter adapter;
 
 
+    private ImageView ivLoading;
+
+    private LoadAnim mLoadAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +70,16 @@ public class SearchActivity extends BaseActivity {
         getIntentExtras();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ThemeUtils.setThemeBg(layoutContainer);
+        ThemeUtils.setThemeSecondBg(layoutTop);
+    }
+
     private void initViews() {
+        layoutTop = (RelativeLayout) this.findViewById(R.id.layout_top);
+        layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_container);
         layoutNoResult = (LinearLayout) this.findViewById(R.id.layout_no_result);
         layoutNoResult.setVisibility(View.GONE);
         adapter = new BooksAdapter(getApplicationContext(), data);
@@ -73,6 +94,11 @@ public class SearchActivity extends BaseActivity {
                 startActivity(BookDetailActivity.class, extra);
             }
         });
+
+        ivLoading = (ImageView) this.findViewById(R.id.iv_loading);
+
+        mLoadAnim = new LoadAnim(ivLoading);
+        mLoadAnim.start();
 
     }
 
@@ -107,7 +133,8 @@ public class SearchActivity extends BaseActivity {
         AsyncUtils.getBooks(url, params, new JsonResponseHandler<BookList>(BookList.class) {
 
             @Override
-            public void onStart() {}
+            public void onStart() {
+            }
 
             @Override
             public void onSuccess(BookList result) {
@@ -119,8 +146,10 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (data.isEmpty()) {
+                if (data.isEmpty())
                     getRecommend();
+                else {
+                    mLoadAnim.cancel();
                 }
             }
 
@@ -142,7 +171,9 @@ public class SearchActivity extends BaseActivity {
             }
 
             @Override
-            public void onFinish() {}
+            public void onFinish() {
+                mLoadAnim.cancel();
+            }
         });
     }
 
