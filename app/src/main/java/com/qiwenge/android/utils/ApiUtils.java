@@ -33,7 +33,6 @@ public class ApiUtils {
     /**
      * 获取一本书下的，所有章节
      * 
-     * @param bookId
      * @return
      */
     public static String getBookChpaters() {
@@ -43,7 +42,7 @@ public class ApiUtils {
     /**
      * 获取一个章节
      * 
-     * @param id
+     * @param chapterId
      * @return
      */
     public static String getChapter(String chapterId) {
@@ -95,6 +94,14 @@ public class ApiUtils {
      */
     public static String getBooksByTop() {
         return String.format(FORMAT_2_PARAMS, ApiModels.books, ApiModels.top);
+    }
+
+    /**
+     * 获取免责声明
+     * @return
+     */
+    public static String getStatement(){
+        return String.format(FORMAT_1_PARAMS, "statement.txt");
     }
 
 

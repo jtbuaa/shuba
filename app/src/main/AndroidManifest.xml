@@ -28,13 +28,13 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".act.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
-            android:windowSoftInputMode="adjustNothing" >
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,17 +44,18 @@
         <activity
             android:name=".act.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing" >
-        </activity>
+            android:windowSoftInputMode="adjustNothing"></activity>
         <activity
             android:name=".act.ChapterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".act.BookDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".act.SearchActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".act.ReadActivity"
             android:screenOrientation="portrait"
@@ -62,17 +63,20 @@
         <activity
             android:name=".act.SettingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".act.LegalActivity"
+            android:label="@string/set_legal" />
 
         <service
-            android:name="com.qiwenge.android.openudid.OpenUDID_service"
-            android:exported="false" >
+            android:name=".openudid.OpenUDID_service"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.qiwenge.android.openudid.GETUDID" />
             </intent-filter>
         </service>
 
         <!-- receivers -->
-        <receiver android:name=".receivers.WifiStatusChangeReceiver" >
+        <receiver android:name=".receivers.WifiStatusChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -84,8 +88,7 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="@string/UMENG_APPKEY" >
-        </meta-data>
+            android:value="@string/UMENG_APPKEY"></meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="endreader" />
@@ -97,7 +100,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -110,11 +113,14 @@
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
-            android:exported="false" >
-            <intent-filter android:priority="1000" > <!-- since 1.3.5 -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- since 1.3.5 -->
-                <category android:name="com.qiwenge.android" /> <!-- since 1.3.5 -->
-            </intent-filter> <!-- since 1.3.5 -->
+            android:exported="false">
+            <intent-filter android:priority="1000"> <!-- since 1.3.5 -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <!-- since 1.3.5 -->
+                <category android:name="com.qiwenge.android" />
+                <!-- since 1.3.5 -->
+            </intent-filter>
+            <!-- since 1.3.5 -->
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -130,7 +136,7 @@
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
@@ -142,8 +148,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
         <!-- Required SDK核心功能 -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
@@ -153,6 +158,7 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="@string/JPUSH_APPKEY" />
+
     </application>
 
 </manifest>
