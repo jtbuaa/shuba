@@ -25,9 +25,29 @@ public class DialogUtils {
         loadingDialog.show();
     }
 
+    public static void showLoadingWithoutBg(Activity act) {
+        if (loadingDialog == null) loadingDialog = buildLoadingWithoutBg(act);
+        loadingDialog.show();
+    }
+
     private static Dialog buildLoading(Activity context) {
         loadingDialog = new Dialog(context, R.style.dialog);
         View progressView = LayoutInflater.from(context).inflate(R.layout.loading, null);
+        loadingDialog.setContentView(progressView);
+        loadingDialog.setCancelable(true);
+        loadingDialog.setOnCancelListener(new OnCancelListener() {
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                loadingDialog = null;
+            }
+        });
+        return loadingDialog;
+    }
+
+    private static Dialog buildLoadingWithoutBg(Activity context) {
+        loadingDialog = new Dialog(context, R.style.dialog);
+        View progressView = LayoutInflater.from(context).inflate(R.layout.loading_without_bg, null);
         loadingDialog.setContentView(progressView);
         loadingDialog.setCancelable(true);
         loadingDialog.setOnCancelListener(new OnCancelListener() {
