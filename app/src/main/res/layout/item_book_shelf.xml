@@ -4,24 +4,40 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="10dp" >
+    android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/item_iv_cover"
-        android:layout_width="60dp"
-        android:layout_height="75dp"
-        android:background="@drawable/cover_border"
-        android:contentDescription="@string/str_empty"
-        android:padding="1px"
-        android:scaleType="fitXY" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_iv_cover"
+            android:layout_width="60dp"
+            android:layout_height="75dp"
+            android:background="@drawable/cover_border"
+            android:contentDescription="@string/str_empty"
+            android:padding="1px"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/item_iv_select"
+            android:visibility="gone"
+            android:layout_width="60dp"
+            android:layout_height="75dp"
+            android:background="@drawable/icon_place_holder"
+            android:contentDescription="@string/str_empty"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="4dp" >
+        android:paddingTop="4dp">
 
         <TextView
             android:id="@+id/item_tv_title"

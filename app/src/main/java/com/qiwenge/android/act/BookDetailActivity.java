@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.dev1024.utils.DialogUtils;
 import com.dev1024.utils.DisplayUtils;
 import com.dev1024.utils.GsonUtils;
+import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -36,12 +38,13 @@ import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.SkipUtils;
+import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
 
 /**
  * 小说详情。
- * 
+ * <p/>
  * Created by John on 2014-5-5
  */
 public class BookDetailActivity extends BaseActivity implements OnClickListener {
@@ -53,10 +56,16 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     private TextView tvStatus;
     private Button btnChapter;
     private Button btnAdd;
-    private ListView gvRecommend;
+    private ListView lvRecommend;
     private ScrollView scrollView;
     private ImageView ivCover;
     private LinearLayout layoutRelated;
+    private LinearLayout layoutIntroTop;
+    private LinearLayout layoutIntroCenter;
+    private LinearLayout layoutIntroButtons;
+    private ImageView ivShadow1;
+    private ImageView ivShadow2;
+    private ImageView ivShadow3;
 
     private Book book;
     private List<Book> dataRecommend = new ArrayList<Book>();
@@ -69,7 +78,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
     /**
      * 是否需要滑动到顶部。
-     * <p>
+     * <p/>
      * 初始化时，ScrollView滑动到顶部。
      */
     private boolean scrollToTop = true;
@@ -84,27 +93,20 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         getRelated();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ThemeUtils.setThemeBg(layoutIntroCenter);
+        ThemeUtils.setThemeBg(layoutIntroTop);
+        ThemeUtils.setThemeBg(layoutRelated);
+        ThemeUtils.setThemeBg(layoutIntroButtons);
+        ThemeUtils.setThemeSecondBg(scrollView);
 
-    // private HomeAwayShareProvider mShareActionProvider;
-
-    // @Override
-    // public boolean onCreateOptionsMenu(Menu menu) {
-    // getMenuInflater().inflate(R.menu.action_book_detail, menu);
-    // MenuItem item = menu.findItem(R.id.menu_item_share);
-    // mShareActionProvider = (HomeAwayShareProvider) item.getActionProvider();
-    //
-    // setShareIntent();
-    // return super.onCreateOptionsMenu(menu);
-    // }
-
-    // private void setShareIntent() {
-    // if (mShareActionProvider != null) {
-    // Intent shareIntent = new Intent(Intent.ACTION_SEND);
-    // shareIntent.putExtra(Intent.EXTRA_TEXT, "testest");
-    // shareIntent.setType("text/plain");
-    // mShareActionProvider.setShareIntent(shareIntent);
-    // }
-    // }
+        //Shadow
+        ThemeUtils.setThemeLine(ivShadow1);
+        ThemeUtils.setThemeLine(ivShadow2);
+        ThemeUtils.setThemeLine(ivShadow3);
+    }
 
     @Override
     public void onClick(View v) {
@@ -129,7 +131,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
     /**
      * 继续阅读
-     * <p>
+     * <p/>
      * 如果以前阅读过该小说，那继续阅读。
      */
     private void continueRead() {
@@ -185,15 +187,25 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         btnChapter.setOnClickListener(this);
         btnAdd = (Button) this.findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
+
+        layoutIntroCenter = (LinearLayout) this.findViewById(R.id.layout_intro_center);
+        layoutIntroTop = (LinearLayout) this.findViewById(R.id.layout_intro_top);
+        layoutIntroButtons = (LinearLayout) this.findViewById(R.id.layout_intro_buttons);
+
         layoutRelated = (LinearLayout) this.findViewById(R.id.layout_related);
         layoutRelated.setVisibility(View.GONE);
+
+        ivShadow1 = (ImageView) this.findViewById(R.id.iv_shadow1);
+        ivShadow2 = (ImageView) this.findViewById(R.id.iv_shadow2);
+        ivShadow3 = (ImageView) this.findViewById(R.id.iv_shadow3);
+
         showBookInfo();
 
         // 相关推荐
-        gvRecommend = (ListView) this.findViewById(R.id.gv_recommend);
+        lvRecommend = (ListView) this.findViewById(R.id.gv_recommend);
         adapter = new AboutRmdAdapter(getApplicationContext(), dataRecommend);
-        gvRecommend.setAdapter(adapter);
-        gvRecommend.setOnItemClickListener(new OnItemClickListener() {
+        lvRecommend.setAdapter(adapter);
+        lvRecommend.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -276,14 +288,27 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         }
     }
 
+
     /**
      * 设置相关推荐的高度。
      */
     private void setRelatedHeight() {
-        int height = DisplayUtils.dip2px(getApplicationContext(), 90) * dataRecommend.size();
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height);
-        gvRecommend.setLayoutParams(params);
+
+        final ViewTreeObserver myTree = lvRecommend.getViewTreeObserver();
+        myTree.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                //计算每一行的高度，得出总给的高度
+                int itemHeight = lvRecommend.getMeasuredHeight();
+                int height = itemHeight * dataRecommend.size();
+                LinearLayout.LayoutParams params =
+                        new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height);
+                lvRecommend.setLayoutParams(params);
+                myTree.removeOnGlobalLayoutListener(this);
+            }
+        });
+
+
     }
 
 
