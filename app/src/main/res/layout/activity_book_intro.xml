@@ -129,6 +129,7 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingTop="15dp"
+                android:textColor="@color/tv_title_color"
                 android:text="@string/str_intro"
                 android:textSize="@dimen/font_size_middle" />
 

@@ -18,6 +18,7 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp"
             android:singleLine="true"
+            android:textColor="@color/tv_title_color"
             android:textSize="@dimen/font_size_big" />
 
         <RelativeLayout

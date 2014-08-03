@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.models.ReadTheme;
+import com.qiwenge.android.utils.ThemeUtils;
 
 /**
  * 阅读主题适配器
@@ -39,7 +40,7 @@ public class ReadThemeAdapter extends MyBaseAdapter<ReadTheme> {
         }
         ReadTheme model = data.get(position);
         if (model != null) {
-            viewHolder.ivIcon.setBackgroundColor(model.color);
+            ThemeUtils.setReaderTheme(model.theme,viewHolder.ivIcon);
             if (model.selected)
                 viewHolder.ivSelected.setVisibility(View.VISIBLE);
             else

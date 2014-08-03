@@ -26,6 +26,8 @@ public class BookShelfUtils {
      */
     private static final String READ_RECORD = "READ_RECORD";
 
+    private static final String READ_RECORD_LENGTH = "READ_RECORD_LENGTH";
+
     /**
      * 获取书架中的所有书籍
      *
@@ -107,11 +109,13 @@ public class BookShelfUtils {
      * 保存阅读记录。
      *
      * @param context
-     * @param book
+     *
      * @param chapterid 阅读的章节id
      */
     public static void saveRecord(Context context, String bookId, String chapterid) {
         if (context == null || bookId == null || chapterid == null) return;
+
+        LogUtils.i("saveRecord",chapterid);
         PreferencesUtils.putString(context, READ_RECORD, bookId, chapterid);
     }
 
@@ -134,8 +138,9 @@ public class BookShelfUtils {
      * @param length
      */
     public static void saveReadLength(Context context, String chapterId, int length) {
-        LogUtils.i("saveReadLength:",""+length);
-        PreferencesUtils.putInt(context, READ_RECORD, "length" + chapterId, length);
+        LogUtils.i("saveReadLength:","length:"+length);
+        LogUtils.i("saveReadLength:","chapterId:"+chapterId);
+        PreferencesUtils.putInt(context, READ_RECORD_LENGTH,chapterId, length);
     }
 
     /**
@@ -145,7 +150,7 @@ public class BookShelfUtils {
      * @return
      */
     public static int getReadLenght(Context context, String chapterId) {
-        return PreferencesUtils.getInt(context, READ_RECORD, "length" + chapterId,0);
+        return PreferencesUtils.getInt(context, READ_RECORD_LENGTH,chapterId,0);
     }
 
 }

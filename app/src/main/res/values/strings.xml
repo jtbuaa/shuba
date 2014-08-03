@@ -73,4 +73,8 @@
     <string name="update_cancel">暂不更新</string>
     <string name="update_current_is_latest">没有发现可更新版本</string>
 
+    <!-- Read -->
+    <string name="reader_normal_model">正常</string>
+    <string name="reader_night_model">夜间</string>
+
 </resources>

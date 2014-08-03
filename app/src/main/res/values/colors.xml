@@ -11,7 +11,7 @@
     <color name="main_dress_color">#ee7a31</color>
     <color name="main_divder_color">#9d999b</color>
     <color name="main_bg_color">#ffffff</color>
-    <color name="main_night_bg_color">#404040</color>
+    <color name="main_night_bg_color">#202020</color>
     <color name="main_night_second_bg_color">#505050</color>
     <color name="main_second_bg_color">#eeeeee</color>
     <color name="main_yellow_color">#fc9634</color>
@@ -28,8 +28,8 @@
     <color name="lv_divider_color">#cdcdcd</color>
 
     <!-- TextView -->
-    <color name="tv_title_color">#303030</color>
-    <color name="tv_desc_color">#939393</color>
+    <color name="tv_title_color">#606060</color>
+    <color name="tv_desc_color">#838383</color>
 
     <!-- Reader -->
     <color name="read_normal_text_color">#666666</color>

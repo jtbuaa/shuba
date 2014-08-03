@@ -22,7 +22,6 @@ public class AnimUtils {
 			return;
 
 		if (view.getVisibility() == View.GONE) {
-			System.out.println("showFromBottom");
 			view.setVisibility(View.VISIBLE);
 			Animation anim = AnimationUtils.loadAnimation(view.getContext(),
 					R.anim.show_from_bottom);
@@ -56,7 +55,6 @@ public class AnimUtils {
 			return;
 
 		if (view.getVisibility() == View.VISIBLE) {
-			System.out.println("hideFromBottom");
 			Animation anim = AnimationUtils.loadAnimation(view.getContext(),
 					R.anim.hide_from_bottom);
 			anim.setAnimationListener(new AnimationListener() {

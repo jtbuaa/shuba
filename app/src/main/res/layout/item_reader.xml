@@ -4,4 +4,5 @@
     android:layout_height="match_parent"
     android:lineSpacingExtra="5dp"
     android:padding="10dp"
+    android:textColor="@color/tv_title_color"
     android:textSize="@dimen/reader_text_size" />

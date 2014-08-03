@@ -37,6 +37,7 @@ public class LegalActivity extends BaseActivity {
     private void initViews() {
         scrollView = (ScrollView) this.findViewById(R.id.scrollView_container);
         tvLegal = (TextView) this.findViewById(R.id.tv_legal);
+        ThemeUtils.setTextColor(tvLegal);
     }
 
     private void getStatement() {

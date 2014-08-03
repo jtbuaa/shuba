@@ -8,8 +8,6 @@ package com.qiwenge.android.models;
  */
 public class ReadTheme {
 
-    public int color;
-
     public boolean selected = false;
 
     public int theme;

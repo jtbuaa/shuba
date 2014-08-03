@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:textColor="@color/tv_title_color"
         android:textSize="@dimen/font_size_12" />
 
     <ProgressBar
@@ -35,6 +36,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:paddingBottom="1dp"
+        android:textColor="@color/tv_title_color"
         android:text="21:40"
         android:textSize="@dimen/font_size_12" />
 

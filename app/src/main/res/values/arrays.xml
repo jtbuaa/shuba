@@ -4,22 +4,14 @@
     <!-- ReadMenu -->
     <string-array name="read_menu_titles">
         <item>夜间</item>
-        <item>设置</item>
         <item>目录</item>
         <item>分享</item>
     </string-array>
 
     <integer-array name="read_menu_icon">
         <item>@drawable/icon_menu_mode_night</item>
-        <item>@drawable/icon_menu_aa</item>
         <item>@drawable/icon_menu_chapters</item>
         <item>@drawable/icon_menu_share</item>
-    </integer-array>
-    <integer-array name="read_theme_color">
-        <item>@color/read_theme_white</item>
-        <item>@color/read_theme_yellow</item>
-        <item>@color/read_theme_green</item>
-        <item>@color/read_theme_yellow</item>
     </integer-array>
 
     <!--  -->

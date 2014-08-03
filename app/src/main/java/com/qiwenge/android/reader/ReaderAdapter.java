@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.models.Page;
+import com.qiwenge.android.utils.ThemeUtils;
 
 /**
  * 阅读适配器。Created by John at 2014.
@@ -38,6 +39,7 @@ public class ReaderAdapter extends PagerAdapter {
         TextView tv = (TextView) view.findViewById(R.id.tv_reader);
         tv.setText(pages.get(position).content);
         tv.setTextSize(mTextSize);
+        ThemeUtils.setTextColor(tv);
         container.addView(view, 0);
         return view;
     }

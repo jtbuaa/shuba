@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -66,6 +67,11 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     private ReadFragment fragment;
 
     private LinearLayout layoutBack;
+
+    /**
+     * 阅读器最外层容器
+     */
+    private RelativeLayout layoutContainer;
 
     /**
      * 顶部导航
@@ -175,7 +181,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         if (keyCode == KeyEvent.KEYCODE_MENU && !menuAnimActioning) {
             showOrHideMenu();
         } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
+            if (topIsShow) showOrHideMenu();
+            else finish();
         }
         return true;
     }
@@ -238,13 +245,11 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
             menuData.add(menu);
         }
 
-        int[] themeColor = getResources().getIntArray(R.array.read_theme_color);
         int[] themes = {ThemeUtils.NORMAL, ThemeUtils.YELLOW, ThemeUtils.GREEN, ThemeUtils.LEATHER};
 
         ReadTheme theme;
         for (int i = 0; i < themes.length; i++) {
             theme = new ReadTheme();
-            theme.color = themeColor[i];
             theme.theme = themes[i];
             themeData.add(theme);
         }
@@ -256,6 +261,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initViews() {
+        layoutContainer=(RelativeLayout)this.findViewById(R.id.layout_read_container);
+
         tvBookTitle = (TextView) this.findViewById(R.id.tv_book_title);
         layoutBack = (LinearLayout) this.findViewById(R.id.layout_back);
         layoutBack.setOnClickListener(this);
@@ -271,7 +278,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         themeAdapter = new ReadThemeAdapter(getApplicationContext(), themeData);
         gvTheme = (GridView) this.findViewById(R.id.gv_theme);
         gvTheme.setAdapter(themeAdapter);
-        layoutTop = (LinearLayout) this.findViewById(R.id.layout_top);
+        layoutTop = (LinearLayout) this.findViewById(R.id.layout_reader_top);
         seekBarBrightness = (SeekBar) this.findViewById(R.id.seekbar_screen_brightness);
         seekBarBrightness.setMax(255);
         seekBarBrightness.setProgress(mProgress);
@@ -332,21 +339,19 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
                 switch (arg2) {
                     case 0:// 夜间模式
-                        if (ThemeUtils.getCurrentTheme() == ThemeUtils.NIGHT) {
+                        if (ThemeUtils.isNightModel) {
                             showNighitModel(false);
                         } else {
                             showNighitModel(true);
                         }
                         break;
-                    case 1:// 字体设置
-                        break;
-                    case 2:// 目录
+                    case 1:// 目录
                         Bundle extra = new Bundle();
                         extra.putString(ChapterActivity.EXTRA_BOOK_ID, bookId);
                         extra.putString(ChapterActivity.EXTRA_BOOK_TITLE, bookTitle);
-                        startActivity(ChapterActivity.class,extra);
+                        startActivity(ChapterActivity.class, extra);
                         break;
-                    case 3:// 分享
+                    case 2:// 分享
                         IntentUtils.openShare(ReadActivity.this, fragment.getShareContent(), "分享");
                         break;
 
@@ -377,8 +382,9 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         currentTheme = i;
         themeAdapter.notifyDataSetChanged();
 
-        if (fragment != null) fragment.setThemeBgColor(themeData.get(i).color);
-
+        ThemeUtils.setReaderTheme(themeData.get(i).theme,layoutContainer);
+        ThemeUtils.setNightModle(getApplicationContext(),false);
+        cancelNightModel();
         if (cacheable) ThemeUtils.setTheme(getApplicationContext(), themeData.get(i).theme);
     }
 
@@ -389,36 +395,55 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * 取消夜间模式
+     */
+    private void cancelNightModel(){
+        menuData.get(0).icon = R.drawable.icon_menu_mode_night;
+        menuData.get(0).title=getString(R.string.reader_night_model);
+        menuAdapter.notifyDataSetChanged();
+        fragment.refreshTextColor();
+    }
+
+    /**
      * 设置，是否为夜间模式。
      *
      * @param isNight
      */
     private void showNighitModel(boolean isNight) {
-        if (!isNight) {
+        ThemeUtils.setNightModle(getApplicationContext(),isNight);
+        ThemeUtils.setThemeBg(layoutContainer);
+        if (isNight) {
             menuData.get(0).icon = R.drawable.icon_menu_mode_normal;
-            selectTheme(0, true);
-        } else {
+            menuData.get(0).title=getString(R.string.reader_normal_model);
             clearThemeSelected();
-            menuData.get(0).icon = R.drawable.icon_menu_mode_night;
-            fragment.setThemeBgColor(getResources().getColor(R.color.read_night_bg));
-            ThemeUtils.setTheme(getApplicationContext(), ThemeUtils.NIGHT);
+        } else {
+            selectedLastTheme();
+            cancelNightModel();
         }
         menuAdapter.notifyDataSetChanged();
+        fragment.refreshTextColor();
     }
 
     /**
      * 初始化主题
      */
     private void initTheme() {
-        int theme = ThemeUtils.getCurrentTheme();
-        if (theme == ThemeUtils.NIGHT) {
+        if (ThemeUtils.isNightModel) {
             showNighitModel(true);
         } else {
-            for (int i = 0; i < themeData.size(); i++) {
-                if (themeData.get(i).theme == theme) {
-                    selectTheme(i, false);
-                    break;
-                }
+            selectedLastTheme();
+        }
+    }
+
+    /**
+     * 选择原来的主题
+     */
+    private void selectedLastTheme(){
+        int theme = ThemeUtils.getCurrentTheme();
+        for (int i = 0; i < themeData.size(); i++) {
+            if (themeData.get(i).theme == theme) {
+                selectTheme(i, false);
+                break;
             }
         }
     }

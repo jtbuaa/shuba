@@ -3,6 +3,7 @@ package com.qiwenge.android.utils;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.PreferencesUtils;
@@ -21,10 +22,10 @@ public class ThemeUtils {
      */
     public static boolean isNightModel = false;
 
-    /**
-     * 夜间模式 value:{@value}
-     */
-    public static final int NIGHT = 4;
+//    /**
+//     * 夜间模式 value:{@value}
+//     */
+//    public static final int NIGHT = 4;
 
     /**
      * 普通 value:{@value}
@@ -56,6 +57,26 @@ public class ThemeUtils {
     private static int currentTheme = NORMAL;
 
     /**
+     * 设置阅读器的主题。
+     */
+    public static void setReaderTheme(int theme, View view) {
+        switch (theme) {
+            case NORMAL:
+                view.setBackgroundResource(R.drawable.theme_white_bg);
+                break;
+            case YELLOW:
+                view.setBackgroundResource(R.drawable.theme_yellow_bg);
+                break;
+            case GREEN:
+                view.setBackgroundResource(R.drawable.theme_green_bg);
+                break;
+            case LEATHER:
+                view.setBackgroundResource(R.drawable.theme_leather_bg);
+                break;
+        }
+    }
+
+    /**
      * 初始化主题。
      *
      * @param context
@@ -70,8 +91,9 @@ public class ThemeUtils {
 
     /**
      * 获取当前的主题。
+     * context
      *
-     * @param context
+     * @param
      * @return
      */
     public static int getCurrentTheme() {
@@ -105,8 +127,8 @@ public class ThemeUtils {
      * @param context
      * @param flag    true：夜间模式，false：正常模式
      */
-    public static void setNightModle(Context context, boolean flag) {
-        isNightModel = flag;
+    public static void setNightModle(Context context, boolean isNight) {
+        isNightModel = isNight;
         int value = 0;
         if (isNightModel) value = 1;
         PreferencesUtils.putInt(context, Constants.PRE_SAVE_NAME, SAVE_NIGHT_KEY, value);
@@ -132,7 +154,7 @@ public class ThemeUtils {
     }
 
     /**
-     * 设置主题背景。
+     * 设置主题背，用于区分夜间模式和普通模式
      *
      * @param view
      */
@@ -145,6 +167,17 @@ public class ThemeUtils {
         }
     }
 
+    /**
+     * 设置字体颜色，用于区分夜间模式和普通模式
+     * @param tv
+     */
+    public static void setTextColor(TextView tv) {
+        if (tv == null) return;
+        if (isNightModel)
+            tv.setTextColor(tv.getResources().getColor(R.color.tv_desc_color));
+        else tv.setTextColor(tv.getResources().getColor(R.color.tv_title_color));
+    }
+
     public static void setThemeSecondBg(View view) {
         if (view == null) return;
         if (isNightModel) {
@@ -155,7 +188,7 @@ public class ThemeUtils {
     }
 
     public static void setThemeLine(View view) {
-        LogUtils.i("setThemeLine","setThemeLine");
+        LogUtils.i("setThemeLine", "setThemeLine");
         if (view == null) return;
         if (isNightModel) {
             view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_night_shadow_color));

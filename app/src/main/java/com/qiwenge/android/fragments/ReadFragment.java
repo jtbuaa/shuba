@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.dev1024.utils.AppUtils;
 import com.dev1024.utils.DialogUtils;
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.StringUtils;
@@ -42,6 +43,7 @@ import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.LoadAnim;
 import com.qiwenge.android.utils.ReaderUtils;
+import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
@@ -50,8 +52,6 @@ public class ReadFragment extends BaseFragment {
     private final static String PAGE_FORMAT = "%s/%s";
 
     private LoadAnim mLoadAnim;
-
-    private LinearLayout layoutContainer;
 
     private ImageView mIvLoading;
 
@@ -159,6 +159,8 @@ public class ReadFragment extends BaseFragment {
 
     private List<String> listPrev;
 
+    private String currentChapterId;
+
     public void setOnReadPageClickListener(ReadPageClickListener listener) {
         this.clickListener = listener;
     }
@@ -174,12 +176,22 @@ public class ReadFragment extends BaseFragment {
         initData();
         initViews();
         initBatteryReceiver();
+        ThemeUtils.setTextColor(tvPage);
+        ThemeUtils.setTextColor(tvTitle);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         removeBatteryReceiver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveRecord(currentChapterId);
+        int length = getReadTextCount();
+        BookShelfUtils.saveReadLength(getActivity().getApplicationContext(), currentChapterId, length);
     }
 
     private void initData() {
@@ -202,10 +214,9 @@ public class ReadFragment extends BaseFragment {
      * 初始化Views
      */
     private void initViews() {
-        mIvLoading=(ImageView)getView().findViewById(R.id.iv_loading);
-        mLoadAnim=new LoadAnim(mIvLoading);
+        mIvLoading = (ImageView) getView().findViewById(R.id.iv_loading);
+        mLoadAnim = new LoadAnim(mIvLoading);
         mLoadAnim.start();
-        layoutContainer = (LinearLayout) getView().findViewById(R.id.layout_container);
         pbBattery = (ProgressBar) getView().findViewById(R.id.progreebar_battery);
         tvTitle = (TextView) getView().findViewById(R.id.tv_title);
         tvPage = (TextView) getView().findViewById(R.id.tv_pages);
@@ -226,7 +237,7 @@ public class ReadFragment extends BaseFragment {
                     System.out.println("已经进入下一章");
                     current = nextChapter;
                     listCurrent = listNext;
-                    saveRecord(current.getId());
+                    currentChapterId=current.getId();
                     if (nextChapter.next != null) getNext(nextChapter.next.getId());
                 }
 
@@ -234,14 +245,12 @@ public class ReadFragment extends BaseFragment {
                     System.out.println("已经进入上一章");
                     current = prevChapter;
                     listCurrent = listPrev;
-                    saveRecord(current.getId());
+                    currentChapterId=current.getId();
                     if (prevChapter.prev != null) getPrev(prevChapter.prev.getId());
                 }
 
                 currentItem = arg0;
                 if (isAdded()) {
-//                    int length = getReadTextCount();
-//                    BookShelfUtils.saveReadLength(getActivity().getApplicationContext(), pageList.get(arg0).chapterId, length);
                     currentChapterPageIndex = pageList.get(arg0).pageIndex;
                     setTitle(String.format(getString(R.string.str_chapter_title),
                             pageList.get(arg0).chapterNumber, pageList.get(arg0).chapterTitle));
@@ -382,6 +391,7 @@ public class ReadFragment extends BaseFragment {
      * @param chapterId
      */
     public void getChapter(final String chapterId, final int length) {
+        LogUtils.i("getChapter",""+length);
         if (chapterCache.containsKey(chapterId)) {
             handleCurrent(chapterId, chapterCache.get(chapterId), length);
             LogUtils.i("Reader", "get current chapter from cache");
@@ -435,7 +445,7 @@ public class ReadFragment extends BaseFragment {
 
     private void handleCurrent(String chapterId, final Chapter result, final int length) {
         if (isAdded() && result != null && result.content != null && result.content.length() > 100) {
-            saveRecord(chapterId);
+            currentChapterId=chapterId;
             tvTitle.setText(String.format(getString(R.string.str_chapter_title),
                     result.number, result.title));
             if (result.content != null && result.content.length() > 100) {
@@ -456,8 +466,8 @@ public class ReadFragment extends BaseFragment {
                         }
                         tvPage.setText(String.format(PAGE_FORMAT, pageindex + 1, pageCount));
                         adapter.notifyDataSetChanged();
-                        if(pageindex<pages.size()) {
-                            viewPager.setCurrentItem(pageindex);
+                        if (pageindex < pages.size()) {
+                            viewPager.setCurrentItem(pageindex,false);
                         }
                     }
                 });
@@ -523,14 +533,6 @@ public class ReadFragment extends BaseFragment {
         if (batteryReceiver != null) getActivity().unregisterReceiver(batteryReceiver);
     }
 
-    /**
-     * 改变主题背景颜色
-     *
-     * @param bgColor
-     */
-    public void setThemeBgColor(int bgColor) {
-        if (layoutContainer != null) layoutContainer.setBackgroundColor(bgColor);
-    }
 
     /**
      * 获取分享内容
@@ -578,6 +580,15 @@ public class ReadFragment extends BaseFragment {
     private void refreshText(int textSize) {
         this.mTextSize = textSize;
         setCurrentText();
+    }
+
+    /**
+     * 刷新字体颜色
+     */
+    public void refreshTextColor(){
+        adapter.notifyDataSetChanged();
+        ThemeUtils.setTextColor(tvPage);
+        ThemeUtils.setTextColor(tvTitle);
     }
 
     /**
@@ -637,7 +648,7 @@ public class ReadFragment extends BaseFragment {
         for (int i = 0; i < pages.size(); i++) {
             total = total + pages.get(i).length();
             if (total >= readCount) {
-                pageindex = i - 1;
+                pageindex = i;
                 break;
             }
         }
