@@ -1,7 +1,5 @@
 package com.qiwenge.android.adapters;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,24 +8,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 
+import java.util.List;
+
 /**
- * 相关推荐适配器。 AboutRmdAdapter
- * 
- * Created by John on 2014-6-9
+ * 书架
+ * <p/>
+ * Created by John on 2014-7-26
  */
-public class AboutRmdAdapter extends MyBaseAdapter<Book> {
+public class BookShelfAdapter extends MyBaseAdapter<Book> {
 
     private ViewHolder viewHolder;
 
-    private DisplayImageOptions mOptions;
+    DisplayImageOptions mOptions;
 
-    public AboutRmdAdapter(Context context, List<Book> data) {
+    public BookShelfAdapter(Context context, List<Book> data) {
         this.data = data;
         this.context = context;
         mOptions = ImageLoaderUtils.createOptions(R.drawable.icon_place_holder);
@@ -37,10 +36,12 @@ public class AboutRmdAdapter extends MyBaseAdapter<Book> {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_about_recommend, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_book_shelf, null);
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.item_tv_title);
-            viewHolder.ivCover = (ImageView) convertView.findViewById(R.id.item_iv_cover);
             viewHolder.tvDesc = (TextView) convertView.findViewById(R.id.item_tv_desc);
+            viewHolder.tvAuthor = (TextView) convertView.findViewById(R.id.item_tv_author);
+            viewHolder.ivCover = (ImageView) convertView.findViewById(R.id.item_iv_cover);
+            viewHolder.ivSelected = (ImageView) convertView.findViewById(R.id.item_iv_select);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -49,15 +50,22 @@ public class AboutRmdAdapter extends MyBaseAdapter<Book> {
         if (model != null) {
             viewHolder.tvTitle.setText(model.title);
             viewHolder.tvDesc.setText(model.description);
+            viewHolder.tvAuthor.setText(model.author);
             ImageLoaderUtils.display(model.cover, viewHolder.ivCover, mOptions);
+
+            if (model.selected) {
+                viewHolder.ivSelected.setVisibility(View.VISIBLE);
+            } else viewHolder.ivSelected.setVisibility(View.GONE);
         }
         return convertView;
     }
 
     public class ViewHolder {
         public TextView tvTitle;
-        public ImageView ivCover;
+        public TextView tvAuthor;
         public TextView tvDesc;
+        public ImageView ivCover;
+        public ImageView ivSelected;
     }
 
 }

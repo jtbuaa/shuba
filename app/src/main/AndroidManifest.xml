@@ -44,7 +44,7 @@
         <activity
             android:name=".act.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"></activity>
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".act.ChapterActivity"
             android:screenOrientation="portrait"

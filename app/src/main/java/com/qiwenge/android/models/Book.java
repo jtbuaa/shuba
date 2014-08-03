@@ -37,6 +37,11 @@ public class Book extends BaseModel implements Parcelable {
      */
     public String lastReadId = "";
 
+    /**
+     * 是否被选中
+     */
+    public boolean selected=false;
+
     public Book() {}
 
     public Book(Parcel source) {

@@ -18,7 +18,7 @@ import com.qiwenge.android.utils.ImageLoaderUtils;
 /**
  * BooksAdapter
  * 
- * Created by John on 2014年7月6日
+ * Created by John on 2014-7-6
  */
 public class BooksAdapter extends MyBaseAdapter<Book> {
 

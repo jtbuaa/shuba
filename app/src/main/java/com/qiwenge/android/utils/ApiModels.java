@@ -35,6 +35,8 @@ public enum ApiModels {
     /**
      * 排行
      */
-    top
+    top,
+
+    configures
 
 }

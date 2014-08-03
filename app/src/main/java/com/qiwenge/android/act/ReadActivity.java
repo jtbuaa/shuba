@@ -28,16 +28,18 @@ import com.dev1024.utils.listener.AnimListener;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ReadMenuAdapter;
 import com.qiwenge.android.adapters.ReadThemeAdapter;
+import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.fragments.ReadFragment;
 import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.models.ReadMenu;
 import com.qiwenge.android.models.ReadTheme;
+import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ScreenBrightnessUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 
-public class ReadActivity extends FragmentActivity implements View.OnClickListener {
+public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 是否初始化完毕。
@@ -49,19 +51,21 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
     /**
      * 章节Id
      */
-    public final static String ChapterId = "chapterId";
+    public final static String Extra_ChapterId = "chapterId";
 
     /**
      * 小说标题
      */
-    public final static String BookTitle = "bookTitle";
+    public final static String Extra_BookTitle = "bookTitle";
 
     /**
      * 小说Id
      */
-    public final static String BookId = "bookId";
+    public final static String Extra_BookId = "bookId";
 
     private ReadFragment fragment;
+
+    private LinearLayout layoutBack;
 
     /**
      * 顶部导航
@@ -135,7 +139,7 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
     /**
      * 上次修改的字体大小。
      */
-    private int lastTextSize=0;
+    private int lastTextSize = 0;
 
     private Handler mHandler = new MyHandler(this);
 
@@ -178,13 +182,20 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.layout_bottom_menu:
+                break;
+            case R.id.layout_back:
+                finish();
                 break;
             default:
                 break;
         }
     }
+
+    private String bookId;
+    private String bookTitle;
+    private String chapterId;
 
     /**
      * 获取意图传递的数据，并获取章节详情。
@@ -192,11 +203,21 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
     private void getIntentData() {
         Bundle extra = getIntent().getExtras();
 
-        if (extra.containsKey(BookId)) fragment.setBookId(extra.getString(BookId));
+        if (extra.containsKey(Extra_BookId)) {
+            bookId = extra.getString(Extra_BookId);
+            fragment.setBookId(bookId);
+        }
 
-        if (extra.containsKey(BookTitle)) tvBookTitle.setText(extra.getString(BookTitle));
+        if (extra.containsKey(Extra_BookTitle)) {
+            bookTitle = extra.getString(Extra_BookTitle);
+            tvBookTitle.setText(bookTitle);
+        }
 
-        if (extra.containsKey(ChapterId)) fragment.getChapter(extra.getString(ChapterId));
+        if (extra.containsKey(Extra_ChapterId)) {
+            chapterId = extra.getString(Extra_ChapterId);
+            int length = BookShelfUtils.getReadLenght(getApplicationContext(), chapterId);
+            fragment.getChapter(chapterId, length);
+        }
 
     }
 
@@ -236,6 +257,8 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
 
     private void initViews() {
         tvBookTitle = (TextView) this.findViewById(R.id.tv_book_title);
+        layoutBack = (LinearLayout) this.findViewById(R.id.layout_back);
+        layoutBack.setOnClickListener(this);
 
         layoutBottomMenu = (LinearLayout) this.findViewById(R.id.layout_bottom_menu);
         layoutBottomMenu.setVisibility(View.GONE);
@@ -276,8 +299,8 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
 
         // 字体大小。
         seekFontSize = (SeekBar) this.findViewById(R.id.seekBar_font_size);
-        int textSize= ReaderUtils.getTextSize(getApplicationContext());
-        int progress=(textSize-fontSizeOrigin)*5;
+        int textSize = ReaderUtils.getTextSize(getApplicationContext());
+        int progress = (textSize - fontSizeOrigin) * 5;
         seekFontSize.setMax(100);
         seekFontSize.setProgress(progress);
         seekFontSize.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -295,7 +318,7 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    mFontSizeOffest = progress/5;
+                    mFontSizeOffest = progress / 5;
                 }
             }
         });
@@ -318,7 +341,10 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
                     case 1:// 字体设置
                         break;
                     case 2:// 目录
-
+                        Bundle extra = new Bundle();
+                        extra.putString(ChapterActivity.EXTRA_BOOK_ID, bookId);
+                        extra.putString(ChapterActivity.EXTRA_BOOK_TITLE, bookTitle);
+                        startActivity(ChapterActivity.class,extra);
                         break;
                     case 3:// 分享
                         IntentUtils.openShare(ReadActivity.this, fragment.getShareContent(), "分享");
@@ -479,13 +505,13 @@ public class ReadActivity extends FragmentActivity implements View.OnClickListen
      * 设置字体大小。
      */
     private void setReadTextSize() {
-        int textSize=fontSizeOrigin+mFontSizeOffest;
-        LogUtils.i("textSize",""+textSize);
-        if(textSize!=lastTextSize) {
+        int textSize = fontSizeOrigin + mFontSizeOffest;
+        LogUtils.i("textSize", "" + textSize);
+        if (textSize != lastTextSize) {
             //如果没有修改字体大小，如，来回滑动，不修改阅读器的字体大小
-            lastTextSize=textSize;
+            lastTextSize = textSize;
             fragment.setTextSize(textSize);
-            ReaderUtils.saveTextSize(getApplicationContext(),textSize);
+            ReaderUtils.saveTextSize(getApplicationContext(), textSize);
         }
     }
 

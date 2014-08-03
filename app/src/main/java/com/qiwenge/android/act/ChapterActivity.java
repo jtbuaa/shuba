@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev1024.utils.GsonUtils;
@@ -21,12 +22,13 @@ import com.qiwenge.android.models.ChapterList;
 import com.qiwenge.android.ui.ScrollPageListView;
 import com.qiwenge.android.ui.ScrollPageListView.ScrollPageListener;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
 
 /**
  * 目录。
- * 
+ * <p/>
  * Created by John on 2014-5-5
  */
 public class ChapterActivity extends BaseActivity {
@@ -34,6 +36,7 @@ public class ChapterActivity extends BaseActivity {
     private ScrollPageListView lv;
     private View pagerFooter;
     private TextView tvEmpty;
+    private RelativeLayout layoutContainer;
 
     private ChapterAdapter adapter;
 
@@ -41,7 +44,17 @@ public class ChapterActivity extends BaseActivity {
 
     private Book book;
 
+    private String bookId;
+
+    private String bookTitle;
+
     private int pageindex = 1;
+
+    public static final String EXTRA_BOOK = "book";
+
+    public static final String EXTRA_BOOK_ID = "book_id";
+
+    public static final String EXTRA_BOOK_TITLE = "book_title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +62,35 @@ public class ChapterActivity extends BaseActivity {
         setContentView(R.layout.activity_chapter);
         initViews();
         getIntentData();
-        getBookChpaters();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ThemeUtils.setThemeBg(layoutContainer);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) getBookChpaters();
     }
 
     private void getIntentData() {
         Bundle extra = getIntent().getExtras();
-        if (extra.containsKey("book")) {
-            book = extra.getParcelable("book");
+        if (extra.containsKey(EXTRA_BOOK)) {
+            book = extra.getParcelable(EXTRA_BOOK);
+            bookId = book.getId();
             setTitle(book.title);
+        } else if (extra.containsKey(EXTRA_BOOK_ID) && extra.containsKey(EXTRA_BOOK_TITLE)) {
+            bookId = extra.getString(EXTRA_BOOK_ID);
+            bookTitle = extra.getString(EXTRA_BOOK_TITLE);
+            setTitle(bookTitle);
         }
     }
 
     private void initViews() {
+        layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_container);
         tvEmpty = (TextView) this.findViewById(R.id.tv_empty);
         tvEmpty.setVisibility(View.GONE);
         pagerFooter =
@@ -76,9 +106,9 @@ public class ChapterActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < list.size()) {
                     Bundle extra = new Bundle();
-                    extra.putString(ReadActivity.BookId, book.getId());
-                    extra.putString(ReadActivity.ChapterId, list.get(position).getId());
-                    extra.putString(ReadActivity.BookTitle, list.get(position).book_title);
+                    extra.putString(ReadActivity.Extra_BookId, bookId);
+                    extra.putString(ReadActivity.Extra_ChapterId, list.get(position).getId());
+                    extra.putString(ReadActivity.Extra_BookTitle, list.get(position).book_title);
                     startActivity(ReadActivity.class, extra);
                 }
             }
@@ -99,11 +129,11 @@ public class ChapterActivity extends BaseActivity {
      * 获取一本书下的，所有章节。
      */
     private void getBookChpaters() {
-        if (book == null) return;
+        if (bookId == null) return;
         String url = ApiUtils.getBookChpaters();
         RequestParams params = new RequestParams();
-        params.put("book_id", book.getId());
-        params.put("limit", "20");
+        params.put("book_id", bookId);
+        params.put("limit", "9999");
         params.put("page", "" + pageindex);
         JHttpClient.get(url, params, new StringResponseHandler() {
 
@@ -123,6 +153,7 @@ public class ChapterActivity extends BaseActivity {
 
             @Override
             public void onSuccess(String result) {
+                System.out.println(result.length());
                 ChapterList list = GsonUtils.getModel(result, ChapterList.class);
                 adapter.add(list.result);
             }

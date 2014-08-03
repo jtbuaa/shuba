@@ -1,16 +1,25 @@
 package com.qiwenge.android.utils;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.View;
 
+import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.PreferencesUtils;
+import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
 
 /**
  * 阅读主题工具类。
- * 
+ * <p/>
  * Created by John on 2014年7月2日
  */
 public class ThemeUtils {
+
+    /**
+     * 是否为夜间模式
+     */
+    public static boolean isNightModel = false;
 
     /**
      * 夜间模式 value:{@value}
@@ -39,6 +48,8 @@ public class ThemeUtils {
 
     private static final String SAVE_KEY = "reader_theme";
 
+    private static final String SAVE_NIGHT_KEY = "reader_theme_night";
+
     /**
      * 当前主题，默认为：普通。
      */
@@ -46,7 +57,7 @@ public class ThemeUtils {
 
     /**
      * 初始化主题。
-     * 
+     *
      * @param context
      */
     public static void initTheme(Context context) {
@@ -54,13 +65,12 @@ public class ThemeUtils {
         if (theme > -1) {
             currentTheme = theme;
         }
-        System.out.println("theme:" + theme);
-        System.out.println("currentTheme:" + currentTheme);
+        isNightModel = isNightodel(context);
     }
 
     /**
      * 获取当前的主题。
-     * 
+     *
      * @param context
      * @return
      */
@@ -70,8 +80,8 @@ public class ThemeUtils {
 
     /**
      * 设置阅读主题。
-     * <p>
-     * 
+     * <p/>
+     *
      * @param theme
      */
     public static void setTheme(Context context, int theme) {
@@ -82,11 +92,76 @@ public class ThemeUtils {
 
     /**
      * 获取主题。
-     * 
+     *
      * @param context
      */
     private static int getTheme(Context context) {
         return PreferencesUtils.getInt(context, Constants.PRE_SAVE_NAME, SAVE_KEY);
+    }
+
+    /**
+     * 设置夜间模式
+     *
+     * @param context
+     * @param flag    true：夜间模式，false：正常模式
+     */
+    public static void setNightModle(Context context, boolean flag) {
+        isNightModel = flag;
+        int value = 0;
+        if (isNightModel) value = 1;
+        PreferencesUtils.putInt(context, Constants.PRE_SAVE_NAME, SAVE_NIGHT_KEY, value);
+    }
+
+    /**
+     * 是否为夜间模式
+     *
+     * @param context
+     * @return
+     */
+    private static boolean isNightodel(Context context) {
+        return PreferencesUtils.getInt(context, Constants.PRE_SAVE_NAME, SAVE_NIGHT_KEY, 0) == 1;
+    }
+
+    /**
+     * 返回是否为夜间模式
+     *
+     * @return
+     */
+    public static boolean getIsNightModel() {
+        return isNightModel;
+    }
+
+    /**
+     * 设置主题背景。
+     *
+     * @param view
+     */
+    public static void setThemeBg(View view) {
+        if (view == null) return;
+        if (isNightModel) {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_night_bg_color));
+        } else {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_bg_color));
+        }
+    }
+
+    public static void setThemeSecondBg(View view) {
+        if (view == null) return;
+        if (isNightModel) {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_night_second_bg_color));
+        } else {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_second_bg_color));
+        }
+    }
+
+    public static void setThemeLine(View view) {
+        LogUtils.i("setThemeLine","setThemeLine");
+        if (view == null) return;
+        if (isNightModel) {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_night_shadow_color));
+        } else {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_shadow_color));
+        }
     }
 
 }

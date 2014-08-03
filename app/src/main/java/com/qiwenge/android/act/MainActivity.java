@@ -2,6 +2,7 @@ package com.qiwenge.android.act;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
@@ -12,12 +13,17 @@ import android.view.MenuItem.OnActionExpandListener;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AutoCompleteTextView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
+import com.dev1024.utils.IntentUtils;
+import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.NetworkUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
@@ -26,6 +32,7 @@ import com.qiwenge.android.fragments.BookshelfFragment;
 import com.qiwenge.android.listeners.OnFragmentClickListener;
 import com.qiwenge.android.openudid.OpenUDID_manager;
 import com.qiwenge.android.utils.ImageLoaderUtils;
+import com.qiwenge.android.utils.ThemeUtils;
 
 public class MainActivity extends BaseActivity implements OnClickListener, OnQueryTextListener {
 
@@ -34,6 +41,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
     private LinearLayout layoutBookShelf;
     private LinearLayout layoutBookCity;
+    private LinearLayout layoutMainMenu;
+    private RelativeLayout layoutMainContainer;
 
     private ImageView ivBookCity;
     private ImageView ivBookShelf;
@@ -51,6 +60,19 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         ImageLoaderUtils.init(getApplicationContext());
         initViews();
         initFragment();
+        LogUtils.i("main","onCreate");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        LogUtils.i("main","onSaveInstanceState");
+//        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        LogUtils.i("main","onRestoreInstanceState");
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -89,6 +111,13 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ThemeUtils.setThemeBg(layoutMainContainer);
+        ThemeUtils.setThemeBg(layoutMainMenu);
     }
 
     private void showBookShelf() {
@@ -133,6 +162,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     }
 
     private void initFragment() {
+        clear();
         bookShelf = new BookshelfFragment();
         addFragment(R.id.layout_content, bookShelf);
         bookShelf.setOnFragmentClickListener(new OnFragmentClickListener() {
@@ -141,6 +171,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
                 startActionMode(new MainActionMode());
             }
         });
+    }
+
+    private void clear(){
+        FrameLayout layout=(FrameLayout)this.findViewById(R.id.layout_content);
+        layout.removeAllViews();
     }
 
     /**
@@ -168,11 +203,14 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         ivBookCity = (ImageView) this.findViewById(R.id.iv_book_city);
         ivLayer = (ImageView) this.findViewById(R.id.iv_layer);
         ivLayer.setOnClickListener(this);
+
+        layoutMainContainer=(RelativeLayout)this.findViewById(R.id.layout_main_container);
+        layoutMainMenu=(LinearLayout)this.findViewById(R.id.layout_main_menu);
     }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        SearchView searchView = new SearchView(getApplicationContext());
+        SearchView searchView = getSearchView(getApplicationContext());
         searchView.setOnQueryTextListener(this);
         menu.add(0, 0, 0, "搜索")
                 .setIcon(R.drawable.ic_action_search)
@@ -209,6 +247,24 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case  2:
+                sendFeedback();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void sendFeedback(){
+        String email=getString(R.string.feedback_email);
+        String subject=getString(R.string.feedback_subject);
+        String content=getString(R.string.feedback_content);
+        String chooserTitle=getString(R.string.feedback_chooser_title);
+        IntentUtils.sendEmail(MainActivity.this,email,content,subject,chooserTitle);
+    }
+
     /**
      * Main ActionMode
      * <p/>
@@ -225,6 +281,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            mode.setTitle("Selectd books");
             return false;
         }
 
@@ -235,6 +292,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            bookShelf.clearAllSelect();
         }
 
     }
@@ -252,5 +310,22 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         return false;
     }
 
+
+    public static SearchView getSearchView(Context context) {
+        SearchView searchView = new SearchView(context);
+        // 修改字体颜色
+        int id = searchView.getContext().getResources()
+                .getIdentifier("android:id/search_src_text", null, null);
+        AutoCompleteTextView textView = (AutoCompleteTextView) searchView
+                .findViewById(id);
+        textView.setTextColor(context.getResources().getColor(android.R.color.white));
+        searchView.setQueryHint("搜索...");
+        // Background
+        int searchPlateId = searchView.getContext().getResources()
+                .getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = searchView.findViewById(searchPlateId);
+        searchPlate.setBackgroundResource(R.drawable.search_view_bg);
+        return searchView;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.qiwenge.android.utils;
 import android.content.Context;
 
 import com.dev1024.utils.GsonUtils;
+import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.PreferencesUtils;
 import com.dev1024.utils.StringUtils;
 import com.google.gson.Gson;
@@ -11,7 +12,7 @@ import com.qiwenge.android.models.BookList;
 
 /**
  * 书架工具类
- * 
+ * <p/>
  * Created by John on 2014－6－2
  */
 public class BookShelfUtils {
@@ -27,7 +28,7 @@ public class BookShelfUtils {
 
     /**
      * 获取书架中的所有书籍
-     * 
+     *
      * @return
      */
     public static BookList getBooks(Context context) {
@@ -42,7 +43,7 @@ public class BookShelfUtils {
 
     /**
      * 添加一本书到书架
-     * 
+     *
      * @param book
      */
     public static void addBook(Context context, Book book) {
@@ -53,7 +54,7 @@ public class BookShelfUtils {
 
     /**
      * 从书架中移除一本书
-     * 
+     *
      * @param context
      * @param book
      */
@@ -69,7 +70,7 @@ public class BookShelfUtils {
 
     /**
      * 从书架中移除一本书
-     * 
+     *
      * @param position
      */
     public static void removeBook(Context context, int position) {
@@ -80,7 +81,7 @@ public class BookShelfUtils {
 
     /**
      * 是否包含了某本书
-     * 
+     *
      * @param book
      */
     public static boolean contains(Context context, Book book) {
@@ -93,7 +94,7 @@ public class BookShelfUtils {
 
     /**
      * 保存到SharedPreferences
-     * 
+     *
      * @param context
      * @param books
      */
@@ -104,7 +105,7 @@ public class BookShelfUtils {
 
     /**
      * 保存阅读记录。
-     * 
+     *
      * @param context
      * @param book
      * @param chapterid 阅读的章节id
@@ -114,15 +115,37 @@ public class BookShelfUtils {
         PreferencesUtils.putString(context, READ_RECORD, bookId, chapterid);
     }
 
+
     /**
      * 获取阅读记录的章节Id
-     * 
+     *
      * @param context
      * @param bookId
      * @return
      */
     public static String getRecordChapterId(Context context, String bookId) {
         return PreferencesUtils.getString(context, READ_RECORD, bookId);
+    }
+
+    /**
+     * 保存阅读字数。
+     * @param context
+     * @param chapterId 章节Id
+     * @param length
+     */
+    public static void saveReadLength(Context context, String chapterId, int length) {
+        LogUtils.i("saveReadLength:",""+length);
+        PreferencesUtils.putInt(context, READ_RECORD, "length" + chapterId, length);
+    }
+
+    /**
+     * 获取阅读字数。
+     * @param context
+     * @param chapterId
+     * @return
+     */
+    public static int getReadLenght(Context context, String chapterId) {
+        return PreferencesUtils.getInt(context, READ_RECORD, "length" + chapterId,0);
     }
 
 }

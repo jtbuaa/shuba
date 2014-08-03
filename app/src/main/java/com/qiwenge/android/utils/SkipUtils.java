@@ -19,9 +19,9 @@ public class SkipUtils {
     public static void skipToReader(Context context, String bookId, String bookTitle,
             String chapterId) {
         Bundle extra = new Bundle();
-        extra.putString(ReadActivity.BookId, bookId);
-        extra.putString(ReadActivity.ChapterId, chapterId);
-        extra.putString(ReadActivity.BookTitle, bookTitle);
+        extra.putString(ReadActivity.Extra_BookId, bookId);
+        extra.putString(ReadActivity.Extra_ChapterId, chapterId);
+        extra.putString(ReadActivity.Extra_BookTitle, bookTitle);
         Intent intent = new Intent(context, ReadActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtras(extra);

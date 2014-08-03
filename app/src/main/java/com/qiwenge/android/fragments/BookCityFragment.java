@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.BookCityAdapter;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.ui.SlowViewPager;
+import com.qiwenge.android.utils.ThemeUtils;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 /**
@@ -26,6 +29,8 @@ public class BookCityFragment extends BaseFragment implements OnClickListener {
     private TextView tvRecommend;
     private TextView tvRank;
     private TextView tvCategory;
+    private RelativeLayout layoutTab;
+    private ImageView ivLine;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,7 +43,16 @@ public class BookCityFragment extends BaseFragment implements OnClickListener {
         initViews();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ThemeUtils.setThemeBg(layoutTab);
+        ThemeUtils.setThemeLine(ivLine);
+    }
+
     private void initViews() {
+        ivLine=(ImageView)getView().findViewById(R.id.iv_line);
+        layoutTab=(RelativeLayout)getView().findViewById(R.id.layout_tab);
         tvRecommend = (TextView) getView().findViewById(R.id.tv_recommend);
         tvRank = (TextView) getView().findViewById(R.id.tv_rank);
         tvCategory = (TextView) getView().findViewById(R.id.tv_category);

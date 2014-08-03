@@ -19,8 +19,10 @@ import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev1024.utils.DialogUtils;
@@ -38,6 +40,7 @@ import com.qiwenge.android.reader.ReaderAdapter;
 import com.qiwenge.android.ui.SlowViewPager;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
+import com.qiwenge.android.utils.LoadAnim;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
@@ -46,7 +49,11 @@ public class ReadFragment extends BaseFragment {
 
     private final static String PAGE_FORMAT = "%s/%s";
 
+    private LoadAnim mLoadAnim;
+
     private LinearLayout layoutContainer;
+
+    private ImageView mIvLoading;
 
     /**
      * 手机电量。
@@ -183,8 +190,8 @@ public class ReadFragment extends BaseFragment {
     /**
      * 初始化字体大小
      */
-    private void initTextSize(){
-        int textSize=ReaderUtils.getTextSize(getActivity().getApplicationContext());
+    private void initTextSize() {
+        int textSize = ReaderUtils.getTextSize(getActivity().getApplicationContext());
         readerCurrent.setTextSize(textSize);
         readerNext.setTextSize(textSize);
         readerPrev.setTextSize(textSize);
@@ -195,6 +202,9 @@ public class ReadFragment extends BaseFragment {
      * 初始化Views
      */
     private void initViews() {
+        mIvLoading=(ImageView)getView().findViewById(R.id.iv_loading);
+        mLoadAnim=new LoadAnim(mIvLoading);
+        mLoadAnim.start();
         layoutContainer = (LinearLayout) getView().findViewById(R.id.layout_container);
         pbBattery = (ProgressBar) getView().findViewById(R.id.progreebar_battery);
         tvTitle = (TextView) getView().findViewById(R.id.tv_title);
@@ -230,6 +240,8 @@ public class ReadFragment extends BaseFragment {
 
                 currentItem = arg0;
                 if (isAdded()) {
+//                    int length = getReadTextCount();
+//                    BookShelfUtils.saveReadLength(getActivity().getApplicationContext(), pageList.get(arg0).chapterId, length);
                     currentChapterPageIndex = pageList.get(arg0).pageIndex;
                     setTitle(String.format(getString(R.string.str_chapter_title),
                             pageList.get(arg0).chapterNumber, pageList.get(arg0).chapterTitle));
@@ -275,6 +287,7 @@ public class ReadFragment extends BaseFragment {
             }
         });
     }
+
 
     /**
      * 处理点击事件。
@@ -359,14 +372,18 @@ public class ReadFragment extends BaseFragment {
 
     }
 
+    public void getChapter(final String chapterId) {
+        getChapter(chapterId, 0);
+    }
+
     /**
      * 获取章节内容
      *
      * @param chapterId
      */
-    public void getChapter(final String chapterId) {
+    public void getChapter(final String chapterId, final int length) {
         if (chapterCache.containsKey(chapterId)) {
-            handleCurrent(chapterId, chapterCache.get(chapterId));
+            handleCurrent(chapterId, chapterCache.get(chapterId), length);
             LogUtils.i("Reader", "get current chapter from cache");
             return;
         }
@@ -379,17 +396,16 @@ public class ReadFragment extends BaseFragment {
                 if (result != null) {
                     chapterCache.put(chapterId, result);
                 }
-                handleCurrent(chapterId, result);
+                handleCurrent(chapterId, result, length);
             }
 
             @Override
             public void onStart() {
-                DialogUtils.showLoading(getActivity());
             }
 
             @Override
             public void onFinish() {
-                DialogUtils.hideLoading();
+                mLoadAnim.cancel();
             }
 
             @Override
@@ -417,7 +433,7 @@ public class ReadFragment extends BaseFragment {
         return pages;
     }
 
-    private void handleCurrent(String chapterId, final Chapter result) {
+    private void handleCurrent(String chapterId, final Chapter result, final int length) {
         if (isAdded() && result != null && result.content != null && result.content.length() > 100) {
             saveRecord(chapterId);
             tvTitle.setText(String.format(getString(R.string.str_chapter_title),
@@ -434,8 +450,15 @@ public class ReadFragment extends BaseFragment {
                         listCurrent = pages;
                         pageList.addAll(covertPageList(pages, result));
                         pageCount = pages.size();
-                        tvPage.setText(String.format(PAGE_FORMAT, 1, pageCount));
+                        int pageindex = 0;
+                        if (length > 0) {
+                            pageindex = getNewPageIndex(length, listCurrent);
+                        }
+                        tvPage.setText(String.format(PAGE_FORMAT, pageindex + 1, pageCount));
                         adapter.notifyDataSetChanged();
+                        if(pageindex<pages.size()) {
+                            viewPager.setCurrentItem(pageindex);
+                        }
                     }
                 });
 
@@ -549,6 +572,7 @@ public class ReadFragment extends BaseFragment {
 
     /**
      * 刷新。
+     *
      * @param textSize
      */
     private void refreshText(int textSize) {
@@ -599,7 +623,7 @@ public class ReadFragment extends BaseFragment {
         if (listCurrent != null && !listCurrent.isEmpty()) {
             for (int i = 0; i < currentChapterPageIndex; i++) {
                 if (currentChapterPageIndex == i - 1)
-                    size = size + (listCurrent.get(i).length()/2);
+                    size = size + (listCurrent.get(i).length() / 2);
                 else
                     size = size + listCurrent.get(i).length();
             }
@@ -625,6 +649,7 @@ public class ReadFragment extends BaseFragment {
 
     /**
      * 设置内容，在callback中返回分页数据。
+     *
      * @param reader
      * @param content
      * @param listener

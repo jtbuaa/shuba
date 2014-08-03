@@ -20,6 +20,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
+import com.qiwenge.android.adapters.BookShelfAdapter;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.listeners.OnFragmentClickListener;
@@ -30,13 +31,18 @@ import com.qiwenge.android.utils.SkipUtils;
 
 public class BookshelfFragment extends BaseFragment {
 
+    /**
+     * 是否为编辑模式，如果为true的话，单击书架列表，为选择操作。
+     */
+    private boolean isEditModel = false;
+
     private PullToRefreshListView lvBookShelf;
 
     private List<Book> data = new ArrayList<Book>();
 
     private TextView tvEmpty;
 
-    private BooksAdapter adapter;
+    private BookShelfAdapter adapter;
 
     private OnFragmentClickListener clickListener;
 
@@ -58,7 +64,7 @@ public class BookshelfFragment extends BaseFragment {
     private void initViews() {
         tvEmpty = (TextView) getView().findViewById(R.id.tv_empty);
         tvEmpty.setVisibility(View.GONE);
-        adapter = new BooksAdapter(getActivity(), data);
+        adapter = new BookShelfAdapter(getActivity(), data);
         lvBookShelf = (PullToRefreshListView) getView().findViewById(R.id.lv_book_shelf);
         lvBookShelf.setAdapter(adapter);
         lvBookShelf.setVisibility(View.GONE);
@@ -67,6 +73,13 @@ public class BookshelfFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position - 1 < data.size()) {
+
+                    if (isEditModel) {
+                        //编辑模式
+                        selectBook(position - 1);
+                        return;
+                    }
+
                     Book book = data.get(position - 1);
                     String lastReadId =
                             BookShelfUtils.getRecordChapterId(getActivity(), book.getId());
@@ -86,17 +99,49 @@ public class BookshelfFragment extends BaseFragment {
         lvBookShelf.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {}
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+            }
         });
 
         lvBookShelf.getRefreshableView().setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (clickListener != null) clickListener.onClick();
+                if (!isEditModel)
+                    if (clickListener != null) clickListener.onClick();
+                isEditModel = true;
+                selectBook(position - 1);
                 return true;
             }
         });
+    }
+
+    /**
+     * 选中一本书
+     *
+     * @param position
+     */
+    public void selectBook(int position) {
+        if (data.isEmpty()) return;
+
+        if (position > data.size() - 1 || position < 0) return;
+
+        data.get(position).selected = !data.get(position).selected;
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 清楚所有选中
+     */
+    public void clearAllSelect() {
+        isEditModel = false;
+        if (data.isEmpty()) return;
+
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).selected)
+                data.get(i).selected = false;
+        }
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -114,7 +159,7 @@ public class BookshelfFragment extends BaseFragment {
 
     /**
      * 异步获取书架内容 AsyncBookShelfs
-     * 
+     * <p/>
      * Created by John on 2014年6月27日
      */
     private class AsyncBookShelfs extends AsyncTask<String, Integer, BookList> {
