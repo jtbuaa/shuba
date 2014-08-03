@@ -34,7 +34,6 @@ import com.qiwenge.android.utils.http.StringResponseHandler;
 public class ChapterActivity extends BaseActivity {
 
     private ScrollPageListView lv;
-    private View pagerFooter;
     private TextView tvEmpty;
     private RelativeLayout layoutContainer;
 
@@ -93,12 +92,8 @@ public class ChapterActivity extends BaseActivity {
         layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_container);
         tvEmpty = (TextView) this.findViewById(R.id.tv_empty);
         tvEmpty.setVisibility(View.GONE);
-        pagerFooter =
-                LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_pager_footer,
-                        null);
         adapter = new ChapterAdapter(this, list);
         lv = (ScrollPageListView) this.findViewById(R.id.listview_common);
-        lv.addFooterView(pagerFooter);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new OnItemClickListener() {
 
@@ -133,18 +128,18 @@ public class ChapterActivity extends BaseActivity {
         String url = ApiUtils.getBookChpaters();
         RequestParams params = new RequestParams();
         params.put("book_id", bookId);
-        params.put("limit", "9999");
+        params.put("limit", "30");
         params.put("page", "" + pageindex);
         JHttpClient.get(url, params, new StringResponseHandler() {
 
             @Override
             public void onStart() {
-                lv.setIsLoading(true);
+                lv.loadStart();
             }
 
             @Override
             public void onFinish() {
-                lv.setIsLoading(false);
+                lv.loadFinished(adapter.getCount());
                 if (list.isEmpty()) {
                     lv.setVisibility(View.GONE);
                     tvEmpty.setVisibility(View.VISIBLE);
@@ -153,8 +148,8 @@ public class ChapterActivity extends BaseActivity {
 
             @Override
             public void onSuccess(String result) {
-                System.out.println(result.length());
                 ChapterList list = GsonUtils.getModel(result, ChapterList.class);
+                lv.setTotal(list.total);
                 adapter.add(list.result);
             }
 

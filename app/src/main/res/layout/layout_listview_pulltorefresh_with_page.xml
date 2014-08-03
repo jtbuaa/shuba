@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qiwenge.android.ui.PagePullToRefreshListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_pull_to_refresh"
+    style="@style/Pull_To_Refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:footerDividersEnabled="true"
+    android:listSelector="@drawable/item_common_bg" >
+
+</com.qiwenge.android.ui.PagePullToRefreshListView>

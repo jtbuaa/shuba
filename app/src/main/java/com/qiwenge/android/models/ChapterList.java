@@ -9,4 +9,6 @@ public class ChapterList extends BaseModel {
 
 	public List<Chapter> result = new ArrayList<Chapter>();
 
+    public int total;
+
 }

@@ -34,7 +34,7 @@ public class AsyncUtils {
 
     public static void getBooks(String url, RequestParams params,
             JsonResponseHandler<BookList> handler) {
-        params.put("limit", "20");
+        params.put("limit", "10");
         params.put("status", "" + BookStatus.APPROVED);
         JHttpClient.get(url, params, handler);
     }

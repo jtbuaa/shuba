@@ -25,23 +25,26 @@ import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.ui.PagePullToRefreshListView;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 /**
  * 推荐。 CategorysFragment
- * 
+ * <p/>
  * Created by John on 2014年5月31日
  */
 public class RecommendFragment extends BaseFragment {
 
     private static final String CACHE_RECOMMEND = "cache_recommend";
 
-    private PullToRefreshListView lvMain;
+    private PagePullToRefreshListView lvMain;
 
     private List<Book> data = new ArrayList<Book>();
 
     private BooksAdapter adapter;
+
+    private int pageindex = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,11 +59,11 @@ public class RecommendFragment extends BaseFragment {
     }
 
 
-
     /**
      * 刷新数据。
      */
-    public void refresh() {}
+    public void refresh() {
+    }
 
     private void getCacheData() {
 
@@ -88,7 +91,7 @@ public class RecommendFragment extends BaseFragment {
 
     private void initViews() {
         adapter = new BooksAdapter(getActivity(), data);
-        lvMain = (PullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
+        lvMain = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
         lvMain.setAdapter(adapter);
         lvMain.setOnItemClickListener(new OnItemClickListener() {
 
@@ -106,6 +109,16 @@ public class RecommendFragment extends BaseFragment {
 
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                pageindex = 1;
+                getRecommend();
+                lvMain.reset();
+            }
+        });
+
+        lvMain.setOnScrollPageListener(new PagePullToRefreshListView.ScrollPageListener() {
+            @Override
+            public void onPage() {
+                pageindex++;
                 getRecommend();
             }
         });
@@ -117,23 +130,30 @@ public class RecommendFragment extends BaseFragment {
      */
     private void getRecommend() {
         String url = ApiUtils.getRecommend();
-        AsyncUtils.getBooks(url, 1, new JsonResponseHandler<BookList>(BookList.class) {
+        AsyncUtils.getBooks(url, pageindex, new JsonResponseHandler<BookList>(BookList.class) {
             @Override
             public void onOrigin(String json) {
                 cacheRecommend(json);
             }
 
             @Override
+            public void onStart() {
+                lvMain.loadStart();
+            }
+
+            @Override
             public void onSuccess(BookList result) {
                 if (result != null) {
-                    data.clear();
+                    lvMain.setTotal(result.total);
+                    if (pageindex == 1)
+                        data.clear();
                     adapter.add(result.result);
                 }
             }
 
             @Override
             public void onFinish() {
-                lvMain.onRefreshComplete();
+                lvMain.loadFinished(adapter.getCount());
             }
         });
     }

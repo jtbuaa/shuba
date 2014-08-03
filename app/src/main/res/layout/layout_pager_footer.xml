@@ -4,10 +4,11 @@
     android:gravity="center"
     android:orientation="horizontal" >
 
-    <ProgressBar
+    <ImageView
+        android:id="@+id/iv_loading"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        style="@style/LoadingDots"
+        android:background="@drawable/icon_loading_dots"
         android:layout_marginRight="5dp" />
 
     <TextView
