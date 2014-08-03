@@ -104,14 +104,13 @@ public class ImageLoaderUtils {
                         .threadPriority(Thread.NORM_PRIORITY - 2)
                         // .memoryCache(new LruMemoryCache(1024 * 1024 * 10))
                         .memoryCache(new WeakMemoryCache()).denyCacheImageMultipleSizesInMemory()
-                        .discCacheFileNameGenerator(new Md5FileNameGenerator())
                         .tasksProcessingOrder(QueueProcessingType.LIFO).build();
         ImageLoader.getInstance().init(config);
     }
 
     public static DisplayImageOptions createOptions(int imgLoading) {
         return new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(imgLoading).cacheOnDisc(true).cacheInMemory(true).build();
+                .showImageOnLoading(imgLoading).cacheInMemory(true).build();
     }
 
 }

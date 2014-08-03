@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.dev1024.utils.AppUtils;
 import com.dev1024.utils.IntentUtils;
 import com.qiwenge.android.R;
+import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ThemeUtils;
@@ -26,6 +27,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     private TextView tvVersionName;
     private TextView tvRating;
     private TextView tvLegal;
+    private TextView tvCheckUpdate;
 
     private ImageView ivNightModel;
     private ImageView ivSaveModel;
@@ -59,6 +61,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.set_tv_legal://免责声明
                 startActivity(LegalActivity.class);
+                break;
+            case R.id.set_tv_update://检查版本更新
+                new AsyncCheckUpdate(SettingActivity.this).checkUpdate();
                 break;
             default:
                 break;
@@ -133,6 +138,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         ivSaveModel = (ImageView) this.findViewById(R.id.iv_save_model);
         layoutSaveModel = (RelativeLayout) this.findViewById(R.id.layout_save_model);
         layoutSaveModel.setOnClickListener(this);
+
+        tvCheckUpdate=(TextView) this.findViewById(R.id.set_tv_update);
+        tvCheckUpdate.setOnClickListener(this);
     }
 
     private void setLineColor(){

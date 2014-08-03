@@ -37,6 +37,9 @@ public enum ApiModels {
      */
     top,
 
+    /**
+     * 检查版本
+     */
     configures
 
 }

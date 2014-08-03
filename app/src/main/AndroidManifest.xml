@@ -84,6 +84,13 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receivers.UpdateReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
+            </intent-filter>
+        </receiver>
+
         <!-- ****************************umeng***************************** -->
 
         <meta-data

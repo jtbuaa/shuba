@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.io.File;
+
 /**
  * IntentUtils
  * <p/>
@@ -160,6 +162,22 @@ public class IntentUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * 安装APK
+     * @param context
+     * @param file
+     */
+    public static void installApk(Context context, File file) {
+        if(file==null) return;
+        if(!file.exists()) return;
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        context.startActivity(intent);
     }
 
 }

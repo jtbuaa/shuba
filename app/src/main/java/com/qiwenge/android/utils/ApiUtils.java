@@ -104,6 +104,9 @@ public class ApiUtils {
         return String.format(FORMAT_1_PARAMS, "statement.txt");
     }
 
+    public static String getConfigures(){
+        return String.format(FORMAT_1_PARAMS, ApiModels.configures);
+    }
 
     /**
      * Test

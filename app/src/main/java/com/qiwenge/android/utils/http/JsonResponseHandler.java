@@ -12,7 +12,7 @@ public class JsonResponseHandler<T> extends BaseResponseHandler {
     private Class<T> classOf;
 
     /**
-     * 是否从根节点解析。
+     * 是否从根节点解析。默认是true，如果为false，则从result节点开始解析。
      */
     private boolean isRootNode = true;
 

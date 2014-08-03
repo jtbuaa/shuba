@@ -26,4 +26,9 @@ public class Constants {
      */
     public static int MIN_TEXT_SIZE=16;
 
+    /**
+     * 版本更新下载Id。
+     */
+    public static long UPDATE_DOWNLOAD_ID=0;
+
 }

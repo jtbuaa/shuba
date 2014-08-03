@@ -1,10 +1,13 @@
 package com.qiwenge.android.async;
 
+import android.app.Activity;
+
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.models.Configures;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
@@ -43,7 +46,6 @@ public class AsyncUtils {
      */
     public static void postViewTotal(String bookId) {
         String url = ApiUtils.postViewTotal(bookId);
-        LogUtils.i("postViewTotal", url);
         JHttpClient.post(url, null, new StringResponseHandler() {
 
             @Override
