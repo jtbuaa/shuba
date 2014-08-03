@@ -4,7 +4,7 @@
 
     <corners android:radius="0dp" />
 
-    <solid android:color="@android:color/white" />
+    <solid android:color="@android:color/transparent" />
 
     <size
         android:height="10dp"

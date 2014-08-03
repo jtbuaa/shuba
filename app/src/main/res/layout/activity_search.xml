@@ -1,44 +1,52 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:id="@+id/layout_container"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/layout_no_result"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:background="@color/main_second_bg_color" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableLeft="@drawable/ic_search_no_result"
-                android:drawablePadding="10dp"
-                android:text="@string/empty_search"
-                android:textColor="@color/tv_desc_color"
-                android:textSize="@dimen/font_size_middle" />
-        </RelativeLayout>
-
-        <ImageView style="@style/ImageDivider" />
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/layout_no_result"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/search_recommend"
-            android:textColor="@color/tv_title_color"
-            android:textSize="@dimen/font_size_small" />
+            android:orientation="vertical">
 
-        <ImageView style="@style/ImageDivider" />
+            <RelativeLayout
+                android:id="@+id/layout_top"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:background="@color/main_second_bg_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/ic_search_no_result"
+                    android:drawablePadding="10dp"
+                    android:text="@string/empty_search"
+                    android:textColor="@color/tv_desc_color"
+                    android:textSize="@dimen/font_size_middle" />
+            </RelativeLayout>
+
+            <ImageView style="@style/ImageDivider" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/search_recommend"
+                android:textColor="@color/tv_title_color"
+                android:textSize="@dimen/font_size_small" />
+
+            <ImageView style="@style/ImageDivider" />
+        </LinearLayout>
+
+        <include layout="@layout/layout_listview" />
     </LinearLayout>
 
-    <include layout="@layout/layout_listview" />
-
-</LinearLayout>
+    <include layout="@layout/layout_loading" />
+</RelativeLayout>
