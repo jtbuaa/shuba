@@ -125,7 +125,7 @@ public class ThemeUtils {
      * 设置夜间模式
      *
      * @param context
-     * @param flag    true：夜间模式，false：正常模式
+     * @param isNight    true：夜间模式，false：正常模式
      */
     public static void setNightModle(Context context, boolean isNight) {
         isNightModel = isNight;
@@ -162,6 +162,19 @@ public class ThemeUtils {
         if (view == null) return;
         if (isNightModel) {
             view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_night_bg_color));
+        } else {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_bg_color));
+        }
+    }
+
+    /**
+     * 设置底部菜单背景
+     * @param view
+     */
+    public static void setBottomMenuBg(View view) {
+        if (view == null) return;
+        if (isNightModel) {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.action_bar_bg_color));
         } else {
             view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_bg_color));
         }

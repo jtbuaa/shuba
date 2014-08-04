@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     protected void onResume() {
         super.onResume();
         ThemeUtils.setThemeBg(layoutMainContainer);
-        ThemeUtils.setThemeBg(layoutMainMenu);
+        ThemeUtils.setBottomMenuBg(layoutMainMenu);
     }
 
     private void showBookShelf() {
