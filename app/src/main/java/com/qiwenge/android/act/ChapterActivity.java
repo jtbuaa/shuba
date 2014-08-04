@@ -6,12 +6,16 @@ import java.util.List;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev1024.utils.GsonUtils;
+import com.dev1024.utils.LogUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ChapterAdapter;
@@ -22,6 +26,8 @@ import com.qiwenge.android.models.ChapterList;
 import com.qiwenge.android.ui.ScrollPageListView;
 import com.qiwenge.android.ui.ScrollPageListView.ScrollPageListener;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.BookShelfUtils;
+import com.qiwenge.android.utils.LoadAnim;
 import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
@@ -33,9 +39,10 @@ import com.qiwenge.android.utils.http.StringResponseHandler;
  */
 public class ChapterActivity extends BaseActivity {
 
-    private ScrollPageListView lv;
+    private ListView lvChapters;
     private TextView tvEmpty;
     private RelativeLayout layoutContainer;
+    private ImageView ivLoading;
 
     private ChapterAdapter adapter;
 
@@ -55,6 +62,12 @@ public class ChapterActivity extends BaseActivity {
 
     public static final String EXTRA_BOOK_TITLE = "book_title";
 
+    private LoadAnim mLoadAnim;
+
+    private boolean isInited = false;
+
+    private int lastNumber=-1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,12 +80,16 @@ public class ChapterActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         ThemeUtils.setThemeBg(layoutContainer);
+        selectedReadNumber();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) getBookChpaters();
+        if (hasFocus && !isInited) {
+            getBookChpaters();
+            isInited = true;
+        }
     }
 
     private void getIntentData() {
@@ -89,13 +106,16 @@ public class ChapterActivity extends BaseActivity {
     }
 
     private void initViews() {
+        ivLoading = (ImageView) this.findViewById(R.id.iv_loading);
+        mLoadAnim = new LoadAnim(ivLoading);
+        mLoadAnim.start();
         layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_container);
         tvEmpty = (TextView) this.findViewById(R.id.tv_empty);
         tvEmpty.setVisibility(View.GONE);
         adapter = new ChapterAdapter(this, list);
-        lv = (ScrollPageListView) this.findViewById(R.id.listview_common);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new OnItemClickListener() {
+        lvChapters = (ListView) this.findViewById(R.id.listview_common);
+        lvChapters.setAdapter(adapter);
+        lvChapters.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,16 +128,6 @@ public class ChapterActivity extends BaseActivity {
                 }
             }
         });
-
-        lv.setOnScrollPageListener(new ScrollPageListener() {
-
-            @Override
-            public void onPage() {
-                pageindex++;
-                getBookChpaters();
-            }
-        });
-
     }
 
     /**
@@ -128,31 +138,53 @@ public class ChapterActivity extends BaseActivity {
         String url = ApiUtils.getBookChpaters();
         RequestParams params = new RequestParams();
         params.put("book_id", bookId);
-        params.put("limit", "30");
+        params.put("limit", "9999");
         params.put("page", "" + pageindex);
         JHttpClient.get(url, params, new StringResponseHandler() {
 
             @Override
-            public void onStart() {
-                lv.loadStart();
-            }
-
-            @Override
             public void onFinish() {
-                lv.loadFinished(adapter.getCount());
                 if (list.isEmpty()) {
-                    lv.setVisibility(View.GONE);
+                    lvChapters.setVisibility(View.GONE);
                     tvEmpty.setVisibility(View.VISIBLE);
                 }
+                mLoadAnim.cancel();
             }
 
             @Override
             public void onSuccess(String result) {
                 ChapterList list = GsonUtils.getModel(result, ChapterList.class);
-                lv.setTotal(list.total);
                 adapter.add(list.result);
+                selectedReadNumber();
             }
+        });
+    }
 
+    private void selectedReadNumber() {
+        final int number = BookShelfUtils.getReadNumber(getApplicationContext(), bookId) - 1;
+        if(number<0) return;
+        if(number>adapter.getCount()) return;
+        //改变颜色
+        if(lastNumber>=0){
+            adapter.get(lastNumber).isSelected = false;
+        }
+        lastNumber=number;
+        adapter.get(number).isSelected = true;
+        adapter.notifyDataSetChanged();
+
+        //定位到阅读到的number，并滚动到中间
+        final ViewTreeObserver viewTreeObserver = lvChapters.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                viewTreeObserver.removeOnGlobalLayoutListener(this);
+
+                int offset = Math.abs(lvChapters.getLastVisiblePosition() - lvChapters.getFirstVisiblePosition());
+                int selectedPostion=number-offset/2;
+                if(selectedPostion<0) selectedPostion=0;
+
+                lvChapters.setSelection(selectedPostion);
+            }
         });
 
     }

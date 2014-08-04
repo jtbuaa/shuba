@@ -51,4 +51,8 @@ public class Chapter extends BaseModel {
 	 */
 	public RefModel next;
 
+    /**
+     * 是否被选中，目录中定位到已经看过的地方。
+     */
+    public boolean isSelected=false;
 }

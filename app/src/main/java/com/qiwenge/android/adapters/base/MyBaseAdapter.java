@@ -38,6 +38,14 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         return null;
     }
 
+    public T get(int position){
+        return (data == null || data.isEmpty()) ? null : data.get(position);
+    }
+
+    public List<T> get(){
+        return data;
+    }
+
     public void add(T t) {
         if (data != null) {
             data.add(t);

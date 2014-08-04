@@ -189,9 +189,12 @@ public class ReadFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        saveRecord(currentChapterId);
-        int length = getReadTextCount();
-        BookShelfUtils.saveReadLength(getActivity().getApplicationContext(), currentChapterId, length);
+        if(current!=null) {
+            saveRecord(currentChapterId);
+            int length = getReadTextCount();
+            BookShelfUtils.saveReadNumber(getActivity().getApplicationContext(),bookId,current.number);
+            BookShelfUtils.saveReadLength(getActivity().getApplicationContext(), currentChapterId, length);
+        }
     }
 
     private void initData() {

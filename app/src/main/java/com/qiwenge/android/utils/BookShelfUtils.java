@@ -26,7 +26,15 @@ public class BookShelfUtils {
      */
     private static final String READ_RECORD = "READ_RECORD";
 
+    /**
+     * 阅读字数
+     */
     private static final String READ_RECORD_LENGTH = "READ_RECORD_LENGTH";
+
+    /**
+     * 上传阅读的number
+     */
+    private static final String READ_RECORD_NUMBER = "READ_RECORD_NUMBER";
 
     /**
      * 获取书架中的所有书籍
@@ -151,6 +159,26 @@ public class BookShelfUtils {
      */
     public static int getReadLenght(Context context, String chapterId) {
         return PreferencesUtils.getInt(context, READ_RECORD_LENGTH,chapterId,0);
+    }
+
+    /**
+     * 保存阅读的章节Number
+     * @param context
+     * @param bookId
+     * @param number
+     */
+    public static void saveReadNumber(Context context,String bookId,int number){
+        PreferencesUtils.putInt(context,READ_RECORD_NUMBER,bookId,number);
+    }
+
+    /**
+     * 获取阅读的章节Number
+     * @param context
+     * @param bookId
+     * @return
+     */
+    public static int getReadNumber(Context context,String bookId){
+        return PreferencesUtils.getInt(context, READ_RECORD_NUMBER,bookId,0);
     }
 
 }

@@ -23,10 +23,17 @@ public class ChapterAdapter extends MyBaseAdapter<Chapter> {
 
     private ViewHolder viewHolder;
 
+    private int colorNormal=0;
+
+    private int colorSelected=0;
+
     public ChapterAdapter(Context context, List<Chapter> data) {
         this.data = data;
         this.context = context;
         SHOW_FORMAT = context.getString(R.string.str_chapter_title);
+
+        colorNormal=context.getResources().getColor(R.color.tv_desc_color);
+        colorSelected=context.getResources().getColor(R.color.main_dress_color);
     }
 
     @Override
@@ -41,7 +48,12 @@ public class ChapterAdapter extends MyBaseAdapter<Chapter> {
         }
         Chapter model = data.get(position);
         if (model != null) {
-            viewHolder.tvTitle.setText(String.format(SHOW_FORMAT, model.number, model.title));
+            viewHolder.tvTitle.setText(model.title);
+            if(model.isSelected){
+                viewHolder.tvTitle.setTextColor(colorSelected);
+            }else{
+                viewHolder.tvTitle.setTextColor(colorNormal);
+            }
         }
         return convertView;
     }
