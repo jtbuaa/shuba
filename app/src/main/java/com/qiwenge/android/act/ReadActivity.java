@@ -10,12 +10,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -50,6 +50,51 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     private final static int ANIM_DURITATION = 200;
 
     /**
+     * 最大屏幕亮度
+     */
+    private final static int MAX_BRIGHTNESS = 255;
+
+    /**
+     * 调节字体大小的SeekBar的最大值
+     */
+    private final static int MAX_VALUE_FONTSZIE_SEEKBAR = 100;
+
+    /**
+     * SeekBar的progrees，缩小5倍为字体偏移量
+     */
+    private final static int OFFSET_ZOOM_OUT = 5;
+
+    /**
+     * 最大字体偏移量
+     */
+    private final static int MAX_FONTSIZE_OFFSET = MAX_VALUE_FONTSZIE_SEEKBAR / OFFSET_ZOOM_OUT;
+
+    /**
+     * 调节屏幕亮度的增量，仅点击亮度按钮时使用
+     */
+    private final static int INCREMENT_BRIGHTNESS = 5;
+
+    /**
+     * 亮度SeekBar的值
+     */
+    private int mProgress = 0;
+
+    /**
+     * 字体大小增量。
+     */
+    private int mFontSizeOffest = 0;
+
+    /**
+     * 原始字体大小。字体大小的调节，在此基础上偏移
+     */
+    private int mFontSizeOrigin = Constants.MIN_TEXT_SIZE;
+
+    /**
+     * 上次修改的字体大小。
+     */
+    private int lastTextSize = 0;
+
+    /**
      * 章节Id
      */
     public final static String Extra_ChapterId = "chapterId";
@@ -66,7 +111,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     private ReadFragment fragment;
 
-    private LinearLayout layoutBack;
+    private LinearLayout actionBack;
 
     /**
      * 阅读器最外层容器
@@ -89,15 +134,17 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     private GridView gvTheme;
 
-    /**
-     * 亮度调节。
-     */
     private SeekBar seekBarBrightness;
 
-    /**
-     * 字体大小调节。
-     */
     private SeekBar seekFontSize;
+
+    private ImageView ivBrightnessMinus;
+
+    private ImageView ivBrightnessPlus;
+
+    private TextView tvFontSizeMinus;
+
+    private TextView tvFontSizePlus;
 
     private boolean topIsShow = false;
 
@@ -126,26 +173,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      * 当前选择的主题
      */
     private int currentTheme = 0;
-
-    /**
-     * 亮度SeekBar的值
-     */
-    private int mProgress = 0;
-
-    /**
-     * 字体大小增量。
-     */
-    private int mFontSizeOffest = 0;
-
-    /**
-     * 原始字体大小。
-     */
-    private int fontSizeOrigin = Constants.MIN_TEXT_SIZE;
-
-    /**
-     * 上次修改的字体大小。
-     */
-    private int lastTextSize = 0;
 
     private Handler mHandler = new MyHandler(this);
 
@@ -195,6 +222,18 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_back:
                 finish();
                 break;
+            case R.id.iv_brightness_minus:
+                minusBrightness();
+                break;
+            case R.id.iv_brightness_plus:
+                plusBirghtness();
+                break;
+            case R.id.tv_fontsize_minus:
+                minusFontSize();
+                break;
+            case R.id.tv_fontsize_plus:
+                plusFontSize();
+                break;
             default:
                 break;
         }
@@ -234,7 +273,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     private void initData() {
         String[] titles = getResources().getStringArray(R.array.read_menu_titles);
         int[] icons =
-                {R.drawable.icon_menu_mode_night, R.drawable.icon_menu_aa,
+                {R.drawable.icon_menu_mode_night,
                         R.drawable.icon_menu_chapters, R.drawable.icon_menu_share};
 
         ReadMenu menu;
@@ -261,15 +300,33 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initViews() {
-        layoutContainer=(RelativeLayout)this.findViewById(R.id.layout_read_container);
-
+        layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_read_container);
+        layoutTop = (LinearLayout) this.findViewById(R.id.layout_reader_top);
         tvBookTitle = (TextView) this.findViewById(R.id.tv_book_title);
-        layoutBack = (LinearLayout) this.findViewById(R.id.layout_back);
-        layoutBack.setOnClickListener(this);
+        actionBack = (LinearLayout) this.findViewById(R.id.layout_back);
+        actionBack.setOnClickListener(this);
 
+        initBottomMenu();
+
+        initBrightnessSeekBar();
+
+        initFontSizeSeekBar();
+    }
+
+
+    private void initBottomMenu() {
         layoutBottomMenu = (LinearLayout) this.findViewById(R.id.layout_bottom_menu);
         layoutBottomMenu.setVisibility(View.GONE);
         layoutBottomMenu.setOnClickListener(this);
+
+        ivBrightnessMinus = (ImageView) this.findViewById(R.id.iv_brightness_minus);
+        ivBrightnessPlus = (ImageView) this.findViewById(R.id.iv_brightness_plus);
+        tvFontSizeMinus = (TextView) this.findViewById(R.id.tv_fontsize_minus);
+        tvFontSizePlus = (TextView) this.findViewById(R.id.tv_fontsize_plus);
+        ivBrightnessMinus.setOnClickListener(this);
+        ivBrightnessPlus.setOnClickListener(this);
+        tvFontSizeMinus.setOnClickListener(this);
+        tvFontSizePlus.setOnClickListener(this);
 
         menuAdapter = new ReadMenuAdapter(getApplicationContext(), menuData);
         gvMenu = (GridView) this.findViewById(R.id.gv_menu);
@@ -278,9 +335,11 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         themeAdapter = new ReadThemeAdapter(getApplicationContext(), themeData);
         gvTheme = (GridView) this.findViewById(R.id.gv_theme);
         gvTheme.setAdapter(themeAdapter);
-        layoutTop = (LinearLayout) this.findViewById(R.id.layout_reader_top);
+    }
+
+    private void initBrightnessSeekBar() {
         seekBarBrightness = (SeekBar) this.findViewById(R.id.seekbar_screen_brightness);
-        seekBarBrightness.setMax(255);
+        seekBarBrightness.setMax(MAX_BRIGHTNESS);
         seekBarBrightness.setProgress(mProgress);
         seekBarBrightness.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -295,20 +354,21 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    mProgress = progress;
-                    Message msg = new Message();
-                    msg.what = 1;
-                    msg.arg1 = progress;
-                    mHandler.sendMessage(msg);
+                    setBrightness(progress);
                 }
             }
         });
+    }
 
+    private void initFontSizeSeekBar() {
         // 字体大小。
         seekFontSize = (SeekBar) this.findViewById(R.id.seekBar_font_size);
         int textSize = ReaderUtils.getTextSize(getApplicationContext());
-        int progress = (textSize - fontSizeOrigin) * 5;
-        seekFontSize.setMax(100);
+
+        //字体大小改变的偏移量x5，就是SeekBar的进度
+        mFontSizeOffest = textSize - mFontSizeOrigin;
+        int progress = mFontSizeOffest * OFFSET_ZOOM_OUT;
+        seekFontSize.setMax(MAX_VALUE_FONTSZIE_SEEKBAR);
         seekFontSize.setProgress(progress);
         seekFontSize.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -325,7 +385,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    mFontSizeOffest = progress / 5;
+                    mFontSizeOffest = progress / OFFSET_ZOOM_OUT;
                 }
             }
         });
@@ -382,8 +442,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         currentTheme = i;
         themeAdapter.notifyDataSetChanged();
 
-        ThemeUtils.setReaderTheme(themeData.get(i).theme,layoutContainer);
-        ThemeUtils.setNightModle(getApplicationContext(),false);
+        ThemeUtils.setReaderTheme(themeData.get(i).theme, layoutContainer);
+        ThemeUtils.setNightModle(getApplicationContext(), false);
         cancelNightModel();
         if (cacheable) ThemeUtils.setTheme(getApplicationContext(), themeData.get(i).theme);
     }
@@ -397,9 +457,9 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 取消夜间模式
      */
-    private void cancelNightModel(){
+    private void cancelNightModel() {
         menuData.get(0).icon = R.drawable.icon_menu_mode_night;
-        menuData.get(0).title=getString(R.string.reader_night_model);
+        menuData.get(0).title = getString(R.string.reader_night_model);
         menuAdapter.notifyDataSetChanged();
         fragment.refreshTextColor();
     }
@@ -410,11 +470,11 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      * @param isNight
      */
     private void showNighitModel(boolean isNight) {
-        ThemeUtils.setNightModle(getApplicationContext(),isNight);
+        ThemeUtils.setNightModle(getApplicationContext(), isNight);
         ThemeUtils.setThemeBg(layoutContainer);
         if (isNight) {
             menuData.get(0).icon = R.drawable.icon_menu_mode_normal;
-            menuData.get(0).title=getString(R.string.reader_normal_model);
+            menuData.get(0).title = getString(R.string.reader_normal_model);
             clearThemeSelected();
         } else {
             selectedLastTheme();
@@ -438,7 +498,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 选择原来的主题
      */
-    private void selectedLastTheme(){
+    private void selectedLastTheme() {
         int theme = ThemeUtils.getCurrentTheme();
         for (int i = 0; i < themeData.size(); i++) {
             if (themeData.get(i).theme == theme) {
@@ -530,14 +590,49 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      * 设置字体大小。
      */
     private void setReadTextSize() {
-        int textSize = fontSizeOrigin + mFontSizeOffest;
-        LogUtils.i("textSize", "" + textSize);
+        int textSize = mFontSizeOrigin + mFontSizeOffest;
         if (textSize != lastTextSize) {
             //如果没有修改字体大小，如，来回滑动，不修改阅读器的字体大小
             lastTextSize = textSize;
             fragment.setTextSize(textSize);
             ReaderUtils.saveTextSize(getApplicationContext(), textSize);
         }
+    }
+
+    private void setBrightness(int progress) {
+        mProgress = progress;
+        Message msg = new Message();
+        msg.what = 1;
+        msg.arg1 = progress;
+        mHandler.sendMessage(msg);
+    }
+
+    private void minusBrightness() {
+        mProgress = mProgress - INCREMENT_BRIGHTNESS;
+        if (mProgress < 0) mProgress = 0;
+        seekBarBrightness.setProgress(mProgress);
+        setBrightness(mProgress);
+    }
+
+    private void plusBirghtness() {
+        mProgress = mProgress + INCREMENT_BRIGHTNESS;
+        if (mProgress > MAX_BRIGHTNESS) mProgress = MAX_BRIGHTNESS;
+        seekBarBrightness.setProgress(mProgress);
+        setBrightness(mProgress);
+    }
+
+    private void minusFontSize() {
+        mFontSizeOffest = mFontSizeOffest - 1;
+        if (mFontSizeOffest < 0) mFontSizeOffest = 0;
+        seekFontSize.setProgress(mFontSizeOffest * OFFSET_ZOOM_OUT);
+        setReadTextSize();
+    }
+
+    private void plusFontSize() {
+        mFontSizeOffest = mFontSizeOffest + 1;
+        if (mFontSizeOffest > MAX_FONTSIZE_OFFSET) mFontSizeOffest = MAX_FONTSIZE_OFFSET;
+        seekFontSize.setProgress(mFontSizeOffest * OFFSET_ZOOM_OUT);
+        setReadTextSize();
     }
 
     /**
@@ -551,7 +646,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
         public MyHandler(Activity act) {
             mActivity = new WeakReference<Activity>(act);
-            ;
         }
 
         @Override

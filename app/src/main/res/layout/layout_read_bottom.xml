@@ -22,11 +22,11 @@
             android:padding="10dp" >
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:id="@+id/iv_brightness_minus"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:scaleType="center"
-                android:src="@drawable/icon_brightness_minus"
-                android:textColor="@android:color/white" />
+                android:src="@drawable/icon_brightness_minus"  />
 
             <SeekBar
                 android:id="@+id/seekbar_screen_brightness"
@@ -42,8 +42,9 @@
                 android:thumbOffset="10dp" />
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:id="@+id/iv_brightness_plus"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:scaleType="center"
                 android:src="@drawable/icon_brightness_add" />
         </LinearLayout>
@@ -56,8 +57,9 @@
             android:padding="10dp" >
 
             <TextView
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/tv_fontsize_minus"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:gravity="center"
                 android:text="Aa-"
                 android:textColor="@color/tv_desc_color"
@@ -78,8 +80,9 @@
                 android:thumbOffset="10dp" />
 
             <TextView
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/tv_fontsize_plus"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:gravity="center"
                 android:text="Aa+"
                 android:textColor="@color/tv_desc_color"
