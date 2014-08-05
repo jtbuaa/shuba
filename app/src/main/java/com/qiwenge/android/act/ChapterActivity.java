@@ -165,19 +165,22 @@ public class ChapterActivity extends BaseActivity {
         if(number<0) return;
         if(number>adapter.getCount()) return;
         //改变颜色
-        if(lastNumber>=0){
+        if(lastNumber>=0&&adapter.get(lastNumber)!=null){
             adapter.get(lastNumber).isSelected = false;
         }
         lastNumber=number;
-        adapter.get(number).isSelected = true;
-        adapter.notifyDataSetChanged();
+        if(adapter.get(number)!=null){
+            adapter.get(number).isSelected = true;
+            adapter.notifyDataSetChanged();
+        }
 
         //定位到阅读到的number，并滚动到中间
         final ViewTreeObserver viewTreeObserver = lvChapters.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                viewTreeObserver.removeOnGlobalLayoutListener(this);
+
+                lvChapters.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
                 int offset = Math.abs(lvChapters.getLastVisiblePosition() - lvChapters.getFirstVisiblePosition());
                 int selectedPostion=number-offset/2;
