@@ -278,14 +278,14 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            menu.add(0, ACTION_ITEM_DELETE, 1, R.string.remove_from_bookshelf).setIcon(R.drawable.btn_nav_delete)
+            menu.add(0, ACTION_ITEM_DELETE, 1, R.string.remove_from_bookshelf).setIcon(R.drawable.ic_action_mode_delete)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             return true;
         }
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mode.setTitle("Selectd books");
+            mode.setTitle(R.string.remove_from_bookshelf);
             return false;
         }
 

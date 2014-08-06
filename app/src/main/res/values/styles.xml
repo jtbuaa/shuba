@@ -10,6 +10,8 @@
         <item name="android:dropDownListViewStyle">@style/MyDropDownListView</item>
         <item name="android:selectableItemBackground">@drawable/action_bar_item_bg</item>
         <item name="android:actionModeBackground">@color/action_bar_bg_color</item>
+        <item name="android:actionModeStyle">@style/MyActionModeStyle</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_action_mode_cancel</item>
     </style>
 
     <style name="SplashTheme" parent="android:Theme">
@@ -32,6 +34,17 @@
     <!-- ActionBar字体 -->
     <style name="MyActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/action_bar_text_color</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!-- Setup the style of the ActionMode here -->
+    <style name="MyActionModeStyle">
+        <item name="android:titleTextStyle">@style/MyActionModeTitle</item>
+    </style>
+
+    <!-- Setup the text style of the ActionMode here -->
+    <style name="MyActionModeTitle">
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">18sp</item>
     </style>
 
