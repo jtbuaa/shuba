@@ -18,6 +18,7 @@ import com.dev1024.utils.StringUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BookShelfAdapter;
@@ -26,8 +27,12 @@ import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.listeners.OnFragmentClickListener;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.models.BookUpdateList;
+import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.SkipUtils;
+import com.qiwenge.android.utils.http.JHttpClient;
+import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 public class BookshelfFragment extends BaseFragment {
 
@@ -35,6 +40,11 @@ public class BookshelfFragment extends BaseFragment {
      * 是否为编辑模式，如果为true的话，单击书架列表，为选择操作。
      */
     private boolean isEditModel = false;
+
+    /**
+     * 上传选中的Postion
+     */
+    private int lastSelectedPosition = -1;
 
     private PullToRefreshListView lvBookShelf;
 
@@ -100,6 +110,7 @@ public class BookshelfFragment extends BaseFragment {
 
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                chkBookUpdated();
             }
         });
 
@@ -117,6 +128,41 @@ public class BookshelfFragment extends BaseFragment {
     }
 
     /**
+     * 检查书架中的书，是否有更新。
+     */
+    private void chkBookUpdated() {
+        if (data.isEmpty()) return;
+        StringBuilder bookIds = new StringBuilder();
+        StringBuilder chapterTotals = new StringBuilder();
+        Book book;
+        for (int i = 0; i < data.size(); i++) {
+            book = data.get(i);
+            if (i > 0) {
+                bookIds.append(",");
+                chapterTotals.append(",");
+            }
+            bookIds.append(book.getId());
+            chapterTotals.append(book.chapter_total);
+        }
+        String url = ApiUtils.checkBookUpdate();
+        RequestParams params = new RequestParams();
+        params.put("books", bookIds.toString());
+        params.put("chapter_totals", chapterTotals.toString());
+        JHttpClient.get(url, params, new JsonResponseHandler<BookUpdateList>(BookUpdateList.class) {
+
+            @Override
+            public void onOrigin(String json) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                lvBookShelf.onRefreshComplete();
+            }
+        });
+    }
+
+    /**
      * 选中一本书
      *
      * @param position
@@ -126,7 +172,18 @@ public class BookshelfFragment extends BaseFragment {
 
         if (position > data.size() - 1 || position < 0) return;
 
-        data.get(position).selected = !data.get(position).selected;
+        if (lastSelectedPosition >= 0) {
+            data.get(lastSelectedPosition).selected = false;
+        }
+
+        if(lastSelectedPosition==position){
+            data.get(lastSelectedPosition).selected = false;
+            lastSelectedPosition=-1;
+        }else{
+            lastSelectedPosition = position;
+            data.get(position).selected = true;
+        }
+
         adapter.notifyDataSetChanged();
     }
 
@@ -134,6 +191,7 @@ public class BookshelfFragment extends BaseFragment {
      * 清楚所有选中
      */
     public void clearAllSelect() {
+        lastSelectedPosition = -1;
         isEditModel = false;
         if (data.isEmpty()) return;
 
@@ -145,10 +203,22 @@ public class BookshelfFragment extends BaseFragment {
     }
 
     /**
+     * 删除选中的Book。
+     */
+    public void deleteSelected() {
+        if (lastSelectedPosition >= 0 && lastSelectedPosition < data.size()) {
+            adapter.remove(lastSelectedPosition);
+            BookShelfUtils.removeBook(getActivity().getApplicationContext(), lastSelectedPosition);
+        }
+        checkIsEmpty();
+        clearAllSelect();
+    }
+
+    /**
      * 获取书架内容。
      */
     private void getBooks() {
-        new AsyncBookShelfs().execute("");
+        new AsyncBookShelfs().execute();
     }
 
     @Override
@@ -157,15 +227,25 @@ public class BookshelfFragment extends BaseFragment {
         getBooks();
     }
 
+    private void checkIsEmpty(){
+        if (data.isEmpty()) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            lvBookShelf.setVisibility(View.GONE);
+        } else {
+            tvEmpty.setVisibility(View.GONE);
+            lvBookShelf.setVisibility(View.VISIBLE);
+        }
+    }
+
     /**
      * 异步获取书架内容 AsyncBookShelfs
      * <p/>
      * Created by John on 2014年6月27日
      */
-    private class AsyncBookShelfs extends AsyncTask<String, Integer, BookList> {
+    private class AsyncBookShelfs extends AsyncTask<Void, Integer, BookList> {
 
         @Override
-        protected BookList doInBackground(String... params) {
+        protected BookList doInBackground(Void... params) {
             return BookShelfUtils.getBooks(getActivity().getApplicationContext());
         }
 
@@ -173,18 +253,10 @@ public class BookshelfFragment extends BaseFragment {
         protected void onPostExecute(BookList result) {
             if (result != null) {
                 data.clear();
-                data.addAll(result.result);
-                adapter.notifyDataSetChanged();
-                if (data.isEmpty()) {
-                    tvEmpty.setVisibility(View.VISIBLE);
-                    lvBookShelf.setVisibility(View.GONE);
-                } else {
-                    tvEmpty.setVisibility(View.GONE);
-                    lvBookShelf.setVisibility(View.VISIBLE);
-                }
+                adapter.add(result.result);
             }
+            checkIsEmpty();
         }
     }
-
 
 }

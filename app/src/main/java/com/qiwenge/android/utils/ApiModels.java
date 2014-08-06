@@ -40,6 +40,11 @@ public enum ApiModels {
     /**
      * 检查版本
      */
-    configures
+    configures,
+
+    /**
+     * 检查Book是否更新
+     */
+    updates
 
 }

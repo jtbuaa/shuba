@@ -73,4 +73,11 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         }
     }
 
+    public void remove(int position){
+        if(data!=null&&!data.isEmpty()){
+            data.remove(position);
+            notifyDataSetChanged();
+        }
+    }
+
 }

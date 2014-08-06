@@ -1,6 +1,8 @@
 package com.qiwenge.android.utils;
 
-
+/**
+ * API工具类，生产不同的API地址。
+ */
 public class ApiUtils {
 
     private final static String HOST_NAME = "http://api.qiwenge.com";
@@ -13,7 +15,7 @@ public class ApiUtils {
 
     /**
      * 获取所有的书。
-     * 
+     *
      * @return
      */
     public static String getBooks() {
@@ -22,7 +24,7 @@ public class ApiUtils {
 
     /**
      * 获取一本书。
-     * 
+     *
      * @param bookId 书id
      * @return
      */
@@ -32,7 +34,7 @@ public class ApiUtils {
 
     /**
      * 获取一本书下的，所有章节
-     * 
+     *
      * @return
      */
     public static String getBookChpaters() {
@@ -41,7 +43,7 @@ public class ApiUtils {
 
     /**
      * 获取一个章节
-     * 
+     *
      * @param chapterId
      * @return
      */
@@ -51,7 +53,7 @@ public class ApiUtils {
 
     /**
      * post书籍点击自增
-     * 
+     *
      * @param bookId
      * @return
      */
@@ -61,7 +63,7 @@ public class ApiUtils {
 
     /**
      * 获取相关推荐书籍
-     * 
+     *
      * @param bookId
      * @return
      */
@@ -71,7 +73,7 @@ public class ApiUtils {
 
     /**
      * 获取分类列表
-     * 
+     *
      * @return
      */
     public static String getCategories() {
@@ -80,7 +82,7 @@ public class ApiUtils {
 
     /**
      * 获取推荐列表
-     * 
+     *
      * @return
      */
     public static String getRecommend() {
@@ -89,7 +91,7 @@ public class ApiUtils {
 
     /**
      * 获取书籍排行
-     * 
+     *
      * @return
      */
     public static String getBooksByTop() {
@@ -98,19 +100,34 @@ public class ApiUtils {
 
     /**
      * 获取免责声明
+     *
      * @return
      */
-    public static String getStatement(){
+    public static String getStatement() {
         return String.format(FORMAT_1_PARAMS, "statement.txt");
     }
 
-    public static String getConfigures(){
+    /**
+     * 检查版本更新
+     *
+     * @return
+     */
+    public static String getConfigures() {
         return String.format(FORMAT_1_PARAMS, ApiModels.configures);
     }
 
     /**
+     * 检查Book是否更新
+     *
+     * @return
+     */
+    public static String checkBookUpdate() {
+        return String.format(FORMAT_2_PARAMS, ApiModels.books, ApiModels.updates);
+    }
+
+    /**
      * Test
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {

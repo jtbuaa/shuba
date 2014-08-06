@@ -42,6 +42,8 @@ public class Book extends BaseModel implements Parcelable {
      */
     public boolean selected=false;
 
+    public int chapter_total;
+
     public Book() {}
 
     public Book(Parcel source) {
@@ -54,6 +56,7 @@ public class Book extends BaseModel implements Parcelable {
         finish = bundle.getInt("finish");
         categories = bundle.getStringArrayList("categories");
         lastReadId = bundle.getString("lastReadId");
+        chapter_total = bundle.getInt("chapter_total");
         setId(bundle.getString("id"));
     }
 
@@ -69,6 +72,7 @@ public class Book extends BaseModel implements Parcelable {
         data.putString("lastReadId", lastReadId);
         data.putString("id", getId());
         data.putStringArrayList("categories", categories);
+        data.putInt("chapter_total", chapter_total);
         dest.writeBundle(data);
     }
 

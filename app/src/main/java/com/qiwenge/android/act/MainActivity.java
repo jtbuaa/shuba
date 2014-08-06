@@ -36,6 +36,8 @@ import com.qiwenge.android.utils.ThemeUtils;
 
 public class MainActivity extends BaseActivity implements OnClickListener, OnQueryTextListener {
 
+    private static final int ACTION_ITEM_DELETE = 1;
+
     private BookCityFragment bookCity;
     private BookshelfFragment bookShelf;
 
@@ -60,20 +62,20 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         ImageLoaderUtils.init(getApplicationContext());
         initViews();
         initFragment();
-        int cpuCount=Runtime.getRuntime().availableProcessors();
-        LogUtils.i("cpuCount","cpuCount:"+cpuCount);
-        LogUtils.i("main","onCreate");
+        int cpuCount = Runtime.getRuntime().availableProcessors();
+        LogUtils.i("cpuCount", "cpuCount:" + cpuCount);
+        LogUtils.i("main", "onCreate");
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        LogUtils.i("main","onSaveInstanceState");
+        LogUtils.i("main", "onSaveInstanceState");
 //        super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        LogUtils.i("main","onRestoreInstanceState");
+        LogUtils.i("main", "onRestoreInstanceState");
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -175,8 +177,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         });
     }
 
-    private void clear(){
-        FrameLayout layout=(FrameLayout)this.findViewById(R.id.layout_content);
+    private void clear() {
+        FrameLayout layout = (FrameLayout) this.findViewById(R.id.layout_content);
         layout.removeAllViews();
     }
 
@@ -206,8 +208,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         ivLayer = (ImageView) this.findViewById(R.id.iv_layer);
         ivLayer.setOnClickListener(this);
 
-        layoutMainContainer=(RelativeLayout)this.findViewById(R.id.layout_main_container);
-        layoutMainMenu=(LinearLayout)this.findViewById(R.id.layout_main_menu);
+        layoutMainContainer = (RelativeLayout) this.findViewById(R.id.layout_main_container);
+        layoutMainMenu = (LinearLayout) this.findViewById(R.id.layout_main_menu);
     }
 
     @Override
@@ -251,20 +253,20 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case  2:
+        switch (item.getItemId()) {
+            case 2:
                 sendFeedback();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendFeedback(){
-        String email=getString(R.string.feedback_email);
-        String subject=getString(R.string.feedback_subject);
-        String content=getString(R.string.feedback_content);
-        String chooserTitle=getString(R.string.feedback_chooser_title);
-        IntentUtils.sendEmail(MainActivity.this,email,content,subject,chooserTitle);
+    private void sendFeedback() {
+        String email = getString(R.string.feedback_email);
+        String subject = getString(R.string.feedback_subject);
+        String content = getString(R.string.feedback_content);
+        String chooserTitle = getString(R.string.feedback_chooser_title);
+        IntentUtils.sendEmail(MainActivity.this, email, content, subject, chooserTitle);
     }
 
     /**
@@ -276,7 +278,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            menu.add(0, 1, 1, "DELETE").setIcon(R.drawable.btn_nav_delete)
+            menu.add(0, ACTION_ITEM_DELETE, 1, R.string.remove_from_bookshelf).setIcon(R.drawable.btn_nav_delete)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             return true;
         }
@@ -289,6 +291,12 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+            if (item.getItemId() == ACTION_ITEM_DELETE) {
+                bookShelf.deleteSelected();
+                mode.finish();
+            }
+
             return false;
         }
 

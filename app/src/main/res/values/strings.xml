@@ -23,7 +23,8 @@
     <string name="str_unknow">未知</string>
     <string name="str_book_finish">完结</string>
     <string name="str_book_publishing">连载中</string>
-    <string name="str_lagel">Loading...</string>
+    <string name="str_lagel">加载中...</string>
+    <string name="remove_from_bookshelf">加载中...</string>
 
     <!-- BookIntro -->
     <string name="book_intro_detail">小说详情</string>
