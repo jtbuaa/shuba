@@ -41,7 +41,7 @@
     <color name="read_night_text_color">#474545</color>
 
     <!-- ReadTheme -->
-    <color name="read_theme_white">#f4f4f4</color>
+    <color name="read_theme_white">@color/main_bg_color</color>
     <color name="read_theme_green">#c5e7cb</color>
     <color name="read_theme_yellow">#e6dbbf</color>
 

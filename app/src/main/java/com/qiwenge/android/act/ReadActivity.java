@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.dev1024.utils.AnimUtils;
 import com.dev1024.utils.IntentUtils;
-import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.listener.AnimListener;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ReadMenuAdapter;
@@ -46,6 +45,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      * 是否初始化完毕。
      */
     private boolean inited = false;
+
+    private static final int MESSAGE_SET_BRIGHTNESS = 0x1;
 
     private final static int ANIM_DURITATION = 200;
 
@@ -586,9 +587,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    /**
-     * 设置字体大小。
-     */
     private void setReadTextSize() {
         int textSize = mFontSizeOrigin + mFontSizeOffest;
         if (textSize != lastTextSize) {
@@ -601,10 +599,10 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     private void setBrightness(int progress) {
         mProgress = progress;
-        Message msg = new Message();
-        msg.what = 1;
+        Message msg = mHandler.obtainMessage();
+        msg.what = MESSAGE_SET_BRIGHTNESS;
         msg.arg1 = progress;
-        mHandler.sendMessage(msg);
+        msg.sendToTarget();
     }
 
     private void minusBrightness() {
@@ -635,14 +633,14 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         setReadTextSize();
     }
 
+
+
     /**
      * 静态的内部类，继承了Handler，防内存泄露
      */
-    static class MyHandler extends Handler {
+    private static class MyHandler extends Handler {
 
         private WeakReference<Activity> mActivity;
-
-        private int progress = 0;
 
         public MyHandler(Activity act) {
             mActivity = new WeakReference<Activity>(act);
@@ -650,9 +648,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 1) {
-                progress = msg.arg1;
-                ScreenBrightnessUtils.setBrightness(mActivity.get(), progress);
+            if (msg.what == MESSAGE_SET_BRIGHTNESS) {
+                ScreenBrightnessUtils.setBrightness(mActivity.get(), msg.arg1);
             }
         }
 

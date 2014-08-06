@@ -60,6 +60,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         ImageLoaderUtils.init(getApplicationContext());
         initViews();
         initFragment();
+        int cpuCount=Runtime.getRuntime().availableProcessors();
+        LogUtils.i("cpuCount","cpuCount:"+cpuCount);
         LogUtils.i("main","onCreate");
     }
 
