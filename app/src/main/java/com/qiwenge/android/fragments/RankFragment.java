@@ -143,7 +143,8 @@ public class RankFragment extends BaseFragment {
 
             @Override
             public void onOrigin(String json) {
-                cacheRank(json);
+                if (pageindex == 1)
+                    cacheRank(json);
             }
 
             @Override

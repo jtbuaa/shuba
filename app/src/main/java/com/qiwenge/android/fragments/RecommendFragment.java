@@ -133,7 +133,8 @@ public class RecommendFragment extends BaseFragment {
         AsyncUtils.getBooks(url, pageindex, new JsonResponseHandler<BookList>(BookList.class) {
             @Override
             public void onOrigin(String json) {
-                cacheRecommend(json);
+                if (pageindex == 1)
+                    cacheRecommend(json);
             }
 
             @Override
