@@ -92,7 +92,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
     public View createPagerFooterView(Context context) {
         View view= LayoutInflater.from(context).inflate(R.layout.layout_pager_footer,
                 null);
-        ImageView ivLoading=(ImageView)view.findViewById(R.id.iv_loading);
+        ImageView ivLoading=(ImageView)view.findViewById(R.id.iv_footer_loading);
         LoadAnim mLoadAnim = new LoadAnim(ivLoading);
         mLoadAnim.start();
         return view;

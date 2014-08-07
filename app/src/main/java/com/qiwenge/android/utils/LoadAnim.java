@@ -32,6 +32,7 @@ public class LoadAnim {
             mAnimLoading.setInterpolator(new LinearInterpolator());
         }
         mView.startAnimation(mAnimLoading);
+        LogUtils.i("LoadAnim","start");
     }
 
     public void cancel() {

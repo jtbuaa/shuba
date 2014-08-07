@@ -6,6 +6,7 @@ import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.BookStatus;
+import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.models.BookList;
 import com.qiwenge.android.models.Configures;
 import com.qiwenge.android.utils.ApiUtils;
@@ -34,8 +35,10 @@ public class AsyncUtils {
 
     public static void getBooks(String url, RequestParams params,
             JsonResponseHandler<BookList> handler) {
-        params.put("limit", "10");
-        params.put("status", "" + BookStatus.APPROVED);
+        if(params!=null) {
+            params.put("limit", ""+ Constants.DEFAULT_PAGE_SIZE);
+            params.put("status", "" + BookStatus.APPROVED);
+        }
         JHttpClient.get(url, params, handler);
     }
 

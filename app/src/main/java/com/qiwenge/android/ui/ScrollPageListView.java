@@ -35,6 +35,12 @@ public class ScrollPageListView extends ListView {
      */
     private int total = 0;
 
+    private boolean isShowFooter = true;
+
+    public void setIsShowFooter(boolean isShow) {
+        isShowFooter = isShow;
+    }
+
     public ScrollPageListView(Context context) {
         super(context);
         init();
@@ -86,7 +92,7 @@ public class ScrollPageListView extends ListView {
     public View createPagerFooterView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_pager_footer,
                 null);
-        ImageView ivLoading = (ImageView) view.findViewById(R.id.iv_loading);
+        ImageView ivLoading = (ImageView) view.findViewById(R.id.iv_footer_loading);
         LoadAnim mLoadAnim = new LoadAnim(ivLoading);
         mLoadAnim.start();
         return view;
@@ -94,7 +100,8 @@ public class ScrollPageListView extends ListView {
 
     @Override
     public void setAdapter(ListAdapter adapter) {
-        addPageFooterView();
+        if (isShowFooter)
+            addPageFooterView();
         super.setAdapter(adapter);
     }
 

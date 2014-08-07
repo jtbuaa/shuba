@@ -45,7 +45,7 @@
             <ImageView style="@style/ImageDivider" />
         </LinearLayout>
 
-        <include layout="@layout/layout_listview" />
+        <include layout="@layout/layout_listview_with_page" />
     </LinearLayout>
 
     <include layout="@layout/layout_loading" />

@@ -16,19 +16,23 @@ public class Constants {
 
     public static int WIDTH = 0;
 
+    public static final int DEFAULT_PAGE_SIZE=20;
+
     /**
      * 默认字体大小
      */
-    public static int DEFAULT_TEXT_SIZE=20;
+    public static final int DEFAULT_TEXT_SIZE=20;
 
     /**
      * 最小字体大小
      */
-    public static int MIN_TEXT_SIZE=16;
+    public static final int MIN_TEXT_SIZE=16;
 
     /**
      * 版本更新下载Id。
      */
     public static long UPDATE_DOWNLOAD_ID=0;
+
+
 
 }
