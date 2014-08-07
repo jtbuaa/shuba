@@ -52,6 +52,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
     private boolean doubleBackToExitPressedOnce = false;
 
+    private ActionMode actionMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,10 +103,12 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_book_shelf:// 书架
+                closeActionMode();
                 hideAllFragment();
                 showBookShelf();
                 break;
             case R.id.layout_book_city:// 书库
+                closeActionMode();
                 hideAllFragment();
                 showBookCity();
                 break;
@@ -172,6 +176,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         bookShelf.setOnFragmentClickListener(new OnFragmentClickListener() {
             @Override
             public void onClick() {
+                //长按Fragment中的item，回调到MainActivity.
                 startActionMode(new MainActionMode());
             }
         });
@@ -286,6 +291,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             mode.setTitle(R.string.remove_from_bookshelf);
+            actionMode = mode;
             return false;
         }
 
@@ -303,8 +309,17 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             bookShelf.clearAllSelect();
+            actionMode=null;
         }
 
+    }
+
+    private void closeActionMode() {
+        if (actionMode != null) {
+            LogUtils.i("closeActionMode","closeActionMode");
+            actionMode.finish();
+            actionMode=null;
+        }
     }
 
     @Override
