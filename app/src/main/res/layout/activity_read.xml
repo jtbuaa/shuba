@@ -32,9 +32,9 @@
                 android:background="@drawable/icon_action_back" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/ic_launcher" />
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_action_logo" />
 
         </LinearLayout>
 
