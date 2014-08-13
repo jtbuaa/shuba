@@ -11,10 +11,12 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
  * ImageLoaderUtils
- *
+ * <p/>
  * Created by John on 2014-7-7
  */
 public class ImageLoaderUtils {
@@ -36,7 +38,7 @@ public class ImageLoaderUtils {
 
     /**
      * 初始化。
-     * 
+     *
      * @param context
      */
     public static void init(Context context) {
@@ -46,7 +48,7 @@ public class ImageLoaderUtils {
 
     /**
      * 设置wifi是否可用。
-     * 
+     *
      * @param b
      */
     public static void setWifiEnable(boolean b) {
@@ -55,7 +57,7 @@ public class ImageLoaderUtils {
 
     /**
      * 加载器是否打开。
-     * 
+     *
      * @return
      */
     public static boolean isOpen() {
@@ -64,18 +66,23 @@ public class ImageLoaderUtils {
 
     /**
      * 显示图片。
-     * 
+     *
      * @param url
      * @param iv
      * @param mOptions
      */
     public static void display(String url, ImageView iv, DisplayImageOptions mOptions) {
-        if (wifiEnable) {
-            ImageLoader.getInstance().displayImage(url, iv, mOptions);
-        } else if (LOADER_STATUS == STATUS_OPENED) {
+        if (wifiEnable || LOADER_STATUS == STATUS_OPENED) {
             ImageLoader.getInstance().displayImage(url, iv, mOptions);
         }
     }
+
+    public static void display(String url, ImageView iv, DisplayImageOptions mOptions, ImageLoadingListener listener) {
+        if (wifiEnable || LOADER_STATUS == STATUS_OPENED) {
+            ImageLoader.getInstance().displayImage(url, iv, mOptions, listener);
+        }
+    }
+
 
     /**
      * 关闭图片加载
@@ -95,14 +102,14 @@ public class ImageLoaderUtils {
 
     /**
      * 初始化ImageLoader
-     * 
+     *
      * @param context
      */
     public static void initImageLoader(Context context) {
         ImageLoaderConfiguration config =
                 new ImageLoaderConfiguration.Builder(context)
                         .threadPriority(Thread.NORM_PRIORITY - 2)
-                        // .memoryCache(new LruMemoryCache(1024 * 1024 * 10))
+                                // .memoryCache(new LruMemoryCache(1024 * 1024 * 10))
                         .memoryCache(new WeakMemoryCache()).denyCacheImageMultipleSizesInMemory()
                         .tasksProcessingOrder(QueueProcessingType.LIFO).build();
         ImageLoader.getInstance().init(config);
@@ -110,7 +117,7 @@ public class ImageLoaderUtils {
 
     public static DisplayImageOptions createOptions(int imgLoading) {
         return new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(imgLoading).cacheInMemory(true).build();
+                .showImageOnLoading(imgLoading).cacheInMemory(true).cacheOnDisk(false).build();
     }
 
 }
