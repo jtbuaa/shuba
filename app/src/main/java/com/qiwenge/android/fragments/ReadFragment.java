@@ -29,6 +29,7 @@ import com.dev1024.utils.AppUtils;
 import com.dev1024.utils.DialogUtils;
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.StringUtils;
+import com.dev1024.utils.TimeUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
@@ -49,7 +50,19 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 public class ReadFragment extends BaseFragment {
 
+    private final int HANDLER_SET_TITLE = 1;
+
+    private final int HANDLER_SET_PAGER = 2;
+
     private final static String PAGE_FORMAT = "%s/%s";
+
+    private Handler mTimeHandler;
+
+    private Runnable mTimeRunnable;
+
+    private long DURATION_TIMER = 30 * 1000;
+
+    private String datetime;
 
     private LoadAnim mLoadAnim;
 
@@ -60,19 +73,12 @@ public class ReadFragment extends BaseFragment {
      */
     private ProgressBar pbBattery;
 
-    /**
-     * 小说标题。
-     */
     private TextView tvTitle;
 
-    /**
-     * 页码。
-     */
     private TextView tvPage;
 
-    /**
-     * 小说分页器。
-     */
+    private TextView tvDateTime;
+
     private ReadPagerView readerCurrent;
 
     private ReadPagerView readerNext;
@@ -161,10 +167,6 @@ public class ReadFragment extends BaseFragment {
 
     private String currentChapterId;
 
-    public void setOnReadPageClickListener(ReadPageClickListener listener) {
-        this.clickListener = listener;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_page, container, false);
@@ -175,7 +177,6 @@ public class ReadFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         initData();
         initViews();
-        initBatteryReceiver();
         ThemeUtils.setTextColor(tvPage);
         ThemeUtils.setTextColor(tvTitle);
     }
@@ -183,18 +184,26 @@ public class ReadFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        removeBatteryReceiver();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerBatteryReceiver();
+        startDtTimer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if(current!=null) {
+        if (current != null) {
             saveRecord(currentChapterId);
             int length = getReadTextCount();
-            BookShelfUtils.saveReadNumber(getActivity().getApplicationContext(),bookId,current.number);
+            BookShelfUtils.saveReadNumber(getActivity().getApplicationContext(), bookId, current.number);
             BookShelfUtils.saveReadLength(getActivity().getApplicationContext(), currentChapterId, length);
         }
+        removeBatteryReceiver();
+        removeDtTimer();
     }
 
     private void initData() {
@@ -220,16 +229,24 @@ public class ReadFragment extends BaseFragment {
         mIvLoading = (ImageView) getView().findViewById(R.id.iv_loading);
         mLoadAnim = new LoadAnim(mIvLoading);
         mLoadAnim.start();
+
         pbBattery = (ProgressBar) getView().findViewById(R.id.progreebar_battery);
         tvTitle = (TextView) getView().findViewById(R.id.tv_title);
         tvPage = (TextView) getView().findViewById(R.id.tv_pages);
-        adapter = new ReaderAdapter(getActivity(), pageList);
-        viewPager = (SlowViewPager) getView().findViewById(R.id.viewpager_reader);
-        viewPager.setAdapter(adapter);
+        tvDateTime = (TextView) getView().findViewById(R.id.tv_time);
+
         readerCurrent = (ReadPagerView) getView().findViewById(R.id.reader_current);
         readerNext = (ReadPagerView) getView().findViewById(R.id.reader_next);
         readerPrev = (ReadPagerView) getView().findViewById(R.id.reader_prev);
+
+        initViewPager();
         initTextSize();
+    }
+
+    private void initViewPager(){
+        adapter = new ReaderAdapter(getActivity(), pageList);
+        viewPager = (SlowViewPager) getView().findViewById(R.id.viewpager_reader);
+        viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
@@ -240,7 +257,7 @@ public class ReadFragment extends BaseFragment {
                     System.out.println("已经进入下一章");
                     current = nextChapter;
                     listCurrent = listNext;
-                    currentChapterId=current.getId();
+                    currentChapterId = current.getId();
                     if (nextChapter.next != null) getNext(nextChapter.next.getId());
                 }
 
@@ -248,7 +265,7 @@ public class ReadFragment extends BaseFragment {
                     System.out.println("已经进入上一章");
                     current = prevChapter;
                     listCurrent = listPrev;
-                    currentChapterId=current.getId();
+                    currentChapterId = current.getId();
                     if (prevChapter.prev != null) getPrev(prevChapter.prev.getId());
                 }
 
@@ -298,6 +315,10 @@ public class ReadFragment extends BaseFragment {
                 return false;
             }
         });
+    }
+
+    public void setOnReadPageClickListener(ReadPageClickListener listener) {
+        this.clickListener = listener;
     }
 
 
@@ -394,7 +415,7 @@ public class ReadFragment extends BaseFragment {
      * @param chapterId
      */
     public void getChapter(final String chapterId, final int length) {
-        LogUtils.i("getChapter",""+length);
+        LogUtils.i("getChapter", "" + length);
         if (chapterCache.containsKey(chapterId)) {
             handleCurrent(chapterId, chapterCache.get(chapterId), length);
             LogUtils.i("Reader", "get current chapter from cache");
@@ -448,7 +469,7 @@ public class ReadFragment extends BaseFragment {
 
     private void handleCurrent(String chapterId, final Chapter result, final int length) {
         if (isAdded() && result != null && result.content != null && result.content.length() > 100) {
-            currentChapterId=chapterId;
+            currentChapterId = chapterId;
             tvTitle.setText(String.format(getString(R.string.str_chapter_title),
                     result.number, result.title));
             if (result.content != null && result.content.length() > 100) {
@@ -470,7 +491,7 @@ public class ReadFragment extends BaseFragment {
                         tvPage.setText(String.format(PAGE_FORMAT, pageindex + 1, pageCount));
                         adapter.notifyDataSetChanged();
                         if (pageindex < pages.size()) {
-                            viewPager.setCurrentItem(pageindex,false);
+                            viewPager.setCurrentItem(pageindex, false);
                         }
                     }
                 });
@@ -523,7 +544,7 @@ public class ReadFragment extends BaseFragment {
     /**
      * 注册电量改变广播接收
      */
-    private void initBatteryReceiver() {
+    private void registerBatteryReceiver() {
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         batteryReceiver = new BatteryReceiver();
         getActivity().registerReceiver(batteryReceiver, filter);
@@ -588,7 +609,7 @@ public class ReadFragment extends BaseFragment {
     /**
      * 刷新字体颜色
      */
-    public void refreshTextColor(){
+    public void refreshTextColor() {
         adapter.notifyDataSetChanged();
         ThemeUtils.setTextColor(tvPage);
         ThemeUtils.setTextColor(tvTitle);
@@ -672,19 +693,21 @@ public class ReadFragment extends BaseFragment {
         reader.setTextSize(mTextSize);
         reader.setText(content);
         final ViewTreeObserver treeObserver = reader.getViewTreeObserver();
-        treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                treeObserver.removeOnGlobalLayoutListener(this);
-                readerCurrent.onPage(new OnReaderPageListener() {
-                    @Override
-                    public void onSuccess(List<String> pages) {
-                        listener.onSuccess(pages);
-                    }
-                });
+        if(treeObserver.isAlive()) {
+            treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    treeObserver.removeOnGlobalLayoutListener(this);
+                    readerCurrent.onPage(new OnReaderPageListener() {
+                        @Override
+                        public void onSuccess(List<String> pages) {
+                            listener.onSuccess(pages);
+                        }
+                    });
 
-            }
-        });
+                }
+            });
+        }
     }
 
 
@@ -704,25 +727,16 @@ public class ReadFragment extends BaseFragment {
         }
     }
 
-
-    private final int HANDLER_SET_TITLE = 1;
-
-    private final int HANDLER_SET_PAGER = 2;
-
-    private String mTitle;
-
-    private String mPager;
-
     /**
      * 设置标题
      *
      * @param title
      */
     private void setTitle(String title) {
-        mTitle = title;
-        Message msg = new Message();
+        Message msg = mHandle.obtainMessage();
         msg.what = HANDLER_SET_TITLE;
-        mHandle.sendMessage(msg);
+        msg.obj = title;
+        msg.sendToTarget();
     }
 
     /**
@@ -731,21 +745,42 @@ public class ReadFragment extends BaseFragment {
      * @param pager
      */
     private void setPager(String pager) {
-        mPager = pager;
-        Message msg = new Message();
+        Message msg = mHandle.obtainMessage();
         msg.what = HANDLER_SET_PAGER;
-        mHandle.sendMessage(msg);
+        msg.obj = pager;
+        msg.sendToTarget();
+    }
+
+    private void startDtTimer() {
+        if (mTimeHandler == null && mTimeRunnable == null) {
+            mTimeHandler = new Handler();
+            mTimeRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    datetime = TimeUtils.getDateTimeByFormat("hh:mm");
+                    tvDateTime.setText(datetime);
+                    mTimeHandler.postDelayed(mTimeRunnable, DURATION_TIMER);
+                }
+            };
+        }
+        mTimeHandler.post(mTimeRunnable);
+    }
+
+    private void removeDtTimer() {
+        if (mTimeHandler != null && mTimeRunnable != null) {
+            mTimeHandler.removeCallbacks(mTimeRunnable);
+        }
     }
 
     private Handler mHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case HANDLER_SET_TITLE:
-                    tvTitle.setText(mTitle);
+                case HANDLER_SET_TITLE://Set Title
+                    tvTitle.setText(msg.obj.toString());
                     break;
-                case HANDLER_SET_PAGER:
-                    tvPage.setText(mPager);
+                case HANDLER_SET_PAGER://Set Pager
+                    tvPage.setText(msg.obj.toString());
                     break;
             }
         }
