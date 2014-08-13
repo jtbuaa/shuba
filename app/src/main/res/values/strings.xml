@@ -10,8 +10,8 @@
     <string name="action_settings">Settings</string>
 
     <!-- Common -->
-    <string name="double_click_to_quit">双击返回键,退出奇文阁</string>
-    <string name="str_share_format">%s (分享自 @奇文阁)</string>
+    <string name="double_click_to_quit">双击返回键,退出书吧</string>
+    <string name="str_share_format">%s (分享自 @书吧)</string>
     <string name="str_book_shelf">书架</string>
     <string name="str_book_library">发现</string>
     <string name="str_set">设置</string>
