@@ -14,39 +14,62 @@
             android:id="@+id/item_iv_cover"
             android:layout_width="60dp"
             android:layout_height="75dp"
+            android:layout_centerInParent="true"
             android:background="@drawable/cover_border"
             android:contentDescription="@string/str_empty"
             android:padding="1px"
-            android:layout_centerInParent="true"
             android:scaleType="fitXY" />
 
         <ImageView
             android:id="@+id/item_iv_select"
-            android:visibility="gone"
             android:layout_width="60dp"
             android:layout_height="75dp"
+            android:layout_centerInParent="true"
             android:background="@drawable/icon_place_holder"
             android:contentDescription="@string/str_empty"
-            android:layout_centerInParent="true" />
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="4dp">
 
-        <TextView
-            android:id="@+id/item_tv_title"
-            style="@style/ItemTitle"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="老五"
-            android:textSize="@dimen/font_size_middle"
-            android:textColor="@color/tv_title_color" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_tv_title"
+                style="@style/ItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="老五"
+                android:textColor="@color/tv_title_color"
+                android:textSize="@dimen/font_size_middle" />
+
+            <TextView
+                android:id="@+id/item_tv_update"
+                style="@style/ItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/holo_red_dark"
+                android:paddingBottom="1dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingTop="1dp"
+                android:visibility="gone"
+                android:text="更新"
+                android:textColor="@android:color/white"
+                android:textSize="10dp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/item_tv_author"
@@ -54,8 +77,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="老五"
-            android:textSize="@dimen/font_size_12"
-            android:textColor="@color/tv_desc_color" />
+            android:textColor="@color/tv_desc_color"
+            android:textSize="@dimen/font_size_12" />
 
         <TextView
             android:id="@+id/item_tv_desc"
@@ -63,9 +86,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:textSize="@dimen/font_size_12"
             android:text="老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五"
-            android:textColor="@color/tv_desc_color" />
+            android:textColor="@color/tv_desc_color"
+            android:textSize="@dimen/font_size_12" />
     </LinearLayout>
 
 </LinearLayout>
