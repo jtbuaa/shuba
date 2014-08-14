@@ -2,7 +2,6 @@ package com.qiwenge.android.act;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
@@ -64,15 +63,12 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         ImageLoaderUtils.init(getApplicationContext());
         initViews();
         initFragment();
-        int cpuCount = Runtime.getRuntime().availableProcessors();
-        LogUtils.i("cpuCount", "cpuCount:" + cpuCount);
-        LogUtils.i("main", "onCreate");
+        getOpenUDID(getApplicationContext());
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         LogUtils.i("main", "onSaveInstanceState");
-//        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -193,7 +189,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
      * @param context
      * @return
      */
-    public static String getOpenUDID(Context context) {
+    private String getOpenUDID(Context context) {
         OpenUDID_manager.sync(context);
         OpenUDID_manager.isInitialized();
         return OpenUDID_manager.getOpenUDID();
@@ -229,7 +225,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
                                 | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
                 );
 
-        SubMenu submenu = menu.addSubMenu(0, 1, 0, "More");
+        SubMenu submenu = menu.addSubMenu(0, 1, 0, "更多");
         submenu.add(0, 1, 0, "设置").setIntent(
                 new Intent(getApplicationContext(), SettingActivity.class));
         submenu.add(0, 2, 1, "反馈");
@@ -309,16 +305,15 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             bookShelf.clearAllSelect();
-            actionMode=null;
+            actionMode = null;
         }
 
     }
 
     private void closeActionMode() {
         if (actionMode != null) {
-            LogUtils.i("closeActionMode","closeActionMode");
             actionMode.finish();
-            actionMode=null;
+            actionMode = null;
         }
     }
 

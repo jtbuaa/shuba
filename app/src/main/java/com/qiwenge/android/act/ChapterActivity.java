@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
@@ -15,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev1024.utils.GsonUtils;
-import com.dev1024.utils.LogUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ChapterAdapter;
@@ -23,8 +21,6 @@ import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.Chapter;
 import com.qiwenge.android.models.ChapterList;
-import com.qiwenge.android.ui.ScrollPageListView;
-import com.qiwenge.android.ui.ScrollPageListView.ScrollPageListener;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.LoadAnim;
@@ -165,11 +161,11 @@ public class ChapterActivity extends BaseActivity {
         if(number<0) return;
         if(number>adapter.getCount()) return;
         //改变颜色
-        if(lastNumber>=0&&adapter.get(lastNumber)!=null){
+        if(lastNumber>=0&&lastNumber<adapter.getCount()&&adapter.get(lastNumber)!=null){
             adapter.get(lastNumber).isSelected = false;
         }
         lastNumber=number;
-        if(adapter.get(number)!=null){
+        if(number>=0&&number<adapter.getCount()&&adapter.get(number)!=null){
             adapter.get(number).isSelected = true;
             adapter.notifyDataSetChanged();
         }
