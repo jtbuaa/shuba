@@ -13,11 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.models.Book;
+import com.qiwenge.android.utils.FadeInDisplayer;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 
 /**
@@ -71,7 +71,7 @@ public class BooksAdapter extends MyBaseAdapter<Book> {
             if(loadedImage!=null){
                 ImageView imageView=(ImageView)view;
                 if (!images.contains(imageUri)) {
-                    FadeInBitmapDisplayer.animate(imageView, 800);
+                    FadeInDisplayer.animate(imageView, 200);
                     images.add(imageUri);
                 }
             }
