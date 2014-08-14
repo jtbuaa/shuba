@@ -6,9 +6,6 @@
     <string name="UMENG_APPKEY">5368adef56240b3e410337a7</string>
     <string name="JPUSH_APPKEY">f0638222933af84af96ecad9</string>
 
-    <!-- Action -->
-    <string name="action_settings">Settings</string>
-
     <!-- Common -->
     <string name="double_click_to_quit">双击返回键,退出书吧</string>
     <string name="str_share_format">%s (分享自 @书吧)</string>
@@ -77,5 +74,12 @@
     <!-- Read -->
     <string name="reader_normal_model">正常</string>
     <string name="reader_night_model">夜间</string>
+
+    <!-- ActionBar -->
+    <string name="action_search">搜索</string>
+    <string name="action_search_hint">搜索...</string>
+    <string name="action_setting">搜索</string>
+    <string name="action_feedback">意见反馈</string>
+    <string name="action_more">更多</string>
 
 </resources>

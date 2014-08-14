@@ -198,6 +198,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     private void initViews() {
         getActionBar().setDisplayHomeAsUpEnabled(false);
         getActionBar().setHomeButtonEnabled(false);
+        getActionBar().setIcon(R.drawable.ic_action_logo);
 
         layoutBookShelf = (LinearLayout) this.findViewById(R.id.layout_book_shelf);
         layoutBookCity = (LinearLayout) this.findViewById(R.id.layout_book_city);
@@ -217,7 +218,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     public boolean onCreateOptionsMenu(final Menu menu) {
         SearchView searchView = getSearchView(getApplicationContext());
         searchView.setOnQueryTextListener(this);
-        menu.add(0, 0, 0, "搜索")
+        menu.add(0, 0, 0, R.string.action_search)
                 .setIcon(R.drawable.ic_action_search)
                 .setActionView(searchView)
                 .setShowAsAction(
@@ -225,10 +226,10 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
                                 | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
                 );
 
-        SubMenu submenu = menu.addSubMenu(0, 1, 0, "更多");
-        submenu.add(0, 1, 0, "设置").setIntent(
+        SubMenu submenu = menu.addSubMenu(0, 1, 0,R.string.action_more);
+        submenu.add(0, 1, 0, R.string.action_setting).setIntent(
                 new Intent(getApplicationContext(), SettingActivity.class));
-        submenu.add(0, 2, 1, "反馈");
+        submenu.add(0, 2, 1, R.string.action_feedback);
         submenu.getItem().setIcon(R.drawable.ic_action_more)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
@@ -339,7 +340,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         AutoCompleteTextView textView = (AutoCompleteTextView) searchView
                 .findViewById(id);
         textView.setTextColor(context.getResources().getColor(android.R.color.white));
-        searchView.setQueryHint("搜索...");
+        searchView.setQueryHint(context.getString(R.string.action_search_hint));
         // Background
         int searchPlateId = searchView.getContext().getResources()
                 .getIdentifier("android:id/search_plate", null, null);
