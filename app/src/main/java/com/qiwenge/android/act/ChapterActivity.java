@@ -62,7 +62,7 @@ public class ChapterActivity extends BaseActivity {
 
     private boolean isInited = false;
 
-    private int lastNumber=-1;
+    private int lastNumber = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,33 +158,35 @@ public class ChapterActivity extends BaseActivity {
 
     private void selectedReadNumber() {
         final int number = BookShelfUtils.getReadNumber(getApplicationContext(), bookId) - 1;
-        if(number<0) return;
-        if(number>adapter.getCount()) return;
+        if (number < 0) return;
+        if (number > adapter.getCount()) return;
         //改变颜色
-        if(lastNumber>=0&&lastNumber<adapter.getCount()&&adapter.get(lastNumber)!=null){
+        if (lastNumber >= 0 && lastNumber < adapter.getCount() && adapter.get(lastNumber) != null) {
             adapter.get(lastNumber).isSelected = false;
         }
-        lastNumber=number;
-        if(number>=0&&number<adapter.getCount()&&adapter.get(number)!=null){
+        lastNumber = number;
+        if (number >= 0 && number < adapter.getCount() && adapter.get(number) != null) {
             adapter.get(number).isSelected = true;
             adapter.notifyDataSetChanged();
         }
 
         //定位到阅读到的number，并滚动到中间
         final ViewTreeObserver viewTreeObserver = lvChapters.getViewTreeObserver();
-        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
 
-                lvChapters.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    lvChapters.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                int offset = Math.abs(lvChapters.getLastVisiblePosition() - lvChapters.getFirstVisiblePosition());
-                int selectedPostion=number-offset/2;
-                if(selectedPostion<0) selectedPostion=0;
+                    int offset = Math.abs(lvChapters.getLastVisiblePosition() - lvChapters.getFirstVisiblePosition());
+                    int selectedPostion = number - offset / 2;
+                    if (selectedPostion < 0) selectedPostion = 0;
 
-                lvChapters.setSelection(selectedPostion);
-            }
-        });
+                    lvChapters.setSelection(selectedPostion);
+                }
+            });
+        }
 
     }
 
