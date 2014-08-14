@@ -102,7 +102,7 @@ public class RankFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position - 1 < data.size()) {
                     Bundle extra = new Bundle();
-                    extra.putParcelable("book", data.get(position - 1));
+                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position - 1));
                     startActivity(BookDetailActivity.class, extra);
                 }
             }

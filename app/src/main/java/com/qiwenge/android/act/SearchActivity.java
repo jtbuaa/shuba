@@ -94,7 +94,7 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle extra = new Bundle();
-                extra.putParcelable("book", data.get(position));
+                extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position));
                 startActivity(BookDetailActivity.class, extra);
             }
         });

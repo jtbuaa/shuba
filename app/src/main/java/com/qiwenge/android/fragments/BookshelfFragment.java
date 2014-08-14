@@ -95,7 +95,7 @@ public class BookshelfFragment extends BaseFragment {
                             BookShelfUtils.getRecordChapterId(getActivity(), book.getId());
                     if (StringUtils.isEmptyOrNull(lastReadId)) {
                         Bundle extra = new Bundle();
-                        extra.putParcelable("book", data.get(position - 1));
+                        extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position - 1));
                         startActivity(BookDetailActivity.class, extra);
                     } else {
                         book.lastReadId = lastReadId;

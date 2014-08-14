@@ -49,6 +49,8 @@ import com.qiwenge.android.utils.http.StringResponseHandler;
  */
 public class BookDetailActivity extends BaseActivity implements OnClickListener {
 
+    public static final String EXTRA_BOOK="book";
+
     private TextView tvTitle;
     private TextView tvIntro;
     private TextView tvAuthor;
@@ -113,7 +115,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         switch (v.getId()) {
             case R.id.btn_chapter:
                 Bundle extra = new Bundle();
-                extra.putParcelable("book", book);
+                extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
                 startActivity(ChapterActivity.class, extra);
                 break;
             case R.id.btn_add:
@@ -139,7 +141,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                 BookShelfUtils.getRecordChapterId(getApplicationContext(), book.getId());
         if (StringUtils.isEmptyOrNull(lastReadId)) {
             Bundle extra = new Bundle();
-            extra.putParcelable("book", book);
+            extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
             startActivity(ChapterActivity.class, extra);
         } else {
             book.lastReadId = lastReadId;
@@ -169,8 +171,8 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
     private void getIntentData() {
         Bundle extra = getIntent().getExtras();
-        if (extra.containsKey("book")) {
-            book = extra.getParcelable("book");
+        if (extra.containsKey(EXTRA_BOOK)) {
+            book = extra.getParcelable(EXTRA_BOOK);
             AsyncUtils.postViewTotal(book.getId());
         }
     }
@@ -211,7 +213,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < dataRecommend.size()) {
                     Bundle extra = new Bundle();
-                    extra.putParcelable("book", dataRecommend.get(position));
+                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, dataRecommend.get(position));
                     startActivity(BookDetailActivity.class, extra);
                     finish();
                 }
@@ -291,23 +293,33 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
     /**
      * 设置相关推荐的高度。
+     * <p>
+     * 计算第一行的高度，得出总给的高度。
+     * 这样的做法是因为动态计算ListView的高度的时候，如果用户修改了手机字体的大小，
+     * 那么Item的高度，可能就和以前设定的高度不一致了，
+     * 所以需要重新计算Item的高度
+     * </p>
      */
     private void setRelatedHeight() {
 
-        final ViewTreeObserver myTree = lvRecommend.getViewTreeObserver();
-        myTree.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                //计算每一行的高度，得出总给的高度
-                int itemHeight = lvRecommend.getMeasuredHeight();
-                int height = itemHeight * dataRecommend.size();
-                LinearLayout.LayoutParams params =
-                        new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height);
-                lvRecommend.setLayoutParams(params);
-                myTree.removeOnGlobalLayoutListener(this);
-            }
-        });
+        if(dataRecommend==null) return;
 
+        if (dataRecommend.isEmpty()) return;
+
+        final ViewTreeObserver myTree = lvRecommend.getViewTreeObserver();
+        if (myTree.isAlive()) {
+            myTree.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    int itemHeight = lvRecommend.getMeasuredHeight();
+                    int height = itemHeight * dataRecommend.size();
+                    LinearLayout.LayoutParams params =
+                            new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height);
+                    lvRecommend.setLayoutParams(params);
+                    myTree.removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
 
     }
 

@@ -35,6 +35,12 @@ import com.qiwenge.android.utils.http.StringResponseHandler;
  */
 public class ChapterActivity extends BaseActivity {
 
+    public static final String EXTRA_BOOK = "book";
+
+    public static final String EXTRA_BOOK_ID = "book_id";
+
+    public static final String EXTRA_BOOK_TITLE = "book_title";
+
     private ListView lvChapters;
     private TextView tvEmpty;
     private RelativeLayout layoutContainer;
@@ -51,12 +57,6 @@ public class ChapterActivity extends BaseActivity {
     private String bookTitle;
 
     private int pageindex = 1;
-
-    public static final String EXTRA_BOOK = "book";
-
-    public static final String EXTRA_BOOK_ID = "book_id";
-
-    public static final String EXTRA_BOOK_TITLE = "book_title";
 
     private LoadAnim mLoadAnim;
 
