@@ -71,7 +71,7 @@ public class BooksAdapter extends MyBaseAdapter<Book> {
             if(loadedImage!=null){
                 ImageView imageView=(ImageView)view;
                 if (!images.contains(imageUri)) {
-                    FadeInDisplayer.animate(imageView, 200);
+                    FadeInDisplayer.animate(imageView, 500);
                     images.add(imageUri);
                 }
             }
