@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 
 import com.dev1024.johnliu.R;
 import com.dev1024.utils.listener.AnimListener;
@@ -25,6 +26,7 @@ public class AnimUtils {
 			view.setVisibility(View.VISIBLE);
 			Animation anim = AnimationUtils.loadAnimation(view.getContext(),
 					R.anim.show_from_bottom);
+            anim.setInterpolator(new DecelerateInterpolator());
 			anim.setAnimationListener(new AnimationListener() {
 
 				@Override
@@ -57,6 +59,7 @@ public class AnimUtils {
 		if (view.getVisibility() == View.VISIBLE) {
 			Animation anim = AnimationUtils.loadAnimation(view.getContext(),
 					R.anim.hide_from_bottom);
+            anim.setInterpolator(new DecelerateInterpolator());
 			anim.setAnimationListener(new AnimationListener() {
 
 				@Override
