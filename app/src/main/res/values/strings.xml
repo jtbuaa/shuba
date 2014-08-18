@@ -78,7 +78,7 @@
     <!-- ActionBar -->
     <string name="action_search">搜索</string>
     <string name="action_search_hint">搜索...</string>
-    <string name="action_setting">搜索</string>
+    <string name="action_setting">设置</string>
     <string name="action_feedback">意见反馈</string>
     <string name="action_more">更多</string>
 
