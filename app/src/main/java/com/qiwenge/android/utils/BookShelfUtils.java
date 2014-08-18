@@ -58,7 +58,7 @@ public class BookShelfUtils {
      */
     public static void addBook(Context context, Book book) {
         BookList books = getBooks(context);
-        books.result.add(book);
+        books.result.add(0,book);
         saveBooks(context, books);
     }
 
