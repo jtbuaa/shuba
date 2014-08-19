@@ -39,34 +39,31 @@ public class BookShelfUtils {
     /**
      * 获取书架中的所有书籍
      *
-     * @return
+     * @return 书架中的所有书籍
      */
     public static BookList getBooks(Context context) {
         String json = PreferencesUtils.getString(context, NAME, KEY);
         if (StringUtils.isEmptyOrNull(json))
             return new BookList();
         else {
-            BookList books = GsonUtils.getModel(json, BookList.class);
-            return books;
+            return GsonUtils.getModel(json, BookList.class);
         }
     }
 
     /**
      * 添加一本书到书架
-     *
-     * @param book
      */
     public static void addBook(Context context, Book book) {
         BookList books = getBooks(context);
-        books.result.add(0,book);
+        books.result.add(0, book);
         saveBooks(context, books);
     }
 
     /**
      * 从书架中移除一本书
      *
-     * @param context
-     * @param book
+     * @param context Context
+     * @param book    a Book
      */
     public static void removeBook(Context context, Book book) {
         BookList books = getBooks(context);
@@ -80,8 +77,6 @@ public class BookShelfUtils {
 
     /**
      * 从书架中移除一本书
-     *
-     * @param position
      */
     public static void removeBook(Context context, int position) {
         BookList books = getBooks(context);
@@ -92,7 +87,7 @@ public class BookShelfUtils {
     /**
      * 是否包含了某本书
      *
-     * @param book
+     * @param book Book
      */
     public static boolean contains(Context context, Book book) {
         BookList books = getBooks(context);
@@ -105,8 +100,8 @@ public class BookShelfUtils {
     /**
      * 保存到SharedPreferences
      *
-     * @param context
-     * @param books
+     * @param context Context
+     * @param books   a Collection of Book.
      */
     private static void saveBooks(Context context, BookList books) {
         String json = new Gson().toJson(books);
@@ -117,13 +112,12 @@ public class BookShelfUtils {
      * 保存阅读记录。
      *
      * @param context
-     *
      * @param chapterid 阅读的章节id
      */
     public static void saveRecord(Context context, String bookId, String chapterid) {
         if (context == null || bookId == null || chapterid == null) return;
 
-        LogUtils.i("saveRecord",chapterid);
+        LogUtils.i("saveRecord", chapterid);
         PreferencesUtils.putString(context, READ_RECORD, bookId, chapterid);
     }
 
@@ -141,44 +135,48 @@ public class BookShelfUtils {
 
     /**
      * 保存阅读字数。
+     *
      * @param context
      * @param chapterId 章节Id
      * @param length
      */
     public static void saveReadLength(Context context, String chapterId, int length) {
-        LogUtils.i("saveReadLength:","length:"+length);
-        LogUtils.i("saveReadLength:","chapterId:"+chapterId);
-        PreferencesUtils.putInt(context, READ_RECORD_LENGTH,chapterId, length);
+        LogUtils.i("saveReadLength:", "length:" + length);
+        LogUtils.i("saveReadLength:", "chapterId:" + chapterId);
+        PreferencesUtils.putInt(context, READ_RECORD_LENGTH, chapterId, length);
     }
 
     /**
      * 获取阅读字数。
+     *
      * @param context
      * @param chapterId
      * @return
      */
     public static int getReadLenght(Context context, String chapterId) {
-        return PreferencesUtils.getInt(context, READ_RECORD_LENGTH,chapterId,0);
+        return PreferencesUtils.getInt(context, READ_RECORD_LENGTH, chapterId, 0);
     }
 
     /**
      * 保存阅读的章节Number
+     *
      * @param context
      * @param bookId
      * @param number
      */
-    public static void saveReadNumber(Context context,String bookId,int number){
-        PreferencesUtils.putInt(context,READ_RECORD_NUMBER,bookId,number);
+    public static void saveReadNumber(Context context, String bookId, int number) {
+        PreferencesUtils.putInt(context, READ_RECORD_NUMBER, bookId, number);
     }
 
     /**
      * 获取阅读的章节Number
+     *
      * @param context
      * @param bookId
      * @return
      */
-    public static int getReadNumber(Context context,String bookId){
-        return PreferencesUtils.getInt(context, READ_RECORD_NUMBER,bookId,0);
+    public static int getReadNumber(Context context, String bookId) {
+        return PreferencesUtils.getInt(context, READ_RECORD_NUMBER, bookId, 0);
     }
 
 }
