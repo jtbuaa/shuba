@@ -29,6 +29,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".act.SplashActivity"
             android:label="@string/app_name"
@@ -41,31 +42,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".act.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
+
         <activity
             android:name=".act.ChapterActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
+
         <activity
             android:name=".act.BookDetailActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".act.SearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
+
         <activity
             android:name=".act.ReadActivity"
-            android:hardwareAccelerated="false"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeRead" />
+
         <activity
             android:name=".act.SettingActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".act.LegalActivity"
             android:label="@string/set_legal" />
@@ -87,7 +94,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.UpdateReceiver" >
+        <receiver android:name=".receivers.UpdateReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
                 <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
@@ -98,7 +105,7 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="@string/UMENG_APPKEY"></meta-data>
+            android:value="@string/UMENG_APPKEY"/>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="endreader" />
@@ -154,6 +161,7 @@
                 <category android:name="com.qiwenge.android" />
             </intent-filter>
         </activity>
+
         <!-- Required SDK核心功能 -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
