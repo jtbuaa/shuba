@@ -24,6 +24,7 @@
 
     <!-- Common -->
     <color name="item_selected_bg_color">#20000000</color>
+    <color name="item_focus_bg_color">#10000000</color>
     <color name="common_line_color">@color/main_gray_color</color>
     <color name="lv_divider_color">#cdcdcd</color>
 
