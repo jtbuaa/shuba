@@ -4,6 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,9 +26,11 @@ import java.util.List;
  */
 public class BookShelfAdapter extends MyBaseAdapter<Book> {
 
+    private final static int DURATION = 150;
+
     private ViewHolder viewHolder;
 
-    DisplayImageOptions mOptions;
+    private DisplayImageOptions mOptions;
 
     public BookShelfAdapter(Context context, List<Book> data) {
         this.data = data;
@@ -54,18 +60,58 @@ public class BookShelfAdapter extends MyBaseAdapter<Book> {
             ImageLoaderUtils.display(model.cover, viewHolder.ivCover, mOptions);
 
             if (model.selected) {
-                viewHolder.ivSelected.setVisibility(View.VISIBLE);
-            } else viewHolder.ivSelected.setVisibility(View.GONE);
+                showFront(viewHolder.ivCover, viewHolder.ivSelected);
+            } else if (viewHolder.ivCover.getVisibility() == View.GONE) {
+                showFront(viewHolder.ivSelected, viewHolder.ivCover);
+            }
         }
         return convertView;
     }
 
-    public class ViewHolder {
+    private class ViewHolder {
         public TextView tvTitle;
         public TextView tvAuthor;
         public TextView tvDesc;
         public ImageView ivCover;
         public ImageView ivSelected;
+    }
+
+    private ScaleAnimation animaFront;
+    private ScaleAnimation animaBack;
+
+    public void showFront(final View view, final View back) {
+        view.setVisibility(View.VISIBLE);
+        animaFront = new ScaleAnimation(1.0f, 0.0f, 1.0f, 1.0f, RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                RotateAnimation.RELATIVE_TO_SELF, 0);
+        animaFront.setInterpolator(new DecelerateInterpolator());
+        animaFront.setDuration(DURATION);
+        animaFront.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+                showBack(back);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        view.startAnimation(animaFront);
+    }
+
+    public void showBack(View back) {
+        back.setVisibility(View.VISIBLE);
+        if (animaBack == null) {
+            animaBack = new ScaleAnimation(0.0f, 1.0f, 1.0f, 1.0f, RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                    RotateAnimation.RELATIVE_TO_SELF, 0);
+            animaBack.setInterpolator(new DecelerateInterpolator());
+            animaBack.setDuration(DURATION);
+        }
+        back.startAnimation(animaBack);
     }
 
 }
