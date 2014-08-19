@@ -3,6 +3,7 @@ package com.qiwenge.android.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,17 +35,15 @@ import com.qiwenge.android.utils.SkipUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
+/**
+ * 书架Fragment。
+ */
 public class BookshelfFragment extends BaseFragment {
 
     /**
      * 是否为编辑模式，如果为true的话，单击书架列表，为选择操作。
      */
     private boolean isEditModel = false;
-
-    /**
-     * 上传选中的Postion
-     */
-    private int lastSelectedPosition = -1;
 
     private PullToRefreshListView lvBookShelf;
 
@@ -172,17 +171,9 @@ public class BookshelfFragment extends BaseFragment {
 
         if (position > data.size() - 1 || position < 0) return;
 
-        if (lastSelectedPosition >= 0) {
-            data.get(lastSelectedPosition).selected = false;
-        }
+        data.get(position).selected = !data.get(position).selected;
 
-        if(lastSelectedPosition==position){
-            data.get(lastSelectedPosition).selected = false;
-            lastSelectedPosition=-1;
-        }else{
-            lastSelectedPosition = position;
-            data.get(position).selected = true;
-        }
+        data.get(position).showAnim = true;
 
         adapter.notifyDataSetChanged();
     }
@@ -191,13 +182,14 @@ public class BookshelfFragment extends BaseFragment {
      * 清楚所有选中
      */
     public void clearAllSelect() {
-        lastSelectedPosition = -1;
         isEditModel = false;
         if (data.isEmpty()) return;
 
         for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).selected)
+            if (data.get(i).selected) {
                 data.get(i).selected = false;
+                data.get(i).showAnim = true;
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -206,10 +198,17 @@ public class BookshelfFragment extends BaseFragment {
      * 删除选中的Book。
      */
     public void deleteSelected() {
-        if (lastSelectedPosition >= 0 && lastSelectedPosition < data.size()) {
-            adapter.remove(lastSelectedPosition);
-            BookShelfUtils.removeBook(getActivity().getApplicationContext(), lastSelectedPosition);
+        Context context = getActivity().getApplicationContext();
+        List<Book> listRemove = new ArrayList<Book>();
+        int total = data.size();
+        for (int i = 0; i < total; i++) {
+            if (data.get(i).selected) {
+                BookShelfUtils.removeBook(context, data.get(i));
+                listRemove.add(data.get(i));
+            }
         }
+        if (!listRemove.isEmpty())
+            adapter.remove(listRemove);
         checkIsEmpty();
         clearAllSelect();
     }
@@ -227,7 +226,7 @@ public class BookshelfFragment extends BaseFragment {
         getBooks();
     }
 
-    private void checkIsEmpty(){
+    private void checkIsEmpty() {
         if (data.isEmpty()) {
             tvEmpty.setVisibility(View.VISIBLE);
             lvBookShelf.setVisibility(View.GONE);

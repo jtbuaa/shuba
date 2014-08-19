@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 
 /**
  * MyBaseAdapter
- * 
+ * <p/>
  * Created by John
  */
 public abstract class MyBaseAdapter<T> extends BaseAdapter {
@@ -38,11 +38,11 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         return null;
     }
 
-    public T get(int position){
+    public T get(int position) {
         return (data == null || data.isEmpty()) ? null : data.get(position);
     }
 
-    public List<T> get(){
+    public List<T> get() {
         return data;
     }
 
@@ -73,9 +73,16 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         }
     }
 
-    public void remove(int position){
-        if(data!=null&&!data.isEmpty()){
+    public void remove(int position) {
+        if (data != null && !data.isEmpty()) {
             data.remove(position);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void remove(List<T> list) {
+        if (data != null && !data.isEmpty()) {
+            data.removeAll(list);
             notifyDataSetChanged();
         }
     }

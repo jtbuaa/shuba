@@ -9,6 +9,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -48,6 +49,7 @@ public class BookShelfAdapter extends MyBaseAdapter<Book> {
             viewHolder.tvAuthor = (TextView) convertView.findViewById(R.id.item_tv_author);
             viewHolder.ivCover = (ImageView) convertView.findViewById(R.id.item_iv_cover);
             viewHolder.ivSelected = (ImageView) convertView.findViewById(R.id.item_iv_select);
+            viewHolder.layoutBookShelf = (LinearLayout) convertView.findViewById(R.id.item_layout_bookshelf);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -60,10 +62,25 @@ public class BookShelfAdapter extends MyBaseAdapter<Book> {
             ImageLoaderUtils.display(model.cover, viewHolder.ivCover, mOptions);
 
             if (model.selected) {
-                showFront(viewHolder.ivCover, viewHolder.ivSelected);
-            } else if (viewHolder.ivCover.getVisibility() == View.GONE) {
-                showFront(viewHolder.ivSelected, viewHolder.ivCover);
+                viewHolder.layoutBookShelf
+                        .setBackgroundColor(context.getResources().getColor(R.color.item_focus_bg_color));
+                if (model.showAnim)
+                    showFront(viewHolder.ivCover, viewHolder.ivSelected);
+                else {
+                    viewHolder.ivSelected.setVisibility(View.VISIBLE);
+                    viewHolder.ivCover.setVisibility(View.GONE);
+                }
+            } else {
+                viewHolder.layoutBookShelf
+                        .setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+                if (model.showAnim)
+                    showFront(viewHolder.ivSelected, viewHolder.ivCover);
+                else {
+                    viewHolder.ivSelected.setVisibility(View.GONE);
+                    viewHolder.ivCover.setVisibility(View.VISIBLE);
+                }
             }
+            data.get(position).showAnim = false;
         }
         return convertView;
     }
@@ -74,13 +91,15 @@ public class BookShelfAdapter extends MyBaseAdapter<Book> {
         public TextView tvDesc;
         public ImageView ivCover;
         public ImageView ivSelected;
+        public LinearLayout layoutBookShelf;
     }
 
     private ScaleAnimation animaFront;
     private ScaleAnimation animaBack;
 
     public void showFront(final View view, final View back) {
-        view.setVisibility(View.VISIBLE);
+        if (view.getVisibility() == View.GONE) return;
+
         animaFront = new ScaleAnimation(1.0f, 0.0f, 1.0f, 1.0f, RotateAnimation.RELATIVE_TO_SELF, 0.5f,
                 RotateAnimation.RELATIVE_TO_SELF, 0);
         animaFront.setInterpolator(new DecelerateInterpolator());
@@ -104,6 +123,7 @@ public class BookShelfAdapter extends MyBaseAdapter<Book> {
     }
 
     public void showBack(View back) {
+        if (back.getVisibility() == View.VISIBLE) return;
         back.setVisibility(View.VISIBLE);
         if (animaBack == null) {
             animaBack = new ScaleAnimation(0.0f, 1.0f, 1.0f, 1.0f, RotateAnimation.RELATIVE_TO_SELF, 0.5f,
