@@ -206,6 +206,12 @@ public class ReadFragment extends BaseFragment {
         removeDtTimer();
     }
 
+    public void clearReader() {
+        pageList.clear();
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
+
     private void initData() {
         mScaledTouchSlop =
                 ViewConfiguration.get(getActivity().getApplicationContext()).getScaledTouchSlop();
@@ -243,7 +249,7 @@ public class ReadFragment extends BaseFragment {
         initTextSize();
     }
 
-    private void initViewPager(){
+    private void initViewPager() {
         adapter = new ReaderAdapter(getActivity(), pageList);
         viewPager = (SlowViewPager) getView().findViewById(R.id.viewpager_reader);
         viewPager.setAdapter(adapter);
@@ -693,7 +699,7 @@ public class ReadFragment extends BaseFragment {
         reader.setTextSize(mTextSize);
         reader.setText(content);
         final ViewTreeObserver treeObserver = reader.getViewTreeObserver();
-        if(treeObserver.isAlive()) {
+        if (treeObserver.isAlive()) {
             treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {

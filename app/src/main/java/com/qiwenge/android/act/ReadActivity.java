@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,6 +42,8 @@ import com.qiwenge.android.utils.ScreenBrightnessUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 
 public class ReadActivity extends BaseActivity implements View.OnClickListener {
+
+    private static final String TAG = "ReadActivity";
 
     /**
      * 是否初始化完毕。
@@ -188,6 +192,15 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i("TAG", "onNewIntent");
+        if (intent != null && intent.getExtras() != null) {
+            handleExtras(intent.getExtras());
+        }
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && !inited) {
@@ -249,6 +262,14 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      */
     private void getIntentData() {
         Bundle extra = getIntent().getExtras();
+        handleExtras(extra);
+    }
+
+    //TODO SingleTask Bundle Extras
+    private void handleExtras(Bundle extra) {
+        Log.i(TAG, "handleExtras");
+
+        fragment.clearReader();
 
         if (extra.containsKey(Extra_BookId)) {
             bookId = extra.getString(Extra_BookId);
@@ -632,7 +653,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         seekFontSize.setProgress(mFontSizeOffest * OFFSET_ZOOM_OUT);
         setReadTextSize();
     }
-
 
 
     /**
