@@ -51,7 +51,7 @@
                     android:id="@+id/iv_book_shelf"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/icon_main_bookshelf_s"
+                    android:background="@drawable/ic_main_menu_fav_s"
                     android:contentDescription="@string/str_empty" />
 
                 <TextView
@@ -61,7 +61,7 @@
                     android:gravity="center"
                     android:text="@string/str_book_shelf"
                     android:textColor="@color/tv_desc_color"
-                    android:textSize="@dimen/font_size_small" />
+                    android:textSize="@dimen/font_size_12" />
             </LinearLayout>
 
             <LinearLayout
@@ -87,7 +87,7 @@
                     android:gravity="center"
                     android:text="@string/str_book_library"
                     android:textColor="@color/tv_desc_color"
-                    android:textSize="@dimen/font_size_small" />
+                    android:textSize="@dimen/font_size_12" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

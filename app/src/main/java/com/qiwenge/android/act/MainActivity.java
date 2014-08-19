@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         }
         tran.commit();
         getSupportFragmentManager().executePendingTransactions();
-        ivBookShelf.setBackgroundResource(R.drawable.icon_main_bookshelf_s);
+        ivBookShelf.setBackgroundResource(R.drawable.ic_main_menu_fav_s);
         ivBookCity.setBackgroundResource(R.drawable.icon_main_bookcity_n);
     }
 
@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         }
         tran.commit();
         getSupportFragmentManager().executePendingTransactions();
-        ivBookShelf.setBackgroundResource(R.drawable.icon_main_bookshelf_n);
+        ivBookShelf.setBackgroundResource(R.drawable.ic_main_menu_fav_n);
         ivBookCity.setBackgroundResource(R.drawable.icon_main_bookcity_s);
     }
 
