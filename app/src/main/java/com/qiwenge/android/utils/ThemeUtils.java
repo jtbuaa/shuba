@@ -1,7 +1,6 @@
 package com.qiwenge.android.utils;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ import com.qiwenge.android.constant.Constants;
 /**
  * 阅读主题工具类。
  * <p/>
- * Created by John on 2014年7月2日
+ * Created by Eric on 2014年7月2日
  */
 public class ThemeUtils {
 
