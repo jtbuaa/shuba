@@ -42,6 +42,8 @@ public class Book extends BaseModel implements Parcelable {
      */
     public boolean selected=false;
 
+    public boolean showAnim=false;
+
     public int chapter_total;
 
     public Book() {}

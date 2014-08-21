@@ -21,7 +21,7 @@
     <string name="str_book_finish">完结</string>
     <string name="str_book_publishing">连载中</string>
     <string name="str_lagel">加载中...</string>
-    <string name="remove_from_bookshelf">移出书架</string>
+    <string name="remove_from_bookshelf">取消收藏</string>
 
     <!-- BookIntro -->
     <string name="book_intro_detail">小说详情</string>
@@ -30,7 +30,7 @@
     <string name="book_intro_status_format">状态 : %s</string>
     <string name="book_intro_chapters">查看目录</string>
     <string name="book_intro_add">收藏</string>
-    <string name="book_intro_remove">移出书架</string>
+    <string name="book_intro_remove">取消收藏</string>
     <string name="book_intro_read_continue">继续阅读</string>
     <string name="book_intro_related">相关推荐</string>
 
