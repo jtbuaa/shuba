@@ -82,12 +82,20 @@ public class BaseActivity extends FragmentActivity {
         startActivity(intent);
     }
 
+    private void initActionBar(){
+        if (getActionBar() != null && getActionBar().isShowing()) {
+            getActionBar().setDisplayUseLogoEnabled(false);
+            getActionBar().setDisplayShowHomeEnabled(false);
+        }
+    }
+
     /**
      * 显示ActionBar中的返回按钮。
      */
     public void showActionBarBack() {
-        if (getActionBar() != null && getActionBar().isShowing())
+        if (getActionBar() != null && getActionBar().isShowing()) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     /**
