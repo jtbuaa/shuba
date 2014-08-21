@@ -10,7 +10,7 @@ import com.dev1024.utils.LogUtils;
 import com.qiwenge.android.R;
 
 /**
- * Created by John on 14-8-1.
+ * Created by Eric on 14-8-1.
  */
 public class LoadAnim {
 

@@ -7,7 +7,7 @@ import com.qiwenge.android.models.Chapter;
 /**
  * ReadCacheUtils
  * 
- * Created by John on 2014年6月18日
+ * Created by Eric on 2014年6月18日
  */
 public class ReadCacheUtils {
 

@@ -12,7 +12,7 @@ import com.dev1024.utils.PreferencesUtils;
 /**
  * 屏幕亮度工具类.
  *
- * Created by John on 2014-5-31
+ * Created by Eric on 2014-5-31
  */
 public class ScreenBrightnessUtils {
 

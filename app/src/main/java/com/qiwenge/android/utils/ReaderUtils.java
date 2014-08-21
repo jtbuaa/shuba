@@ -8,7 +8,7 @@ import com.qiwenge.android.constant.Constants;
 /**
  * ReaderUtils
  * <p/>
- * Created by John on 2014-4-24
+ * Created by Eric on 2014-4-24
  */
 public class ReaderUtils {
 

@@ -13,7 +13,7 @@ import com.qiwenge.android.models.BookList;
 /**
  * 书架工具类
  * <p/>
- * Created by John on 2014－6－2
+ * Created by Eric on 2014－6－2
  */
 public class BookShelfUtils {
 
