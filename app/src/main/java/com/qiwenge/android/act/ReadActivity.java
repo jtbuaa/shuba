@@ -135,6 +135,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView tvBookTitle;
 
+    private TextView tvAddCollect;
+
     private GridView gvMenu;
 
     private GridView gvTheme;
@@ -325,6 +327,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_read_container);
         layoutTop = (LinearLayout) this.findViewById(R.id.layout_reader_top);
         tvBookTitle = (TextView) this.findViewById(R.id.tv_book_title);
+        tvAddCollect=(TextView)this.findViewById(R.id.tv_add_collect);
+        tvAddCollect.setOnClickListener(this);
         actionBack = (LinearLayout) this.findViewById(R.id.layout_back);
         actionBack.setOnClickListener(this);
 
