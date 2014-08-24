@@ -17,7 +17,7 @@
     </style>
 
     <style name="SplashTheme" parent="android:Theme">
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@drawable/splash_bg</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 

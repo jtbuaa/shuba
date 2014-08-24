@@ -9,8 +9,7 @@
     <ImageView
         android:id="@+id/item_iv_icon"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/theme_border"  />
+        android:layout_height="45dp"  />
 
     <ImageView
         android:id="@+id/item_iv_selected"
