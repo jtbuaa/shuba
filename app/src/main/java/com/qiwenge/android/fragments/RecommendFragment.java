@@ -58,11 +58,15 @@ public class RecommendFragment extends BaseFragment {
         getCacheData();
     }
 
+    private boolean refreshed = false;
 
     /**
      * 刷新数据。
      */
     public void refresh() {
+        if (refreshed) return;
+        refreshed = true;
+        getRecommend();
     }
 
     private void getCacheData() {

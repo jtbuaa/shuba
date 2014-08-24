@@ -27,11 +27,11 @@ public class BookCityAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int arg0) {
         switch (arg0) {
             case 0:
-                if (recommend == null) recommend = new RecommendFragment();
-                return recommend;
-            case 1:
                 if (rank == null) rank = new RankFragment();
                 return rank;
+            case 1:
+                if (recommend == null) recommend = new RecommendFragment();
+                return recommend;
             case 2:
                 if (category == null) category = new CategorysFragment();
                 return category;
@@ -53,10 +53,10 @@ public class BookCityAdapter extends FragmentPagerAdapter {
     public void refresh(int position) {
         switch (position) {
             case 0:
-                if (recommend != null) recommend.refresh();
+                if (rank != null) rank.refresh();
                 break;
             case 1:
-                if (rank != null) rank.refresh();
+                if (recommend != null) recommend.refresh();
                 break;
             case 2:
                 if (category != null) category.refresh();
