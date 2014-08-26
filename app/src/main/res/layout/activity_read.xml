@@ -6,7 +6,9 @@
     <FrameLayout
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent" />
+
+    <include layout="@layout/layout_read_bottom" />
 
     <LinearLayout
         android:id="@+id/layout_reader_top"
@@ -42,31 +44,27 @@
             android:id="@+id/tv_book_title"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
             android:layout_alignRight="@+id/layout_back"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:textColor="@color/action_bar_text_color"
-            android:textSize="18sp" />
+            android:textSize="@dimen/font_size_action_title" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_add_collect"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
             android:background="@drawable/action_bar_item_bg"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"
-            android:text="收藏"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/book_intro_add"
             android:textColor="@color/action_bar_text_color"
-            android:textSize="18sp" />
+            android:textSize="@dimen/font_size_action_title" />
 
     </LinearLayout>
 
-    <include layout="@layout/layout_read_bottom" />
 
 </RelativeLayout>

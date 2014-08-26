@@ -108,6 +108,11 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         ThemeUtils.setThemeLine(ivShadow1);
         ThemeUtils.setThemeLine(ivShadow2);
         ThemeUtils.setThemeLine(ivShadow3);
+
+        if (book!=null&&BookShelfUtils.contains(getApplicationContext(), book)) {
+            btnAdd.setText(R.string.book_intro_read_continue);
+            isAdded = true;
+        }
     }
 
     @Override
@@ -233,11 +238,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     private void showBookInfo() {
         if (book != null) {
             tvTitle.setText(book.title);
-
-            if (BookShelfUtils.contains(getApplicationContext(), book)) {
-                btnAdd.setText(R.string.book_intro_read_continue);
-                isAdded = true;
-            }
 
             tvIntro.setText(ReaderUtils.formatContent(book.description));
             tvAuthor.setText(String.format(getString(R.string.book_intro_author_format),

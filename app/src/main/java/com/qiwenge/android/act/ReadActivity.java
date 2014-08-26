@@ -34,6 +34,7 @@ import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.fragments.ReadFragment;
 import com.qiwenge.android.listeners.ReadPageClickListener;
+import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.ReadMenu;
 import com.qiwenge.android.models.ReadTheme;
 import com.qiwenge.android.utils.BookShelfUtils;
@@ -113,6 +114,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      * 小说Id
      */
     public final static String Extra_BookId = "bookId";
+
+    public final static String Extra_Book = "book";
 
     private ReadFragment fragment;
 
@@ -233,6 +236,12 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_add_collect://收藏
+                if (book != null) {
+                    BookShelfUtils.addBook(getApplicationContext(), book);
+                    tvAddCollect.setVisibility(View.GONE);
+                }
+                break;
             case R.id.layout_bottom_menu:
                 break;
             case R.id.layout_back:
@@ -258,6 +267,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     private String bookId;
     private String bookTitle;
     private String chapterId;
+    private Book book;
 
     /**
      * 获取意图传递的数据，并获取章节详情。
@@ -289,6 +299,14 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
             fragment.getChapter(chapterId, length);
         }
 
+        if (extra.containsKey(Extra_Book)) {
+            book = extra.getParcelable(Extra_Book);
+            if (book != null && !BookShelfUtils.contains(getApplicationContext(), book)) {
+                tvAddCollect.setVisibility(View.VISIBLE);
+            } else {
+                tvAddCollect.setVisibility(View.GONE);
+            }
+        }
     }
 
     /**
@@ -327,7 +345,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_read_container);
         layoutTop = (LinearLayout) this.findViewById(R.id.layout_reader_top);
         tvBookTitle = (TextView) this.findViewById(R.id.tv_book_title);
-        tvAddCollect=(TextView)this.findViewById(R.id.tv_add_collect);
+        tvAddCollect = (TextView) this.findViewById(R.id.tv_add_collect);
+        tvAddCollect.setVisibility(View.GONE);
         tvAddCollect.setOnClickListener(this);
         actionBack = (LinearLayout) this.findViewById(R.id.layout_back);
         actionBack.setOnClickListener(this);
@@ -576,6 +595,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      * 显示或者隐藏菜单。
      */
     private void showOrHideMenu() {
+        if (menuAnimActioning) return;
         menuAnimActioning = true;
         handleTop();
         handleBottom();
@@ -607,7 +627,9 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onClick() {
-                showOrHideMenu();
+                if (!menuAnimActioning) {
+                    showOrHideMenu();
+                }
             }
         });
     }

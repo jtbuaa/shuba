@@ -117,6 +117,7 @@ public class ChapterActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < list.size()) {
                     Bundle extra = new Bundle();
+                    extra.putParcelable(ReadActivity.Extra_Book, book);
                     extra.putString(ReadActivity.Extra_BookId, bookId);
                     extra.putString(ReadActivity.Extra_ChapterId, list.get(position).getId());
                     extra.putString(ReadActivity.Extra_BookTitle, list.get(position).book_title);
