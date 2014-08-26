@@ -36,7 +36,7 @@
     <!-- ActionBar字体 -->
     <style name="MyActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/action_bar_text_color</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/font_size_action_title</item>
     </style>
 
     <!-- Setup the style of the ActionMode here -->

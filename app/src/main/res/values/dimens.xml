@@ -9,6 +9,7 @@
     <dimen name="default_activity_padding">10dp</dimen>
 
     <!-- Font Size -->
+    <dimen name="font_size_action_title">18sp</dimen>
     <dimen name="font_size_12">12sp</dimen>
     <dimen name="font_size_small">14sp</dimen>
     <dimen name="font_size_middle">16sp</dimen>
