@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev1024.utils.IntentUtils;
@@ -48,6 +49,9 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     private ImageView ivBookCity;
     private ImageView ivBookShelf;
     private ImageView ivLayer;
+
+    private TextView tvBookCity;
+    private TextView tvBookShelf;
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -137,6 +141,9 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         getSupportFragmentManager().executePendingTransactions();
         ivBookShelf.setBackgroundResource(R.drawable.ic_main_menu_fav_s);
         ivBookCity.setBackgroundResource(R.drawable.icon_main_bookcity_n);
+
+        tvBookShelf.setTextColor(getResources().getColor(R.color.main_dress_color));
+        tvBookCity.setTextColor(getResources().getColor(R.color.tv_desc_color));
     }
 
     private void showBookCity() {
@@ -152,6 +159,9 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         getSupportFragmentManager().executePendingTransactions();
         ivBookShelf.setBackgroundResource(R.drawable.ic_main_menu_fav_n);
         ivBookCity.setBackgroundResource(R.drawable.icon_main_bookcity_s);
+
+        tvBookShelf.setTextColor(getResources().getColor(R.color.tv_desc_color));
+        tvBookCity.setTextColor(getResources().getColor(R.color.main_dress_color));
     }
 
     /**
@@ -204,6 +214,9 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         layoutBookCity = (LinearLayout) this.findViewById(R.id.layout_book_city);
         layoutBookShelf.setOnClickListener(this);
         layoutBookCity.setOnClickListener(this);
+
+        tvBookCity=(TextView)this.findViewById(R.id.tv_book_city);
+        tvBookShelf=(TextView)this.findViewById(R.id.tv_book_shelf);
 
         ivBookShelf = (ImageView) this.findViewById(R.id.iv_book_shelf);
         ivBookCity = (ImageView) this.findViewById(R.id.iv_book_city);

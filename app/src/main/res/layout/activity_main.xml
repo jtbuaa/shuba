@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/str_book_shelf"
-                    android:textColor="@color/tv_desc_color"
+                    android:textColor="@color/main_dress_color"
                     android:textSize="@dimen/font_size_12" />
             </LinearLayout>
 
