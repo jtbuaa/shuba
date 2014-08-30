@@ -76,11 +76,13 @@ public class RankFragment extends BaseFragment {
             @Override
             public void onSuccess(List<Book> list) {
                 adapter.add(list);
+                getRank();
             }
 
             @Override
             public void onEmpty() {
                 System.out.println("Rank cache is empty");
+                getRank();
             }
         }).execute(CACHE_RANK);
     }

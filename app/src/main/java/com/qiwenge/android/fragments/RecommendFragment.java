@@ -76,14 +76,11 @@ public class RecommendFragment extends BaseFragment {
             @Override
             public void onSuccess(List<Book> list) {
                 adapter.add(list);
-                System.out.println("onSuccess");
-                getRecommend();
             }
 
             @Override
             public void onEmpty() {
                 System.out.println("Recommend cache is empty");
-                getRecommend();
             }
         }).execute(CACHE_RECOMMEND);
     }
