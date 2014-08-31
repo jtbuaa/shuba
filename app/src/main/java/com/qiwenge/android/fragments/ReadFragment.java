@@ -20,13 +20,9 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.dev1024.utils.AppUtils;
-import com.dev1024.utils.DialogUtils;
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.StringUtils;
 import com.dev1024.utils.TimeUtils;
@@ -619,6 +615,15 @@ public class ReadFragment extends BaseFragment {
         adapter.notifyDataSetChanged();
         ThemeUtils.setTextColor(tvPage);
         ThemeUtils.setTextColor(tvTitle);
+        setBatteryBackground();
+    }
+
+    private void setBatteryBackground(){
+        if(ThemeUtils.getIsNightModel()){
+            pbBattery.setBackgroundResource(R.drawable.battery_bg_light9);
+        }else{
+            pbBattery.setBackgroundResource(R.drawable.battery_bg9);
+        }
     }
 
     /**
