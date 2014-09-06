@@ -274,8 +274,7 @@ public class ReadFragment extends BaseFragment {
                 currentItem = arg0;
                 if (isAdded()) {
                     currentChapterPageIndex = pageList.get(arg0).pageIndex;
-                    setTitle(String.format(getString(R.string.str_chapter_title),
-                            pageList.get(arg0).chapterNumber, pageList.get(arg0).chapterTitle));
+                    setTitle(pageList.get(arg0).chapterTitle);
                     setPager(String.format(PAGE_FORMAT, pageList.get(arg0).pageIndex,
                             pageList.get(arg0).pageSize));
                 }
@@ -472,8 +471,7 @@ public class ReadFragment extends BaseFragment {
     private void handleCurrent(String chapterId, final Chapter result, final int length) {
         if (isAdded() && result != null && result.content != null && result.content.length() > 100) {
             currentChapterId = chapterId;
-            tvTitle.setText(String.format(getString(R.string.str_chapter_title),
-                    result.number, result.title));
+            tvTitle.setText(result.title);
             if (result.content != null && result.content.length() > 100) {
                 currentContent = result.content.toString();
                 current = result;
