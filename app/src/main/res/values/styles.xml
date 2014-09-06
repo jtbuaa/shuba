@@ -145,23 +145,8 @@
 
     <style name="LoadingDots">
         <item name="android:indeterminateOnly">true</item>
-        <item name="android:indeterminateDuration">10</item>
-        <item name="android:indeterminateBehavior">cycle</item>
         <item name="android:indeterminateDrawable">@drawable/progress_loading</item>
-        <item name="android:minWidth">35px</item>
-        <item name="android:maxWidth">35px</item>
-        <item name="android:minHeight">35px</item>
-        <item name="android:maxHeight">35px</item>
+        <item name="android:indeterminateDuration">10</item>
     </style>
-
-    <!--
-   ActionBar下拉刷新Style
-   <item name="ptrHeaderStyle">@style/ActionBar.PullToRefresh.PtrHeader</item>
-    <style name="ActionBar.PullToRefresh.PtrHeader" parent="android:Widget">
-        <item name="ptrActionBarHeaderBackground">@color/action_bar_bg_color</item>
-        <item name="ptrProgressBarColor">@color/action_bar_overlay_color</item>
-        <item name="ptrProgressBarHeight">4dp</item>
-    </style>
-    -->
 
 </resources>
