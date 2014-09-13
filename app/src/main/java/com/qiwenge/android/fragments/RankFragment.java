@@ -11,11 +11,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.PreferencesUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
@@ -124,7 +122,7 @@ public class RankFragment extends BaseFragment {
             @Override
             public void onPage() {
                 pageindex++;
-                getRank();
+                getRank(); 
             }
         });
 
