@@ -109,7 +109,6 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
      */
     public void reset(){
         enablePage=true;
-        addPageFooterView();
     }
 
     /**
@@ -144,6 +143,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
                         && scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
                     if (pageListener != null&&enablePage) {
                         pageListener.onPage();
+                        addPageFooterView();
                     }
                 }
             }
@@ -152,7 +152,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
                                  int totalItemCount) {
                 if (!isLoading && (totalItemCount > 0)
-                        && (firstVisibleItem + visibleItemCount >= totalItemCount))
+                        && (firstVisibleItem + visibleItemCount >= totalItemCount-1))
                     mLastItemVisible = true;
                 else
                     mLastItemVisible = false;
