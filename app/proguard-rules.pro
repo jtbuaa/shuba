@@ -16,6 +16,21 @@
 #   public *;
 #}
 
+##---------------Begin: proguard configuration for Gson  ----------
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+#-keep class com.google.gson.stream.** { *; }
+
+# Application classes that will be serialized/deserialized over Gson
+-keep class com.google.gson.examples.android.model.** { *; }
+
+##---------------End: proguard configuration for Gson  ----------
+
 -keep class * implements android.os.Parcelable {
 public static final android.os.Parcelable$Creator *;
 }
@@ -35,7 +50,3 @@ public static final android.os.Parcelable$Creator *;
 #shuba
 -keep class com.qiwenge.android.models.** { *; }
 -keep class com.qiwenge.android.models.base.** { *; }
--keep class com.qiwenge.android.utils.http.** { *; }
--keep class com.qiwenge.android.async.** { *; }
--keep class com.qiwenge.android.ui.** { *; }
--keep class com.qiwenge.android.adapters.** { *; }
