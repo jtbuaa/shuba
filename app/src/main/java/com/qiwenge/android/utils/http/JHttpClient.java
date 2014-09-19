@@ -32,13 +32,16 @@ public class JHttpClient {
      * @param handler
      */
     public static void get(String url, RequestParams params, final BaseResponseHandler handler) {
-        if (params != null) LogUtils.i(TAG, "get-latest:" + url + "?" + params.toString());
-        else LogUtils.i(TAG, "get-latest:" + url);
+        if (params != null) LogUtils.i(TAG, "get:" + url + "?" + params.toString());
+        else LogUtils.i(TAG, "get:" + url);
         if (httpClient == null) httpClient = createHttpCilent();
         httpClient.get(url, params, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (handler != null) handler.onFailure(responseString);
+                String msg = "";
+                if (throwable != null && throwable.getMessage() != null)
+                    msg = throwable.getMessage();
+                if (handler != null) handler.onFailure(msg);
             }
 
             @Override
@@ -60,11 +63,16 @@ public class JHttpClient {
     }
 
     public static void post(String url, RequestParams params, final BaseResponseHandler handler) {
+        if (params != null) LogUtils.i(TAG, "post:" + url + "?" + params.toString());
+        else LogUtils.i(TAG, "post:" + url);
         if (httpClient == null) httpClient = createHttpCilent();
         httpClient.post(url, params, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (handler != null) handler.onFailure(responseString);
+                String msg = "";
+                if (throwable != null && throwable.getMessage() != null)
+                    msg = throwable.getMessage();
+                if (handler != null) handler.onFailure(msg);
             }
 
             @Override
