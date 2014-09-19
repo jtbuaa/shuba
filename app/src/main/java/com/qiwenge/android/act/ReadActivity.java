@@ -25,11 +25,11 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.dev1024.utils.AnimUtils;
-import com.dev1024.utils.IntentUtils;
 import com.dev1024.utils.listener.AnimListener;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ReadMenuAdapter;
 import com.qiwenge.android.adapters.ReadThemeAdapter;
+import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.fragments.ReadFragment;
@@ -316,7 +316,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         String[] titles = getResources().getStringArray(R.array.read_menu_titles);
         int[] icons =
                 {R.drawable.icon_menu_mode_night,
-                        R.drawable.icon_menu_chapters, R.drawable.icon_menu_share};
+                        R.drawable.icon_menu_chapters, R.drawable.icon_menu_favour};
 
         ReadMenu menu;
         for (int i = 0; i < titles.length; i++) {
@@ -456,8 +456,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
                         extra.putString(ChapterActivity.EXTRA_BOOK_TITLE, bookTitle);
                         startActivity(ChapterActivity.class, extra);
                         break;
-                    case 2:// 分享
-                        IntentUtils.openShare(ReadActivity.this, fragment.getShareContent(), "分享");
+                    case 2:// 赞
+                        AsyncUtils.postVoteup(getApplicationContext(),bookId);
                         break;
 
                     default:

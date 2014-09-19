@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.loopj.android.http.RequestParams;
@@ -59,9 +60,7 @@ public class SearchActivity extends BaseActivity {
     private BooksAdapter adapter;
 
 
-    private ImageView ivLoading;
-
-    private LoadAnim mLoadAnim;
+    private ProgressBar pbLoading;
 
     private int pageindex = 0;
 
@@ -106,11 +105,7 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
-        ivLoading = (ImageView) this.findViewById(R.id.iv_loading);
-
-        mLoadAnim = new LoadAnim(ivLoading);
-        mLoadAnim.start();
-
+        pbLoading = (ProgressBar) this.findViewById(R.id.pb_loading);
     }
 
 
@@ -164,7 +159,7 @@ public class SearchActivity extends BaseActivity {
                 if (data.isEmpty())
                     getRecommend();
                 else {
-                    mLoadAnim.cancel();
+                    pbLoading.setVisibility(View.GONE);
                     lvSearch.setVisibility(View.VISIBLE);
                 }
                 lvSearch.loadFinished(adapter.getCount());
@@ -192,7 +187,7 @@ public class SearchActivity extends BaseActivity {
                 if (!data.isEmpty()) {
                     lvSearch.setVisibility(View.VISIBLE);
                 }
-                mLoadAnim.cancel();
+                pbLoading.setVisibility(View.GONE);
             }
         });
     }

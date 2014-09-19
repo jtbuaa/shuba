@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,7 +45,7 @@ public class ChapterActivity extends BaseActivity {
     private ListView lvChapters;
     private TextView tvEmpty;
     private RelativeLayout layoutContainer;
-    private ImageView ivLoading;
+    private ProgressBar ivLoading;
 
     private ChapterAdapter adapter;
 
@@ -57,8 +58,6 @@ public class ChapterActivity extends BaseActivity {
     private String bookTitle;
 
     private int pageindex = 1;
-
-    private LoadAnim mLoadAnim;
 
     private boolean isInited = false;
 
@@ -102,9 +101,7 @@ public class ChapterActivity extends BaseActivity {
     }
 
     private void initViews() {
-        ivLoading = (ImageView) this.findViewById(R.id.iv_loading);
-        mLoadAnim = new LoadAnim(ivLoading);
-        mLoadAnim.start();
+        ivLoading = (ProgressBar) this.findViewById(R.id.pb_loading);
         layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_container);
         tvEmpty = (TextView) this.findViewById(R.id.tv_empty);
         tvEmpty.setVisibility(View.GONE);
@@ -145,7 +142,7 @@ public class ChapterActivity extends BaseActivity {
                     lvChapters.setVisibility(View.GONE);
                     tvEmpty.setVisibility(View.VISIBLE);
                 }
-                mLoadAnim.cancel();
+                ivLoading.setVisibility(View.GONE);
             }
 
             @Override
