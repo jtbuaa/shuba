@@ -5,7 +5,7 @@
     <string-array name="read_menu_titles">
         <item>夜间</item>
         <item>目录</item>
-        <item>分享</item>
+        <item>点赞</item>
     </string-array>
 
     <integer-array name="read_menu_icon">

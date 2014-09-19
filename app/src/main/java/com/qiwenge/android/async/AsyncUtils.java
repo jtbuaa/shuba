@@ -1,7 +1,10 @@
 package com.qiwenge.android.async;
 
+import android.content.Context;
+
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.StringUtils;
+import com.dev1024.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.constant.Constants;
@@ -63,6 +66,35 @@ public class AsyncUtils {
             public void onFailure(String msg) {
                 if (StringUtils.isEmptyOrNull(msg)) msg = "Failure with unknow message.";
                 LogUtils.e("postViewTotal-onFailure", msg);
+            }
+        });
+    }
+
+    /**
+     * 赞
+     * @param bookId
+     */
+    public static void postVoteup(final Context context,String bookId) {
+        String url = ApiUtils.postBookVoteUp(bookId);
+        JHttpClient.post(url, null, new StringResponseHandler() {
+
+            @Override
+            public void onStart() {
+                LogUtils.i("postViewVoteup-onStart", "onStart");
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                if (StringUtils.isEmptyOrNull(result)) result = "success with empty result.";
+                LogUtils.i("postViewVoteup-onSuccess", result);
+                ToastUtils.alert(context,"点赞成功");
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (StringUtils.isEmptyOrNull(msg)) msg = "Failure with unknow message.";
+                LogUtils.e("postViewVoteup-onFailure", msg);
+                ToastUtils.alert(context,"点赞失败");
             }
         });
     }

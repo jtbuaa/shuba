@@ -45,6 +45,11 @@ public enum ApiModels {
     /**
      * 检查Book是否更新
      */
-    updates
+    updates,
+
+    /**
+     * 赞
+     */
+    voteup
 
 }

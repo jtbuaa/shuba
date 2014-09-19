@@ -60,9 +60,7 @@ public class ReadFragment extends BaseFragment {
 
     private String datetime;
 
-    private LoadAnim mLoadAnim;
-
-    private ImageView mIvLoading;
+    private ProgressBar pbLoading;
 
     /**
      * 手机电量。
@@ -228,9 +226,7 @@ public class ReadFragment extends BaseFragment {
      * 初始化Views
      */
     private void initViews() {
-        mIvLoading = (ImageView) getView().findViewById(R.id.iv_loading);
-        mLoadAnim = new LoadAnim(mIvLoading);
-        mLoadAnim.start();
+        pbLoading = (ProgressBar) getView().findViewById(R.id.pb_loading);
 
         pbBattery = (ProgressBar) getView().findViewById(R.id.progreebar_battery);
         tvTitle = (TextView) getView().findViewById(R.id.tv_title);
@@ -440,7 +436,7 @@ public class ReadFragment extends BaseFragment {
 
             @Override
             public void onFinish() {
-                mLoadAnim.cancel();
+                pbLoading.setVisibility(View.GONE);
             }
 
             @Override

@@ -126,6 +126,15 @@ public class ApiUtils {
     }
 
     /**
+     * 赞
+     * @param bookId
+     * @return
+     */
+    public static String postBookVoteUp(String bookId){
+        return String.format(FORMAT_3_PARAMS, ApiModels.books, bookId, ApiModels.voteup);
+    }
+
+    /**
      * Test
      *
      * @param args
