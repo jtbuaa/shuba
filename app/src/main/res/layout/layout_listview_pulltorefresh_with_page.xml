@@ -4,7 +4,6 @@
     style="@style/Pull_To_Refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:footerDividersEnabled="true"
     android:listSelector="@drawable/item_common_bg" >
 
 </com.qiwenge.android.ui.PagePullToRefreshListView>

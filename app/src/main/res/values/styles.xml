@@ -4,8 +4,8 @@
 
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowBackground">@color/main_bg_color</item>
-        <item name="android:homeAsUpIndicator">@drawable/icon_action_back</item>
-        <item name="android:logo">@drawable/ic_action_logo</item>
+        <item name="android:homeAsUpIndicator">@drawable/icon_back_big</item>
+        <item name="android:logo">@drawable/transparent_bg</item>
         <item name="android:windowContentOverlay">@drawable/action_bar_overlay</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:dropDownListViewStyle">@style/MyDropDownListView</item>
@@ -147,6 +147,15 @@
         <item name="android:indeterminateOnly">true</item>
         <item name="android:indeterminateDrawable">@drawable/progress_loading</item>
         <item name="android:indeterminateDuration">10</item>
+    </style>
+
+    <style name="ReaderText">
+        <item name="android:lineSpacingExtra">8dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:textSize">@dimen/reader_text_size</item>
     </style>
 
 </resources>
