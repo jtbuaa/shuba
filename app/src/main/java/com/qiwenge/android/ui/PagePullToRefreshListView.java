@@ -63,6 +63,10 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
         this.isLoading = b;
     }
 
+    public boolean isLoading(){
+        return isLoading;
+    }
+
     /**
      * 加载结束
      */
@@ -100,7 +104,6 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
 
     @Override
     public void setAdapter(ListAdapter adapter) {
-        addPageFooterView();
         super.setAdapter(adapter);
     }
 
@@ -114,7 +117,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
     /**
      * 添加分页footer
      */
-    private void addPageFooterView() {
+    public void addPageFooterView() {
         if (pagerFooter == null) {
             pagerFooter = createPagerFooterView(getContext());
             getRefreshableView().addFooterView(pagerFooter);
