@@ -68,6 +68,15 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         initViews();
         initFragment();
         getOpenUDID(getApplicationContext());
+        initActionBar();
+    }
+
+    private void initActionBar(){
+        getActionBar().setDisplayHomeAsUpEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setIcon(R.drawable.transparent_bg);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setCustomView(R.layout.layout_main_action);
     }
 
     @Override
@@ -206,9 +215,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     }
 
     private void initViews() {
-        getActionBar().setDisplayHomeAsUpEnabled(false);
-        getActionBar().setHomeButtonEnabled(false);
-        getActionBar().setIcon(R.drawable.ic_action_logo);
 
         layoutBookShelf = (LinearLayout) this.findViewById(R.id.layout_book_shelf);
         layoutBookCity = (LinearLayout) this.findViewById(R.id.layout_book_city);
