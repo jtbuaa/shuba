@@ -9,18 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
 import com.dev1024.utils.PreferencesUtils;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncGetCacheBooks;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.async.AsyncGetCacheBooks.CacheBooksHandler;
-import com.qiwenge.android.base.BaseFragment;
+import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.BookList;
@@ -33,17 +30,11 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
  * <p/>
  * Created by John on 2014年5月31日
  */
-public class RecommendFragment extends BaseFragment {
+public class RecommendFragment extends BaseListFragment<Book> {
 
     private static final String CACHE_RECOMMEND = "cache_recommend";
 
-    private PagePullToRefreshListView lvMain;
-
-    private List<Book> data = new ArrayList<Book>();
-
     private BooksAdapter adapter;
-
-    private int pageindex = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,9 +54,9 @@ public class RecommendFragment extends BaseFragment {
      * 刷新数据。
      */
     public void refresh() {
-        if (refreshed) return;
-        refreshed = true;
-        getRecommend();
+//        if (refreshed) return;
+//        refreshed = true;
+//        requestData();
     }
 
     private void getCacheData() {
@@ -75,11 +66,13 @@ public class RecommendFragment extends BaseFragment {
             @Override
             public void onSuccess(List<Book> list) {
                 adapter.add(list);
+                requestData();
             }
 
             @Override
             public void onEmpty() {
                 System.out.println("Recommend cache is empty");
+                requestData();
             }
         }).execute(CACHE_RECOMMEND);
     }
@@ -91,9 +84,11 @@ public class RecommendFragment extends BaseFragment {
 
     private void initViews() {
         adapter = new BooksAdapter(getActivity(), data);
-        lvMain = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
-        lvMain.setAdapter(adapter);
-        lvMain.setOnItemClickListener(new OnItemClickListener() {
+        mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
+        setEnableFooterPage();
+        setEnablePullToRefresh();
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -105,24 +100,12 @@ public class RecommendFragment extends BaseFragment {
             }
         });
 
-        lvMain.setOnRefreshListener(new OnRefreshListener<ListView>() {
+    }
 
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                pageindex = 1;
-                getRecommend();
-                lvMain.reset();
-            }
-        });
-
-        lvMain.setOnScrollPageListener(new PagePullToRefreshListView.ScrollPageListener() {
-            @Override
-            public void onPage() {
-                pageindex++;
-                getRecommend();
-            }
-        });
-
+    @Override
+    public void requestData() {
+        super.requestData();
+        getRecommend();
     }
 
     /**
@@ -137,15 +120,11 @@ public class RecommendFragment extends BaseFragment {
                     cacheRecommend(json);
             }
 
-            @Override
-            public void onStart() {
-                lvMain.loadStart();
-            }
 
             @Override
             public void onSuccess(BookList result) {
                 if (result != null) {
-                    lvMain.setTotal(result.total);
+                    mListView.setTotal(result.total);
                     if (pageindex == 1)
                         data.clear();
                     adapter.add(result.result);
@@ -154,7 +133,7 @@ public class RecommendFragment extends BaseFragment {
 
             @Override
             public void onFinish() {
-                lvMain.loadFinished(adapter.getCount());
+                 requestFinished();
             }
         });
     }

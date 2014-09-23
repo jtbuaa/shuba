@@ -56,9 +56,9 @@ public class BookShelfAdapter extends MyBaseAdapter<Book> {
         }
         Book model = data.get(position);
         if (model != null) {
-            viewHolder.tvTitle.setText(model.title);
-            viewHolder.tvDesc.setText(model.description);
-            viewHolder.tvAuthor.setText(model.author);
+            viewHolder.tvTitle.setText(model.title.trim());
+            viewHolder.tvDesc.setText(model.description.trim());
+            viewHolder.tvAuthor.setText(model.author.trim());
             ImageLoaderUtils.display(model.cover, viewHolder.ivCover, mOptions);
 
             if (model.selected) {

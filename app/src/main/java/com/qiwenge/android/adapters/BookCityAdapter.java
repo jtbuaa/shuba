@@ -53,10 +53,10 @@ public class BookCityAdapter extends FragmentPagerAdapter {
     public void refresh(int position) {
         switch (position) {
             case 0:
-                if (rank != null) rank.refresh();
+//                if (rank != null) rank.refresh();
                 break;
             case 1:
-                if (recommend != null) recommend.refresh();
+//                if (recommend != null) recommend.refresh();
                 break;
             case 2:
                 if (category != null) category.refresh();

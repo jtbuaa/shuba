@@ -9,18 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
 import com.dev1024.utils.PreferencesUtils;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncGetCacheBooks;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.async.AsyncGetCacheBooks.CacheBooksHandler;
-import com.qiwenge.android.base.BaseFragment;
+import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.BookList;
@@ -33,17 +30,11 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
  * <p/>
  * Created by John on 2014－5－31
  */
-public class RankFragment extends BaseFragment {
+public class RankFragment extends BaseListFragment<Book> {
 
     private final String CACHE_RANK = "cache_rank";
 
-    private PagePullToRefreshListView lvMain;
-
-    private List<Book> data = new ArrayList<Book>();
-
     private BooksAdapter adapter;
-
-    private int pageindex = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,9 +54,9 @@ public class RankFragment extends BaseFragment {
      * 刷新数据。
      */
     public void refresh() {
-        if (refreshed) return;
-        refreshed = true;
-        getRank();
+//        if (refreshed) return;
+//        refreshed = true;
+//        requestData();
     }
 
     private void getCacheData() {
@@ -74,13 +65,13 @@ public class RankFragment extends BaseFragment {
             @Override
             public void onSuccess(List<Book> list) {
                 adapter.add(list);
-                getRank();
+                requestData();
             }
 
             @Override
             public void onEmpty() {
                 System.out.println("Rank cache is empty");
-                getRank();
+                requestData();
             }
         }).execute(CACHE_RANK);
     }
@@ -91,12 +82,12 @@ public class RankFragment extends BaseFragment {
     }
 
     private void initViews() {
-
         adapter = new BooksAdapter(getActivity(), data);
-        lvMain = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
-
-        lvMain.setAdapter(adapter);
-        lvMain.setOnItemClickListener(new OnItemClickListener() {
+        mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
+        setEnableFooterPage();
+        setEnablePullToRefresh();
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,26 +99,13 @@ public class RankFragment extends BaseFragment {
             }
         });
 
-        lvMain.setOnRefreshListener(new OnRefreshListener<ListView>() {
-
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                pageindex = 1;
-                getRank();
-                lvMain.reset();
-            }
-        });
-
-        lvMain.setOnScrollPageListener(new PagePullToRefreshListView.ScrollPageListener() {
-            @Override
-            public void onPage() {
-                pageindex++;
-                getRank(); 
-            }
-        });
-
     }
 
+    @Override
+    public void requestData() {
+        super.requestData();
+        getRank();
+    }
 
     /**
      * 获取排行。
@@ -135,11 +113,6 @@ public class RankFragment extends BaseFragment {
     private void getRank() {
         String url = ApiUtils.getBooksByTop();
         AsyncUtils.getBooks(url, pageindex, new JsonResponseHandler<BookList>(BookList.class) {
-
-            @Override
-            public void onStart() {
-                lvMain.loadStart();
-            }
 
             @Override
             public void onOrigin(String json) {
@@ -150,7 +123,7 @@ public class RankFragment extends BaseFragment {
             @Override
             public void onSuccess(BookList result) {
                 if (result != null) {
-                    lvMain.setTotal(result.total);
+                    mListView.setTotal(result.total);
                     if (pageindex == 1)
                         data.clear();
                     adapter.add(result.result);
@@ -159,7 +132,7 @@ public class RankFragment extends BaseFragment {
 
             @Override
             public void onFinish() {
-                lvMain.loadFinished(adapter.getCount());
+                requestFinished();
             }
         });
 
