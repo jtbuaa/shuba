@@ -237,15 +237,15 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
     private void showBookInfo() {
         if (book != null) {
-            tvTitle.setText(book.title);
+            tvTitle.setText(book.title.trim());
 
-            tvIntro.setText(ReaderUtils.formatContent(book.description));
+            tvIntro.setText(ReaderUtils.formatDesc(book.description));
             tvAuthor.setText(String.format(getString(R.string.book_intro_author_format),
-                    book.author));
+                    book.author.trim()));
 
             if (book.categories != null)
                 tvCategory.setText(String.format(getString(R.string.book_intro_category_format),
-                        book.categories.get(0)));
+                        book.categories.get(0).trim()));
             else
                 tvCategory.setText(String.format(getString(R.string.book_intro_category_format),
                         getString(R.string.str_unknow)));
