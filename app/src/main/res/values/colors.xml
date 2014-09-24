@@ -19,8 +19,6 @@
     <color name="main_shadow_color">#cccccc</color>
     <color name="main_night_shadow_color">#303030</color>
 
-    <!-- f0f0f0 -->
-
 
     <!-- Common -->
     <color name="item_selected_bg_color">#20000000</color>
@@ -29,7 +27,7 @@
     <color name="lv_divider_color">#cdcdcd</color>
 
     <!-- TextView -->
-    <color name="tv_title_color">#606060</color>
+    <color name="tv_title_color">#4d4d4d</color>
     <color name="tv_desc_color">#838383</color>
 
     <!-- Reader -->
