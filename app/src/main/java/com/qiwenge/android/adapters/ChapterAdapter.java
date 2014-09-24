@@ -32,7 +32,7 @@ public class ChapterAdapter extends MyBaseAdapter<Chapter> {
         this.context = context;
         SHOW_FORMAT = context.getString(R.string.str_chapter_title);
 
-        colorNormal=context.getResources().getColor(R.color.tv_desc_color);
+        colorNormal=context.getResources().getColor(R.color.tv_title_color);
         colorSelected=context.getResources().getColor(R.color.main_dress_color);
     }
 
