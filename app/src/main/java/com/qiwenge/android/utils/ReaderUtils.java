@@ -53,9 +53,11 @@ public class ReaderUtils {
      */
     public static String formatContent(String str) {
         str = str.trim();
-        str = getTwoSpaces() + str;
         str = str.replace(" ", "");
+        str = str.replace("　", "");
+        str = str.replace("\n\n", "\n");
         str = str.replace("\n", "\n" + getTwoSpaces());
+        str = getTwoSpaces() + str;
         return str;
     }
 
@@ -63,6 +65,7 @@ public class ReaderUtils {
         str = str.trim();
         str = str.replace(" ", "");
         str = str.replace("　", "");
+        str = str.replace("\n\n", "\n");
         str = str.replace("\n", "\n" + getTwoSpaces());
         str = getTwoSpaces() + str;
         return str;
