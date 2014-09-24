@@ -186,7 +186,7 @@ public class ThemeUtils {
     public static void setTextColor(TextView tv) {
         if (tv == null) return;
         if (isNightModel)
-            tv.setTextColor(tv.getResources().getColor(R.color.tv_desc_color));
+            tv.setTextColor(tv.getResources().getColor(R.color.tv_title_night_color));
         else tv.setTextColor(tv.getResources().getColor(R.color.tv_title_color));
     }
 
@@ -200,7 +200,6 @@ public class ThemeUtils {
     }
 
     public static void setThemeLine(View view) {
-        LogUtils.i("setThemeLine", "setThemeLine");
         if (view == null) return;
         if (isNightModel) {
             view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_night_shadow_color));

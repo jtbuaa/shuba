@@ -3,6 +3,7 @@ package com.qiwenge.android.act;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -85,7 +86,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         }
 
         ThemeUtils.setThemeBg(scrollContainer);
-        setLineColor();
+        showThemeModel(layoutContent);
     }
 
     /**
@@ -115,7 +116,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
             ThemeUtils.setNightModle(getApplicationContext(),true);
         }
         ThemeUtils.setThemeBg(scrollContainer);
-        setLineColor();
+        showThemeModel(layoutContent);
     }
 
     private void initViews() {
@@ -134,22 +135,30 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         ivNightModel = (ImageView) this.findViewById(R.id.iv_night_model);
         layoutNightModel = (RelativeLayout) this.findViewById(R.id.layout_night_model);
         layoutNightModel.setOnClickListener(this);
+        ivNightModel.setTag(1);
 
         ivSaveModel = (ImageView) this.findViewById(R.id.iv_save_model);
         layoutSaveModel = (RelativeLayout) this.findViewById(R.id.layout_save_model);
         layoutSaveModel.setOnClickListener(this);
+        ivSaveModel.setTag(1);
 
         tvCheckUpdate=(TextView) this.findViewById(R.id.set_tv_update);
         tvCheckUpdate.setOnClickListener(this);
     }
 
-    private void setLineColor(){
-        int count=layoutContent.getChildCount();
+    private void showThemeModel(ViewGroup viewGroup){
+        int count=viewGroup.getChildCount();
         View view;
         for(int i=0;i<count;i++){
-            view=layoutContent.getChildAt(i);
-            if(view instanceof ImageView){
-                ThemeUtils.setThemeLine(view);
+            view=viewGroup.getChildAt(i);
+            if(view.getTag()==null) {
+                if (view instanceof ImageView) {
+                    ThemeUtils.setThemeLine(view);
+                } else if (view instanceof TextView) {
+                    ThemeUtils.setTextColor((TextView) view);
+                } else if (view instanceof ViewGroup) {
+                    showThemeModel((ViewGroup) view);
+                }
             }
         }
     }
