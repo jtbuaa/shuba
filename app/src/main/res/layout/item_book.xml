@@ -28,7 +28,7 @@
             style="@style/ItemTitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="老五"
+            android:text="@string/app_name"
             android:textSize="@dimen/font_size_middle"
             android:textColor="@color/tv_title_color" />
 
@@ -37,7 +37,7 @@
             style="@style/ItemSummary"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="老五"
+            android:text="@string/app_name"
             android:textSize="@dimen/font_size_12"
             android:textColor="@color/tv_desc_color" />
 
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:textSize="@dimen/font_size_12"
-            android:text="老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五"
+            android:text="@string/app_name"
             android:textColor="@color/tv_desc_color" />
     </LinearLayout>
 
