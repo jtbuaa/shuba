@@ -15,6 +15,7 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.utils.ImageLoaderUtils;
+import com.qiwenge.android.utils.ReaderUtils;
 
 /**
  * 相关推荐适配器。 AboutRmdAdapter
@@ -48,7 +49,7 @@ public class AboutRmdAdapter extends MyBaseAdapter<Book> {
         Book model = data.get(position);
         if (model != null) {
             viewHolder.tvTitle.setText(model.title);
-            viewHolder.tvDesc.setText(model.description);
+            viewHolder.tvDesc.setText(ReaderUtils.formatItemDesc(model.description.trim()));
             ImageLoaderUtils.display(model.cover, viewHolder.ivCover, mOptions);
         }
         return convertView;

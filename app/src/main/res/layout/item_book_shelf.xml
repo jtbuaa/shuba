@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="@dimen/default_item_padding">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/item_iv_cover"
-            android:layout_width="60dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/item_cover_width"
+            android:layout_height="@dimen/item_cover_height"
             android:layout_centerInParent="true"
             android:background="@drawable/cover_border"
             android:contentDescription="@string/str_empty"
@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/item_iv_select"
-            android:layout_width="60dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/item_cover_width"
+            android:layout_height="@dimen/item_cover_height"
             android:layout_centerInParent="true"
             android:background="@drawable/icon_place_holder"
             android:contentDescription="@string/str_empty"
@@ -35,9 +35,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="4dp">
+        android:paddingLeft="@dimen/default_item_padding"
+        android:paddingRight="@dimen/default_item_padding">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -50,7 +49,7 @@
                 style="@style/ItemTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="老五"
+                android:text="@string/app_name"
                 android:textColor="@color/tv_title_color"
                 android:textSize="@dimen/font_size_middle" />
 
@@ -65,7 +64,7 @@
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:paddingTop="1dp"
-                android:text="更新"
+                android:text="@string/app_name"
                 android:textColor="@android:color/white"
                 android:textSize="10dp"
                 android:visibility="gone" />
@@ -75,11 +74,12 @@
         <TextView
             android:id="@+id/item_tv_author"
             style="@style/ItemSummary"
+            android:layout_marginTop="@dimen/item_text_margin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="老五"
+            android:text="@string/app_name"
             android:textColor="@color/tv_desc_color"
-            android:textSize="@dimen/font_size_12" />
+            android:textSize="@dimen/font_size_small" />
 
         <TextView
             android:id="@+id/item_tv_desc"
@@ -87,7 +87,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:text="老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五老五"
+            android:layout_marginTop="@dimen/item_text_margin"
+            android:text="@string/app_name"
             android:textColor="@color/tv_desc_color"
             android:textSize="@dimen/font_size_12" />
     </LinearLayout>

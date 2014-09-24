@@ -49,7 +49,7 @@ import com.qiwenge.android.utils.http.StringResponseHandler;
  */
 public class BookDetailActivity extends BaseActivity implements OnClickListener {
 
-    public static final String EXTRA_BOOK="book";
+    public static final String EXTRA_BOOK = "book";
 
     private TextView tvTitle;
     private TextView tvIntro;
@@ -109,7 +109,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         ThemeUtils.setThemeLine(ivShadow2);
         ThemeUtils.setThemeLine(ivShadow3);
 
-        if (book!=null&&BookShelfUtils.contains(getApplicationContext(), book)) {
+        if (book != null && BookShelfUtils.contains(getApplicationContext(), book)) {
             btnAdd.setText(R.string.book_intro_read_continue);
             isAdded = true;
         }
@@ -302,7 +302,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
      */
     private void setRelatedHeight() {
 
-        if(dataRecommend==null) return;
+        if (dataRecommend == null) return;
 
         if (dataRecommend.isEmpty()) return;
 
@@ -311,8 +311,9 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
             myTree.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    int itemHeight = lvRecommend.getMeasuredHeight();
-                    int height = itemHeight * dataRecommend.size();
+                    int lineHeight=DisplayUtils.dip2px(getApplicationContext(), 1);
+                    int itemHeight = lvRecommend.getMeasuredHeight() + lineHeight;
+                    int height = itemHeight * dataRecommend.size()-lineHeight;
                     LinearLayout.LayoutParams params =
                             new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height);
                     lvRecommend.setLayoutParams(params);

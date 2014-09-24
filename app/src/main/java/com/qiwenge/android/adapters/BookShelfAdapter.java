@@ -17,6 +17,7 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.utils.ImageLoaderUtils;
+import com.qiwenge.android.utils.ReaderUtils;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class BookShelfAdapter extends MyBaseAdapter<Book> {
         Book model = data.get(position);
         if (model != null) {
             viewHolder.tvTitle.setText(model.title.trim());
-            viewHolder.tvDesc.setText(model.description.trim());
+            viewHolder.tvDesc.setText(ReaderUtils.formatItemDesc(model.description.trim()));
             viewHolder.tvAuthor.setText(model.author.trim());
             ImageLoaderUtils.display(model.cover, viewHolder.ivCover, mOptions);
 

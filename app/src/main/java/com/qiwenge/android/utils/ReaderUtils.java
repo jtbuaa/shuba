@@ -71,4 +71,9 @@ public class ReaderUtils {
         return str;
     }
 
+    public static String formatItemDesc(String str) {
+        str = str.replace(" ", "").replace("　", "");
+        return str;
+    }
+
 }
