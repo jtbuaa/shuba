@@ -26,6 +26,7 @@ import com.dev1024.utils.IntentUtils;
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.NetworkUtils;
 import com.qiwenge.android.R;
+import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.fragments.BookCityFragment;
 import com.qiwenge.android.fragments.BookshelfFragment;
@@ -69,6 +70,13 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         initFragment();
         getOpenUDID(getApplicationContext());
         initActionBar();
+        chkUpdate();
+    }
+
+    private void chkUpdate(){
+        AsyncCheckUpdate update=new AsyncCheckUpdate(this);
+        update.setOnlyCheck();
+        update.checkUpdate();
     }
 
     private void initActionBar(){

@@ -16,14 +16,17 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
+import com.qiwenge.android.base.BaseListActivity;
 import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.ui.PagePullToRefreshListView;
 import com.qiwenge.android.ui.ScrollPageListView;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.LoadAnim;
@@ -36,7 +39,7 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
  * <p/>
  * Created by John on 2014-7-6
  */
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseListActivity<Book> {
 
     /**
      * 分类查询
@@ -51,14 +54,9 @@ public class SearchActivity extends BaseActivity {
     private String searchKeyword;
     private String searchCategory;
 
-    private ScrollPageListView lvSearch;
     private LinearLayout layoutNoResult;
     private RelativeLayout layoutContainer;
     private RelativeLayout layoutTop;
-
-    private List<Book> data = new ArrayList<Book>();
-    private BooksAdapter adapter;
-
 
     private ProgressBar pbLoading;
 
@@ -85,23 +83,21 @@ public class SearchActivity extends BaseActivity {
         layoutNoResult = (LinearLayout) this.findViewById(R.id.layout_no_result);
         layoutNoResult.setVisibility(View.GONE);
         adapter = new BooksAdapter(getApplicationContext(), data);
-        lvSearch = (ScrollPageListView) this.findViewById(R.id.listview_common);
-        lvSearch.setVisibility(View.GONE);
-        lvSearch.setAdapter(adapter);
-        lvSearch.setOnItemClickListener(new OnItemClickListener() {
+        mListView = (PagePullToRefreshListView) this.findViewById(R.id.listview_pull_to_refresh);
+        mListView.setVisibility(View.GONE);
+        setDisablePullToRefresh();
+        setEnableFooterPage();
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle extra = new Bundle();
-                extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position));
-                startActivity(BookDetailActivity.class, extra);
-            }
-        });
-        lvSearch.setOnScrollPageListener(new ScrollPageListView.ScrollPageListener() {
-            @Override
-            public void onPage() {
-                pageindex++;
-                searchBook();
+                int p = position - 1;
+                if (p >= 0 && p < data.size()) {
+                    Bundle extra = new Bundle();
+                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(p));
+                    startActivity(BookDetailActivity.class, extra);
+                }
             }
         });
 
@@ -122,9 +118,21 @@ public class SearchActivity extends BaseActivity {
                 setTitle(searchCategory);
             }
 
-            searchBook();
+            requestData();
         }
     }
+
+    @Override
+    public void requestData() {
+        super.requestData();
+        if (isSearching) {
+            searchBook();
+        } else {
+            getRecommend();
+        }
+    }
+
+    private boolean isSearching = true;
 
     private void searchBook() {
         String url = ApiUtils.getBooks();
@@ -140,14 +148,9 @@ public class SearchActivity extends BaseActivity {
         AsyncUtils.getBooks(url, params, new JsonResponseHandler<BookList>(BookList.class) {
 
             @Override
-            public void onStart() {
-                lvSearch.loadStart();
-            }
-
-            @Override
             public void onSuccess(BookList result) {
                 if (result != null && result.result != null) {
-                    lvSearch.setTotal(result.total);
+                    mListView.setTotal(result.total);
                     if (pageindex == 1)
                         data.clear();
                     adapter.add(result.result);
@@ -159,18 +162,18 @@ public class SearchActivity extends BaseActivity {
                 if (data.isEmpty())
                     getRecommend();
                 else {
+                    requestFinished();
                     pbLoading.setVisibility(View.GONE);
-                    lvSearch.setVisibility(View.VISIBLE);
+                    mListView.setVisibility(View.VISIBLE);
                 }
-                lvSearch.loadFinished(adapter.getCount());
             }
 
         });
     }
 
     private void getRecommend() {
+        isSearching = false;
         String url = ApiUtils.getRecommend();
-        System.out.println("getRecommend:" + url);
         AsyncUtils.getBooks(url, 1, new JsonResponseHandler<BookList>(BookList.class) {
 
             @Override
@@ -185,9 +188,10 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onFinish() {
                 if (!data.isEmpty()) {
-                    lvSearch.setVisibility(View.VISIBLE);
+                    mListView.setVisibility(View.VISIBLE);
                 }
                 pbLoading.setVisibility(View.GONE);
+                requestFinished();
             }
         });
     }
