@@ -3,7 +3,7 @@
 
     <!-- Config -->
     <string name="app_name">书吧</string>
-    <string name="UMENG_APPKEY">5368adef56240b3e410337a7</string>
+    <string name="UMENG_APPKEY">53b5654c56240b75180224e9</string>
     <string name="JPUSH_APPKEY">f0638222933af84af96ecad9</string>
 
     <!-- Common -->

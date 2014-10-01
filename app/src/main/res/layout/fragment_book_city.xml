@@ -58,7 +58,7 @@
         <com.viewpagerindicator.UnderlinePageIndicator
             android:id="@+id/indicator"
             android:layout_width="fill_parent"
-            android:layout_height="4dp"
+            android:layout_height="3dp"
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
