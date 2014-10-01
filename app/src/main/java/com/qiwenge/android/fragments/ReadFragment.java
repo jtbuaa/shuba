@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -702,7 +703,12 @@ public class ReadFragment extends BaseFragment {
             treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    treeObserver.removeOnGlobalLayoutListener(this);
+                    if (Build.VERSION.SDK_INT<Build.VERSION_CODES.JELLY_BEAN){
+                        treeObserver.removeGlobalOnLayoutListener(this);
+                    }else {
+                        treeObserver.removeOnGlobalLayoutListener(this);
+                    }
+
                     readerCurrent.onPage(new OnReaderPageListener() {
                         @Override
                         public void onSuccess(List<String> pages) {

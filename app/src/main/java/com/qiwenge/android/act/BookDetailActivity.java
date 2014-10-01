@@ -3,6 +3,7 @@ package com.qiwenge.android.act;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -317,7 +318,12 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                     LinearLayout.LayoutParams params =
                             new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height);
                     lvRecommend.setLayoutParams(params);
-                    myTree.removeOnGlobalLayoutListener(this);
+
+                    if (Build.VERSION.SDK_INT< Build.VERSION_CODES.JELLY_BEAN){
+                        myTree.removeGlobalOnLayoutListener(this);
+                    }else {
+                        myTree.removeOnGlobalLayoutListener(this);
+                    }
                 }
             });
         }

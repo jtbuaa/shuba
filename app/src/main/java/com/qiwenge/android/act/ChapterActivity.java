@@ -3,6 +3,7 @@ package com.qiwenge.android.act;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -175,7 +176,11 @@ public class ChapterActivity extends BaseActivity {
                 @Override
                 public void onGlobalLayout() {
 
-                    lvChapters.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    if (Build.VERSION.SDK_INT< Build.VERSION_CODES.JELLY_BEAN){
+                        viewTreeObserver.removeGlobalOnLayoutListener(this);
+                    }else {
+                        viewTreeObserver.removeOnGlobalLayoutListener(this);
+                    }
 
                     int offset = Math.abs(lvChapters.getLastVisiblePosition() - lvChapters.getFirstVisiblePosition());
                     int selectedPostion = number - offset / 2;
