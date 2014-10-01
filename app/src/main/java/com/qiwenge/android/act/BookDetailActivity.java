@@ -20,10 +20,9 @@ import android.widget.TextView;
 import com.dev1024.utils.DialogUtils;
 import com.dev1024.utils.DisplayUtils;
 import com.dev1024.utils.GsonUtils;
-import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.AboutRmdAdapter;
 import com.qiwenge.android.async.AsyncAddBook;
@@ -258,7 +257,8 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                         getString(R.string.str_book_publishing)));
             }
 
-            ImageLoaderUtils.display(book.cover, ivCover, null);
+            DisplayImageOptions options=ImageLoaderUtils.createOptions(R.drawable.icon_place_holder);
+            ImageLoaderUtils.display(book.cover, ivCover, options);
         }
     }
 
