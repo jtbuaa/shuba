@@ -10,13 +10,4 @@
         android:listSelector="@drawable/item_common_bg" >
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
-    <TextView
-        android:id="@+id/tv_empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/empty_bookshelf"
-        android:textColor="@color/tv_desc_color"
-        android:textSize="@dimen/font_size_middle" />
-
 </RelativeLayout>
