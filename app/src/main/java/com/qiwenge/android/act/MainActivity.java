@@ -291,11 +291,14 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     }
 
     private void sendFeedback() {
-        String email = getString(R.string.feedback_email);
-        String subject = getString(R.string.feedback_subject);
-        String content = getString(R.string.feedback_content);
-        String chooserTitle = getString(R.string.feedback_chooser_title);
-        IntentUtils.sendEmail(MainActivity.this, email, content, subject, chooserTitle);
+
+//        String email = getString(R.string.feedback_email);
+//        String subject = getString(R.string.feedback_subject);
+//        String content = getString(R.string.feedback_content);
+//        String chooserTitle = getString(R.string.feedback_chooser_title);
+//        IntentUtils.sendEmail(MainActivity.this, email, content, subject, chooserTitle);
+
+        startActivity(FeedbackActivity.class);
     }
 
     /**
