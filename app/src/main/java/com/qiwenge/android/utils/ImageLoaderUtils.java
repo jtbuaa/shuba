@@ -73,13 +73,15 @@ public class ImageLoaderUtils {
      */
     public static void display(String url, ImageView iv, DisplayImageOptions mOptions) {
         if (wifiEnable || LOADER_STATUS == STATUS_OPENED) {
-            ImageLoader.getInstance().displayImage(url, iv, mOptions);
+            if (ImageLoader.getInstance().isInited())
+                ImageLoader.getInstance().displayImage(url, iv, mOptions);
         }
     }
 
     public static void display(String url, ImageView iv, DisplayImageOptions mOptions, ImageLoadingListener listener) {
         if (wifiEnable || LOADER_STATUS == STATUS_OPENED) {
-            ImageLoader.getInstance().displayImage(url, iv, mOptions, listener);
+            if (ImageLoader.getInstance().isInited())
+                ImageLoader.getInstance().displayImage(url, iv, mOptions, listener);
         }
     }
 
