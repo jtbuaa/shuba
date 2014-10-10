@@ -13,6 +13,8 @@
         <item name="android:actionModeBackground">@color/action_bar_bg_color</item>
         <item name="android:actionModeStyle">@style/MyActionModeStyle</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_action_mode_cancel</item>
+        <item name="android:actionMenuTextColor">@color/action_bar_text_color</item>
+        <item name="android:actionMenuTextAppearance">@style/MyActionBar.MenuItem</item>
         <!--<item name="android:actionModeCloseButtonStyle">@style/MyActionModeCloseButton</item>-->
     </style>
 
@@ -39,6 +41,11 @@
         <item name="android:textSize">@dimen/font_size_action_title</item>
     </style>
 
+    <style name="MyActionBar.MenuItem" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Menu">
+        <item name="android:textSize">@dimen/font_size_middle</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
     <!-- Setup the style of the ActionMode here -->
     <style name="MyActionModeStyle">
         <item name="android:titleTextStyle">@style/MyActionModeTitle</item>
@@ -48,7 +55,7 @@
     <!-- Setup the text style of the ActionMode here -->
     <style name="MyActionModeTitle">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/font_size_big</item>
     </style>
 
     <style name="MyActionModeCloseButton">

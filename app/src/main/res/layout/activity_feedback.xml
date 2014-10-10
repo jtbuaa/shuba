@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/search_view_bg"
         android:padding="10dp"
-        android:hint="@string/feedback_hint" />
+        android:hint="@string/feedback_hint"
+        android:id="@+id/et_content" />
 
 </LinearLayout>

@@ -46,7 +46,7 @@
     <string name="set_save_model">流量控制</string>
     <string name="set_save_model_summary">仅在WI-FI下加载小说封面</string>
     <string name="set_legal">免责声明</string>
-    <string name="set_rating">评分</string>
+    <string name="set_rating">给书吧好评</string>
     <string name="set_update">检查版本更新</string>
     <string name="set_version">版本</string>
 
@@ -58,9 +58,10 @@
     <string name="feedback_subject">意见反馈</string>
     <string name="feedback_content"></string>
     <string name="feedback_chooser_title">意见反馈</string>
+    <string name="feedback_hint">意见反馈</string>
 
     <!-- Empty -->
-    <string name="empty_bookshelf">闲的无聊,看本书吧</string>
+    <string name="empty_bookshelf">孤独的小树, 需要书的陪伴</string>
     <string name="empty_search">抱歉,没有找到您想要的小说</string>
     <string name="empty_chapter">恭喜您发现一本无字天书</string>
 
@@ -81,5 +82,10 @@
     <string name="action_setting">设置</string>
     <string name="action_feedback">意见反馈</string>
     <string name="action_more">更多</string>
+    <string name="title_activity_feedback">意见反馈</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_send">发送</string>
+
 
 </resources>
