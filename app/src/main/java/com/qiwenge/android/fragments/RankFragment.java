@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.PreferencesUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
@@ -33,8 +34,6 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
 public class RankFragment extends BaseListFragment<Book> {
 
     private final String CACHE_RANK = "cache_rank";
-
-    private BooksAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,11 +122,13 @@ public class RankFragment extends BaseListFragment<Book> {
             @Override
             public void onSuccess(BookList result) {
                 if (result != null) {
-                    mListView.setTotal(result.total);
-                    if (pageindex == 1)
-                        data.clear();
-                    adapter.add(result.result);
+                    requestSuccess(result.result);
                 }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                requestFailure();
             }
 
             @Override

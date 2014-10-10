@@ -34,8 +34,6 @@ public class RecommendFragment extends BaseListFragment<Book> {
 
     private static final String CACHE_RECOMMEND = "cache_recommend";
 
-    private BooksAdapter adapter;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_recommend, container, false);
@@ -124,11 +122,13 @@ public class RecommendFragment extends BaseListFragment<Book> {
             @Override
             public void onSuccess(BookList result) {
                 if (result != null) {
-                    mListView.setTotal(result.total);
-                    if (pageindex == 1)
-                        data.clear();
-                    adapter.add(result.result);
+                    requestSuccess(result.result);
                 }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                requestFailure();
             }
 
             @Override

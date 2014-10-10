@@ -1,7 +1,6 @@
 package com.qiwenge.android.ui;
 
 import android.content.Context;
-import android.media.Image;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +8,8 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
-
-import com.dev1024.utils.LogUtils;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.qiwenge.android.R;
-import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.utils.LoadAnim;
 
 /**
@@ -35,11 +29,6 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
      */
     private boolean enablePage=true;
 
-    /**
-     * 总给需要加载的数据的总数
-     */
-    private int total = 0;
-
     public PagePullToRefreshListView(Context context) {
         super(context);
         init();
@@ -48,15 +37,6 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
     public PagePullToRefreshListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
-    }
-
-    /**
-     * 设置数据的总数
-     *
-     * @param t
-     */
-    public void setTotal(int t) {
-        this.total = t;
     }
 
     private void setIsLoading(boolean b) {
@@ -76,17 +56,10 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
 
     /**
      * 加载完成
-     *
-     * @param currentSize 当前显示的数量。
      */
-    public void loadFinished(int currentSize) {
+    public void loadFinished() {
         setIsLoading(false);
         onRefreshComplete();
-        if (currentSize == total) {
-            removePageFooterView();
-            enablePage=false;
-            LogUtils.i("onLoadFinished","page over");
-        }
     }
 
     public void setOnScrollPageListener(ScrollPageListener listener) {
@@ -112,6 +85,11 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
      */
     public void reset(){
         enablePage=true;
+        removePageFooterView();
+    }
+
+    public void setPageEnable(boolean b){
+        this.enablePage=b;
     }
 
     /**
@@ -127,7 +105,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
     /**
      * 移除分页footer
      */
-    private void removePageFooterView() {
+    public void removePageFooterView() {
         if (pagerFooter != null) {
             getRefreshableView().removeFooterView(pagerFooter);
             pagerFooter = null;

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Eric on 14-9-20.
  */
-public class BaseListFragment<T> extends BaseFragment {
+public class BaseListActivity<T> extends BaseActivity {
 
     public PagePullToRefreshListView mListView;
 
@@ -36,6 +36,12 @@ public class BaseListFragment<T> extends BaseFragment {
                     requestData();
                 }
             });
+        }
+    }
+
+    public void setDisablePullToRefresh() {
+        if (mListView != null) {
+            mListView.setMode(PullToRefreshBase.Mode.DISABLED);
         }
     }
 
@@ -75,12 +81,6 @@ public class BaseListFragment<T> extends BaseFragment {
             data.clear();
         if (adapter != null)
             adapter.add(newData);
-    }
-
-    public void requestFailure() {
-        if (mListView != null) {
-            mListView.removePageFooterView();
-        }
     }
 
     public void requestFinished() {
