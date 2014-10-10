@@ -53,19 +53,17 @@ public class AsyncUtils {
 
             @Override
             public void onStart() {
-                LogUtils.i("postViewTotal-onStart", "onStart");
+                LogUtils.i("postViewTotal", "onStart");
             }
 
             @Override
             public void onSuccess(String result) {
-                if (StringUtils.isEmptyOrNull(result)) result = "success with empty result.";
-                LogUtils.i("postViewTotal-onSuccess", result);
+                LogUtils.i("postViewTotal", "onSuccess");
             }
 
             @Override
             public void onFailure(String msg) {
-                if (StringUtils.isEmptyOrNull(msg)) msg = "Failure with unknow message.";
-                LogUtils.e("postViewTotal-onFailure", msg);
+                LogUtils.e("postViewTotal", "onFailure");
             }
         });
     }
