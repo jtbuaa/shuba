@@ -127,11 +127,16 @@ public class ApiUtils {
 
     /**
      * 赞
+     *
      * @param bookId
      * @return
      */
-    public static String postBookVoteUp(String bookId){
+    public static String postBookVoteUp(String bookId) {
         return String.format(FORMAT_3_PARAMS, ApiModels.books, bookId, ApiModels.voteup);
+    }
+
+    public static String postFeedBack() {
+        return String.format(FORMAT_1_PARAMS, ApiModels.feedbacks);
     }
 
     /**

@@ -50,6 +50,8 @@ public enum ApiModels {
     /**
      * 赞
      */
-    voteup
+    voteup,
+
+    feedbacks
 
 }
