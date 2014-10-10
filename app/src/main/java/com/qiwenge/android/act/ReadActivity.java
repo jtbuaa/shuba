@@ -286,6 +286,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         if (extra.containsKey(Extra_BookId)) {
             bookId = extra.getString(Extra_BookId);
             fragment.setBookId(bookId);
+            AsyncUtils.postViewTotal(bookId);
         }
 
         if (extra.containsKey(Extra_BookTitle)) {

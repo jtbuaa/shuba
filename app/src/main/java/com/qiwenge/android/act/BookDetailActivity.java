@@ -24,6 +24,7 @@ import com.dev1024.utils.GsonUtils;
 import com.dev1024.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.AboutRmdAdapter;
 import com.qiwenge.android.async.AsyncAddBook;
@@ -258,8 +259,10 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                         getString(R.string.str_book_publishing)));
             }
 
-            DisplayImageOptions options=ImageLoaderUtils.createOptions(R.drawable.icon_place_holder);
-            ImageLoaderUtils.display(book.cover, ivCover, options);
+            if(ImageLoader.getInstance().isInited()) {
+                DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.icon_place_holder);
+                ImageLoaderUtils.display(book.cover, ivCover, options);
+            }
         }
     }
 
@@ -291,6 +294,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         }
     }
 
+    private ViewTreeObserver myTree;
 
     /**
      * 设置相关推荐的高度。
@@ -307,7 +311,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
         if (dataRecommend.isEmpty()) return;
 
-        final ViewTreeObserver myTree = lvRecommend.getViewTreeObserver();
+        myTree = lvRecommend.getViewTreeObserver();
         if (myTree.isAlive()) {
             myTree.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -318,11 +322,18 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                     LinearLayout.LayoutParams params =
                             new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height);
                     lvRecommend.setLayoutParams(params);
+                    if(myTree.isAlive()) {
 
-                    if (Build.VERSION.SDK_INT< Build.VERSION_CODES.JELLY_BEAN){
-                        myTree.removeGlobalOnLayoutListener(this);
-                    }else {
-                        myTree.removeOnGlobalLayoutListener(this);
+                        try {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                                myTree.removeGlobalOnLayoutListener(this);
+                            } else {
+                                myTree.removeOnGlobalLayoutListener(this);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             });

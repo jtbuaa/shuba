@@ -5,7 +5,9 @@ import java.util.List;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,7 +27,6 @@ import com.qiwenge.android.models.Chapter;
 import com.qiwenge.android.models.ChapterList;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
-import com.qiwenge.android.utils.LoadAnim;
 import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
@@ -44,7 +45,7 @@ public class ChapterActivity extends BaseActivity {
     public static final String EXTRA_BOOK_TITLE = "book_title";
 
     private ListView lvChapters;
-    private TextView tvEmpty;
+    private View emptyView;
     private RelativeLayout layoutContainer;
     private ProgressBar ivLoading;
 
@@ -104,8 +105,7 @@ public class ChapterActivity extends BaseActivity {
     private void initViews() {
         ivLoading = (ProgressBar) this.findViewById(R.id.pb_loading);
         layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_container);
-        tvEmpty = (TextView) this.findViewById(R.id.tv_empty);
-        tvEmpty.setVisibility(View.GONE);
+
         adapter = new ChapterAdapter(this, list);
         lvChapters = (ListView) this.findViewById(R.id.listview_common);
         lvChapters.setAdapter(adapter);
@@ -125,6 +125,18 @@ public class ChapterActivity extends BaseActivity {
         });
     }
 
+    private void showEmptyView() {
+        emptyView = LayoutInflater.from(this).inflate(R.layout.layout_empty, null);
+        TextView tvEmpty = (TextView) emptyView.findViewById(R.id.tv_empty);
+        ImageView ivEmpty = (ImageView) emptyView.findViewById(R.id.iv_empty);
+        ivEmpty.setVisibility(View.GONE);
+        tvEmpty.setText(R.string.empty_chapter);
+
+        ViewGroup viewGroup = (ViewGroup) lvChapters.getParent();
+        viewGroup.addView(emptyView, lvChapters.getLayoutParams());
+        lvChapters.setEmptyView(emptyView);
+    }
+
     /**
      * 获取一本书下的，所有章节。
      */
@@ -140,8 +152,7 @@ public class ChapterActivity extends BaseActivity {
             @Override
             public void onFinish() {
                 if (list.isEmpty()) {
-                    lvChapters.setVisibility(View.GONE);
-                    tvEmpty.setVisibility(View.VISIBLE);
+                    showEmptyView();
                 }
                 ivLoading.setVisibility(View.GONE);
             }
@@ -154,6 +165,8 @@ public class ChapterActivity extends BaseActivity {
             }
         });
     }
+
+    private ViewTreeObserver viewTreeObserver;
 
     private void selectedReadNumber() {
         final int number = BookShelfUtils.getReadNumber(getApplicationContext(), bookId) - 1;
@@ -170,16 +183,23 @@ public class ChapterActivity extends BaseActivity {
         }
 
         //定位到阅读到的number，并滚动到中间
-        final ViewTreeObserver viewTreeObserver = lvChapters.getViewTreeObserver();
+        viewTreeObserver = lvChapters.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
             viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
+                    if (viewTreeObserver != null && viewTreeObserver.isAlive()) {
 
-                    if (Build.VERSION.SDK_INT< Build.VERSION_CODES.JELLY_BEAN){
-                        viewTreeObserver.removeGlobalOnLayoutListener(this);
-                    }else {
-                        viewTreeObserver.removeOnGlobalLayoutListener(this);
+                        try {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                                viewTreeObserver.removeGlobalOnLayoutListener(this);
+                            } else {
+                                viewTreeObserver.removeOnGlobalLayoutListener(this);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
 
                     int offset = Math.abs(lvChapters.getLastVisiblePosition() - lvChapters.getFirstVisiblePosition());
@@ -192,5 +212,4 @@ public class ChapterActivity extends BaseActivity {
         }
 
     }
-
 }

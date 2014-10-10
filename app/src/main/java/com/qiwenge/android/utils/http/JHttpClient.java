@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.dev1024.utils.LogUtils;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 

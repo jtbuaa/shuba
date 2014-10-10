@@ -35,19 +35,20 @@ public class ReadPagerView extends TextView {
     }
 
 
-
     /**
      * 分页。
      *
      * @param listener
      */
     public void onPage(OnReaderPageListener listener) {
-        final int length = length();
-        final Layout layout = getLayout();
-        final int height = getHeight() - getPaddingTop() - getPaddingBottom();
+        Layout layout = getLayout();
+        if(layout==null) return;
+
+        int length = length();
+        int height = getHeight() - getPaddingTop() - getPaddingBottom();
 
         // 总行数
-        final int lineCount = getLineCount();
+        int lineCount = getLineCount();
 
         // 可见的最后一行,即：一页可显示多少行.
         int lastLine = layout.getLineForVertical(height);

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,11 +50,11 @@ public class BookshelfFragment extends BaseFragment {
 
     private List<Book> data = new ArrayList<Book>();
 
-    private TextView tvEmpty;
-
     private BookShelfAdapter adapter;
 
     private OnFragmentClickListener clickListener;
+
+    private View emptyView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,12 +72,14 @@ public class BookshelfFragment extends BaseFragment {
     }
 
     private void initViews() {
-        tvEmpty = (TextView) getView().findViewById(R.id.tv_empty);
-        tvEmpty.setVisibility(View.GONE);
+        emptyView=LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty,null);
+        ImageView ivEmpty=(ImageView)emptyView.findViewById(R.id.iv_empty);
+        ivEmpty.setBackgroundResource(R.drawable.icon_empty_tree);
         adapter = new BookShelfAdapter(getActivity(), data);
         lvBookShelf = (PullToRefreshListView) getView().findViewById(R.id.lv_book_shelf);
+        lvBookShelf.setEmptyView(emptyView);
+        emptyView.setVisibility(View.GONE);
         lvBookShelf.setAdapter(adapter);
-        lvBookShelf.setVisibility(View.GONE);
         lvBookShelf.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -130,7 +133,10 @@ public class BookshelfFragment extends BaseFragment {
      * 检查书架中的书，是否有更新。
      */
     private void chkBookUpdated() {
-        if (data.isEmpty()) return;
+        if (data.isEmpty()) {
+            lvBookShelf.onRefreshComplete();
+            return;
+        }
         StringBuilder bookIds = new StringBuilder();
         StringBuilder chapterTotals = new StringBuilder();
         Book book;
@@ -209,7 +215,6 @@ public class BookshelfFragment extends BaseFragment {
         }
         if (!listRemove.isEmpty())
             adapter.remove(listRemove);
-        checkIsEmpty();
         clearAllSelect();
     }
 
@@ -224,16 +229,6 @@ public class BookshelfFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getBooks();
-    }
-
-    private void checkIsEmpty() {
-        if (data.isEmpty()) {
-            tvEmpty.setVisibility(View.VISIBLE);
-            lvBookShelf.setVisibility(View.GONE);
-        } else {
-            tvEmpty.setVisibility(View.GONE);
-            lvBookShelf.setVisibility(View.VISIBLE);
-        }
     }
 
     /**
@@ -254,7 +249,6 @@ public class BookshelfFragment extends BaseFragment {
                 data.clear();
                 adapter.add(result.result);
             }
-            checkIsEmpty();
         }
     }
 

@@ -254,7 +254,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
                 );
 
         SubMenu submenu = menu.addSubMenu(0, 1, 0,R.string.action_more);
-        submenu.add(0, 1, 0, R.string.action_setting).setIntent(
+        submenu.add(0, 1, 2, R.string.action_setting).setIntent(
                 new Intent(getApplicationContext(), SettingActivity.class));
         submenu.add(0, 2, 1, R.string.action_feedback);
         submenu.getItem().setIcon(R.drawable.ic_action_more)
@@ -291,13 +291,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     }
 
     private void sendFeedback() {
-
-//        String email = getString(R.string.feedback_email);
-//        String subject = getString(R.string.feedback_subject);
-//        String content = getString(R.string.feedback_content);
-//        String chooserTitle = getString(R.string.feedback_chooser_title);
-//        IntentUtils.sendEmail(MainActivity.this, email, content, subject, chooserTitle);
-
         startActivity(FeedbackActivity.class);
     }
 

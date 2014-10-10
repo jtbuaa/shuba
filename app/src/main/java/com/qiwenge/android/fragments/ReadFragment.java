@@ -613,10 +613,10 @@ public class ReadFragment extends BaseFragment {
         setBatteryBackground();
     }
 
-    private void setBatteryBackground(){
-        if(ThemeUtils.getIsNightModel()){
+    private void setBatteryBackground() {
+        if (ThemeUtils.getIsNightModel()) {
             pbBattery.setBackgroundResource(R.drawable.battery_bg_light9);
-        }else{
+        } else {
             pbBattery.setBackgroundResource(R.drawable.battery_bg9);
         }
     }
@@ -688,6 +688,8 @@ public class ReadFragment extends BaseFragment {
         return pageindex;
     }
 
+    private ViewTreeObserver treeObserver;
+
     /**
      * 设置内容，在callback中返回分页数据。
      *
@@ -698,15 +700,22 @@ public class ReadFragment extends BaseFragment {
     private void setText(ReadPagerView reader, String content, final OnReaderPageListener listener) {
         reader.setTextSize(mTextSize);
         reader.setText(content);
-        final ViewTreeObserver treeObserver = reader.getViewTreeObserver();
+        treeObserver = reader.getViewTreeObserver();
         if (treeObserver.isAlive()) {
             treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    if (Build.VERSION.SDK_INT<Build.VERSION_CODES.JELLY_BEAN){
-                        treeObserver.removeGlobalOnLayoutListener(this);
-                    }else {
-                        treeObserver.removeOnGlobalLayoutListener(this);
+
+                    try {
+                        if (treeObserver.isAlive()) {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                                treeObserver.removeGlobalOnLayoutListener(this);
+                            } else {
+                                treeObserver.removeOnGlobalLayoutListener(this);
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
                     readerCurrent.onPage(new OnReaderPageListener() {

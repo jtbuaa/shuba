@@ -60,8 +60,6 @@ public class SearchActivity extends BaseListActivity<Book> {
 
     private ProgressBar pbLoading;
 
-    private int pageindex = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,10 +148,7 @@ public class SearchActivity extends BaseListActivity<Book> {
             @Override
             public void onSuccess(BookList result) {
                 if (result != null && result.result != null) {
-                    mListView.setTotal(result.total);
-                    if (pageindex == 1)
-                        data.clear();
-                    adapter.add(result.result);
+                    requestSuccess(result.result);
                 }
             }
 
@@ -180,8 +175,7 @@ public class SearchActivity extends BaseListActivity<Book> {
             public void onSuccess(BookList result) {
                 if (result != null) {
                     layoutNoResult.setVisibility(View.VISIBLE);
-                    data.clear();
-                    adapter.add(result.result);
+                    requestSuccess(result.result);
                 }
             }
 
