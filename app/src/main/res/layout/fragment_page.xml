@@ -59,4 +59,6 @@
 
     <include layout="@layout/layout_loading" />
 
+    <include layout="@layout/layout_empty" />
+
 </RelativeLayout>

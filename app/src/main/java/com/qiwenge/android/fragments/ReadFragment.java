@@ -20,7 +20,9 @@ import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -162,6 +164,9 @@ public class ReadFragment extends BaseFragment {
 
     private String currentChapterId;
 
+    //EmptyView
+    private LinearLayout layoutEmpty;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_page, container, false);
@@ -227,6 +232,7 @@ public class ReadFragment extends BaseFragment {
      * 初始化Views
      */
     private void initViews() {
+        initEmptyView();
         pbLoading = (ProgressBar) getView().findViewById(R.id.pb_loading);
 
         pbBattery = (ProgressBar) getView().findViewById(R.id.progreebar_battery);
@@ -240,6 +246,34 @@ public class ReadFragment extends BaseFragment {
 
         initViewPager();
         initTextSize();
+    }
+
+    private void initEmptyView() {
+        layoutEmpty = (LinearLayout) getView().findViewById(R.id.layout_empty);
+        layoutEmpty.setVisibility(View.GONE);
+        TextView tvEmpty = (TextView) getView().findViewById(R.id.tv_empty);
+        tvEmpty.setText("网络不给力，请重试");
+        Button btnEmpty = (Button) getView().findViewById(R.id.btn_empty);
+        btnEmpty.setText("重试");
+        btnEmpty.setVisibility(View.VISIBLE);
+        btnEmpty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                retry();
+            }
+        });
+    }
+
+    private void showEmptyView() {
+        if (pageList.isEmpty()) {
+            layoutEmpty.setVisibility(View.VISIBLE);
+        } else {
+            layoutEmpty.setVisibility(View.GONE);
+        }
+    }
+
+    private void hideEmptyView() {
+        layoutEmpty.setVisibility(View.GONE);
     }
 
     private void initViewPager() {
@@ -338,15 +372,27 @@ public class ReadFragment extends BaseFragment {
         }
     }
 
+    private String retryChapterId="";
+    private int retryLength=0;
+
+    private void retry(){
+        getChapter(retryChapterId, retryLength);
+    }
+
+    public void getChapter(final String chapterId) {
+        getChapter(chapterId, 0);
+    }
+
     /**
-     * 获取上一页
+     * 获取章节内容
      *
      * @param chapterId
      */
-    public void getPrev(final String chapterId) {
+    public void getChapter(final String chapterId, final int length) {
+        LogUtils.i("getChapter", "" + length);
         if (chapterCache.containsKey(chapterId)) {
-            handlePrev(chapterCache.get(chapterId));
-            LogUtils.i("Reader", "get prev chapter from cache");
+            handleCurrent(chapterId, chapterCache.get(chapterId), length);
+            LogUtils.i("Reader", "get current chapter from cache");
             return;
         }
 
@@ -357,8 +403,26 @@ public class ReadFragment extends BaseFragment {
             public void onSuccess(final Chapter result) {
                 if (result != null) {
                     chapterCache.put(chapterId, result);
+                    handleCurrent(chapterId, result, length);
                 }
-                handlePrev(result);
+            }
+
+            @Override
+            public void onStart() {
+                if (layoutEmpty.getVisibility() == View.VISIBLE) {
+                    hideEmptyView();
+                    pbLoading.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                pbLoading.setVisibility(View.GONE);
+                if (pageList.isEmpty()) {
+                    showEmptyView();
+                    retryChapterId=chapterId;
+                    retryLength=length;
+                }
             }
 
             @Override
@@ -389,8 +453,8 @@ public class ReadFragment extends BaseFragment {
             public void onSuccess(final Chapter result) {
                 if (result != null) {
                     chapterCache.put(chapterId, result);
+                    handleNext(result);
                 }
-                handleNext(result);
             }
 
             @Override
@@ -403,20 +467,15 @@ public class ReadFragment extends BaseFragment {
 
     }
 
-    public void getChapter(final String chapterId) {
-        getChapter(chapterId, 0);
-    }
-
     /**
-     * 获取章节内容
+     * 获取上一页
      *
      * @param chapterId
      */
-    public void getChapter(final String chapterId, final int length) {
-        LogUtils.i("getChapter", "" + length);
+    public void getPrev(final String chapterId) {
         if (chapterCache.containsKey(chapterId)) {
-            handleCurrent(chapterId, chapterCache.get(chapterId), length);
-            LogUtils.i("Reader", "get current chapter from cache");
+            handlePrev(chapterCache.get(chapterId));
+            LogUtils.i("Reader", "get prev chapter from cache");
             return;
         }
 
@@ -427,17 +486,8 @@ public class ReadFragment extends BaseFragment {
             public void onSuccess(final Chapter result) {
                 if (result != null) {
                     chapterCache.put(chapterId, result);
+                    handlePrev(result);
                 }
-                handleCurrent(chapterId, result, length);
-            }
-
-            @Override
-            public void onStart() {
-            }
-
-            @Override
-            public void onFinish() {
-                pbLoading.setVisibility(View.GONE);
             }
 
             @Override
