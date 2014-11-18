@@ -3,23 +3,22 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/main_bg_color"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
-            <FrameLayout
-                android:id="@+id/layout_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </FrameLayout>
+            <com.qiwenge.android.ui.SlowViewPager
+                android:id="@+id/viewpager_main"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
 
             <ImageView
                 android:layout_width="fill_parent"
@@ -36,7 +35,7 @@
             android:background="@android:color/white"
             android:baselineAligned="false"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/layout_book_shelf"
@@ -45,7 +44,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/item_common_bg"
                 android:gravity="center"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/iv_book_shelf"
@@ -71,7 +70,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/item_common_bg"
                 android:gravity="center"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/iv_book_city"
@@ -86,6 +85,32 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/str_book_library"
+                    android:textColor="@color/tv_desc_color"
+                    android:textSize="@dimen/font_size_12" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_me"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/item_common_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_me"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/icon_main_bookcity_n"
+                    android:contentDescription="@string/str_empty" />
+
+                <TextView
+                    android:id="@+id/tv_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/str_me"
                     android:textColor="@color/tv_desc_color"
                     android:textSize="@dimen/font_size_12" />
             </LinearLayout>

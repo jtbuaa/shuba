@@ -33,11 +33,11 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/ic_checkbox_normal" />
+                android:background="@drawable/icon_switch_off" />
 
             <TextView
                 style="@style/SetItemTextView"
-                android:text="@string/set_night_model" />
+                android:text="@string/set_night_model"  />
         </RelativeLayout>
 
         <ImageView style="@style/ImageDivider" />
@@ -54,7 +54,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/ic_checkbox_normal" />
+                android:background="@drawable/icon_switch_off" />
 
             <LinearLayout
                 style="@style/SetItemTextView"

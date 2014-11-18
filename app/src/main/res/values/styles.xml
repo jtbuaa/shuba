@@ -4,7 +4,7 @@
 
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowBackground">@color/main_bg_color</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_action_back_big</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_home</item>
         <item name="android:logo">@drawable/transparent_bg</item>
         <item name="android:windowContentOverlay">@drawable/action_bar_overlay</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
@@ -15,7 +15,7 @@
         <item name="android:actionModeCloseDrawable">@drawable/ic_action_mode_cancel</item>
         <item name="android:actionMenuTextColor">@color/action_bar_text_color</item>
         <item name="android:actionMenuTextAppearance">@style/MyActionBar.MenuItem</item>
-        <!--<item name="android:actionModeCloseButtonStyle">@style/MyActionModeCloseButton</item>-->
+        <item name="android:actionModeCloseButtonStyle">@style/MyActionModeCloseButton</item>
     </style>
 
     <style name="SplashTheme" parent="android:Theme">
@@ -58,8 +58,8 @@
         <item name="android:textSize">@dimen/font_size_big</item>
     </style>
 
-    <style name="MyActionModeCloseButton">
-        <item name="android:actionBarItemBackground">@drawable/action_bar_item_bg</item>
+    <style name="MyActionModeCloseButton" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
+        <item name="android:background">@drawable/action_bar_item_bg</item>
     </style>
 
     <!-- SubMenu样式 -->
@@ -127,6 +127,18 @@
         <item name="android:paddingLeft">10dp</item>
     </style>
 
+    <style name="ItemMe">
+        <item name="android:textSize">@dimen/font_size_middle</item>
+        <item name="android:textColor">@color/tv_title_color</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/item_white_bg</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+
     <style name="SetItem_Title">
         <item name="android:textSize">@dimen/font_size_big</item>
         <item name="android:textColor">@color/tv_title_color</item>
@@ -163,6 +175,14 @@
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:textSize">@dimen/reader_text_size</item>
+    </style>
+
+    <style name="Dialog_Fullscreen">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
 </resources>

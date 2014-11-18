@@ -1,17 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gv_category"
         style="@style/Pull_To_Refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:listSelector="@drawable/item_common_bg"
-        android:scrollbars="vertical" >
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+        android:scrollbars="vertical"></com.handmark.pulltorefresh.library.PullToRefreshListView>
 
-</LinearLayout>
+    <include layout="@layout/layout_empty" />
+
+    <include layout="@layout/layout_loading" />
+
+</RelativeLayout>

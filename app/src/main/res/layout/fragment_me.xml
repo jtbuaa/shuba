@@ -1,0 +1,70 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_second_bg_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_bg_color"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@color/main_night_bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/default_padding"
+                android:paddingRight="@dimen/default_padding">
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Eric"
+                    android:textColor="@color/tv_title_color"
+                    android:textSize="@dimen/font_size_big" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LV1"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/tv_desc_color"
+                    android:textSize="@dimen/font_size_middle" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/ItemMe"
+            android:layout_marginTop="16dp"
+            android:text="我的评论" />
+
+        <TextView
+            style="@style/ItemMe"
+            android:text="意见反馈" />
+
+        <TextView
+            android:id="@+id/tv_set"
+            style="@style/ItemMe"
+            android:layout_marginTop="16dp"
+            android:text="设置" />
+
+    </LinearLayout>
+
+</ScrollView>

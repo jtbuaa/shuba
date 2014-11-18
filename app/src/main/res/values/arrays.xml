@@ -35,4 +35,19 @@
         <item>灵异</item>
     </string-array>
 
+    <!-- Source -->
+    <string-array name="source_items">
+        <item>智能搜索</item>
+        <item>百度贴吧</item>
+        <item>百度搜索</item>
+        <item>宜搜</item>
+    </string-array>
+
+    <integer-array name="source_value">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </integer-array>
+
 </resources>

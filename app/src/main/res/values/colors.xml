@@ -2,13 +2,13 @@
 <resources>
 
     <!-- ActionBar -->
-    <color name="action_bar_bg_color">#303030</color>
-    <color name="action_bar_overlay_color">#505050</color>
+    <color name="action_bar_bg_color">#da4336</color>
+    <color name="action_bar_overlay_color">#00505050</color>
     <color name="action_bar_text_color">#e6e6e6</color>
     <color name="action_bar_item_bg_color">#50000000</color>
 
     <!-- Main点缀颜色 -->
-    <color name="main_dress_color">#ee7a31</color>
+    <color name="main_dress_color">#da4336</color>
     <color name="main_divder_color">#9d999b</color>
     <color name="main_bg_color">#ffffff</color>
     <color name="main_night_bg_color">#202020</color>
@@ -24,6 +24,7 @@
     <color name="item_focus_bg_color">#10000000</color>
     <color name="common_line_color">@color/main_gray_color</color>
     <color name="lv_divider_color">#cdcdcd</color>
+    <color name="white_p50">#7fffffff</color>
 
     <!-- TextView -->
     <color name="tv_title_color">#4d4d4d</color>
@@ -31,6 +32,7 @@
     <color name="tv_desc_color">#838383</color>
 
     <!-- Reader -->
+    <color name="reader_menu_bg_color">#303030</color>
     <color name="read_normal_text_color">#666666</color>
     <color name="read_green_bg">#ffcce8cf</color>
     <color name="read_light_blue_bg">#ffd6f4f7</color>

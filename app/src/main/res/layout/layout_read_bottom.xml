@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@color/action_bar_bg_color"
+    android:background="@color/reader_menu_bg_color"
     android:orientation="vertical">
 
     <LinearLayout
@@ -108,7 +108,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/action_bar_overlay_color" />
+        android:background="@color/main_night_bg_color" />
 
     <GridView
         android:id="@+id/gv_menu"
