@@ -59,7 +59,7 @@ public class BookCityAdapter extends FragmentPagerAdapter {
 //                if (recommend != null) recommend.refresh();
                 break;
             case 2:
-                if (category != null) category.refresh();
+//                if (category != null) category.refresh();
                 break;
             default:
                 break;

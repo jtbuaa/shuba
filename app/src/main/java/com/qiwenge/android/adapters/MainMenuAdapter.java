@@ -1,0 +1,53 @@
+package com.qiwenge.android.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.qiwenge.android.R;
+import com.qiwenge.android.adapters.base.MyBaseAdapter;
+import com.qiwenge.android.models.MainMenuItem;
+
+import java.util.List;
+
+public class MainMenuAdapter extends MyBaseAdapter<MainMenuItem> {
+
+    private ViewHolder viewHolder;
+
+    public MainMenuAdapter(Context context, List<MainMenuItem> data) {
+        this.data = data;
+        this.context = context;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_main_menu, null);
+            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.item_tv_title);
+            viewHolder.ivIcon = (ImageView) convertView.findViewById(R.id.item_iv_icon);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        MainMenuItem model = data.get(position);
+        if (model != null) {
+            viewHolder.tvTitle.setText(model.title);
+            if (model.selected) {
+                viewHolder.ivIcon.setBackgroundResource(model.iconSelected);
+            } else {
+                viewHolder.ivIcon.setBackgroundResource(model.icon);
+            }
+        }
+        return convertView;
+    }
+
+    public class ViewHolder {
+        public TextView tvTitle;
+        public ImageView ivIcon;
+    }
+
+}
