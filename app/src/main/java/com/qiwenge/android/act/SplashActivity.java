@@ -1,17 +1,25 @@
 package com.qiwenge.android.act;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
 
+import com.dev1024.utils.AppUtils;
+import com.dev1024.utils.LogUtils;
+import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.async.AsyncSetAlias;
+import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
+import com.qiwenge.android.constant.Platform;
+import com.qiwenge.android.models.Configures;
+import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.http.JHttpClient;
+import com.qiwenge.android.utils.http.JsonResponseHandler;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 
     private final int mDuration = 500;
 
@@ -33,15 +41,26 @@ public class SplashActivity extends Activity {
             inited = true;
             getScreenSize();
             initJPush();
-            skipToMain();
+            start();
         }
+    }
+
+    private void start() {
+
+        if (Constants.PLATFORM.equals(Platform.COMMON)) {
+            Constants.openAutoReading = true;
+            skipToMain();
+        } else {
+            connect();
+        }
+
     }
 
     /**
      * 初始化极光推送
      */
     private void initJPush() {
-        new AsyncSetAlias(getApplicationContext()).execute("test");
+        new AsyncSetAlias(getApplicationContext()).execute(Constants.OEPN_UD_ID);
     }
 
     public void getScreenSize() {
@@ -66,6 +85,27 @@ public class SplashActivity extends Activity {
                 finish();
             }
         }, mDuration);
+    }
+
+    private void connect() {
+        String url = ApiUtils.getConfigures();
+        LogUtils.i("qiwenge", "connect");
+        RequestParams params = new RequestParams();
+        params.put("version", AppUtils.getVersionName(this));
+        params.put("platform", Constants.PLATFORM);
+        JHttpClient.get(url, params, new JsonResponseHandler<Configures>(Configures.class, false) {
+            @Override
+            public void onSuccess(Configures result) {
+                if (result != null && result.functions != null) {
+                    Constants.openAutoReading = result.functions.autoReading();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                skipToMain();
+            }
+        });
     }
 
 }

@@ -27,6 +27,7 @@ import com.qiwenge.android.models.Chapter;
 import com.qiwenge.android.models.ChapterList;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
+import com.qiwenge.android.utils.SkipUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
@@ -114,12 +115,7 @@ public class ChapterActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < list.size()) {
-                    Bundle extra = new Bundle();
-                    extra.putParcelable(ReadActivity.Extra_Book, book);
-                    extra.putString(ReadActivity.Extra_BookId, bookId);
-                    extra.putString(ReadActivity.Extra_ChapterId, list.get(position).getId());
-                    extra.putString(ReadActivity.Extra_BookTitle, list.get(position).book_title);
-                    startActivity(ReadActivity.class, extra);
+                    SkipUtils.skipToReader(getApplicationContext(), book, list.get(position).getId());
                 }
             }
         });

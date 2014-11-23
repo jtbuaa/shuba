@@ -6,12 +6,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dev1024.utils.AppUtils;
 import com.dev1024.utils.IntentUtils;
+import com.dev1024.utils.ToastUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
@@ -20,7 +20,7 @@ import com.qiwenge.android.utils.ThemeUtils;
 
 /**
  * 设置。
- *
+ * <p/>
  * Created by John on 2014-7-9
  */
 public class SettingActivity extends BaseActivity implements OnClickListener {
@@ -33,8 +33,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     private ImageView ivNightModel;
     private ImageView ivSaveModel;
 
-    private RelativeLayout layoutNightModel;
-    private RelativeLayout layoutSaveModel;
     private LinearLayout layoutContent;
     private ScrollView scrollContainer;
 
@@ -51,42 +49,37 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.layout_night_model:// 夜间模式
+            case R.id.iv_night_model:// 夜间模式
                 setNightModel();
                 break;
-            case R.id.layout_save_model:// 控制流量
+            case R.id.iv_save_model:// 控制流量
                 setSaveModel();
                 break;
             case R.id.set_tv_rating:// 评分
-                IntentUtils.skipToMarket(getApplicationContext());
+                skipToMarket();
                 break;
             case R.id.set_tv_legal://免责声明
                 startActivity(LegalActivity.class);
                 break;
             case R.id.set_tv_update://检查版本更新
-                new AsyncCheckUpdate(SettingActivity.this).checkUpdate();
+                new AsyncCheckUpdate(this).checkUpdate();
                 break;
             default:
                 break;
         }
     }
 
+    private void skipToMarket() {
+        try {
+            IntentUtils.skipToMarket(SettingActivity.this);
+        } catch (Exception ex) {
+            ToastUtils.alert(getApplicationContext(), "你没有安装任何电子市场");
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (!ImageLoaderUtils.isOpen()) {
-            setCheckbox(ivSaveModel, true);
-            selectSaveModel = true;
-        }
-
-        if(ThemeUtils.getIsNightModel()){
-            setCheckbox(ivNightModel,true);
-        }else{
-            setCheckbox(ivNightModel,false);
-        }
-
-        ThemeUtils.setThemeBg(scrollContainer);
-        showThemeModel(layoutContent);
     }
 
     /**
@@ -109,21 +102,20 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     private void setNightModel() {
         if (ThemeUtils.getIsNightModel()) {
             setCheckbox(ivNightModel, false);
-            ThemeUtils.setNightModle(getApplicationContext(),false);
-        }
-        else {
+            ThemeUtils.setNightModle(getApplicationContext(), false);
+        } else {
             setCheckbox(ivNightModel, true);
-            ThemeUtils.setNightModle(getApplicationContext(),true);
+            ThemeUtils.setNightModle(getApplicationContext(), true);
         }
         ThemeUtils.setThemeBg(scrollContainer);
         showThemeModel(layoutContent);
     }
 
     private void initViews() {
-        layoutContent=(LinearLayout)this.findViewById(R.id.layout_content);
-        scrollContainer=(ScrollView)this.findViewById(R.id.scrollView_container);
+        layoutContent = (LinearLayout) this.findViewById(R.id.layout_content);
+        scrollContainer = (ScrollView) this.findViewById(R.id.scrollView_container);
 
-        tvLegal=(TextView)this.findViewById(R.id.set_tv_legal);
+        tvLegal = (TextView) this.findViewById(R.id.set_tv_legal);
         tvLegal.setOnClickListener(this);
 
         tvRating = (TextView) this.findViewById(R.id.set_tv_rating);
@@ -133,25 +125,37 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         tvVersionName.setText(AppUtils.getVersionName(getApplicationContext()));
 
         ivNightModel = (ImageView) this.findViewById(R.id.iv_night_model);
-        layoutNightModel = (RelativeLayout) this.findViewById(R.id.layout_night_model);
-        layoutNightModel.setOnClickListener(this);
+        ivNightModel.setOnClickListener(this);
         ivNightModel.setTag(1);
 
         ivSaveModel = (ImageView) this.findViewById(R.id.iv_save_model);
-        layoutSaveModel = (RelativeLayout) this.findViewById(R.id.layout_save_model);
-        layoutSaveModel.setOnClickListener(this);
+        ivSaveModel.setOnClickListener(this);
         ivSaveModel.setTag(1);
 
-        tvCheckUpdate=(TextView) this.findViewById(R.id.set_tv_update);
+        tvCheckUpdate = (TextView) this.findViewById(R.id.set_tv_update);
         tvCheckUpdate.setOnClickListener(this);
+
+        if (!ImageLoaderUtils.isOpen()) {
+            setCheckbox(ivSaveModel, true);
+            selectSaveModel = true;
+        }
+
+        if (ThemeUtils.getIsNightModel()) {
+            setCheckbox(ivNightModel, true);
+        } else {
+            setCheckbox(ivNightModel, false);
+        }
+
+        ThemeUtils.setThemeBg(scrollContainer);
+        showThemeModel(layoutContent);
     }
 
-    private void showThemeModel(ViewGroup viewGroup){
-        int count=viewGroup.getChildCount();
+    private void showThemeModel(ViewGroup viewGroup) {
+        int count = viewGroup.getChildCount();
         View view;
-        for(int i=0;i<count;i++){
-            view=viewGroup.getChildAt(i);
-            if(view.getTag()==null) {
+        for (int i = 0; i < count; i++) {
+            view = viewGroup.getChildAt(i);
+            if (view.getTag() == null) {
                 if (view instanceof ImageView) {
                     ThemeUtils.setThemeLine(view);
                 } else if (view instanceof TextView) {
@@ -165,9 +169,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 
     private void setCheckbox(ImageView iv, boolean ischecked) {
         if (ischecked) {
-            iv.setBackgroundResource(R.drawable.ic_checkbox_selected);
+            iv.setBackgroundResource(R.drawable.icon_switch_on);
         } else {
-            iv.setBackgroundResource(R.drawable.ic_checkbox_normal);
+            iv.setBackgroundResource(R.drawable.icon_switch_off);
         }
     }
 

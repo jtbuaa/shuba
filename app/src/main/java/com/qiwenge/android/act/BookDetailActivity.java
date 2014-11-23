@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -34,6 +36,7 @@ import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.listeners.CommonHandler;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
@@ -51,6 +54,8 @@ import com.qiwenge.android.utils.http.StringResponseHandler;
 public class BookDetailActivity extends BaseActivity implements OnClickListener {
 
     public static final String EXTRA_BOOK = "book";
+
+    private static final int ACTION_ITEM_SOURCE = 1;
 
     private TextView tvTitle;
     private TextView tvIntro;
@@ -94,6 +99,22 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         getIntentData();
         initViews();
         getRelated();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, ACTION_ITEM_SOURCE, 0, "换源").setIcon(R.drawable.ic_action_source).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == ACTION_ITEM_SOURCE) {
+            new SourceDialog(this, book).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -143,17 +164,18 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
      * 如果以前阅读过该小说，那继续阅读。
      */
     private void continueRead() {
-        String lastReadId =
-                BookShelfUtils.getRecordChapterId(getApplicationContext(), book.getId());
-        if (StringUtils.isEmptyOrNull(lastReadId)) {
-            Bundle extra = new Bundle();
-            extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
-            startActivity(ChapterActivity.class, extra);
-        } else {
-            book.lastReadId = lastReadId;
-            SkipUtils.skipToReader(getApplicationContext(), book.getId(), book.title,
-                    book.lastReadId);
-        }
+
+        SkipUtils.skipToReader(this, book);
+
+//        String lastReadId =
+//                BookShelfUtils.getRecordChapterId(getApplicationContext(), book.getId());
+//        if (StringUtils.isEmptyOrNull(lastReadId)) {
+//            Bundle extra = new Bundle();
+//            extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
+//            startActivity(ChapterActivity.class, extra);
+//        } else {
+//            SkipUtils.skipToReader(getApplicationContext(), book.getId(), book.title);
+//        }
     }
 
     /**
@@ -259,7 +281,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                         getString(R.string.str_book_publishing)));
             }
 
-            if(ImageLoader.getInstance().isInited()) {
+            if (ImageLoader.getInstance().isInited()) {
                 DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.icon_place_holder);
                 ImageLoaderUtils.display(book.cover, ivCover, options);
             }
@@ -316,13 +338,13 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
             myTree.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    int lineHeight=DisplayUtils.dip2px(getApplicationContext(), 1);
+                    int lineHeight = DisplayUtils.dip2px(getApplicationContext(), 1);
                     int itemHeight = lvRecommend.getMeasuredHeight() + lineHeight;
-                    int height = itemHeight * dataRecommend.size()-lineHeight;
+                    int height = itemHeight * dataRecommend.size() - lineHeight;
                     LinearLayout.LayoutParams params =
                             new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height);
                     lvRecommend.setLayoutParams(params);
-                    if(myTree.isAlive()) {
+                    if (myTree.isAlive()) {
 
                         try {
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {

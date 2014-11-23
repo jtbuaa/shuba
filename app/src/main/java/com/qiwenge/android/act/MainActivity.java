@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,51 +12,54 @@ import android.view.MenuItem.OnActionExpandListener;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
-import android.widget.FrameLayout;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dev1024.utils.IntentUtils;
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.NetworkUtils;
 import com.qiwenge.android.R;
+import com.qiwenge.android.adapters.MainMenuAdapter;
+import com.qiwenge.android.adapters.MainPagerAdapter;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
-import com.qiwenge.android.fragments.BookCityFragment;
-import com.qiwenge.android.fragments.BookshelfFragment;
 import com.qiwenge.android.listeners.OnFragmentClickListener;
+import com.qiwenge.android.login.SinaWeiboLogin;
+import com.qiwenge.android.models.MainMenuItem;
 import com.qiwenge.android.openudid.OpenUDID_manager;
+import com.qiwenge.android.ui.transforamers.AlphaTransformer;
+import com.qiwenge.android.ui.transforamers.MyTransformer;
+import com.qiwenge.android.ui.SlowViewPager;
+import com.qiwenge.android.ui.dialogs.LoginDialog;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 
-public class MainActivity extends BaseActivity implements OnClickListener, OnQueryTextListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends BaseActivity implements OnClickListener {
 
     private static final int ACTION_ITEM_DELETE = 1;
 
-    private BookCityFragment bookCity;
-    private BookshelfFragment bookShelf;
-
-    private LinearLayout layoutBookShelf;
-    private LinearLayout layoutBookCity;
-    private LinearLayout layoutMainMenu;
     private RelativeLayout layoutMainContainer;
 
-    private ImageView ivBookCity;
-    private ImageView ivBookShelf;
     private ImageView ivLayer;
 
-    private TextView tvBookCity;
-    private TextView tvBookShelf;
+    private SlowViewPager viewPager;
+
+    private MainPagerAdapter adapter;
 
     private boolean doubleBackToExitPressedOnce = false;
 
     private ActionMode actionMode;
+
+    private GridView gvMenu;
+    private MainMenuAdapter menuAdapter;
+    private List<MainMenuItem> menuData = new ArrayList<MainMenuItem>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,17 +76,19 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         chkUpdate();
     }
 
-    private void chkUpdate(){
-        AsyncCheckUpdate update=new AsyncCheckUpdate(this);
+    private void chkUpdate() {
+        AsyncCheckUpdate update = new AsyncCheckUpdate(this);
         update.setOnlyCheck();
         update.checkUpdate();
     }
 
-    private void initActionBar(){
-        getActionBar().setDisplayHomeAsUpEnabled(false);
-        getActionBar().setDisplayShowHomeEnabled(false);
-        getActionBar().setIcon(R.drawable.transparent_bg);
+    private void initActionBar() {
         getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setDisplayUseLogoEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setIcon(R.drawable.transparent_bg);
         getActionBar().setCustomView(R.layout.layout_main_action);
     }
 
@@ -119,16 +124,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.layout_book_shelf:// 书架
-                closeActionMode();
-                hideAllFragment();
-                showBookShelf();
-                break;
-            case R.id.layout_book_city:// 书库
-                closeActionMode();
-                hideAllFragment();
-                showBookCity();
-                break;
             case R.id.iv_layer:// 点击遮罩层
                 invalidateOptionsMenu();
                 ivLayer.setVisibility(View.GONE);
@@ -142,61 +137,10 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
     protected void onResume() {
         super.onResume();
         ThemeUtils.setThemeBg(layoutMainContainer);
-        ThemeUtils.setBottomMenuBg(layoutMainMenu);
-    }
-
-    private void showBookShelf() {
-        FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
-
-        if (bookShelf != null) {
-            tran.show(bookShelf);
-        } else {
-            bookShelf = new BookshelfFragment();
-            addFragment(R.id.layout_content, bookShelf);
-        }
-        tran.commit();
-        getSupportFragmentManager().executePendingTransactions();
-        ivBookShelf.setBackgroundResource(R.drawable.ic_main_menu_fav_s);
-        ivBookCity.setBackgroundResource(R.drawable.icon_main_bookcity_n);
-
-        tvBookShelf.setTextColor(getResources().getColor(R.color.main_dress_color));
-        tvBookCity.setTextColor(getResources().getColor(R.color.tv_desc_color));
-    }
-
-    private void showBookCity() {
-        FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
-
-        if (bookCity != null) {
-            tran.show(bookCity);
-        } else {
-            bookCity = new BookCityFragment();
-            addFragment(R.id.layout_content, bookCity);
-        }
-        tran.commit();
-        getSupportFragmentManager().executePendingTransactions();
-        ivBookShelf.setBackgroundResource(R.drawable.ic_main_menu_fav_n);
-        ivBookCity.setBackgroundResource(R.drawable.icon_main_bookcity_s);
-
-        tvBookShelf.setTextColor(getResources().getColor(R.color.tv_desc_color));
-        tvBookCity.setTextColor(getResources().getColor(R.color.main_dress_color));
-    }
-
-    /**
-     * 隐藏所有的Fragment
-     */
-    private void hideAllFragment() {
-        FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
-        if (bookShelf != null) tran.hide(bookShelf);
-
-        if (bookCity != null) tran.hide(bookCity);
-        tran.commit();
     }
 
     private void initFragment() {
-        clear();
-        bookShelf = new BookshelfFragment();
-        addFragment(R.id.layout_content, bookShelf);
-        bookShelf.setOnFragmentClickListener(new OnFragmentClickListener() {
+        adapter.setOnFragmentClickListener(new OnFragmentClickListener() {
             @Override
             public void onClick() {
                 //长按Fragment中的item，回调到MainActivity.
@@ -205,10 +149,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         });
     }
 
-    private void clear() {
-        FrameLayout layout = (FrameLayout) this.findViewById(R.id.layout_content);
-        layout.removeAllViews();
-    }
 
     /**
      * 获取设备唯一标识
@@ -222,60 +162,94 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         return OpenUDID_manager.getOpenUDID();
     }
 
+    private void initMenu() {
+        String[] titles = {"收藏", "书城", "我"};
+        int[] iconNormal = {R.drawable.ic_main_menu_fav_n,
+                R.drawable.ic_main_menu_bookcity_n, R.drawable.ic_main_menu_me_n};
+        int[] iconSelected = {R.drawable.ic_main_menu_fav_s,
+                R.drawable.ic_main_menu_bookcity_s, R.drawable.ic_main_menu_me_s};
+        MainMenuItem item;
+        for (int i = 0; i < titles.length; i++) {
+            item = new MainMenuItem();
+            item.title = titles[i];
+            item.icon = iconNormal[i];
+            item.iconSelected = iconSelected[i];
+            menuData.add(item);
+        }
+        menuData.get(0).selected = true;
+        menuAdapter = new MainMenuAdapter(getApplicationContext(), menuData);
+        gvMenu = (GridView) this.findViewById(R.id.gv_menu);
+        gvMenu.setAdapter(menuAdapter);
+        gvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedMenu(position);
+                viewPager.setCurrentItem(position);
+            }
+        });
+    }
+
+    private int lastPosition = 0;
+
+    private void selectedMenu(int position) {
+        menuData.get(lastPosition).selected = false;
+        menuData.get(position).selected = true;
+        lastPosition = position;
+        menuAdapter.notifyDataSetChanged();
+        closeActionMode();
+    }
+
     private void initViews() {
+        initMenu();
 
-        layoutBookShelf = (LinearLayout) this.findViewById(R.id.layout_book_shelf);
-        layoutBookCity = (LinearLayout) this.findViewById(R.id.layout_book_city);
-        layoutBookShelf.setOnClickListener(this);
-        layoutBookCity.setOnClickListener(this);
+        adapter = new MainPagerAdapter(getSupportFragmentManager());
+        viewPager = (SlowViewPager) this.findViewById(R.id.viewpager_main);
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(MainPagerAdapter.NUM - 1);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        tvBookCity=(TextView)this.findViewById(R.id.tv_book_city);
-        tvBookShelf=(TextView)this.findViewById(R.id.tv_book_shelf);
+            }
 
-        ivBookShelf = (ImageView) this.findViewById(R.id.iv_book_shelf);
-        ivBookCity = (ImageView) this.findViewById(R.id.iv_book_city);
+            @Override
+            public void onPageSelected(int position) {
+                selectedMenu(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        adapter.setOnFragmentClickListener(new OnFragmentClickListener() {
+            @Override
+            public void onClick() {
+                startActionMode(new MainActionMode());
+            }
+        });
+
         ivLayer = (ImageView) this.findViewById(R.id.iv_layer);
         ivLayer.setOnClickListener(this);
 
         layoutMainContainer = (RelativeLayout) this.findViewById(R.id.layout_main_container);
-        layoutMainMenu = (LinearLayout) this.findViewById(R.id.layout_main_menu);
     }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        SearchView searchView = getSearchView(getApplicationContext());
-        searchView.setOnQueryTextListener(this);
         menu.add(0, 0, 0, R.string.action_search)
-                .setIcon(R.drawable.ic_action_search)
-                .setActionView(searchView)
-                .setShowAsAction(
-                        MenuItem.SHOW_AS_ACTION_ALWAYS
-                                | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
-                );
+                .setIcon(R.drawable.ic_action_search).setIntent(new Intent(getApplicationContext(),
+                SearchActivity.class)).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        SubMenu submenu = menu.addSubMenu(0, 1, 0,R.string.action_more);
+        SubMenu submenu = menu.addSubMenu(0, 1, 0, R.string.action_more);
+
         submenu.add(0, 1, 2, R.string.action_setting).setIntent(
                 new Intent(getApplicationContext(), SettingActivity.class));
+
         submenu.add(0, 2, 1, R.string.action_feedback);
+
         submenu.getItem().setIcon(R.drawable.ic_action_more)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-        menu.findItem(0).setOnActionExpandListener(new OnActionExpandListener() {
-
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                menu.findItem(1).setVisible(false);
-                ivLayer.setVisibility(View.VISIBLE);
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                menu.findItem(1).setVisible(true);
-                ivLayer.setVisibility(View.GONE);
-                return true;
-            }
-        });
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -319,7 +293,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
             if (item.getItemId() == ACTION_ITEM_DELETE) {
-                bookShelf.deleteSelected();
+                adapter.deleteSelected();
                 mode.finish();
             }
 
@@ -328,7 +302,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            bookShelf.clearAllSelect();
+            adapter.clearAllSelect();
             actionMode = null;
         }
 
@@ -339,37 +313,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, OnQue
             actionMode.finish();
             actionMode = null;
         }
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        Bundle extra = new Bundle();
-        extra.putString(SearchActivity.KEYWORD, query);
-        startActivity(SearchActivity.class, extra);
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
-
-    public static SearchView getSearchView(Context context) {
-        SearchView searchView = new SearchView(context);
-        // 修改字体颜色
-        int id = searchView.getContext().getResources()
-                .getIdentifier("android:id/search_src_text", null, null);
-        AutoCompleteTextView textView = (AutoCompleteTextView) searchView
-                .findViewById(id);
-        textView.setTextColor(context.getResources().getColor(android.R.color.white));
-        searchView.setQueryHint(context.getString(R.string.action_search_hint));
-        // Background
-        int searchPlateId = searchView.getContext().getResources()
-                .getIdentifier("android:id/search_plate", null, null);
-        View searchPlate = searchView.findViewById(searchPlateId);
-        searchPlate.setBackgroundResource(R.drawable.search_view_bg);
-        return searchView;
     }
 
 }

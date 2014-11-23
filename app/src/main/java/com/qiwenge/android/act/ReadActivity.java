@@ -37,6 +37,7 @@ import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.ReadMenu;
 import com.qiwenge.android.models.ReadTheme;
+import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ScreenBrightnessUtils;
@@ -100,6 +101,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      */
     private int lastTextSize = 0;
 
+
     /**
      * 章节Id
      */
@@ -139,6 +141,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     private TextView tvBookTitle;
 
     private TextView tvAddCollect;
+
+    private ImageView ivBtnSource;
 
     private GridView gvMenu;
 
@@ -236,6 +240,10 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_source://Source
+                if (book != null)
+                    new SourceDialog(this, book).show(true);
+                break;
             case R.id.tv_add_collect://收藏
                 if (book != null) {
                     BookShelfUtils.addBook(getApplicationContext(), book);
@@ -349,6 +357,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         tvAddCollect = (TextView) this.findViewById(R.id.tv_add_collect);
         tvAddCollect.setVisibility(View.GONE);
         tvAddCollect.setOnClickListener(this);
+        ivBtnSource = (ImageView) this.findViewById(R.id.btn_source);
+        ivBtnSource.setOnClickListener(this);
         actionBack = (LinearLayout) this.findViewById(R.id.layout_back);
         actionBack.setOnClickListener(this);
 
@@ -458,7 +468,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
                         startActivity(ChapterActivity.class, extra);
                         break;
                     case 2:// 赞
-                        AsyncUtils.postVoteup(getApplicationContext(),bookId);
+                        AsyncUtils.postVoteup(getApplicationContext(), bookId);
                         break;
 
                     default:
