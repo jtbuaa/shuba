@@ -36,6 +36,7 @@ public class SinaWeiboLogin {
                              AuthListener listener) {
         System.out.println("login by weibo");
         authListener = listener;
+        authListener.onStart();
         mWeiboAPI = WeiboSDK.createWeiboAPI(activity, Constant_Sina.APP_KEY);
         mWeiboAPI.registerApp();
 

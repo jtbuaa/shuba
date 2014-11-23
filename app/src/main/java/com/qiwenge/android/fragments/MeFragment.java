@@ -80,6 +80,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         if (loginDialog == null) {
             loginDialog = new LoginDialog(getActivity());
             loginDialog.setAuthListener(new AuthListener() {
+
+                @Override
+                public void onStart() {
+                    tvUserName.setText("正在登陆...");
+                }
+
                 @Override
                 public void authSuccess(String uid, String username, String avatarUrl, LoginType loginType) {
                     System.out.println("授权成功");
@@ -109,14 +115,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             return false;
         }
     });
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (SinaWeiboLogin.mSsoHandler != null && data != null) {
-            SinaWeiboLogin.mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
-    }
 
     private void login(){
 

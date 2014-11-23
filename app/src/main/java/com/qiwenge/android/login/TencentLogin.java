@@ -37,6 +37,7 @@ public class TencentLogin {
     public static void login(Activity activity,
                              final AuthListener authListener) {
         System.out.println("TencentLogin-login");
+        authListener.onStart();
         mTencent = Tencent.createInstance(Constants_Tencent.APP_ID,
                 activity.getApplicationContext());
         if (mTencent.isSessionValid()) {
