@@ -34,7 +34,6 @@ public class IntentUtils {
      */
     public static final void skipToMarket(Context context) {
         Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(Uri.parse("market://details?id="
                 + context.getPackageName()));
         context.startActivity(intent);
