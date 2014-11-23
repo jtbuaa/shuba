@@ -131,7 +131,7 @@
         <item name="android:textSize">@dimen/font_size_middle</item>
         <item name="android:textColor">@color/tv_title_color</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">56dp</item>
         <item name="android:singleLine">true</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@drawable/item_white_bg</item>
@@ -183,6 +183,11 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="MyDialogStyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/dialog_in</item>
+        <item name="@android:windowExitAnimation">@anim/dialog_out</item>
     </style>
 
 </resources>
