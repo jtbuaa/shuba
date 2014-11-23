@@ -14,6 +14,7 @@
         android:layout_centerInParent="true"
         android:layout_margin="24dp"
         android:background="@drawable/my_dialog_bg"
+        android:paddingBottom="16dp"
         android:orientation="vertical">
 
         <TextView
@@ -24,15 +25,11 @@
             android:paddingBottom="16dp"
             android:paddingLeft="26dp"
             android:paddingRight="26dp"
-            android:paddingTop="16dp"
+            android:paddingTop="26dp"
+            android:textColor="@color/tv_title_color"
+            android:textStyle="bold"
             android:text="@string/app_name"
             android:textSize="@dimen/font_size_big" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:alpha="0.5"
-            android:background="@color/main_dress_color" />
 
         <LinearLayout
             android:id="@+id/layout_dialog_content"
