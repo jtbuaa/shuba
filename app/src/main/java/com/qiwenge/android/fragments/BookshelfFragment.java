@@ -93,17 +93,20 @@ public class BookshelfFragment extends BaseFragment {
                     }
 
                     Book book = data.get(position - 1);
-                    String lastReadId =
-                            BookShelfUtils.getRecordChapterId(getActivity(), book.getId());
-                    if (StringUtils.isEmptyOrNull(lastReadId)) {
-                        Bundle extra = new Bundle();
-                        extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position - 1));
-                        startActivity(BookDetailActivity.class, extra);
-                    } else {
-                        book.lastReadId = lastReadId;
-                        SkipUtils.skipToReader(getActivity(), book.getId(), book.title,
-                                book.lastReadId);
-                    }
+
+                    SkipUtils.skipToReader(getActivity(),book);
+
+//                    String lastReadId =
+//                            BookShelfUtils.getRecordChapterId(getActivity(), book.getId());
+//                    if (StringUtils.isEmptyOrNull(lastReadId)) {
+//                        Bundle extra = new Bundle();
+//                        extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position - 1));
+//                        startActivity(BookDetailActivity.class, extra);
+//                    } else {
+//                        book.lastReadId = lastReadId;
+//                        SkipUtils.skipToReader(getActivity(), book.getId(), book.title,
+//                                book.lastReadId);
+//                    }
                 }
             }
         });

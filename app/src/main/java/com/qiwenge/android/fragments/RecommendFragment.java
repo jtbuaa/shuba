@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dev1024.utils.PreferencesUtils;
 import com.qiwenge.android.R;
@@ -34,6 +38,8 @@ public class RecommendFragment extends BaseListFragment<Book> {
 
     private static final String CACHE_RECOMMEND = "cache_recommend";
 
+    private ProgressBar pbLoading;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_recommend, container, false);
@@ -44,17 +50,6 @@ public class RecommendFragment extends BaseListFragment<Book> {
         super.onActivityCreated(savedInstanceState);
         initViews();
         getCacheData();
-    }
-
-    private boolean refreshed = false;
-
-    /**
-     * 刷新数据。
-     */
-    public void refresh() {
-//        if (refreshed) return;
-//        refreshed = true;
-//        requestData();
     }
 
     private void getCacheData() {
@@ -81,11 +76,14 @@ public class RecommendFragment extends BaseListFragment<Book> {
     }
 
     private void initViews() {
+        pbLoading = (ProgressBar) getView().findViewById(R.id.pb_loading);
+        pbLoading.setVisibility(View.GONE);
         adapter = new BooksAdapter(getActivity(), data);
         mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
         setEnableFooterPage();
         setEnablePullToRefresh();
-        mListView.setAdapter(adapter);
+        setEnableEmptyView();
+        setAdapter();
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -132,8 +130,16 @@ public class RecommendFragment extends BaseListFragment<Book> {
             }
 
             @Override
+            public void onStart() {
+                if (data.isEmpty()) {
+                    pbLoading.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
             public void onFinish() {
-                 requestFinished();
+                requestFinished();
+                pbLoading.setVisibility(View.GONE);
             }
         });
     }

@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.PreferencesUtils;
@@ -43,19 +47,13 @@ public class RankFragment extends BaseListFragment<Book> {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initEmptyView();
         initViews();
         getCacheData();
     }
 
-    private boolean refreshed = false;
+    private void initEmptyView() {
 
-    /**
-     * 刷新数据。
-     */
-    public void refresh() {
-//        if (refreshed) return;
-//        refreshed = true;
-//        requestData();
     }
 
     private void getCacheData() {
@@ -81,11 +79,14 @@ public class RankFragment extends BaseListFragment<Book> {
     }
 
     private void initViews() {
+        pbLoading = (ProgressBar) getView().findViewById(R.id.pb_loading);
+        pbLoading.setVisibility(View.GONE);
         adapter = new BooksAdapter(getActivity(), data);
         mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
         setEnableFooterPage();
         setEnablePullToRefresh();
-        mListView.setAdapter(adapter);
+        setEnableEmptyView();
+        setAdapter();
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -132,8 +133,15 @@ public class RankFragment extends BaseListFragment<Book> {
             }
 
             @Override
+            public void onStart() {
+                super.onStart();
+                if (data.isEmpty()) pbLoading.setVisibility(View.VISIBLE);
+            }
+
+            @Override
             public void onFinish() {
                 requestFinished();
+                pbLoading.setVisibility(View.GONE);
             }
         });
 
