@@ -173,7 +173,7 @@ public class ThemeUtils {
     public static void setBottomMenuBg(View view) {
         if (view == null) return;
         if (isNightModel) {
-            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.action_bar_bg_color));
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_night_bg_color));
         } else {
             view.setBackgroundColor(view.getContext().getResources().getColor(R.color.main_bg_color));
         }
