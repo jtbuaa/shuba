@@ -2,10 +2,22 @@ package com.qiwenge.android.constant;
 
 /**
  * Constants
- *
+ * <p/>
  * Created by John on 2014-7-2
  */
 public class Constants {
+
+    /**
+     * 平台，为多渠道发布。
+     */
+    public static final String PLATFORM = Platform.COMMON;
+
+    public static String OEPN_UD_ID="";
+
+    /**
+     * 是否开启智能阅读模式。
+     */
+    public static boolean openAutoReading = false;
 
     /**
      * 在SharedPreferences中保存设置通用的Name。
@@ -16,23 +28,22 @@ public class Constants {
 
     public static int WIDTH = 0;
 
-    public static final int DEFAULT_PAGE_SIZE=20;
+    public static final int DEFAULT_PAGE_SIZE = 20;
 
     /**
      * 默认字体大小
      */
-    public static final int DEFAULT_TEXT_SIZE=20;
+    public static final int DEFAULT_TEXT_SIZE = 20;
 
     /**
      * 最小字体大小
      */
-    public static final int MIN_TEXT_SIZE=16;
+    public static final int MIN_TEXT_SIZE = 16;
 
     /**
      * 版本更新下载Id。
      */
-    public static long UPDATE_DOWNLOAD_ID=0;
-
+    public static long UPDATE_DOWNLOAD_ID = 0;
 
 
 }
