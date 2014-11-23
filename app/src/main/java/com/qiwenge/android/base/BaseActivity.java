@@ -14,6 +14,8 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.utils.MyFilters;
 import com.umeng.analytics.MobclickAgent;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class BaseActivity extends FragmentActivity {
 
     private FinishAppReceiver receiver;
@@ -40,12 +42,14 @@ public class BaseActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        JPushInterface.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+        JPushInterface.onPause(this);
     }
 
     @Override
