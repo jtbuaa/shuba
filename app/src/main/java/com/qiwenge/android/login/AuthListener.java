@@ -1,7 +1,7 @@
 package com.qiwenge.android.login;
 
 
-public interface FsAuthListener {
+public interface AuthListener {
 
     public void onStart();
 

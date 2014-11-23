@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +13,15 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.FeedbackActivity;
 import com.qiwenge.android.act.SettingActivity;
 import com.qiwenge.android.base.BaseFragment;
-import com.qiwenge.android.login.FsAuthListener;
+import com.qiwenge.android.login.AuthListener;
 import com.qiwenge.android.login.LoginType;
 import com.qiwenge.android.login.SinaWeiboLogin;
 import com.qiwenge.android.ui.dialogs.LoginDialog;
 import com.qiwenge.android.utils.ImageLoaderUtils;
-
-import javax.security.auth.callback.Callback;
 
 public class MeFragment extends BaseFragment implements View.OnClickListener {
 
@@ -83,7 +79,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void showLogin() {
         if (loginDialog == null) {
             loginDialog = new LoginDialog(getActivity());
-            loginDialog.setAuthListener(new FsAuthListener() {
+            loginDialog.setAuthListener(new AuthListener() {
                 @Override
                 public void authSuccess(String uid, String username, String avatarUrl, LoginType loginType) {
                     System.out.println("授权成功");

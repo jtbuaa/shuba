@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.qiwenge.android.login.FsAuthListener;
-import com.qiwenge.android.login.LoginType;
+import com.qiwenge.android.login.AuthListener;
 import com.qiwenge.android.login.SinaWeiboLogin;
 import com.qiwenge.android.login.TencentLogin;
-import com.sina.weibo.sdk.api.IWeiboAPI;
 
 /**
  * Created by Eric on 14/11/12.
@@ -51,9 +49,9 @@ public class LoginDialog {
         TencentLogin.login(act, listener);
     }
 
-    private FsAuthListener listener;
+    private AuthListener listener;
 
-    public void setAuthListener(FsAuthListener authListener) {
+    public void setAuthListener(AuthListener authListener) {
         listener = authListener;
     }
 

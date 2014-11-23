@@ -27,13 +27,13 @@ public class SinaWeiboLogin {
 
     private static IWeiboAPI mWeiboAPI = null;
 
-    private static FsAuthListener authListener;
+    private static AuthListener authListener;
 
     /**
      * 新浪微博登陆。
      */
     public static void login(final Activity activity,
-                             FsAuthListener listener) {
+                             AuthListener listener) {
         System.out.println("login by weibo");
         authListener = listener;
         mWeiboAPI = WeiboSDK.createWeiboAPI(activity, Constant_Sina.APP_KEY);

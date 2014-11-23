@@ -35,7 +35,7 @@ public class TencentLogin {
      * @param authListener
      */
     public static void login(Activity activity,
-                             final FsAuthListener authListener) {
+                             final AuthListener authListener) {
         System.out.println("TencentLogin-login");
         mTencent = Tencent.createInstance(Constants_Tencent.APP_ID,
                 activity.getApplicationContext());
@@ -77,7 +77,7 @@ public class TencentLogin {
      * @param authListener
      */
     public static void getUserInfo(final String openid,
-                                   final FsAuthListener authListener) {
+                                   final AuthListener authListener) {
         System.out.println("getUserInfo-openid:" + openid);
         if (mTencent != null) {
             mTencent.requestAsync(Constants.GRAPH_SIMPLE_USER_INFO, null,
