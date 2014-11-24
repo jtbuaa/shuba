@@ -41,11 +41,13 @@
                     android:textSize="@dimen/font_size_big" />
 
                 <TextView
+                    android:id="@+id/tv_exp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:textColor="@color/tv_desc_color"
+                    android:text="LV.1 (0/255)"
                     android:textSize="@dimen/font_size_middle" />
 
             </LinearLayout>
