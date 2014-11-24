@@ -37,8 +37,10 @@ public class MainMenuAdapter extends MyBaseAdapter<MainMenuItem> {
         if (model != null) {
             viewHolder.tvTitle.setText(model.title);
             if (model.selected) {
+                viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.main_dress_color));
                 viewHolder.ivIcon.setBackgroundResource(model.iconSelected);
             } else {
+                viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.tv_desc_color));
                 viewHolder.ivIcon.setBackgroundResource(model.icon);
             }
         }
