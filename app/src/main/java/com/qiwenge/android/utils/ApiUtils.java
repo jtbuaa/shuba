@@ -139,6 +139,18 @@ public class ApiUtils {
         return String.format(FORMAT_1_PARAMS, ApiModels.feedbacks);
     }
 
+    public static String putAuth() {
+        return String.format(FORMAT_1_PARAMS, ApiModels.auths);
+    }
+
+    public static String postUser() {
+        return String.format(FORMAT_1_PARAMS, ApiModels.users);
+    }
+
+    public static String getUser(String userId) {
+        return String.format(FORMAT_2_PARAMS, ApiModels.users, userId);
+    }
+
     /**
      * Test
      *

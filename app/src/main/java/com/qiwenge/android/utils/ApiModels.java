@@ -52,6 +52,10 @@ public enum ApiModels {
      */
     voteup,
 
-    feedbacks
+    feedbacks,
+
+    auths,
+
+    users
 
 }

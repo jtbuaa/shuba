@@ -45,5 +45,10 @@ public class Constants {
      */
     public static long UPDATE_DOWNLOAD_ID = 0;
 
+    /**
+     * status_code未注册
+     */
+    public static final int STATUS_CODE_UN_REG=404;
+
 
 }

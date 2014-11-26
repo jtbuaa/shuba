@@ -101,7 +101,7 @@ public class SinaWeiboLogin {
                     System.out.println("avatar-sina:" + sinaUser.avatar_large);
                     if (authListener != null) {
                         authListener.authSuccess(uid, username, sinaUser.avatar_large,
-                                LoginType.sina_weibo);
+                                LoginType.weibo);
                     }
                 }
             }

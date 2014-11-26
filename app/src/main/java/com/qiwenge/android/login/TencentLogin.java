@@ -163,7 +163,7 @@ public class TencentLogin {
 
                             if (authListener != null) {
                                 authListener.authSuccess(openid, nickname, avatar,
-                                        LoginType.tencent);
+                                        LoginType.qq);
                             }
 
                         }

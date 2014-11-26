@@ -10,12 +10,12 @@ public enum LoginType {
     /**
      * 新浪微博
      */
-    sina_weibo,
+    weibo,
 
     /**
      * QQ
      */
-    tencent,
+    qq,
 
     /**
      * 微信

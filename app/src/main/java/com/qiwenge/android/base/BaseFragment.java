@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 
 import com.qiwenge.android.login.AuthListener;
+import com.qiwenge.android.login.AuthSuccess;
 import com.qiwenge.android.login.LoginType;
 import com.qiwenge.android.ui.dialogs.LoginDialog;
 
@@ -19,8 +20,7 @@ public class BaseFragment extends Fragment {
 
 
     private LoginDialog loginDialog;
-    private String mUserName;
-    private String mAvatarUrl;
+    private AuthSuccess mAuthSuccess;
 
     public void showAuthDialog() {
         if (loginDialog == null) {
@@ -34,8 +34,11 @@ public class BaseFragment extends Fragment {
 
                 @Override
                 public void authSuccess(String uid, String username, String avatarUrl, LoginType loginType) {
-                    mAvatarUrl = avatarUrl;
-                    mUserName = username;
+                    mAuthSuccess=new AuthSuccess();
+                    mAuthSuccess.setOpenId(uid);
+                    mAuthSuccess.setUsername(username);
+                    mAuthSuccess.setAvatarUrl(avatarUrl);
+                    mAuthSuccess.setLoginType(loginType);
                     Message msg = new Message();
                     msg.what = 1;
                     mHandler.sendMessage(msg);
@@ -49,7 +52,7 @@ public class BaseFragment extends Fragment {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 1) {
-                onAuthSuccess(mUserName, mAvatarUrl);
+                onAuthSuccess(mAuthSuccess);
             }
             return false;
         }
@@ -58,7 +61,7 @@ public class BaseFragment extends Fragment {
     public void onAuthStart() {
     }
 
-    public void onAuthSuccess(String username, String avatarUrl) {
+    public void onAuthSuccess(AuthSuccess authSuccess) {
     }
 
     @Override

@@ -7,13 +7,10 @@ import com.qiwenge.android.models.base.BaseModel;
  */
 public class User extends BaseModel {
 
-    public String username = "";
+    public String username;
 
-    public String avatar = "";
+    public String avatar;
 
-    /**
-     * weibo or qq
-     */
-    public String from = "";
+    public UserLevel level;
 
 }
