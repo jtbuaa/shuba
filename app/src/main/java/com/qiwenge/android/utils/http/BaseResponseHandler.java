@@ -16,6 +16,10 @@ public abstract class BaseResponseHandler {
             LogUtils.i("BaseResponseHandler", msg);
     }
 
+    public void onFailure(int statusCode,String msg){
+
+    }
+
     public void onFinish() {
     }
 

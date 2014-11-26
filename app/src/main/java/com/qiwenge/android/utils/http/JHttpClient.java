@@ -37,10 +37,10 @@ public class JHttpClient {
         httpClient.get(url, params, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                String msg = "";
-                if (throwable != null && throwable.getMessage() != null)
-                    msg = throwable.getMessage();
-                if (handler != null) handler.onFailure(msg);
+                if (handler != null) {
+                    handler.onFailure(responseString);
+                    handler.onFailure(statusCode, responseString);
+                }
             }
 
             @Override
@@ -68,10 +68,10 @@ public class JHttpClient {
         httpClient.post(url, params, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                String msg = "";
-                if (throwable != null && throwable.getMessage() != null)
-                    msg = throwable.getMessage();
-                if (handler != null) handler.onFailure(msg);
+                if (handler != null) {
+                    handler.onFailure(responseString);
+                    handler.onFailure(statusCode, responseString);
+                }
             }
 
             @Override
@@ -96,7 +96,10 @@ public class JHttpClient {
         httpClient.put(url, params, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (handler != null) handler.onFailure(responseString);
+                if (handler != null) {
+                    handler.onFailure(responseString);
+                    handler.onFailure(statusCode, responseString);
+                }
             }
 
             @Override
