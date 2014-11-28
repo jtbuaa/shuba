@@ -40,8 +40,6 @@
                 android:text="@string/set_night_model"  />
         </RelativeLayout>
 
-        <ImageView style="@style/ImageDivider" />
-
         <RelativeLayout
             android:id="@+id/layout_save_model"
             android:layout_width="fill_parent"
@@ -85,21 +83,17 @@
             style="@style/SetItemTextView"
             android:text="@string/set_legal" />
 
-        <ImageView style="@style/ImageDivider" />
-
         <TextView
             android:id="@+id/set_tv_rating"
             style="@style/SetItemTextView"
             android:text="@string/set_rating" />
 
-        <ImageView style="@style/ImageDivider" />
 
         <TextView
             android:id="@+id/set_tv_update"
             style="@style/SetItemTextView"
             android:text="@string/set_update" />
 
-        <ImageView style="@style/ImageDivider" />
 
         <LinearLayout
             style="@style/SetItemTextView"
@@ -115,7 +109,6 @@
                 android:text="@string/set_version" />
         </LinearLayout>
 
-        <ImageView style="@style/ImageDivider" />
     </LinearLayout>
 
 </ScrollView>
