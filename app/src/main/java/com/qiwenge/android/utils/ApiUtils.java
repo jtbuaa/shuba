@@ -151,6 +151,10 @@ public class ApiUtils {
         return String.format(FORMAT_2_PARAMS, ApiModels.users, userId);
     }
 
+    public static String postLevel(){
+        return String.format(FORMAT_1_PARAMS, ApiModels.levels);
+    }
+
     /**
      * Test
      *
