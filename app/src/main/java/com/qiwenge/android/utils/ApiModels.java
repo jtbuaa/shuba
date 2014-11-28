@@ -56,6 +56,8 @@ public enum ApiModels {
 
     auths,
 
-    users
+    users,
+
+    levels
 
 }
