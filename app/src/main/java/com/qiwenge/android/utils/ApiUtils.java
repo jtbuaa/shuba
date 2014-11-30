@@ -13,6 +13,18 @@ public class ApiUtils {
 
     public final static String FORMAT_1_PARAMS = HOST_NAME + "/%s";
 
+    public static String build(String param) {
+        return String.format(FORMAT_1_PARAMS, param);
+    }
+
+    public static String build(String param1, String param2) {
+        return String.format(FORMAT_2_PARAMS, param1, param2);
+    }
+
+    public static String build(String param1, String param2, String param3) {
+        return String.format(FORMAT_3_PARAMS, param1, param2, param3);
+    }
+
     /**
      * 获取所有的书。
      *
@@ -151,7 +163,7 @@ public class ApiUtils {
         return String.format(FORMAT_2_PARAMS, ApiModels.users, userId);
     }
 
-    public static String postLevel(){
+    public static String postLevel() {
         return String.format(FORMAT_1_PARAMS, ApiModels.levels);
     }
 
