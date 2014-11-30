@@ -52,6 +52,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
+        if(LoginManager.isLogin()){
+            getUser(LoginManager.getUser().getId());
+        }
     }
 
     @Override
@@ -180,6 +183,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onSuccess(User result) {
                 LoginManager.saveUser(getActivity(), result);
+                showUser();
             }
 
             @Override
