@@ -31,7 +31,7 @@ import java.util.logging.Level;
 
 public class MeFragment extends BaseFragment implements View.OnClickListener {
 
-    private final static String LEVEL_FORMAT="LV.%s (%s/%s)";
+    private final static String LEVEL_FORMAT = "LV.%s (%s/%s)";
 
     private ImageView ivAvatar;
     private TextView tvUserName;
@@ -52,8 +52,17 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
-        if(LoginManager.isLogin()){
+        if (LoginManager.isLogin()) {
             getUser(LoginManager.getUser().getId());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (LoginManager.isLogout && !LoginManager.isLogin()) {
+            LoginManager.isLogout = false;
+            clearUser();
         }
     }
 
@@ -75,7 +84,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void initViews() {
         ivAvatar = (ImageView) getView().findViewById(R.id.iv_avatar);
         tvUserName = (TextView) getView().findViewById(R.id.tv_username);
-        tvLevel=(TextView)getView().findViewById(R.id.tv_level);
+        tvLevel = (TextView) getView().findViewById(R.id.tv_level);
 
         tvSet = (TextView) getView().findViewById(R.id.tv_set);
         tvSet.setOnClickListener(this);
@@ -90,12 +99,24 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     private void showUser() {
         if (LoginManager.isLogin()) {
-            tvUserName.setText(LoginManager.getUser().username);
-            DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.default_avatar);
-            ImageLoader.getInstance().displayImage(LoginManager.getUser().avatar, ivAvatar, options);
-            UserLevel level=LoginManager.getUser().level;
-            tvLevel.setText(String.format(LEVEL_FORMAT,level.rank,level.exp,level.next));
+            showUser(LoginManager.getUser());
         }
+    }
+
+    private void showUser(User user) {
+        if (user != null) {
+            tvUserName.setText(user.username);
+            DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.default_avatar);
+            ImageLoader.getInstance().displayImage(user.avatar, ivAvatar, options);
+            UserLevel level = user.level;
+            tvLevel.setText(String.format(LEVEL_FORMAT, level.rank, level.exp, level.next));
+        }
+    }
+
+    private void clearUser() {
+        tvUserName.setText("未登陆");
+        tvLevel.setText("0");
+        ivAvatar.setImageResource(R.drawable.default_avatar);
     }
 
     @Override
@@ -107,9 +128,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onAuthSuccess(AuthSuccess authSuccess) {
         super.onAuthSuccess(authSuccess);
-        DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.default_avatar);
-        ImageLoader.getInstance().displayImage(authSuccess.getAvatarUrl(), ivAvatar, options);
-        tvUserName.setText(authSuccess.getUsername());
         login(authSuccess);
     }
 
@@ -117,7 +135,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         String url = ApiUtils.putAuth();
         System.out.println("login:" + url);
         RequestParams params = new RequestParams();
-        params.put("open_id", authSuccess.getOpenId());
+        params.put("open_id", authSuccess.getOpenId().toLowerCase());
         JHttpClient.put(url, params, new JsonResponseHandler<Auth>(Auth.class, false) {
             @Override
             public void onSuccess(Auth result) {
@@ -149,8 +167,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         RequestParams params = new RequestParams();
         params.put("username", authSuccess.getUsername());
         params.put("avatar", authSuccess.getAvatarUrl());
-        params.put("open_id", authSuccess.getOpenId());
+        params.put("open_id", authSuccess.getOpenId().toLowerCase());
         params.put("from", authSuccess.getLoginType().toString());
+        System.out.println("reg:" + url + "?" + params.toString());
         JHttpClient.post(url, params, new BaseResponseHandler() {
             @Override
             public void onSuccess(String result) {
@@ -183,7 +202,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onSuccess(User result) {
                 LoginManager.saveUser(getActivity(), result);
-                showUser();
+                showUser(result);
             }
 
             @Override
