@@ -1,9 +1,7 @@
 package com.qiwenge.android.app;
 
-import com.dev1024.utils.AppUtils;
-import com.dev1024.utils.StringUtils;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.openudid.OpenUDID_manager;
+import com.qiwenge.android.openudid.OpenUDIDUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 
 import android.app.Application;
@@ -26,13 +24,7 @@ public class ReadApplication extends Application {
     }
 
     private void initOpenUDID() {
-        OpenUDID_manager.sync(this);
-        OpenUDID_manager.isInitialized();
-        Constants.OEPN_UD_ID = OpenUDID_manager.getOpenUDID();
-        if (StringUtils.isEmptyOrNull(Constants.OEPN_UD_ID)) {
-            System.out.println("用IMEI号做OpenUDID");
-            Constants.OEPN_UD_ID = AppUtils.getImeiCode(getApplicationContext());
-        }
+        Constants.OEPN_UD_ID = OpenUDIDUtils.getOpenUDID(getApplicationContext());
     }
 
 }
