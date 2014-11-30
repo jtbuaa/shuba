@@ -1,11 +1,11 @@
 package com.qiwenge.android.utils;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
 /**
  * Created by Eric on 14/11/28.
  */
-public class ApiUtilsTest extends InstrumentationTestCase {
+public class ApiUtilsTest extends AndroidTestCase {
 
     @Override
     protected void setUp() throws Exception {

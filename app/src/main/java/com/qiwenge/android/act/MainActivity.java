@@ -8,16 +8,13 @@ import android.support.v4.view.ViewPager;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuItem.OnActionExpandListener;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev1024.utils.LogUtils;
@@ -28,13 +25,11 @@ import com.qiwenge.android.adapters.MainPagerAdapter;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.listeners.OnFragmentClickListener;
+import com.qiwenge.android.login.LoginType;
 import com.qiwenge.android.login.SinaWeiboLogin;
+import com.qiwenge.android.login.ThirdLoginUtils;
 import com.qiwenge.android.models.MainMenuItem;
-import com.qiwenge.android.openudid.OpenUDID_manager;
-import com.qiwenge.android.ui.transforamers.AlphaTransformer;
-import com.qiwenge.android.ui.transforamers.MyTransformer;
 import com.qiwenge.android.ui.SlowViewPager;
-import com.qiwenge.android.ui.dialogs.LoginDialog;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 
@@ -71,7 +66,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         ImageLoaderUtils.init(getApplicationContext());
         initViews();
         initFragment();
-        getOpenUDID(getApplicationContext());
         initActionBar();
         chkUpdate();
     }
@@ -147,19 +141,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 startActionMode(new MainActionMode());
             }
         });
-    }
-
-
-    /**
-     * 获取设备唯一标识
-     *
-     * @param context
-     * @return
-     */
-    private String getOpenUDID(Context context) {
-        OpenUDID_manager.sync(context);
-        OpenUDID_manager.isInitialized();
-        return OpenUDID_manager.getOpenUDID();
     }
 
     private void initMenu() {
@@ -318,8 +299,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("onActivityResult");
-        if (SinaWeiboLogin.mSsoHandler != null && data != null) {
+        if (ThirdLoginUtils.loginType != null && ThirdLoginUtils.loginType == LoginType.weibo
+                && SinaWeiboLogin.mSsoHandler != null && data != null) {
             SinaWeiboLogin.mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
     }
