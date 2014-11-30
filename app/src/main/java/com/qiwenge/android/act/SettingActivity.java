@@ -16,6 +16,7 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.utils.ImageLoaderUtils;
+import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.ThemeUtils;
 
 /**
@@ -29,12 +30,11 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     private TextView tvRating;
     private TextView tvLegal;
     private TextView tvCheckUpdate;
+    private TextView tvLogout;
+    private LinearLayout layoutUser;
 
     private ImageView ivNightModel;
     private ImageView ivSaveModel;
-
-    private LinearLayout layoutContent;
-    private ScrollView scrollContainer;
 
     private boolean selectSaveModel = false;
 
@@ -49,9 +49,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_night_model:// 夜间模式
-                setNightModel();
-                break;
             case R.id.iv_save_model:// 控制流量
                 setSaveModel();
                 break;
@@ -63,6 +60,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.set_tv_update://检查版本更新
                 new AsyncCheckUpdate(this).checkUpdate();
+                break;
+            case R.id.set_tv_logout:
+                LoginManager.logout(getApplicationContext());
                 break;
             default:
                 break;
@@ -80,6 +80,11 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        if (LoginManager.isLogin()) {
+            layoutUser.setVisibility(View.VISIBLE);
+        } else {
+            layoutUser.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -96,24 +101,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         selectSaveModel = !selectSaveModel;
     }
 
-    /**
-     * 设置夜间模式
-     */
-    private void setNightModel() {
-        if (ThemeUtils.getIsNightModel()) {
-            setCheckbox(ivNightModel, false);
-            ThemeUtils.setNightModle(getApplicationContext(), false);
-        } else {
-            setCheckbox(ivNightModel, true);
-            ThemeUtils.setNightModle(getApplicationContext(), true);
-        }
-        ThemeUtils.setThemeBg(scrollContainer);
-        showThemeModel(layoutContent);
-    }
-
     private void initViews() {
-        layoutContent = (LinearLayout) this.findViewById(R.id.layout_content);
-        scrollContainer = (ScrollView) this.findViewById(R.id.scrollView_container);
+        layoutUser = (LinearLayout) this.findViewById(R.id.layout_set_user);
 
         tvLegal = (TextView) this.findViewById(R.id.set_tv_legal);
         tvLegal.setOnClickListener(this);
@@ -135,6 +124,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         tvCheckUpdate = (TextView) this.findViewById(R.id.set_tv_update);
         tvCheckUpdate.setOnClickListener(this);
 
+        tvLogout = (TextView) this.findViewById(R.id.set_tv_logout);
+        tvLogout.setOnClickListener(this);
+
         if (!ImageLoaderUtils.isOpen()) {
             setCheckbox(ivSaveModel, true);
             selectSaveModel = true;
@@ -146,25 +138,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
             setCheckbox(ivNightModel, false);
         }
 
-        ThemeUtils.setThemeBg(scrollContainer);
-        showThemeModel(layoutContent);
-    }
-
-    private void showThemeModel(ViewGroup viewGroup) {
-        int count = viewGroup.getChildCount();
-        View view;
-        for (int i = 0; i < count; i++) {
-            view = viewGroup.getChildAt(i);
-            if (view.getTag() == null) {
-                if (view instanceof ImageView) {
-                    ThemeUtils.setThemeLine(view);
-                } else if (view instanceof TextView) {
-                    ThemeUtils.setTextColor((TextView) view);
-                } else if (view instanceof ViewGroup) {
-                    showThemeModel((ViewGroup) view);
-                }
-            }
-        }
     }
 
     private void setCheckbox(ImageView iv, boolean ischecked) {

@@ -46,11 +46,14 @@
     <string name="set_more">更多</string>
     <string name="set_night_model">夜间模式</string>
     <string name="set_save_model">流量控制</string>
+    <string name="set_push_message">推送消息</string>
     <string name="set_save_model_summary">仅在WI-FI下加载小说封面</string>
     <string name="set_legal">免责声明</string>
     <string name="set_rating">给书吧好评</string>
     <string name="set_update">检查版本更新</string>
     <string name="set_version">版本</string>
+    <string name="set_logout">退出登陆</string>
+    <string name="set_account">用户</string>
 
     <!-- search -->
     <string name="search_recommend">推荐几本精彩的小说</string>

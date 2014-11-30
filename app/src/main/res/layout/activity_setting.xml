@@ -2,29 +2,27 @@
     android:id="@+id/scrollView_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none" >
+    android:scrollbars="none">
 
     <LinearLayout
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp" >
+        android:paddingRight="16dp"
+        android:paddingTop="10dp">
 
         <TextView
             style="@style/SetItemHeader"
             android:text="@string/set_title" />
 
-        <ImageView
-            style="@style/ImageDivider"
-            android:layout_height="2dp" />
+        <ImageView style="@style/ImageDivider" />
 
         <RelativeLayout
             android:id="@+id/layout_night_model"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/set_item_height" >
+            android:layout_height="@dimen/set_item_height">
 
             <ImageView
                 android:id="@+id/iv_night_model"
@@ -37,13 +35,13 @@
 
             <TextView
                 style="@style/SetItemTextView"
-                android:text="@string/set_night_model"  />
+                android:text="@string/set_push_message" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/layout_save_model"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/set_item_height" >
+            android:layout_height="@dimen/set_item_height">
 
             <ImageView
                 android:id="@+id/iv_save_model"
@@ -56,7 +54,7 @@
 
             <LinearLayout
                 style="@style/SetItemTextView"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/SetItem_Title"
@@ -74,9 +72,7 @@
             style="@style/SetItemHeader"
             android:text="@string/set_more" />
 
-        <ImageView
-            style="@style/ImageDivider"
-            android:layout_height="2dp" />
+        <ImageView style="@style/ImageDivider" />
 
         <TextView
             android:id="@+id/set_tv_legal"
@@ -97,7 +93,7 @@
 
         <LinearLayout
             style="@style/SetItemTextView"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 style="@style/SetItem_Title"
@@ -107,6 +103,24 @@
                 android:id="@+id/tv_version_name"
                 style="@style/SetItem_Summary"
                 android:text="@string/set_version" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_set_user"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SetItemHeader"
+                android:text="@string/set_account" />
+
+            <ImageView style="@style/ImageDivider" />
+
+            <TextView
+                android:id="@+id/set_tv_logout"
+                style="@style/SetItemTextView"
+                android:text="@string/set_logout" />
         </LinearLayout>
 
     </LinearLayout>

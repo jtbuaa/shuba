@@ -27,12 +27,17 @@ public class LoginManager {
         return mUser != null;
     }
 
-    public static void logout() {
+    public static boolean isLogout = false;
+
+    public static void logout(Context context) {
         mUser = null;
+        mAuth = null;
+        isLogout = true;
+        saveUser(context, null);
+        saveAuth(context, null);
     }
 
     public static void init(Context context) {
-        System.out.println("init LoginManager");
         mUser = getUser(context);
         mAuth = getAuth(context);
     }
@@ -43,6 +48,8 @@ public class LoginManager {
             Gson gson = new Gson();
             String json = gson.toJson(auth);
             PreferencesUtils.putString(context, LOGIN, KEY_AUTH, json);
+        } else {
+            PreferencesUtils.putString(context, LOGIN, KEY_AUTH, "");
         }
     }
 
@@ -63,6 +70,8 @@ public class LoginManager {
             String json = gson.toJson(user);
             System.out.println("save user :" + json);
             PreferencesUtils.putString(context, LOGIN, KEY_USER, json);
+        } else {
+            PreferencesUtils.putString(context, LOGIN, KEY_USER, "");
         }
     }
 
@@ -83,7 +92,6 @@ public class LoginManager {
     public static Auth getAuth() {
         return mAuth;
     }
-
 
 
 }
