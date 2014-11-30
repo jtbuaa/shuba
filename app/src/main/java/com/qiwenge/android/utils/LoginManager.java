@@ -27,10 +27,6 @@ public class LoginManager {
         return mUser != null;
     }
 
-    public static User getUser() {
-        return mUser;
-    }
-
     public static void logout() {
         mUser = null;
     }
@@ -43,6 +39,7 @@ public class LoginManager {
 
     public static void saveAuth(Context context, Auth auth) {
         if (auth != null) {
+            mAuth = auth;
             Gson gson = new Gson();
             String json = gson.toJson(auth);
             PreferencesUtils.putString(context, LOGIN, KEY_AUTH, json);
@@ -61,9 +58,10 @@ public class LoginManager {
 
     public static void saveUser(Context context, User user) {
         if (user != null) {
+            mUser = user;
             Gson gson = new Gson();
             String json = gson.toJson(user);
-            System.out.println("save user :"+json);
+            System.out.println("save user :" + json);
             PreferencesUtils.putString(context, LOGIN, KEY_USER, json);
         }
     }
@@ -77,6 +75,15 @@ public class LoginManager {
         }
         return user;
     }
+
+    public static User getUser() {
+        return mUser;
+    }
+
+    public static Auth getAuth() {
+        return mAuth;
+    }
+
 
 
 }
