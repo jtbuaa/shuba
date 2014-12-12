@@ -5,7 +5,6 @@ android {
     buildToolsVersion "19.1.0"
 
     defaultConfig {
-        applicationId "com.dev1024.johnliu"
         minSdkVersion 8
         targetSdkVersion 18
     }
