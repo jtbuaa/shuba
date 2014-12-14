@@ -37,7 +37,7 @@ public class LoginManager {
         saveAuth(context, null);
     }
 
-    public static void init(Context context) {
+    public static void init(Context context) { 
         mUser = getUser(context);
         mAuth = getAuth(context);
     }
@@ -68,7 +68,6 @@ public class LoginManager {
             mUser = user;
             Gson gson = new Gson();
             String json = gson.toJson(user);
-            System.out.println("save user :" + json);
             PreferencesUtils.putString(context, LOGIN, KEY_USER, json);
         } else {
             PreferencesUtils.putString(context, LOGIN, KEY_USER, "");

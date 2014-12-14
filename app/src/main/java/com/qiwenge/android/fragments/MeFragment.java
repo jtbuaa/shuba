@@ -184,7 +184,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                System.out.println("reg-onFinish");
             }
         });
     }
@@ -207,7 +206,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                System.out.println("getUser-onFinish");
             }
         });
     }

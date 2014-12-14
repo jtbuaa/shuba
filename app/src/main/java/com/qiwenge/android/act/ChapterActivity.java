@@ -146,6 +146,12 @@ public class ChapterActivity extends BaseActivity {
         JHttpClient.get(url, params, new StringResponseHandler() {
 
             @Override
+            public void onStart() {
+                super.onStart();
+                ivLoading.setVisibility(View.VISIBLE);
+            }
+
+            @Override
             public void onFinish() {
                 if (list.isEmpty()) {
                     showEmptyView();

@@ -71,9 +71,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     private LinearLayout layoutIntroTop;
     private LinearLayout layoutIntroCenter;
     private LinearLayout layoutIntroButtons;
-    private ImageView ivShadow1;
-    private ImageView ivShadow2;
-    private ImageView ivShadow3;
 
     private Book book;
     private List<Book> dataRecommend = new ArrayList<Book>();
@@ -125,11 +122,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         ThemeUtils.setThemeBg(layoutRelated);
         ThemeUtils.setThemeBg(layoutIntroButtons);
         ThemeUtils.setThemeSecondBg(scrollView);
-
-        //Shadow
-        ThemeUtils.setThemeLine(ivShadow1);
-        ThemeUtils.setThemeLine(ivShadow2);
-        ThemeUtils.setThemeLine(ivShadow3);
 
         if (book != null && BookShelfUtils.contains(getApplicationContext(), book)) {
             btnAdd.setText(R.string.book_intro_read_continue);
@@ -224,10 +216,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
         layoutRelated = (LinearLayout) this.findViewById(R.id.layout_related);
         layoutRelated.setVisibility(View.GONE);
-
-        ivShadow1 = (ImageView) this.findViewById(R.id.iv_shadow1);
-        ivShadow2 = (ImageView) this.findViewById(R.id.iv_shadow2);
-        ivShadow3 = (ImageView) this.findViewById(R.id.iv_shadow3);
 
         showBookInfo();
 

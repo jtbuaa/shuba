@@ -17,6 +17,7 @@ import com.qiwenge.android.constant.Platform;
 import com.qiwenge.android.models.Configures;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.LoginManager;
+import com.qiwenge.android.utils.PushUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
@@ -33,7 +34,6 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        LoginManager.init(getApplicationContext());
     }
 
     @Override
@@ -62,7 +62,8 @@ public class SplashActivity extends BaseActivity {
      * 初始化极光推送
      */
     private void initJPush() {
-        new AsyncSetAlias(getApplicationContext()).execute(Constants.OEPN_UD_ID);
+//        new AsyncSetAlias(getApplicationContext()).execute(Constants.OEPN_UD_ID);
+          new PushUtils().setAlias(getApplicationContext());
     }
 
     public void getScreenSize() {

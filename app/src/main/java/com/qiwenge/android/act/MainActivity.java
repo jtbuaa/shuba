@@ -32,6 +32,7 @@ import com.qiwenge.android.models.MainMenuItem;
 import com.qiwenge.android.ui.SlowViewPager;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ThemeUtils;
+import com.qiwenge.android.utils.level.LevelUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         initFragment();
         initActionBar();
         chkUpdate();
+        LevelUtils.dailyLogin(getApplicationContext());
     }
 
     private void chkUpdate() {

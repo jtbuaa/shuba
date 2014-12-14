@@ -3,8 +3,6 @@ package com.qiwenge.android.ui.transforamers;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.nineoldandroids.view.ViewHelper;
-
 /**
  * Created by Eric on 14/11/18.
  */

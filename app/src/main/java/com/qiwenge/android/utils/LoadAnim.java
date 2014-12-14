@@ -4,7 +4,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 
 import com.dev1024.utils.LogUtils;
 import com.qiwenge.android.R;
