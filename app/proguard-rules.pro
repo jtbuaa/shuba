@@ -35,6 +35,8 @@
 public static final android.os.Parcelable$Creator *;
 }
 
+-dontwarn android.net.http.**
+
 #google
 -keep class com.google.** { *; }
 
@@ -46,6 +48,10 @@ public static final android.os.Parcelable$Creator *;
 -keep class com.viewpagerindicator.** { *; }
 
 -keep class com.loopj.android.** { *; }
+
+#QQ
+-keep class com.tencent.** { *; }
+-keep class * extends android.app.Dialog
 
 #shuba
 -keep class com.qiwenge.android.models.** { *; }
