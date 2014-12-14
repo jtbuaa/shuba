@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:listSelector="@drawable/item_common_bg" >
     </ListView>
+
     <include layout="@layout/layout_loading" />
 
 </RelativeLayout>

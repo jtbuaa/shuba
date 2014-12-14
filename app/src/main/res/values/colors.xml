@@ -16,8 +16,10 @@
     <color name="main_second_bg_color">#eeeeee</color>
     <color name="main_yellow_color">#fc9634</color>
     <color name="main_gray_color">#cccccc</color>
-    <color name="main_shadow_color">#cccccc</color>
+    <color name="main_shadow_color">#99cccccc</color>
     <color name="main_night_shadow_color">#303030</color>
+    <color name="blue_n">#2ddca3</color>
+    <color name="blue_s">#2ddca3</color>
 
     <!-- Common -->
     <color name="item_selected_bg_color">#20000000</color>
