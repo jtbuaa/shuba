@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.dev1024.utils.StringUtils;
+import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.act.BrowserActivity;
 import com.qiwenge.android.act.ChapterActivity;
 import com.qiwenge.android.act.ReadActivity;
@@ -20,6 +21,15 @@ public class SkipUtils {
 
     //宜搜
     private static final String FORMAT_EASOU = "http://book.easou.com/ta/search.m?q=%s";
+
+    public static void skipToBookDetail(Context context, Book book) {
+        Bundle extra = new Bundle();
+        extra.putParcelable(BookDetailActivity.EXTRA_BOOK, book);
+        Intent intent = new Intent(context.getApplicationContext(), BookDetailActivity.class);
+        intent.putExtras(extra);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     /**
      * 跳到阅读页面。
