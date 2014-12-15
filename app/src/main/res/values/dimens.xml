@@ -4,7 +4,7 @@
     <!-- Default item padding in a ListView. -->
     <dimen name="default_padding">16dp</dimen>
     <dimen name="default_padding_big">20dp</dimen>
-    <dimen name="default_item_padding">14dp</dimen>
+    <dimen name="default_item_padding">16dp</dimen>
     <dimen name="default_item_padding_vertical">10dp</dimen>
     <dimen name="default_item_padding_horizontal">16dp</dimen>
     <dimen name="default_item_padding_small">5dp</dimen>

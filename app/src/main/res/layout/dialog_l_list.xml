@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:paddingLeft="22dp"
+    android:paddingRight="22dp">
 
     <ListView
         android:id="@+id/listview_dialog"
@@ -8,7 +10,6 @@
         android:layout_height="wrap_content"
         android:listSelector="@android:color/transparent"
         android:overScrollMode="never"
-        android:divider="@android:color/transparent"
         android:scrollbars="none" />
 
 </RelativeLayout>

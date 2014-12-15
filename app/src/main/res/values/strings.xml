@@ -31,7 +31,7 @@
     <string name="book_intro_category_format">类型 : %s</string>
     <string name="book_intro_status_format">状态 : %s</string>
     <string name="book_intro_chapters">查看目录</string>
-    <string name="book_intro_add">收藏</string>
+    <string name="book_intro_add">加入书架</string>
     <string name="book_intro_remove">取消收藏</string>
     <string name="book_intro_read_continue">继续阅读</string>
     <string name="book_intro_related">相关推荐</string>
