@@ -30,6 +30,7 @@ import com.qiwenge.android.listeners.OnFragmentClickListener;
 import com.qiwenge.android.models.Book;
 import com.qiwenge.android.models.BookList;
 import com.qiwenge.android.models.BookUpdateList;
+import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.SkipUtils;
@@ -41,18 +42,11 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
  */
 public class BookshelfFragment extends BaseFragment {
 
-    /**
-     * 是否为编辑模式，如果为true的话，单击书架列表，为选择操作。
-     */
-    private boolean isEditModel = false;
-
     private PullToRefreshListView lvBookShelf;
 
     private List<Book> data = new ArrayList<Book>();
 
     private BookShelfAdapter adapter;
-
-    private OnFragmentClickListener clickListener;
 
     private View emptyView;
 
@@ -65,10 +59,6 @@ public class BookshelfFragment extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
-    }
-
-    public void setOnFragmentClickListener(OnFragmentClickListener listener) {
-        this.clickListener = listener;
     }
 
     private void initViews() {
@@ -86,27 +76,9 @@ public class BookshelfFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position - 1 < data.size()) {
 
-                    if (isEditModel) {
-                        //编辑模式
-                        selectBook(position - 1);
-                        return;
-                    }
-
                     Book book = data.get(position - 1);
 
                     SkipUtils.skipToReader(getActivity(),book);
-
-//                    String lastReadId =
-//                            BookShelfUtils.getRecordChapterId(getActivity(), book.getId());
-//                    if (StringUtils.isEmptyOrNull(lastReadId)) {
-//                        Bundle extra = new Bundle();
-//                        extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position - 1));
-//                        startActivity(BookDetailActivity.class, extra);
-//                    } else {
-//                        book.lastReadId = lastReadId;
-//                        SkipUtils.skipToReader(getActivity(), book.getId(), book.title,
-//                                book.lastReadId);
-//                    }
                 }
             }
         });
@@ -123,13 +95,29 @@ public class BookshelfFragment extends BaseFragment {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!isEditModel)
-                    if (clickListener != null) clickListener.onClick();
-                isEditModel = true;
-                selectBook(position - 1);
+                showBookDialog(data.get(position-1));
                 return true;
             }
         });
+    }
+
+    private void showBookDialog(final Book book){
+        MyDialog myDialog=new MyDialog(getActivity(),book.title);
+        String[] items={"查看详情","删除"};
+        myDialog.setItems(items,new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        SkipUtils.skipToBookDetail(getActivity(),book);
+                        break;
+                    case 1:
+                        deleteBook(book);
+                        break;
+                }
+            }
+        });
+        myDialog.show();
     }
 
     /**
@@ -170,55 +158,10 @@ public class BookshelfFragment extends BaseFragment {
         });
     }
 
-    /**
-     * 选中一本书
-     *
-     * @param position
-     */
-    public void selectBook(int position) {
-        if (data.isEmpty()) return;
-
-        if (position > data.size() - 1 || position < 0) return;
-
-        data.get(position).selected = !data.get(position).selected;
-
-        data.get(position).showAnim = true;
-
+    private void deleteBook(Book book){
+        BookShelfUtils.removeBook(getActivity(),book);
+        data.remove(book);
         adapter.notifyDataSetChanged();
-    }
-
-    /**
-     * 清楚所有选中
-     */
-    public void clearAllSelect() {
-        isEditModel = false;
-        if (data.isEmpty()) return;
-
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).selected) {
-                data.get(i).selected = false;
-                data.get(i).showAnim = true;
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    /**
-     * 删除选中的Book。
-     */
-    public void deleteSelected() {
-        Context context = getActivity().getApplicationContext();
-        List<Book> listRemove = new ArrayList<Book>();
-        int total = data.size();
-        for (int i = 0; i < total; i++) {
-            if (data.get(i).selected) {
-                BookShelfUtils.removeBook(context, data.get(i));
-                listRemove.add(data.get(i));
-            }
-        }
-        if (!listRemove.isEmpty())
-            adapter.remove(listRemove);
-        clearAllSelect();
     }
 
     /**

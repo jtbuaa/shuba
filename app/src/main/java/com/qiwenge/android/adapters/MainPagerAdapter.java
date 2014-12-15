@@ -33,7 +33,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 if (bookShelf == null) {
                     bookShelf = new BookshelfFragment();
-                    if (clickListener != null) bookShelf.setOnFragmentClickListener(clickListener);
                 }
                 return bookShelf;
             case 1:
@@ -53,14 +52,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     public void setOnFragmentClickListener(OnFragmentClickListener listener) {
         this.clickListener = listener;
-    }
-
-    public void clearAllSelect() {
-        if (bookShelf != null) bookShelf.clearAllSelect();
-    }
-
-    public void deleteSelected() {
-        if (bookShelf != null) bookShelf.deleteSelected();
     }
 
 }

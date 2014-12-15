@@ -276,7 +276,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
             if (item.getItemId() == ACTION_ITEM_DELETE) {
-                adapter.deleteSelected();
                 mode.finish();
             }
 
@@ -285,7 +284,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            adapter.clearAllSelect();
             actionMode = null;
         }
 
