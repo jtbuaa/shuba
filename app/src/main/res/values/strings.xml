@@ -7,6 +7,8 @@
     <string name="JPUSH_APPKEY">f0638222933af84af96ecad9</string>
 
     <!-- Common -->
+    <string name="str_cancel">取消</string>
+    <string name="str_sure">确定</string>
     <string name="double_click_to_quit">双击返回键,退出书吧</string>
     <string name="str_share_format">%s (分享自 @书吧)</string>
     <string name="str_book_shelf">收藏</string>
@@ -54,6 +56,8 @@
     <string name="set_version">版本</string>
     <string name="set_logout">退出登陆</string>
     <string name="set_account">用户</string>
+    <string name="set_logout_title">退出登陆</string>
+    <string name="set_logout_msg">确定退出当前账号?</string>
 
     <!-- search -->
     <string name="search_recommend">推荐几本精彩的小说</string>

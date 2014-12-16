@@ -15,6 +15,8 @@ import com.dev1024.utils.ToastUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
+import com.qiwenge.android.listeners.OnPositiveClickListener;
+import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.ThemeUtils;
@@ -62,7 +64,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 new AsyncCheckUpdate(this).checkUpdate();
                 break;
             case R.id.set_tv_logout:
-                LoginManager.logout(getApplicationContext());
+                showLogoutDialog();
                 break;
             default:
                 break;
@@ -146,6 +148,21 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         } else {
             iv.setBackgroundResource(R.drawable.icon_switch_off);
         }
+    }
+
+    private MyDialog logoutDialog;
+
+    private void showLogoutDialog() {
+        logoutDialog = new MyDialog(this, R.string.set_logout_title);
+        logoutDialog.setMessage(R.string.set_logout_msg);
+        logoutDialog.setPositiveButton(R.string.str_sure, new OnPositiveClickListener() {
+            @Override
+            public void onClick() {
+                LoginManager.logout(getApplicationContext());
+                layoutUser.setVisibility(View.GONE);
+            }
+        });
+        logoutDialog.show();
     }
 
 }
