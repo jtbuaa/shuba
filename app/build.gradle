@@ -17,6 +17,11 @@ android {
           zipAlignEnabled true
           minifyEnabled true
           proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+          manifestPlaceholders = [meta_umeng_appkey:"5368adef56240b3e410337a7"]
+        }
+
+        debug{
+          manifestPlaceholders = [meta_umeng_appkey:"53b5654c56240b75180224e9"]
         }
     }
 
