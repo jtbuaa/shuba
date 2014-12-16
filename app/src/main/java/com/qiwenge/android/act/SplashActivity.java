@@ -1,6 +1,8 @@
 package com.qiwenge.android.act;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,13 +12,11 @@ import com.dev1024.utils.AppUtils;
 import com.dev1024.utils.LogUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
-import com.qiwenge.android.async.AsyncSetAlias;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.constant.Platform;
 import com.qiwenge.android.models.Configures;
 import com.qiwenge.android.utils.ApiUtils;
-import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.PushUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
@@ -34,6 +34,7 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        System.out.println("Splash OnCreate");
     }
 
     @Override
@@ -63,7 +64,7 @@ public class SplashActivity extends BaseActivity {
      */
     private void initJPush() {
 //        new AsyncSetAlias(getApplicationContext()).execute(Constants.OEPN_UD_ID);
-          new PushUtils().setAlias(getApplicationContext());
+        new PushUtils().setAlias(getApplicationContext());
     }
 
     public void getScreenSize() {
