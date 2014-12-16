@@ -27,8 +27,6 @@ import com.qiwenge.android.utils.http.BaseResponseHandler;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
-import java.util.logging.Level;
-
 public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     private final static String LEVEL_FORMAT = "LV.%s (%s/%s)";
@@ -40,7 +38,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private TextView tvSet;
     private TextView tvFeedback;
     private LinearLayout layoutUser;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,12 +107,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             ImageLoader.getInstance().displayImage(user.avatar, ivAvatar, options);
             UserLevel level = user.level;
             tvLevel.setText(String.format(LEVEL_FORMAT, level.rank, level.exp, level.next));
+            tvLevel.setVisibility(View.VISIBLE);
         }
     }
 
     private void clearUser() {
         tvUserName.setText("未登陆");
-        tvLevel.setText("0");
+        tvLevel.setText("");
+        tvLevel.setVisibility(View.GONE);
         ivAvatar.setImageResource(R.drawable.default_avatar);
     }
 

@@ -1,15 +1,12 @@
 package com.qiwenge.android.act;
 
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
 
 import com.dev1024.utils.AppUtils;
-import com.dev1024.utils.LogUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
@@ -34,7 +31,6 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        System.out.println("Splash OnCreate");
     }
 
     @Override
@@ -49,14 +45,12 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void start() {
-
         if (Constants.PLATFORM.equals(Platform.COMMON)) {
             Constants.openAutoReading = true;
             skipToMain();
         } else {
             connect();
         }
-
     }
 
     /**
@@ -93,7 +87,6 @@ public class SplashActivity extends BaseActivity {
 
     private void connect() {
         String url = ApiUtils.getConfigures();
-        LogUtils.i("qiwenge", "connect");
         RequestParams params = new RequestParams();
         params.put("version", AppUtils.getVersionName(this));
         params.put("platform", Constants.PLATFORM);
