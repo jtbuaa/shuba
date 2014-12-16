@@ -8,12 +8,14 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qiwenge.android.R;
+import com.qiwenge.android.listeners.OnPositiveClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +40,21 @@ public class MyDialog {
 
     private TextView tvTitle;
 
+    private TextView tvMsg;
+
+    private ImageView ivDivider;
+
     @SuppressWarnings("unused")
     private MyDialog() {
     }
 
     public MyDialog(Activity act) {
+        this.mContext = act;
+        init();
+    }
+
+    public MyDialog(Activity act, int resId) {
+        this.mTitle = act.getString(resId);
         this.mContext = act;
         init();
     }
@@ -58,6 +70,9 @@ public class MyDialog {
         mDialog.getWindow().setWindowAnimations(R.style.MyDialogStyle);
         View container = getContainerView(mContext);
         tvTitle = (TextView) container.findViewById(R.id.tv_dialog_title);
+        tvMsg = (TextView) container.findViewById(R.id.tv_dialog_msg);
+        tvMsg.setVisibility(View.GONE);
+        ivDivider = (ImageView) container.findViewById(R.id.iv_divider);
         if (mTitle != null) {
             tvTitle.setVisibility(View.VISIBLE);
             tvTitle.setText(mTitle);
@@ -73,6 +88,17 @@ public class MyDialog {
         });
         mDialog.setContentView(container);
         mDialog.setCancelable(true);
+    }
+
+    public void setMessage(int resId) {
+        setMessage(mContext.getString(resId));
+    }
+
+    public void setMessage(String message) {
+        tvMsg.setVisibility(View.VISIBLE);
+        tvMsg.setText(message);
+
+        ivDivider.setVisibility(View.GONE);
     }
 
     public void setItems(String[] items, OnItemClickListener listener) {
@@ -99,13 +125,16 @@ public class MyDialog {
         addView(view);
     }
 
-    public void setPositiveButton(String btnText, final OnPositiveClickListener listener) {
+    public void setPositiveButton(int sureTextResId, OnPositiveClickListener listener) {
+        setPositiveButton(mContext.getString(sureTextResId), listener);
+    }
+
+    public void setPositiveButton(String btnSureText, final OnPositiveClickListener listener) {
         View view = getView(mContext, R.layout.dialog_l_simple);
         TextView btnCancel = (TextView) view.findViewById(R.id.tv_btn_cancel);
         TextView btnSure = (TextView) view.findViewById(R.id.tv_btn_sure);
-        if (btnText != null) btnSure.setText(btnText);
+        if (btnSureText != null) btnSure.setText(btnSureText);
         btnCancel.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 dismiss();
@@ -150,10 +179,5 @@ public class MyDialog {
 
     public View getView(Activity context, int layoutResId) {
         return LayoutInflater.from(context).inflate(layoutResId, null);
-    }
-
-    public interface OnPositiveClickListener {
-
-        public void onClick();
     }
 }
