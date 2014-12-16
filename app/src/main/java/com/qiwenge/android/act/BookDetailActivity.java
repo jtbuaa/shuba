@@ -30,6 +30,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.AboutRmdAdapter;
 import com.qiwenge.android.async.AsyncAddBook;
+import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.BookStatus;
@@ -68,9 +69,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     private ScrollView scrollView;
     private ImageView ivCover;
     private LinearLayout layoutRelated;
-    private LinearLayout layoutIntroTop;
-    private LinearLayout layoutIntroCenter;
-    private LinearLayout layoutIntroButtons;
 
     private Book book;
     private List<Book> dataRecommend = new ArrayList<Book>();
@@ -117,15 +115,8 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     @Override
     protected void onResume() {
         super.onResume();
-        ThemeUtils.setThemeBg(layoutIntroCenter);
-        ThemeUtils.setThemeBg(layoutIntroTop);
-        ThemeUtils.setThemeBg(layoutRelated);
-        ThemeUtils.setThemeBg(layoutIntroButtons);
-        ThemeUtils.setThemeSecondBg(scrollView);
-
         if (book != null && BookShelfUtils.contains(getApplicationContext(), book)) {
-            btnAdd.setText(R.string.book_intro_read_continue);
-            isAdded = true;
+            showRemoveBtn();
         }
     }
 
@@ -138,12 +129,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                 startActivity(ChapterActivity.class, extra);
                 break;
             case R.id.btn_add:
-                if (isAdded) {
-                    continueRead();
-                } else {
-                    addBook();
-                    btnAdd.setText(R.string.book_intro_read_continue);
-                }
+                addOrRemoveBook();
                 break;
             default:
                 break;
@@ -170,6 +156,14 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 //        }
     }
 
+    private void addOrRemoveBook() {
+        if (isAdded) {
+            removeBook();
+        } else {
+            addBook();
+        }
+    }
+
     /**
      * 添加小说到书架
      */
@@ -177,15 +171,30 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         new AsyncAddBook(getApplicationContext(), new CommonHandler() {
             @Override
             public void onStart() {
-                DialogUtils.showLoading(BookDetailActivity.this);
+                btnAdd.setEnabled(false);
             }
 
             @Override
             public void onSuccess() {
-                isAdded = true;
-                DialogUtils.hideLoading();
+                btnAdd.setEnabled(true);
+                showRemoveBtn();
             }
 
+        }).execute(book);
+    }
+
+    private void removeBook() {
+        new AsyncRemoveBook(getApplicationContext(), new CommonHandler() {
+            @Override
+            public void onStart() {
+                btnAdd.setEnabled(false);
+            }
+
+            @Override
+            public void onSuccess() {
+                btnAdd.setEnabled(true);
+                showAddBtn();
+            }
         }).execute(book);
     }
 
@@ -210,10 +219,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         btnAdd = (Button) this.findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
 
-        layoutIntroCenter = (LinearLayout) this.findViewById(R.id.layout_intro_center);
-        layoutIntroTop = (LinearLayout) this.findViewById(R.id.layout_intro_top);
-        layoutIntroButtons = (LinearLayout) this.findViewById(R.id.layout_intro_buttons);
-
         layoutRelated = (LinearLayout) this.findViewById(R.id.layout_related);
         layoutRelated.setVisibility(View.GONE);
 
@@ -235,6 +240,20 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                 }
             }
         });
+    }
+
+    private void showAddBtn() {
+        btnAdd.setText(R.string.book_intro_add);
+        btnAdd.setBackgroundResource(R.drawable.btn_hollow_yellow);
+        btnAdd.setTextColor(getResources().getColorStateList(R.color.btn_yellow_text_color));
+        isAdded = false;
+    }
+
+    private void showRemoveBtn() {
+        btnAdd.setText(R.string.book_intro_remove);
+        btnAdd.setBackgroundResource(R.drawable.btn_hollow_gray);
+        btnAdd.setTextColor(getResources().getColorStateList(R.color.btn_remove_text_color));
+        isAdded = true;
     }
 
     @Override

@@ -25,7 +25,7 @@
                 android:layout_height="100dp"
                 android:background="@drawable/cover_border"
                 android:contentDescription="@string/str_empty"
-                android:padding="1px"
+                android:padding="1dp"
                 android:scaleType="fitXY" />
 
             <LinearLayout
@@ -90,7 +90,7 @@
                 android:id="@+id/btn_chapter"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_marginRight="6dp"
+                android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_hollow_yellow"
                 android:text="@string/book_intro_chapters"
@@ -101,7 +101,7 @@
                 android:id="@+id/btn_add"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_hollow_yellow"
                 android:text="@string/book_intro_add"
