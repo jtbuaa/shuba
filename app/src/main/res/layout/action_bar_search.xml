@@ -16,19 +16,19 @@
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
-        android:singleLine="true"
         android:hint="@string/str_search_hint"
-        android:textCursorDrawable="@drawable/edittext_cursor"
+        android:singleLine="true"
         android:textColor="@color/action_bar_text_color"
         android:textColorHint="@color/white_p50"
+        android:textCursorDrawable="@drawable/edittext_cursor"
         android:textSize="@dimen/font_size_middle" />
 
     <ImageView
         android:id="@+id/iv_search"
+        style="@style/ItemBackaground"
         android:layout_width="56dp"
         android:layout_height="48dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/action_bar_item_bg"
         android:scaleType="center"
         android:src="@drawable/ic_action_search" />
 

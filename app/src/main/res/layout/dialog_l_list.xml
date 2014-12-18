@@ -6,9 +6,9 @@
 
     <ListView
         android:id="@+id/listview_dialog"
+        style="@style/ListSelector"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:listSelector="@android:color/transparent"
         android:overScrollMode="never"
         android:scrollbars="none" />
 

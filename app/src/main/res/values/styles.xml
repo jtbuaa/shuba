@@ -86,15 +86,6 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="Pull_To_Refresh">
-        <item name="ptrAnimationStyle">flip</item>
-        <item name="ptrDrawable">@drawable/icon_pull_to_refresh</item>
-        <item name="ptrHeaderTextColor">@color/tv_desc_color</item>
-        <item name="ptrShowIndicator">false</item>
-        <item name="ptrListViewExtrasEnabled">true</item>
-        <item name="ptrHeaderTextAppearance">@style/ptrHeaderTextStyle</item>
-    </style>
-
     <style name="ptrHeaderTextStyle">
         <item name="android:typeface">normal</item>
     </style>
@@ -116,25 +107,23 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="SetItemTextView">
+    <style name="SetItemTextView" parent="ItemBackaground">
         <item name="android:textSize">@dimen/font_size_big</item>
         <item name="android:textColor">@color/tv_title_color</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/set_item_height</item>
         <item name="android:singleLine">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:background">@drawable/item_common_bg</item>
         <item name="android:paddingLeft">10dp</item>
     </style>
 
-    <style name="ItemMe">
+    <style name="ItemMe" parent="ItemBackaground">
         <item name="android:textSize">@dimen/font_size_middle</item>
         <item name="android:textColor">@color/tv_title_color</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:singleLine">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:background">@drawable/item_white_bg</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
     </style>
@@ -189,5 +178,32 @@
         <item name="@android:windowEnterAnimation">@anim/dialog_in</item>
         <item name="@android:windowExitAnimation">@anim/dialog_out</item>
     </style>
+
+    <style name="Pull_To_Refresh">
+        <item name="ptrAnimationStyle">flip</item>
+        <item name="ptrDrawable">@drawable/icon_pull_to_refresh</item>
+        <item name="ptrHeaderTextColor">@color/tv_desc_color</item>
+        <item name="ptrShowIndicator">false</item>
+        <item name="ptrListViewExtrasEnabled">true</item>
+        <item name="ptrHeaderTextAppearance">@style/ptrHeaderTextStyle</item>
+        <item name="android:listSelector">@drawable/item_common_bg</item>
+    </style>
+
+    <style name="ListSelector">
+        <item name="android:listSelector">@drawable/item_common_bg</item>
+    </style>
+
+    <style name="ListSelectorBorderless">
+        <item name="android:listSelector">@drawable/item_common_bg</item>
+    </style>
+
+    <style name="ItemBackaground">
+        <item name="android:background">@drawable/item_common_bg</item>
+    </style>
+
+    <style name="ItemBackagroundBorderless">
+        <item name="android:background">@drawable/item_common_bg</item>
+    </style>
+
 
 </resources>

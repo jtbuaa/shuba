@@ -3,7 +3,6 @@
     android:id="@+id/listview_pull_to_refresh"
     style="@style/Pull_To_Refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:listSelector="@drawable/item_common_bg" >
+    android:layout_height="match_parent" >
 
 </com.qiwenge.android.ui.PagePullToRefreshListView>

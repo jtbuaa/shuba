@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/main_second_bg_color"
     android:overScrollMode="never"
-    android:scrollbars="none" >
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"  >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/layout_intro_top"
@@ -32,8 +32,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
-                android:paddingRight="@dimen/default_padding"
-                android:paddingLeft="@dimen/default_padding" >
+                android:paddingLeft="@dimen/default_padding"
+                android:paddingRight="@dimen/default_padding">
 
                 <TextView
                     android:id="@+id/tv_title"
@@ -77,14 +77,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_intro_buttons"
             android:layout_width="fill_parent"
             android:layout_height="58dp"
             android:background="@android:color/white"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/default_padding"
             android:paddingLeft="@dimen/default_padding"
-            android:paddingRight="@dimen/default_padding"
-            android:id="@+id/layout_intro_buttons">
+            android:paddingRight="@dimen/default_padding">
 
             <Button
                 android:id="@+id/btn_chapter"
@@ -110,20 +110,20 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/default_padding_big"
             android:id="@+id/layout_intro_center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_big"
             android:background="@android:color/white"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/default_padding" >
+            android:paddingBottom="@dimen/default_padding">
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/default_padding"
-                android:textColor="@color/tv_title_color"
                 android:text="@string/str_intro"
+                android:textColor="@color/tv_title_color"
                 android:textSize="@dimen/font_size_middle" />
 
             <TextView
@@ -140,11 +140,11 @@
 
         <LinearLayout
             android:id="@+id/layout_related"
-            android:layout_marginTop="@dimen/default_padding_big"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_padding_big"
             android:background="@android:color/white"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -152,16 +152,15 @@
                 android:padding="@dimen/default_padding"
                 android:text="@string/book_intro_related"
                 android:textColor="@color/tv_title_color"
-                android:textSize="@dimen/font_size_middle"  />
+                android:textSize="@dimen/font_size_middle" />
 
             <ListView
                 android:id="@+id/gv_recommend"
+                style="@style/ListSelector"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:listSelector="@drawable/item_common_bg"
                 android:numColumns="4"
-                android:scrollbars="none" >
-            </ListView>
+                android:scrollbars="none"/>
         </LinearLayout>
     </LinearLayout>
 

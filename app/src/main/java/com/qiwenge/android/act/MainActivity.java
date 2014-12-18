@@ -2,15 +2,18 @@ package com.qiwenge.android.act;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.transition.Explode;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -70,6 +73,12 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         initActionBar();
         chkUpdate();
         LevelUtils.dailyLogin(getApplicationContext());
+
+        if (Build.VERSION.SDK_INT > 20) {
+            // 设置一个退出的过渡(动画)
+//            getWindow().setExitTransition(new Explode());
+        }
+
     }
 
     private void chkUpdate() {

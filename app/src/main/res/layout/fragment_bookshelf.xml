@@ -7,8 +7,7 @@
         style="@style/Pull_To_Refresh"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:footerDividersEnabled="false"
-        android:listSelector="@drawable/item_common_bg" >
+        android:footerDividersEnabled="false">
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 </RelativeLayout>

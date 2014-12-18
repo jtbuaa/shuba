@@ -16,10 +16,10 @@
 
             <TextView
                 android:id="@+id/tv_recommend"
+                style="@style/ItemBackagroundBorderless"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/item_common_bg"
                 android:gravity="center"
                 android:text="@string/book_city_rank"
                 android:textColor="@color/main_dress_color"
@@ -27,10 +27,10 @@
 
             <TextView
                 android:id="@+id/tv_rank"
+                style="@style/ItemBackagroundBorderless"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/item_common_bg"
                 android:gravity="center"
                 android:text="@string/book_city_recommend"
                 android:textColor="@color/tv_desc_color"
@@ -38,10 +38,10 @@
 
             <TextView
                 android:id="@+id/tv_category"
+                style="@style/ItemBackagroundBorderless"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/item_common_bg"
                 android:gravity="center"
                 android:text="@string/book_city_category"
                 android:textColor="@color/tv_desc_color"
