@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
-import com.qiwenge.android.models.Chapter;
+import com.qiwenge.android.entity.Chapter;
 
 /**
  * 目录.

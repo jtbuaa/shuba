@@ -7,13 +7,11 @@ import android.net.Uri;
 
 import com.dev1024.utils.AppUtils;
 import com.dev1024.utils.DialogUtils;
-import com.dev1024.utils.IntentUtils;
 import com.dev1024.utils.LogUtils;
-import com.dev1024.utils.TimeUtils;
 import com.dev1024.utils.ToastUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.models.Configures;
+import com.qiwenge.android.entity.Configures;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;

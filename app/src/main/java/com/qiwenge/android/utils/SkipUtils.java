@@ -9,7 +9,7 @@ import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.act.BrowserActivity;
 import com.qiwenge.android.act.ChapterActivity;
 import com.qiwenge.android.act.ReadActivity;
-import com.qiwenge.android.models.Book;
+import com.qiwenge.android.entity.Book;
 
 public class SkipUtils {
 

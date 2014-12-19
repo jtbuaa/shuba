@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.qiwenge.android.listeners.CommonHandler;
-import com.qiwenge.android.models.Book;
+import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.utils.BookShelfUtils;
 
 

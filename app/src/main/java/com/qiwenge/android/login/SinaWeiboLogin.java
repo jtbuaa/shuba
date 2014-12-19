@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.Constant_Sina;
-import com.qiwenge.android.models.SinaUser;
+import com.qiwenge.android.entity.SinaUser;
 import com.qiwenge.android.utils.http.BaseResponseHandler;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.sina.weibo.sdk.WeiboSDK;

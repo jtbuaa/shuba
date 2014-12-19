@@ -3,7 +3,6 @@ package com.qiwenge.android.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,22 +13,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.dev1024.utils.StringUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
-import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BookShelfAdapter;
-import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.base.BaseFragment;
-import com.qiwenge.android.listeners.OnFragmentClickListener;
-import com.qiwenge.android.models.Book;
-import com.qiwenge.android.models.BookList;
-import com.qiwenge.android.models.BookUpdateList;
+import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.BookList;
+import com.qiwenge.android.entity.BookUpdateList;
 import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
@@ -62,8 +56,8 @@ public class BookshelfFragment extends BaseFragment {
     }
 
     private void initViews() {
-        emptyView=LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty,null);
-        ImageView ivEmpty=(ImageView)emptyView.findViewById(R.id.iv_empty);
+        emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
+        ImageView ivEmpty = (ImageView) emptyView.findViewById(R.id.iv_empty);
         ivEmpty.setBackgroundResource(R.drawable.icon_empty_tree);
         adapter = new BookShelfAdapter(getActivity(), data);
         lvBookShelf = (PullToRefreshListView) getView().findViewById(R.id.lv_book_shelf);
@@ -78,7 +72,7 @@ public class BookshelfFragment extends BaseFragment {
 
                     Book book = data.get(position - 1);
 
-                    SkipUtils.skipToReader(getActivity(),book);
+                    SkipUtils.skipToReader(getActivity(), book);
                 }
             }
         });
@@ -95,21 +89,21 @@ public class BookshelfFragment extends BaseFragment {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showBookDialog(data.get(position-1));
+                showBookDialog(data.get(position - 1));
                 return true;
             }
         });
     }
 
-    private void showBookDialog(final Book book){
-        MyDialog myDialog=new MyDialog(getActivity(),book.title);
-        String[] items={"查看详情","删除"};
-        myDialog.setItems(items,new OnItemClickListener() {
+    private void showBookDialog(final Book book) {
+        MyDialog myDialog = new MyDialog(getActivity(), book.title);
+        String[] items = {"查看详情", "删除"};
+        myDialog.setItems(items, new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0:
-                        SkipUtils.skipToBookDetail(getActivity(),book);
+                        SkipUtils.skipToBookDetail(getActivity(), book);
                         break;
                     case 1:
                         deleteBook(book);
@@ -158,8 +152,8 @@ public class BookshelfFragment extends BaseFragment {
         });
     }
 
-    private void deleteBook(Book book){
-        BookShelfUtils.removeBook(getActivity(),book);
+    private void deleteBook(Book book) {
+        BookShelfUtils.removeBook(getActivity(), book);
         data.remove(book);
         adapter.notifyDataSetChanged();
     }

@@ -8,7 +8,7 @@ import com.dev1024.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;

@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
-import com.qiwenge.android.models.Book;
+import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.ui.dialogs.SourceDialog;
 
 /**

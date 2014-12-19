@@ -1,6 +1,5 @@
 package com.qiwenge.android.fragments;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -9,12 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.PreferencesUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
@@ -24,8 +19,8 @@ import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.async.AsyncGetCacheBooks.CacheBooksHandler;
 import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.models.Book;
-import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.ui.PagePullToRefreshListView;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
@@ -74,8 +69,8 @@ public class RankFragment extends BaseListFragment<Book> {
     }
 
     private void cacheRank(String json) {
-        System.out.println("缓存排行");
-        PreferencesUtils.putString(getActivity(), Constants.PRE_SAVE_NAME, CACHE_RANK, json);
+        if (isAdded())
+            PreferencesUtils.putString(getActivity().getApplicationContext(), Constants.PRE_SAVE_NAME, CACHE_RANK, json);
     }
 
     private void initViews() {

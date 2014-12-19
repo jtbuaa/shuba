@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.transition.Explode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +20,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.dev1024.utils.DialogUtils;
 import com.dev1024.utils.DisplayUtils;
 import com.dev1024.utils.GsonUtils;
 import com.dev1024.utils.StringUtils;
@@ -36,15 +34,14 @@ import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.listeners.CommonHandler;
-import com.qiwenge.android.models.Book;
-import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.SkipUtils;
-import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
 

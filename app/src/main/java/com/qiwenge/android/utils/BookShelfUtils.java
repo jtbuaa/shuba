@@ -7,8 +7,8 @@ import com.dev1024.utils.LogUtils;
 import com.dev1024.utils.PreferencesUtils;
 import com.dev1024.utils.StringUtils;
 import com.google.gson.Gson;
-import com.qiwenge.android.models.Book;
-import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.BookList;
 
 /**
  * 书架工具类

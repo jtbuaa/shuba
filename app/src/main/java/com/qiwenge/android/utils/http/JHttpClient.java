@@ -4,7 +4,7 @@ import com.dev1024.utils.LogUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
-import com.qiwenge.android.models.Auth;
+import com.qiwenge.android.entity.Auth;
 import com.qiwenge.android.utils.LoginManager;
 
 import org.apache.http.Header;

@@ -9,8 +9,8 @@ import com.dev1024.utils.GsonUtils;
 import com.dev1024.utils.PreferencesUtils;
 import com.dev1024.utils.StringUtils;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.models.Book;
-import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.BookList;
 
 
 /**

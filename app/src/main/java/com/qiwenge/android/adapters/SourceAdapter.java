@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
-import com.qiwenge.android.models.Source;
+import com.qiwenge.android.entity.Source;
 
 /**
  * SourceAdapter

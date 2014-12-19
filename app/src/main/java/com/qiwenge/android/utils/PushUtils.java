@@ -2,7 +2,7 @@ package com.qiwenge.android.utils;
 
 import android.content.Context;
 
-import com.qiwenge.android.models.Book;
+import com.qiwenge.android.entity.Book;
 
 import java.util.HashSet;
 import java.util.List;

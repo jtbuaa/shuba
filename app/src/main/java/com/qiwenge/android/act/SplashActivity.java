@@ -12,7 +12,7 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.constant.Platform;
-import com.qiwenge.android.models.Configures;
+import com.qiwenge.android.entity.Configures;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.PushUtils;
 import com.qiwenge.android.utils.http.JHttpClient;

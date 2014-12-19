@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
-import com.qiwenge.android.models.MainMenuItem;
+import com.qiwenge.android.entity.MainMenuItem;
 
 import java.util.List;
 

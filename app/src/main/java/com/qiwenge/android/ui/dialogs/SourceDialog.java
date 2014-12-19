@@ -8,9 +8,8 @@ import android.widget.AdapterView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.SourceAdapter;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.models.Book;
-import com.qiwenge.android.models.Source;
-import com.qiwenge.android.ui.dialogs.MyDialog;
+import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.Source;
 import com.qiwenge.android.utils.SkipUtils;
 import com.qiwenge.android.utils.SourceUtils;
 

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
-import com.qiwenge.android.models.ReadTheme;
+import com.qiwenge.android.entity.ReadTheme;
 import com.qiwenge.android.utils.ThemeUtils;
 
 /**

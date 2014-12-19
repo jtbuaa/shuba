@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.qiwenge.android.R;
 import com.qiwenge.android.login.AuthListener;
 import com.qiwenge.android.login.SinaWeiboLogin;
 import com.qiwenge.android.login.TencentLogin;
@@ -15,13 +16,13 @@ public class LoginDialog {
 
     private MyDialog dialog;
 
-    private String[] items = new String[]{"新浪微博登陆", "QQ登陆"};
 
     private Activity act;
 
     public LoginDialog(Activity context) {
         act = context;
-        dialog = new MyDialog(context, "请选择登陆方式");
+        dialog = new MyDialog(context, R.string.choose_login_type);
+        String[] items = context.getResources().getStringArray(R.array.login_types);
         dialog.setItems(items, new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

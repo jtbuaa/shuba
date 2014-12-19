@@ -17,9 +17,9 @@ import com.qiwenge.android.act.SettingActivity;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.login.AuthSuccess;
-import com.qiwenge.android.models.Auth;
-import com.qiwenge.android.models.User;
-import com.qiwenge.android.models.UserLevel;
+import com.qiwenge.android.entity.Auth;
+import com.qiwenge.android.entity.User;
+import com.qiwenge.android.entity.UserLevel;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
@@ -112,9 +112,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void clearUser() {
-        tvUserName.setText("未登陆");
-        tvLevel.setText("");
-        tvLevel.setVisibility(View.GONE);
+        tvUserName.setText(R.string.choose_login_type);
+        tvLevel.setText(R.string.login_desc);
         ivAvatar.setImageResource(R.drawable.default_avatar);
     }
 

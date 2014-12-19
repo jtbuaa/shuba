@@ -2,7 +2,7 @@ package com.qiwenge.android.utils;
 
 import java.util.HashMap;
 
-import com.qiwenge.android.models.Chapter;
+import com.qiwenge.android.entity.Chapter;
 
 /**
  * ReadCacheUtils

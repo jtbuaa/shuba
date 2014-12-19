@@ -1,34 +1,22 @@
 package com.qiwenge.android.fragments;
 
-import android.app.ActionBar;
-import android.app.ActionBar.LayoutParams;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncUtils;
-import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.base.BaseListFragment;
-import com.qiwenge.android.models.Book;
-import com.qiwenge.android.models.BookList;
+import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.ui.PagePullToRefreshListView;
 import com.qiwenge.android.utils.ApiUtils;
-import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 /**

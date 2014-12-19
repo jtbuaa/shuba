@@ -1,19 +1,16 @@
 package com.qiwenge.android.act;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.transition.Explode;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -31,7 +28,7 @@ import com.qiwenge.android.listeners.OnFragmentClickListener;
 import com.qiwenge.android.login.LoginType;
 import com.qiwenge.android.login.SinaWeiboLogin;
 import com.qiwenge.android.login.ThirdLoginUtils;
-import com.qiwenge.android.models.MainMenuItem;
+import com.qiwenge.android.entity.MainMenuItem;
 import com.qiwenge.android.ui.SlowViewPager;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ThemeUtils;

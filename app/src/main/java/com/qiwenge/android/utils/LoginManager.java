@@ -5,8 +5,8 @@ import android.content.Context;
 import com.dev1024.utils.PreferencesUtils;
 import com.dev1024.utils.StringUtils;
 import com.google.gson.Gson;
-import com.qiwenge.android.models.Auth;
-import com.qiwenge.android.models.User;
+import com.qiwenge.android.entity.Auth;
+import com.qiwenge.android.entity.User;
 
 /**
  * Created by Eric on 14/11/22.

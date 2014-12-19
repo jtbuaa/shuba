@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.models.Page;
+import com.qiwenge.android.entity.Page;
 import com.qiwenge.android.utils.ThemeUtils;
 
 /**
