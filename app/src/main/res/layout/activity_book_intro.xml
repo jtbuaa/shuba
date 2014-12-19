@@ -26,7 +26,8 @@
                 android:background="@drawable/cover_border"
                 android:contentDescription="@string/str_empty"
                 android:padding="1dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_place_holder" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -160,7 +161,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:numColumns="4"
-                android:scrollbars="none"/>
+                android:scrollbars="none" />
         </LinearLayout>
     </LinearLayout>
 

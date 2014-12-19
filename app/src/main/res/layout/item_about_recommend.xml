@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:padding="@dimen/default_item_padding" >
+    android:orientation="horizontal"
+    android:padding="@dimen/default_item_padding">
 
     <ImageView
         android:id="@+id/item_iv_cover"
@@ -13,7 +13,8 @@
         android:background="@drawable/cover_border"
         android:contentDescription="@string/str_empty"
         android:padding="1px"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_place_holder" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -28,8 +29,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textSize="@dimen/font_size_small"
-            android:textColor="@color/tv_title_color" />
+            android:textColor="@color/tv_title_color"
+            android:textSize="@dimen/font_size_small" />
 
         <TextView
             android:id="@+id/item_tv_desc"
@@ -38,9 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_text_margin"
             android:maxLines="2"
-            android:textSize="@dimen/font_size_12"
             android:text="@string/app_name"
-            android:textColor="@color/tv_desc_color" />
+            android:textColor="@color/tv_desc_color"
+            android:textSize="@dimen/font_size_12" />
     </LinearLayout>
 
 </LinearLayout>

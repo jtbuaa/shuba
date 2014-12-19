@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="@dimen/default_item_padding" >
+    android:padding="@dimen/default_item_padding">
 
     <ImageView
         android:id="@+id/item_iv_cover"
@@ -13,7 +13,8 @@
         android:background="@drawable/cover_border"
         android:contentDescription="@string/str_empty"
         android:padding="1px"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_place_holder" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -28,29 +29,29 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textSize="@dimen/font_size_middle"
-            android:textColor="@color/tv_title_color" />
+            android:textColor="@color/tv_title_color"
+            android:textSize="@dimen/font_size_middle" />
 
         <TextView
             android:id="@+id/item_tv_author"
             style="@style/ItemSummary"
-            android:layout_marginTop="@dimen/item_text_margin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/item_text_margin"
             android:text="@string/app_name"
-            android:textSize="@dimen/font_size_small"
-            android:textColor="@color/tv_desc_color" />
+            android:textColor="@color/tv_desc_color"
+            android:textSize="@dimen/font_size_small" />
 
         <TextView
             android:id="@+id/item_tv_desc"
             style="@style/ItemSummary"
-            android:layout_marginTop="@dimen/item_text_margin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/item_text_margin"
             android:maxLines="2"
-            android:textSize="@dimen/font_size_12"
             android:text="@string/app_name"
-            android:textColor="@color/tv_desc_color" />
+            android:textColor="@color/tv_desc_color"
+            android:textSize="@dimen/font_size_12" />
     </LinearLayout>
 
 </LinearLayout>

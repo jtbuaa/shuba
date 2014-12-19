@@ -26,6 +26,8 @@
     <string name="str_lagel">加载中...</string>
     <string name="remove_from_bookshelf">取消收藏</string>
     <string name="str_search_hint">请输入书名或者作者</string>
+    <string name="choose_login_type">请选择登录方式</string>
+    <string name="login_desc">登录后同步书架和阅读进度</string>
 
     <!-- BookIntro -->
     <string name="book_intro_detail">小说详情</string>
