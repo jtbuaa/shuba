@@ -1,4 +1,4 @@
-package com.qiwenge.android.models;
+package com.qiwenge.android.entity;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.qiwenge.android.models.base.BaseModel;
+import com.qiwenge.android.entity.base.BaseModel;
 
 /**
  * Book

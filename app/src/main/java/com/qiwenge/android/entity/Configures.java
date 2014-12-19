@@ -1,4 +1,4 @@
-package com.qiwenge.android.models;
+package com.qiwenge.android.entity;
 
 /**
  * Created by Eric on 14-8-3.

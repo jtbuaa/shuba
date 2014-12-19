@@ -6,7 +6,7 @@ import android.content.SharedPreferences.Editor;
 
 /**
  * PreferencesUtils
- * 
+ * <p/>
  * Created by John on 2014-5-19.
  */
 public class PreferencesUtils {
@@ -18,7 +18,7 @@ public class PreferencesUtils {
 
     public static void putInt(Context context, String name, String key, int value) {
         SharedPreferences pre = getSharedPreferences(context, name);
-        Editor editor = null;
+        Editor editor;
         editor = pre.edit();
         editor.putInt(key, value);
         editor.commit();
@@ -26,8 +26,10 @@ public class PreferencesUtils {
 
 
     public static void putString(Context context, String name, String key, String value) {
+        if (value == null) return;
+        if (context == null) return;
         SharedPreferences pre = getSharedPreferences(context, name);
-        Editor editor = null;
+        Editor editor;
         editor = pre.edit();
         editor.putString(key, value);
         editor.commit();

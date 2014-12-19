@@ -1,4 +1,4 @@
-package com.qiwenge.android.models;
+package com.qiwenge.android.entity;
 
 public class MainMenuItem {
 

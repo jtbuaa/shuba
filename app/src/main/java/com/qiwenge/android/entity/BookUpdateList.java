@@ -1,4 +1,4 @@
-package com.qiwenge.android.models;
+package com.qiwenge.android.entity;
 
 import java.util.ArrayList;
 import java.util.List;

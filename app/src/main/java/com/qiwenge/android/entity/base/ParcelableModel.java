@@ -1,4 +1,4 @@
-package com.qiwenge.android.models.base;
+package com.qiwenge.android.entity.base;
 
 import android.os.Parcel;
 import android.os.Parcelable;

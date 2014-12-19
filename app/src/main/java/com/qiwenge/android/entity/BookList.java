@@ -1,9 +1,9 @@
-package com.qiwenge.android.models;
+package com.qiwenge.android.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qiwenge.android.models.base.BaseModel;
+import com.qiwenge.android.entity.base.BaseModel;
 
 public class BookList extends BaseModel {
 

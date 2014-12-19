@@ -1,4 +1,4 @@
-package com.qiwenge.android.models;
+package com.qiwenge.android.entity;
 
 /**
  * ViewPager中，显示的每一页的数据。

@@ -1,6 +1,6 @@
-package com.qiwenge.android.models;
+package com.qiwenge.android.entity;
 
-import com.qiwenge.android.models.base.BaseModel;
+import com.qiwenge.android.entity.base.BaseModel;
 
 /**
  * 
