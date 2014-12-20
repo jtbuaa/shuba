@@ -5,10 +5,9 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 
-import com.dev1024.utils.AppUtils;
-import com.dev1024.utils.DialogUtils;
-import com.dev1024.utils.LogUtils;
-import com.dev1024.utils.ToastUtils;
+import com.liuguangqiang.common.utils.AppUtils;
+import com.liuguangqiang.common.utils.LogUtils;
+import com.liuguangqiang.common.utils.ToastUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Configures;
@@ -49,14 +48,15 @@ public class AsyncCheckUpdate {
 
             @Override
             public void onStart() {
-                if (!onlyCheck)
-                    DialogUtils.showLoading(mAct);
+                //TODO DialogUtils
+//                if (!onlyCheck)
+//                    DialogUtils.showLoading(mAct);
             }
 
             @Override
             public void onFinish() {
-                if (!onlyCheck)
-                    DialogUtils.hideLoading();
+//                if (!onlyCheck)
+//                    DialogUtils.hideLoading();
             }
 
             @Override
@@ -65,7 +65,7 @@ public class AsyncCheckUpdate {
                 if (result != null && result.upgrade != null) {
                     if (checkIsLatestVersion(AppUtils.getVersionName(mAct.getApplicationContext()), result.upgrade.android.ver)) {
                         if (!onlyCheck)
-                            ToastUtils.alert(mAct.getApplicationContext(), mAct.getString(R.string.update_current_is_latest));
+                            ToastUtils.show(mAct.getApplicationContext(), mAct.getString(R.string.update_current_is_latest));
                     } else {
                         showUpdateDailog(result);
                     }
@@ -79,18 +79,20 @@ public class AsyncCheckUpdate {
         String message = String.format(mAct.getString(R.string.update_message), result.upgrade.android.ver);
         String sure = mAct.getString(R.string.update_sure);
         String cancel = mAct.getString(R.string.update_cancel);
-        DialogUtils.ShowDialog(mAct, title, message, sure, cancel, new DialogUtils.DialogCallBack() {
-            @Override
-            public void callBack() {
-                downloadLatest(mAct.getApplicationContext(),result.upgrade.android.url,
-                        result.upgrade.android.ver);
-            }
-        });
+        //TODO DialogUtils
+
+//        DialogUtils.ShowDialog(mAct, title, message, sure, cancel, new DialogUtils.DialogCallBack() {
+//            @Override
+//            public void callBack() {
+//                downloadLatest(mAct.getApplicationContext(), result.upgrade.android.url,
+//                        result.upgrade.android.ver);
+//            }
+//        });
 
     }
 
 
-    public void downloadLatest(Context context, String url,String ver) {
+    public void downloadLatest(Context context, String url, String ver) {
 //        url="http://dl.qiwenge.com/latest";
         LogUtils.i("downloadLatest", url);
         DownloadManager downloadManager =
@@ -101,7 +103,7 @@ public class AsyncCheckUpdate {
                 | DownloadManager.Request.NETWORK_WIFI);
         request.setVisibleInDownloadsUi(false);
         request.setMimeType("application/vnd.android.package-archive");
-        request.setTitle(String.format(context.getString(R.string.app_name)+" v%s",ver));
+        request.setTitle(String.format(context.getString(R.string.app_name) + " v%s", ver));
         Constants.UPDATE_DOWNLOAD_ID = downloadManager.enqueue(request);
     }
 

@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
-import com.dev1024.utils.IntentUtils;
+import com.liuguangqiang.common.utils.IntentUtils;
 import com.qiwenge.android.constant.Constants;
 
 /**

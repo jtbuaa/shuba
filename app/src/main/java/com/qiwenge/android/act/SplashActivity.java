@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
 
-import com.dev1024.utils.AppUtils;
+import com.liuguangqiang.common.utils.AppUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;

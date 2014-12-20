@@ -5,7 +5,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 
-import com.dev1024.utils.LogUtils;
+import com.liuguangqiang.common.utils.LogUtils;
 import com.qiwenge.android.R;
 
 /**
@@ -31,7 +31,7 @@ public class LoadAnim {
             mAnimLoading.setInterpolator(new LinearInterpolator());
         }
         mView.startAnimation(mAnimLoading);
-        LogUtils.i("LoadAnim","start");
+        LogUtils.i("LoadAnim", "start");
     }
 
     public void cancel() {

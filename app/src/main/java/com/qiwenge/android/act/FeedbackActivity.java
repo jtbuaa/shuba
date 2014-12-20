@@ -5,8 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.dev1024.utils.DialogUtils;
-import com.dev1024.utils.ToastUtils;
+import com.liuguangqiang.common.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
@@ -64,23 +63,24 @@ public class FeedbackActivity extends BaseActivity {
 
             @Override
             public void onStart() {
-                DialogUtils.showLoading(FeedbackActivity.this);
+                //TODO DialogUtils
+//                DialogUtils.showLoading(FeedbackActivity.this);
             }
 
             @Override
             public void onSuccess(String result) {
-                ToastUtils.alert(getApplicationContext(), "感谢你的反馈!");
+                ToastUtils.show(getApplicationContext(), "感谢你的反馈!");
                 finish();
             }
 
             @Override
             public void onFailure(String msg) {
-                ToastUtils.alert(getApplicationContext(), "发送失败");
+                ToastUtils.show(getApplicationContext(), "发送失败");
             }
 
             @Override
             public void onFinish() {
-                DialogUtils.hideLoading();
+//                DialogUtils.hideLoading();
             }
         });
     }

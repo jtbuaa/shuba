@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.dev1024.utils.GsonUtils;
+import com.liuguangqiang.common.utils.GsonUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ChapterAdapter;

@@ -5,9 +5,9 @@ import java.util.List;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.dev1024.utils.GsonUtils;
-import com.dev1024.utils.PreferencesUtils;
-import com.dev1024.utils.StringUtils;
+import com.liuguangqiang.common.utils.GsonUtils;
+import com.liuguangqiang.common.utils.PreferencesUtils;
+import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;

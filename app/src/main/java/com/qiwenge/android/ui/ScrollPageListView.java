@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.dev1024.utils.LogUtils;
+import com.liuguangqiang.common.utils.LogUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.utils.LoadAnim;
 

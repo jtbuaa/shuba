@@ -2,9 +2,9 @@ package com.qiwenge.android.utils;
 
 import android.content.Context;
 
-import com.dev1024.utils.PreferencesUtils;
-import com.dev1024.utils.StringUtils;
 import com.google.gson.Gson;
+import com.liuguangqiang.common.utils.PreferencesUtils;
+import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.entity.Auth;
 import com.qiwenge.android.entity.User;
 

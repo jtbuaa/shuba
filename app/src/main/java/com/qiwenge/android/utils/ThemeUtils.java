@@ -3,7 +3,8 @@ package com.qiwenge.android.utils;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-import com.dev1024.utils.PreferencesUtils;
+
+import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
 

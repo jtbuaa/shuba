@@ -8,8 +8,6 @@ import android.text.Layout;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.dev1024.utils.LogUtils;
-
 /**
  * 分页器.
  * <p/>

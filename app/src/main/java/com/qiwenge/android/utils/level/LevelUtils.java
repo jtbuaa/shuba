@@ -2,10 +2,10 @@ package com.qiwenge.android.utils.level;
 
 import android.content.Context;
 
-import com.dev1024.utils.PreferencesUtils;
-import com.dev1024.utils.TimeUtils;
+import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.TimeUtils;
 import com.qiwenge.android.utils.http.BaseResponseHandler;
 import com.qiwenge.android.utils.http.JHttpClient;
 

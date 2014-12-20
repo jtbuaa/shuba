@@ -1,6 +1,6 @@
 package com.qiwenge.android.utils.http;
 
-import com.dev1024.utils.LogUtils;
+import com.liuguangqiang.common.utils.LogUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;

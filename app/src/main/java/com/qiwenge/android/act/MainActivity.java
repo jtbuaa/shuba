@@ -17,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.dev1024.utils.LogUtils;
-import com.dev1024.utils.NetworkUtils;
+import com.liuguangqiang.common.utils.LogUtils;
+import com.liuguangqiang.common.utils.NetworkUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.MainMenuAdapter;
 import com.qiwenge.android.adapters.MainPagerAdapter;

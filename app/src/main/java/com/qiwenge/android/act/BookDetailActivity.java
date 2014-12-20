@@ -20,9 +20,9 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.dev1024.utils.DisplayUtils;
-import com.dev1024.utils.GsonUtils;
-import com.dev1024.utils.StringUtils;
+import com.liuguangqiang.common.utils.DisplayUtils;
+import com.liuguangqiang.common.utils.GsonUtils;
+import com.liuguangqiang.common.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -304,6 +304,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
      */
     private void getRelated() {
         System.out.println("getRelated");
+
         if (book != null && !StringUtils.isEmptyOrNull(book.getId())) {
             String url = ApiUtils.getRelated(book.getId());
             RequestParams params = new RequestParams();

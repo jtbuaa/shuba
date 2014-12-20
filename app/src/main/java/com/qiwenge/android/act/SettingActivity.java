@@ -3,15 +3,13 @@ package com.qiwenge.android.act;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.dev1024.utils.AppUtils;
-import com.dev1024.utils.IntentUtils;
-import com.dev1024.utils.ToastUtils;
+import com.liuguangqiang.common.utils.AppUtils;
+import com.liuguangqiang.common.utils.IntentUtils;
+import com.liuguangqiang.common.utils.ToastUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
@@ -75,7 +73,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         try {
             IntentUtils.skipToMarket(SettingActivity.this);
         } catch (Exception ex) {
-            ToastUtils.alert(getApplicationContext(), "你没有安装任何电子市场");
+            ToastUtils.show(getApplicationContext(), "你没有安装任何电子市场");
         }
     }
 

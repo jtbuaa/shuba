@@ -1,5 +1,6 @@
 package com.qiwenge.android.entity;
 
+
 import com.google.gson.annotations.SerializedName;
 
 /**

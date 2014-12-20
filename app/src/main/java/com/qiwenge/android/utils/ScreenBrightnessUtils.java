@@ -7,7 +7,7 @@ import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.view.WindowManager;
 
-import com.dev1024.utils.PreferencesUtils;
+import com.liuguangqiang.common.utils.PreferencesUtils;
 
 /**
  * 屏幕亮度工具类.

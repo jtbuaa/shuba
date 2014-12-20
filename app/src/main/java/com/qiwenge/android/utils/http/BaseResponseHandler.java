@@ -1,6 +1,7 @@
 package com.qiwenge.android.utils.http;
 
-import com.dev1024.utils.LogUtils;
+
+import com.liuguangqiang.common.utils.LogUtils;
 
 /**
  * BaseResponseHandler

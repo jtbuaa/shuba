@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.dev1024.utils.StringUtils;
+import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.act.BrowserActivity;
 import com.qiwenge.android.act.ChapterActivity;

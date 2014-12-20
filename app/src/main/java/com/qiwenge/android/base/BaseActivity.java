@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
-import com.dev1024.utils.IntentUtils;
+import com.liuguangqiang.common.utils.IntentUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.utils.MyFilters;
 import com.umeng.analytics.MobclickAgent;
@@ -86,7 +86,7 @@ public class BaseActivity extends FragmentActivity {
         startActivity(intent);
     }
 
-    private void initActionBar(){
+    private void initActionBar() {
         if (getActionBar() != null && getActionBar().isShowing()) {
             getActionBar().setDisplayUseLogoEnabled(false);
             getActionBar().setDisplayShowHomeEnabled(false);
@@ -140,7 +140,10 @@ public class BaseActivity extends FragmentActivity {
      * 退出.
      */
     public void exitApp() {
+
         IntentUtils.sendBroadcast(getApplicationContext(), MyFilters.ACTION_QUIT_APP);
+
+//        IntentUtils.sendBroadcast(getApplicationContext(), MyFilters.ACTION_QUIT_APP);
     }
 
     public class FinishAppReceiver extends BroadcastReceiver {

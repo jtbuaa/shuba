@@ -1,4 +1,4 @@
-package com.dev1024.utils;
+package com.qiwenge.android.utils;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

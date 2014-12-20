@@ -15,12 +15,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.dev1024.utils.GsonUtils;
-import com.dev1024.utils.PreferencesUtils;
-import com.dev1024.utils.StringUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.liuguangqiang.common.utils.GsonUtils;
+import com.liuguangqiang.common.utils.PreferencesUtils;
+import com.liuguangqiang.common.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookActivity;

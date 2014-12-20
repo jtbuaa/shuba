@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 
-import com.dev1024.utils.PreferencesUtils;
+import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;

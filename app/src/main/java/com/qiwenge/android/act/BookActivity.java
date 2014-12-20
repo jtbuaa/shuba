@@ -2,6 +2,8 @@ package com.qiwenge.android.act;
 
 
 import android.os.Bundle;
+
+import com.liuguangqiang.common.utils.AppUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.fragments.BookFragment;

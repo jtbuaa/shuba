@@ -24,8 +24,8 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.dev1024.utils.AnimUtils;
-import com.dev1024.utils.listener.AnimListener;
+import com.liuguangqiang.common.utils.AnimUtils;
+import com.liuguangqiang.common.utils.listener.AnimListener;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ReadMenuAdapter;
 import com.qiwenge.android.adapters.ReadThemeAdapter;

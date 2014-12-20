@@ -25,9 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.dev1024.utils.LogUtils;
-import com.dev1024.utils.StringUtils;
-import com.dev1024.utils.TimeUtils;
+import com.liuguangqiang.common.utils.LogUtils;
+import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
@@ -42,6 +41,7 @@ import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ThemeUtils;
+import com.qiwenge.android.utils.TimeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
