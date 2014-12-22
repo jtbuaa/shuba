@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.DialogUtils;
 import com.qiwenge.android.utils.http.BaseResponseHandler;
 import com.qiwenge.android.utils.http.JHttpClient;
 
@@ -63,8 +64,7 @@ public class FeedbackActivity extends BaseActivity {
 
             @Override
             public void onStart() {
-                //TODO DialogUtils
-//                DialogUtils.showLoading(FeedbackActivity.this);
+                DialogUtils.showLoading(FeedbackActivity.this);
             }
 
             @Override
@@ -80,7 +80,7 @@ public class FeedbackActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-//                DialogUtils.hideLoading();
+                DialogUtils.hideLoading();
             }
         });
     }
