@@ -33,12 +33,13 @@ import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.BookStatus;
+import com.qiwenge.android.dao.BookDao;
+import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.listeners.CommonHandler;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.ApiUtils;
-import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.SkipUtils;
@@ -92,12 +93,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         getIntentData();
         initViews();
         getRelated();
-
-        if (Build.VERSION.SDK_INT > 20) {
-            // 设置一个退出的过渡(动画)
-//            getWindow().setExitTransition(new Explode());
-//            getWindow().setEnterTransition(new Explode());
-        }
     }
 
     @Override
@@ -119,9 +114,10 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     @Override
     protected void onResume() {
         super.onResume();
-        if (book != null && BookShelfUtils.contains(getApplicationContext(), book)) {
+        if (book != null && DaoFactory.createBookDao(this).isExists(book)) {
             showRemoveBtn();
         }
+
     }
 
     @Override
@@ -140,26 +136,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         }
     }
 
-    /**
-     * 继续阅读
-     * <p/>
-     * 如果以前阅读过该小说，那继续阅读。
-     */
-    private void continueRead() {
-
-        SkipUtils.skipToReader(this, book);
-
-//        String lastReadId =
-//                BookShelfUtils.getRecordChapterId(getApplicationContext(), book.getId());
-//        if (StringUtils.isEmptyOrNull(lastReadId)) {
-//            Bundle extra = new Bundle();
-//            extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
-//            startActivity(ChapterActivity.class, extra);
-//        } else {
-//            SkipUtils.skipToReader(getApplicationContext(), book.getId(), book.title);
-//        }
-    }
-
     private void addOrRemoveBook() {
         if (isAdded) {
             removeBook();
@@ -172,7 +148,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
      * 添加小说到书架
      */
     private void addBook() {
-        new AsyncAddBook(getApplicationContext(), new CommonHandler() {
+        new AsyncAddBook(this, new CommonHandler() {
             @Override
             public void onStart() {
                 btnAdd.setEnabled(false);
@@ -188,7 +164,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     }
 
     private void removeBook() {
-        new AsyncRemoveBook(getApplicationContext(), new CommonHandler() {
+        new AsyncRemoveBook(this, new CommonHandler() {
             @Override
             public void onStart() {
                 btnAdd.setEnabled(false);

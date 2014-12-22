@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
+import android.view.View;
 
 import com.liuguangqiang.common.utils.AppUtils;
 import com.liuguangqiang.common.utils.LogUtils;
@@ -11,7 +12,11 @@ import com.liuguangqiang.common.utils.ToastUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Configures;
+import com.qiwenge.android.listeners.OnPositiveClickListener;
+import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.DialogUtils;
+import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
@@ -49,14 +54,14 @@ public class AsyncCheckUpdate {
             @Override
             public void onStart() {
                 //TODO DialogUtils
-//                if (!onlyCheck)
-//                    DialogUtils.showLoading(mAct);
+                if (!onlyCheck)
+                    DialogUtils.showLoading(mAct);
             }
 
             @Override
             public void onFinish() {
-//                if (!onlyCheck)
-//                    DialogUtils.hideLoading();
+                if (!onlyCheck)
+                    DialogUtils.hideLoading();
             }
 
             @Override
@@ -74,21 +79,26 @@ public class AsyncCheckUpdate {
         });
     }
 
+    private MyDialog logoutDialog;
+
     private void showUpdateDailog(final Configures result) {
         String title = mAct.getString(R.string.update_title);
         String message = String.format(mAct.getString(R.string.update_message), result.upgrade.android.ver);
         String sure = mAct.getString(R.string.update_sure);
-        String cancel = mAct.getString(R.string.update_cancel);
         //TODO DialogUtils
 
-//        DialogUtils.ShowDialog(mAct, title, message, sure, cancel, new DialogUtils.DialogCallBack() {
-//            @Override
-//            public void callBack() {
-//                downloadLatest(mAct.getApplicationContext(), result.upgrade.android.url,
-//                        result.upgrade.android.ver);
-//            }
-//        });
-
+        if (logoutDialog == null) {
+            logoutDialog = new MyDialog(mAct, title);
+            logoutDialog.setMessage(message);
+            logoutDialog.setPositiveButton(sure, new OnPositiveClickListener() {
+                @Override
+                public void onClick() {
+                    downloadLatest(mAct.getApplicationContext(), result.upgrade.android.url,
+                            result.upgrade.android.ver);
+                }
+            });
+        }
+        logoutDialog.show();
     }
 
 

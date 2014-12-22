@@ -3,6 +3,8 @@ package com.qiwenge.android.async;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.qiwenge.android.dao.BookDao;
+import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.listeners.CommonHandler;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.utils.BookShelfUtils;
@@ -23,6 +25,7 @@ public class AsyncAddBook extends AsyncTask<Book, Integer, Boolean> {
     protected Boolean doInBackground(Book... params) {
         if (params != null && params[0] != null) {
             BookShelfUtils.addBook(mContext, params[0]);
+            DaoFactory.createBookDao(mContext).add(params[0]);
             return true;
         } else {
             return false;
