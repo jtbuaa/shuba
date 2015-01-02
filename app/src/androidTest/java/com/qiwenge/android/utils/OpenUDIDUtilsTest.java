@@ -2,7 +2,7 @@ package com.qiwenge.android.utils;
 
 import android.test.AndroidTestCase;
 
-import com.dev1024.utils.StringUtils;
+import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.openudid.OpenUDIDUtils;
 
 /**
