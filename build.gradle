@@ -13,8 +13,6 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
-
-        maven { url "https://raw.githubusercontent.com/liuguangqiang/maven-center/master/repositories" }
+        mavenCentral()
     }
 }
