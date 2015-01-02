@@ -3,13 +3,14 @@ package com.qiwenge.android.async;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.qiwenge.android.dao.BookDao;
 import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.listeners.CommonHandler;
 import com.qiwenge.android.entity.Book;
-import com.qiwenge.android.utils.BookShelfUtils;
+import com.qiwenge.android.utils.PushUtils;
 
-
+/**
+ * 异步添加书到书架
+ */
 public class AsyncAddBook extends AsyncTask<Book, Integer, Boolean> {
 
     private CommonHandler mHandler;
@@ -21,11 +22,12 @@ public class AsyncAddBook extends AsyncTask<Book, Integer, Boolean> {
         mHandler = handler;
     }
 
+    // TODO  添加书的时候，注册tag
     @Override
     protected Boolean doInBackground(Book... params) {
         if (params != null && params[0] != null) {
-            BookShelfUtils.addBook(mContext, params[0]);
             DaoFactory.createBookDao(mContext).add(params[0]);
+            new PushUtils().setTags(mContext, DaoFactory.createBookDao(mContext).queryAll());
             return true;
         } else {
             return false;
@@ -46,6 +48,5 @@ public class AsyncAddBook extends AsyncTask<Book, Integer, Boolean> {
                 mHandler.onFailure();
         }
     }
-
 
 }
