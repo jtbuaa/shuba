@@ -156,7 +156,7 @@
                 android:textSize="@dimen/font_size_middle" />
 
             <ListView
-                android:id="@+id/gv_recommend"
+                android:id="@+id/lv_recommend"
                 style="@style/ListSelector"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
