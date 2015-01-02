@@ -2,6 +2,7 @@ package com.qiwenge.android.app;
 
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.openudid.OpenUDIDUtils;
+import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.ThemeUtils;
 
@@ -14,6 +15,7 @@ public class ReadApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ImageLoaderUtils.init(getApplicationContext());
         ThemeUtils.initTheme(getApplicationContext());
         LoginManager.init(getApplicationContext());
         initJPush();
