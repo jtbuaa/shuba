@@ -3,32 +3,36 @@ package com.qiwenge.android.fragments;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.BookCityAdapter;
+import com.qiwenge.android.adapters.TabAdapter;
 import com.qiwenge.android.base.BaseFragment;
+import com.qiwenge.android.entity.MainMenuItem;
 import com.qiwenge.android.ui.SlowViewPager;
-import com.qiwenge.android.utils.ThemeUtils;
 import com.viewpagerindicator.UnderlinePageIndicator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 书城。 BookCityFragment
  * <p/>
  * Created by John on 2014-5-31
  */
-public class BookCityFragment extends BaseFragment implements OnClickListener {
+public class BookCityFragment extends BaseFragment {
 
     private SlowViewPager viewPager;
     private BookCityAdapter adpater;
-    private TextView tvRecommend;
-    private TextView tvRank;
-    private TextView tvCategory;
+
+    private GridView gvTab;
+    private TabAdapter tabAdapter;
+    private List<MainMenuItem> tabItems = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,13 +50,34 @@ public class BookCityFragment extends BaseFragment implements OnClickListener {
         super.onResume();
     }
 
+    private void initTabItems() {
+        String[] tabs = getResources().getStringArray(R.array.book_city_tabs);
+        MainMenuItem item;
+        for (String tab : tabs) {
+            item = new MainMenuItem();
+            item.title = tab;
+            tabItems.add(item);
+        }
+        tabItems.get(0).selected = true;
+    }
+
     private void initViews() {
-        tvRecommend = (TextView) getView().findViewById(R.id.tv_recommend);
-        tvRank = (TextView) getView().findViewById(R.id.tv_rank);
-        tvCategory = (TextView) getView().findViewById(R.id.tv_category);
-        tvRecommend.setOnClickListener(this);
-        tvRank.setOnClickListener(this);
-        tvCategory.setOnClickListener(this);
+        initTabItems();
+        gvTab = (GridView) getView().findViewById(R.id.gv_tab);
+        tabAdapter = new TabAdapter(getActivity(), tabItems);
+        gvTab.setAdapter(tabAdapter);
+        gvTab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                viewPager.setCurrentItem(position);
+            }
+        });
+        gvTab.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return event.getAction() == MotionEvent.ACTION_MOVE ? true : false;
+            }
+        });
 
         adpater = new BookCityAdapter(getChildFragmentManager());
         viewPager = (SlowViewPager) getView().findViewById(R.id.viewpager_book_city);
@@ -81,47 +106,12 @@ public class BookCityFragment extends BaseFragment implements OnClickListener {
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_recommend:
-                viewPager.setCurrentItem(0);
-                break;
-            case R.id.tv_rank:
-                viewPager.setCurrentItem(1);
-                break;
-            case R.id.tv_category:
-                viewPager.setCurrentItem(2);
-                break;
-
-            default:
-                break;
-        }
-    }
-
     private void selectePage(int position) {
-        clearSelected();
-        switch (position) {
-            case 0:
-                tvRecommend.setTextColor(getResources().getColor(R.color.main_dress_color));
-                break;
-            case 1:
-                tvRank.setTextColor(getResources().getColor(R.color.main_dress_color));
-                break;
-            case 2:
-                tvCategory.setTextColor(getResources().getColor(R.color.main_dress_color));
-                break;
-
-            default:
-                break;
+        for (MainMenuItem item : tabItems) {
+            item.selected = false;
         }
+        tabItems.get(position).selected = true;
+        tabAdapter.notifyDataSetChanged();
     }
-
-    private void clearSelected() {
-        tvRecommend.setTextColor(getResources().getColor(R.color.tv_desc_color));
-        tvRank.setTextColor(getResources().getColor(R.color.tv_desc_color));
-        tvCategory.setTextColor(getResources().getColor(R.color.tv_desc_color));
-    }
-
 
 }

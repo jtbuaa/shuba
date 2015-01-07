@@ -21,7 +21,7 @@
     </integer-array>
 
     <!--  -->
-    <string-array name="left_menu_titles">
+    <string-array name="book_city_tabs">
         <item>推荐</item>
         <item>排行</item>
         <item>分类</item>
