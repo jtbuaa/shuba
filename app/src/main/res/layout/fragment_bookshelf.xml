@@ -1,13 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+
+    <ListView
         android:id="@+id/lv_book_shelf"
-        style="@style/Pull_To_Refresh"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:footerDividersEnabled="false">
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+        android:footerDividersEnabled="false" />
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
+

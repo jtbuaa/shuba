@@ -1,8 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.qiwenge.android.ui.PagePullToRefreshListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/listview_pull_to_refresh"
-    style="@style/Pull_To_Refresh"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-</com.qiwenge.android.ui.PagePullToRefreshListView>
+    <com.qiwenge.android.ui.PagePullToRefreshListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listview_pull_to_refresh"
+        style="@style/Pull_To_Refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.qiwenge.android.ui.PagePullToRefreshListView>
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
+

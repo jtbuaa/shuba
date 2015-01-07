@@ -46,17 +46,6 @@
             android:textColor="@color/action_bar_text_color"
             android:textSize="@dimen/font_size_action_title" />
 
-        <TextView
-            android:id="@+id/tv_add_collect"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:background="@drawable/action_bar_item_bg"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="@string/book_intro_add"
-            android:textColor="@color/action_bar_text_color"
-            android:textSize="@dimen/font_size_action_title" />
 
         <ImageView
             android:id="@+id/btn_source"
