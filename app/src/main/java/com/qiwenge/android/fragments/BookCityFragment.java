@@ -19,7 +19,7 @@ import com.viewpagerindicator.UnderlinePageIndicator;
 
 /**
  * 书城。 BookCityFragment
- * 
+ * <p/>
  * Created by John on 2014-5-31
  */
 public class BookCityFragment extends BaseFragment implements OnClickListener {
@@ -29,8 +29,6 @@ public class BookCityFragment extends BaseFragment implements OnClickListener {
     private TextView tvRecommend;
     private TextView tvRank;
     private TextView tvCategory;
-    private RelativeLayout layoutTab;
-    private ImageView ivLine;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,13 +44,9 @@ public class BookCityFragment extends BaseFragment implements OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        ThemeUtils.setThemeBg(layoutTab);
-        ThemeUtils.setThemeLine(ivLine);
     }
 
     private void initViews() {
-        ivLine=(ImageView)getView().findViewById(R.id.iv_line);
-        layoutTab=(RelativeLayout)getView().findViewById(R.id.layout_tab);
         tvRecommend = (TextView) getView().findViewById(R.id.tv_recommend);
         tvRank = (TextView) getView().findViewById(R.id.tv_rank);
         tvCategory = (TextView) getView().findViewById(R.id.tv_category);
@@ -78,10 +72,12 @@ public class BookCityFragment extends BaseFragment implements OnClickListener {
             }
 
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {}
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
 
             @Override
-            public void onPageScrollStateChanged(int arg0) {}
+            public void onPageScrollStateChanged(int arg0) {
+            }
         });
     }
 
@@ -126,7 +122,6 @@ public class BookCityFragment extends BaseFragment implements OnClickListener {
         tvRank.setTextColor(getResources().getColor(R.color.tv_desc_color));
         tvCategory.setTextColor(getResources().getColor(R.color.tv_desc_color));
     }
-
 
 
 }

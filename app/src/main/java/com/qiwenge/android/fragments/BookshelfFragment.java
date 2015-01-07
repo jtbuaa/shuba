@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +21,16 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.BookShelfAdapter;
+import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.base.BaseFragment;
+import com.qiwenge.android.dao.BookDao;
+import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.entity.Book;
-import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.entity.BookUpdateList;
 import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
-import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.SkipUtils;
+import com.qiwenge.android.utils.StyleUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
@@ -36,13 +39,15 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
  */
 public class BookshelfFragment extends BaseFragment {
 
-    private PullToRefreshListView lvBookShelf;
+    private ListView lvBookShelf;
 
     private List<Book> data = new ArrayList<Book>();
 
     private BookShelfAdapter adapter;
 
     private View emptyView;
+
+    private SwipeRefreshLayout mSwipeLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,11 +61,14 @@ public class BookshelfFragment extends BaseFragment {
     }
 
     private void initViews() {
+        mSwipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
+        StyleUtils.setColorSchemeResources(mSwipeLayout);
+
         emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         ImageView ivEmpty = (ImageView) emptyView.findViewById(R.id.iv_empty);
         ivEmpty.setBackgroundResource(R.drawable.icon_empty_tree);
         adapter = new BookShelfAdapter(getActivity(), data);
-        lvBookShelf = (PullToRefreshListView) getView().findViewById(R.id.lv_book_shelf);
+        lvBookShelf = (ListView) getView().findViewById(R.id.lv_book_shelf);
         lvBookShelf.setEmptyView(emptyView);
         emptyView.setVisibility(View.GONE);
         lvBookShelf.setAdapter(adapter);
@@ -68,28 +76,24 @@ public class BookshelfFragment extends BaseFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position - 1 < data.size()) {
-
-                    Book book = data.get(position - 1);
-
+                if (position < data.size()) {
+                    Book book = data.get(position);
                     SkipUtils.skipToReader(getActivity(), book);
                 }
             }
         });
 
-        lvBookShelf.setOnRefreshListener(new OnRefreshListener<ListView>() {
-
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onRefresh() {
                 chkBookUpdated();
             }
         });
 
-        lvBookShelf.getRefreshableView().setOnItemLongClickListener(new OnItemLongClickListener() {
-
+        lvBookShelf.setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showBookDialog(data.get(position - 1));
+                showBookDialog(data.get(position));
                 return true;
             }
         });
@@ -118,10 +122,6 @@ public class BookshelfFragment extends BaseFragment {
      * 检查书架中的书，是否有更新。
      */
     private void chkBookUpdated() {
-        if (data.isEmpty()) {
-            lvBookShelf.onRefreshComplete();
-            return;
-        }
         StringBuilder bookIds = new StringBuilder();
         StringBuilder chapterTotals = new StringBuilder();
         Book book;
@@ -147,13 +147,13 @@ public class BookshelfFragment extends BaseFragment {
 
             @Override
             public void onFinish() {
-                lvBookShelf.onRefreshComplete();
+                mSwipeLayout.setRefreshing(false);
             }
         });
     }
 
     private void deleteBook(Book book) {
-        BookShelfUtils.removeBook(getActivity(), book);
+        new AsyncRemoveBook(getActivity(), null).execute(book);
         data.remove(book);
         adapter.notifyDataSetChanged();
     }
@@ -176,18 +176,18 @@ public class BookshelfFragment extends BaseFragment {
      * <p/>
      * Created by John on 2014年6月27日
      */
-    private class AsyncBookShelfs extends AsyncTask<Void, Integer, BookList> {
+    private class AsyncBookShelfs extends AsyncTask<Void, Integer, List<Book>> {
 
         @Override
-        protected BookList doInBackground(Void... params) {
-            return BookShelfUtils.getBooks(getActivity().getApplicationContext());
+        protected List<Book> doInBackground(Void... params) {
+            return DaoFactory.createBookDao(getActivity()).queryAll();
         }
 
         @Override
-        protected void onPostExecute(BookList result) {
+        protected void onPostExecute(List<Book> result) {
             if (result != null) {
                 data.clear();
-                adapter.add(result.result);
+                adapter.add(result);
             }
         }
     }

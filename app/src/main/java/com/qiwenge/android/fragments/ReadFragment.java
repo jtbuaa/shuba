@@ -30,6 +30,7 @@ import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
+import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.entity.Chapter;
 import com.qiwenge.android.entity.Page;
@@ -122,7 +123,9 @@ public class ReadFragment extends BaseFragment {
     /**
      * 小说Id
      */
-    private String bookId;
+//    private String bookId;
+
+    private Book book;
 
     private float lastX = 0;
     private float currentX = 0;
@@ -195,10 +198,8 @@ public class ReadFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         if (current != null) {
-            saveRecord(currentChapterId);
             int length = getReadTextCount();
-            BookShelfUtils.saveReadNumber(getActivity().getApplicationContext(), bookId, current.number);
-            BookShelfUtils.saveReadLength(getActivity().getApplicationContext(), currentChapterId, length);
+            BookShelfUtils.updateReadRecord(getActivity(), book, current, length);
         }
         removeBatteryReceiver();
         removeDtTimer();
@@ -370,10 +371,10 @@ public class ReadFragment extends BaseFragment {
         }
     }
 
-    private String retryChapterId="";
-    private int retryLength=0;
+    private String retryChapterId = "";
+    private int retryLength = 0;
 
-    private void retry(){
+    private void retry() {
         getChapter(retryChapterId, retryLength);
     }
 
@@ -418,8 +419,8 @@ public class ReadFragment extends BaseFragment {
                 pbLoading.setVisibility(View.GONE);
                 if (pageList.isEmpty()) {
                     showEmptyView();
-                    retryChapterId=chapterId;
-                    retryLength=length;
+                    retryChapterId = chapterId;
+                    retryLength = length;
                 }
             }
 
@@ -614,8 +615,8 @@ public class ReadFragment extends BaseFragment {
         return "";
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     /**
@@ -623,9 +624,9 @@ public class ReadFragment extends BaseFragment {
      *
      * @param chapterId
      */
-    private void saveRecord(String chapterId) {
-        if (bookId != null) BookShelfUtils.saveRecord(getActivity(), bookId, chapterId);
-    }
+//    private void saveRecord(String chapterId) {
+//        if (book != null) BookShelfUtils.saveRecord(getActivity(), book.getId(), chapterId);
+//    }
 
     /**
      * 设置字体大小。

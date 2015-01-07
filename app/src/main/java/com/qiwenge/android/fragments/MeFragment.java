@@ -29,7 +29,7 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 public class MeFragment extends BaseFragment implements View.OnClickListener {
 
-    private final static String LEVEL_FORMAT = "LV.%s (%s/%s)";
+    private final static String LEVEL_FORMAT = "%s LV.%s (%s/%s)";
 
     private ImageView ivAvatar;
     private TextView tvUserName;
@@ -106,7 +106,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.default_avatar);
             ImageLoader.getInstance().displayImage(user.avatar, ivAvatar, options);
             UserLevel level = user.level;
-            tvLevel.setText(String.format(LEVEL_FORMAT, level.rank, level.exp, level.next));
+            tvLevel.setText(String.format(LEVEL_FORMAT, level.title, level.rank, level.exp, level.next));
             tvLevel.setVisibility(View.VISIBLE);
         }
     }

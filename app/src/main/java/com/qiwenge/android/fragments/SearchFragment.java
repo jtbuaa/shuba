@@ -39,9 +39,10 @@ public class SearchFragment extends BaseListFragment<Book> {
         return rootView;
     }
 
-    private void initViews() {
+    @Override
+    public void initViews() {
+        super.initViews();
         adapter = new BooksAdapter(getActivity().getApplicationContext(), data);
-        mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
         setDisablePullToRefresh();
         setEnableFooterPage();
         setEnableProgressBar();
@@ -76,6 +77,8 @@ public class SearchFragment extends BaseListFragment<Book> {
     public void search(String title) {
         keyword = title;
         pageindex = 1;
+        data.clear();
+        adapter.notifyDataSetChanged();
         requestData();
     }
 
@@ -97,7 +100,6 @@ public class SearchFragment extends BaseListFragment<Book> {
             @Override
             public void onFinish() {
                 requestFinished();
-                pbLoading.setVisibility(View.GONE);
             }
 
         });

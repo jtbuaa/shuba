@@ -1,14 +1,10 @@
 package com.qiwenge.android.fragments;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ProgressBar;
 
 import com.loopj.android.http.RequestParams;
-import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncUtils;
@@ -16,7 +12,6 @@ import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
-import com.qiwenge.android.ui.PagePullToRefreshListView;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
@@ -24,23 +19,17 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
 public class BookFragment extends BaseListFragment<Book> {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_base, container, false);
-        return rootView;
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
     }
 
-    private void initViews() {
-        pbLoading = (ProgressBar) getView().findViewById(R.id.pb_loading);
-        pbLoading.setVisibility(View.GONE);
+    @Override
+    public void initViews() {
+        System.out.println("BookFragment-initViews");
+        super.initViews();
         adapter = new BooksAdapter(getActivity(), data);
-        mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
+        setEnableProgressBar();
         setEnableFooterPage();
         setEnablePullToRefresh();
         setEnableEmptyView();
@@ -70,6 +59,7 @@ public class BookFragment extends BaseListFragment<Book> {
     private String searchKeyword;
 
     public void search(String category) {
+        System.out.println("BookFragment-search");
         searchCategory = category;
         requestData();
     }
@@ -97,8 +87,6 @@ public class BookFragment extends BaseListFragment<Book> {
             @Override
             public void onFinish() {
                 requestFinished();
-                pbLoading.setVisibility(View.GONE);
-                mListView.setVisibility(View.VISIBLE);
             }
 
         });

@@ -34,13 +34,6 @@ public class RecommendFragment extends BaseListFragment<Book> {
 
     private static final String CACHE_RECOMMEND = "cache_recommend";
 
-    private ProgressBar pbLoading;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_recommend, container, false);
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -71,11 +64,10 @@ public class RecommendFragment extends BaseListFragment<Book> {
             PreferencesUtils.putString(getActivity().getApplicationContext(), Constants.PRE_SAVE_NAME, CACHE_RECOMMEND, json);
     }
 
-    private void initViews() {
-        pbLoading = (ProgressBar) getView().findViewById(R.id.pb_loading);
-        pbLoading.setVisibility(View.GONE);
+    @Override
+    public void initViews() {
+        super.initViews();
         adapter = new BooksAdapter(getActivity(), data);
-        mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
         setEnableFooterPage();
         setEnablePullToRefresh();
         setEnableEmptyView();
@@ -84,7 +76,7 @@ public class RecommendFragment extends BaseListFragment<Book> {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position - 1 < data.size()) {
+                if (position < data.size()) {
                     Bundle extra = new Bundle();
                     extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position - 1));
                     startActivity(BookDetailActivity.class, extra);
@@ -127,15 +119,11 @@ public class RecommendFragment extends BaseListFragment<Book> {
 
             @Override
             public void onStart() {
-                if (data.isEmpty()) {
-                    pbLoading.setVisibility(View.VISIBLE);
-                }
             }
 
             @Override
             public void onFinish() {
                 requestFinished();
-                pbLoading.setVisibility(View.GONE);
             }
         });
     }

@@ -3,15 +3,11 @@ package com.qiwenge.android.fragments;
 import java.util.List;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ProgressBar;
 
 import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncGetCacheBooks;
@@ -21,7 +17,6 @@ import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
-import com.qiwenge.android.ui.PagePullToRefreshListView;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
@@ -33,11 +28,6 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
 public class RankFragment extends BaseListFragment<Book> {
 
     private final String CACHE_RANK = "cache_rank";
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_recommend, container, false);
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -73,11 +63,11 @@ public class RankFragment extends BaseListFragment<Book> {
             PreferencesUtils.putString(getActivity().getApplicationContext(), Constants.PRE_SAVE_NAME, CACHE_RANK, json);
     }
 
-    private void initViews() {
-        pbLoading = (ProgressBar) getView().findViewById(R.id.pb_loading);
-        pbLoading.setVisibility(View.GONE);
+
+    @Override
+    public void initViews() {
+        super.initViews();
         adapter = new BooksAdapter(getActivity(), data);
-        mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
         setEnableFooterPage();
         setEnablePullToRefresh();
         setEnableEmptyView();
@@ -86,9 +76,9 @@ public class RankFragment extends BaseListFragment<Book> {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position - 1 < data.size()) {
+                if (position < data.size()) {
                     Bundle extra = new Bundle();
-                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position - 1));
+                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position));
                     startActivity(BookDetailActivity.class, extra);
                 }
             }
@@ -130,13 +120,11 @@ public class RankFragment extends BaseListFragment<Book> {
             @Override
             public void onStart() {
                 super.onStart();
-                if (data.isEmpty()) pbLoading.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFinish() {
                 requestFinished();
-                pbLoading.setVisibility(View.GONE);
             }
         });
 
