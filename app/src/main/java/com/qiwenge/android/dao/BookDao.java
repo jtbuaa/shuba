@@ -3,6 +3,8 @@ package com.qiwenge.android.dao;
 import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.qiwenge.android.entity.Book;
 
 import java.sql.SQLException;

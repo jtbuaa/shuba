@@ -18,7 +18,8 @@ public class LoadAnim {
 
     private Animation mAnimLoading;
 
-    private LoadAnim(){}
+    private LoadAnim() {
+    }
 
     public LoadAnim(View view) {
         this.mView = view;
@@ -36,7 +37,7 @@ public class LoadAnim {
 
     public void cancel() {
         if (mView == null) return;
-        LogUtils.i("LoadAnim","hide");
+        LogUtils.i("LoadAnim", "hide");
         mView.setVisibility(View.GONE);
         mView.clearAnimation();
     }

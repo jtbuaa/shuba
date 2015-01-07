@@ -41,6 +41,7 @@ public class ImageLoaderUtils {
      */
     public static void init(Context context) {
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
+//        initImageLoader(context);
         LOADER_STATUS = PreferencesUtils.getInt(context, SAVE_NAME, SAVE_KEY, STATUS_OPENED);
     }
 
@@ -117,7 +118,7 @@ public class ImageLoaderUtils {
 
     public static DisplayImageOptions createOptions(int imgLoading) {
         return new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(imgLoading).cacheInMemory(true).cacheOnDisk(false).build();
+                .showImageOnLoading(imgLoading).cacheInMemory(true).cacheOnDisk(true).build();
     }
 
 }

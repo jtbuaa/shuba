@@ -3,6 +3,7 @@ package com.qiwenge.android.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -18,10 +19,13 @@ import java.sql.SQLException;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
+    private static final String FORMAT_ADD_COLUMN = "ALTER TABLE '%s' ADD COLUMN %s %s;";
+
     private static final String TAG = "DatabaseHelper";
 
     private static final String NAME = "shuba.db";
-    private static final int VERSION = 2;
+
+    private static final int VERSION = 1;
 
     public DatabaseHelper(Context context) {
         super(context, NAME, null, VERSION);
@@ -30,6 +34,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
+            Log.i(TAG, "onCreate");
             TableUtils.createTable(connectionSource, Book.class);
         } catch (SQLException ex) {
             Log.e(TAG, "Unable to create database", ex);
@@ -39,6 +44,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
+            Log.i(TAG, "onUpgrade");
             TableUtils.dropTable(connectionSource, Book.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
@@ -55,4 +61,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return bookDao;
     }
+
+
+    /**
+     * 为表添加字段。在onUpgrade的时候使用。
+     * <p>getBookDao().executeRaw("ALTER TABLE 'book' ADD COLUMN character_number INTEGER;");</p>
+     *
+     * @param dao
+     * @param tableName
+     * @param columnType
+     * @param type
+     */
+    public void addColumn(Dao dao, String tableName, String columnType, String type) {
+        try {
+            String sql = String.format(FORMAT_ADD_COLUMN, tableName, columnType, type);
+            dao.executeRaw(sql);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

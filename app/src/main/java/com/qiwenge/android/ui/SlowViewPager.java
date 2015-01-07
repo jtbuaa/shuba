@@ -9,9 +9,9 @@ import android.view.animation.Interpolator;
 
 /**
  * 缓慢ViewPager.
- * <p>
+ * <p/>
  * 用反射修改Scroller，让ViewPager滑动更慢。降低调用setCurrentItem后的滑动速度。
- *
+ * <p/>
  * Created by John on 2014-7-17.
  */
 public class SlowViewPager extends ViewPager {
@@ -37,7 +37,8 @@ public class SlowViewPager extends ViewPager {
             interpolator.setAccessible(true);
             mScroller = new SlowScroller(getContext(), (Interpolator) interpolator.get(null));
             scroller.set(this, mScroller);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
 }

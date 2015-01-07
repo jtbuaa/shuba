@@ -51,6 +51,18 @@ public abstract class AbstractDao<T extends BaseModel> {
         return list;
     }
 
+    public T queryById(String id) {
+        try {
+            Dao<T, Integer> dao = getDao();
+            List<T> list = dao.queryForEq(T.ID, id);
+            if (!list.isEmpty()) return list.get(0);
+            return null;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
     public int add(T t) {
         try {
             return getDao().create(t);
@@ -58,6 +70,12 @@ public abstract class AbstractDao<T extends BaseModel> {
             ex.printStackTrace();
         }
         return -1;
+    }
+
+    public void add(List<T> list) {
+        for (T t : list) {
+            add(t);
+        }
     }
 
     public int remove(String columnName, Object value) {
@@ -78,11 +96,16 @@ public abstract class AbstractDao<T extends BaseModel> {
         return remove(T.ID, t.getId());
     }
 
+    public int update(T t) {
+        return update(t, T.ID, t.getId());
+    }
+
     public int update(T t, String columnName, Object value) {
         try {
             UpdateBuilder<T, Integer> builder = getDao().updateBuilder();
             Where<T, Integer> wheres = builder.where();
             wheres.eq(columnName, value);
+            builder.setWhere(wheres);
             return getDao().update(t);
         } catch (SQLException ex) {
             ex.printStackTrace();

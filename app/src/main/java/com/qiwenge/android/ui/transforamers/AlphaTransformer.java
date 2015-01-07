@@ -10,7 +10,7 @@ public class AlphaTransformer implements ViewPager.PageTransformer {
 
     @Override
     public void transformPage(View view, float position) {
-        System.out.println("position:"+position);
+        System.out.println("position:" + position);
         if (position < -1) { // [-Infinity,-1)
             // 页面正在向左离开屏幕
             view.setAlpha(0);

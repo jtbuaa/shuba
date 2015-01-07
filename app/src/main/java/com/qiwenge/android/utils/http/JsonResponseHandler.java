@@ -5,7 +5,7 @@ import com.liuguangqiang.common.utils.GsonUtils;
 
 /**
  * JsonResponseHandler
- *
+ * <p/>
  * Created by John on 2014-7
  */
 public class JsonResponseHandler<T> extends BaseResponseHandler {
@@ -38,8 +38,12 @@ public class JsonResponseHandler<T> extends BaseResponseHandler {
         if (json != null) onOrigin(json);
     }
 
-    public void onSuccess(T result) {}
+    public void onSuccess(T result) {
+    }
 
-    public void onOrigin(String json) {};
+    public void onOrigin(String json) {
+    }
+
+    ;
 
 }

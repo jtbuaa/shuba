@@ -37,7 +37,7 @@ public class LoginManager {
         saveAuth(context, null);
     }
 
-    public static void init(Context context) { 
+    public static void init(Context context) {
         mUser = getUser(context);
         mAuth = getAuth(context);
     }

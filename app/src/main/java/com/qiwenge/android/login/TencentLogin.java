@@ -36,7 +36,7 @@ public class TencentLogin {
      */
     public static void login(Activity activity,
                              final AuthListener authListener) {
-        ThirdLoginUtils.loginType=LoginType.qq;
+        ThirdLoginUtils.loginType = LoginType.qq;
         authListener.onStart();
         mTencent = Tencent.createInstance(Constants_Tencent.APP_ID,
                 activity.getApplicationContext());
@@ -87,48 +87,40 @@ public class TencentLogin {
                         @Override
                         public void onUnknowException(Exception arg0,
                                                       Object arg1) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override
                         public void onSocketTimeoutException(
                                 SocketTimeoutException arg0, Object arg1) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override
                         public void onNetworkUnavailableException(
                                 NetworkUnavailableException arg0, Object arg1) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override
                         public void onMalformedURLException(
                                 MalformedURLException arg0, Object arg1) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override
                         public void onJSONException(JSONException arg0,
                                                     Object arg1) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override
                         public void onIOException(IOException arg0, Object arg1) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override
                         public void onHttpStatusException(
                                 HttpStatusException arg0, Object arg1) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override
                         public void onConnectTimeoutException(
                                 ConnectTimeoutException arg0, Object arg1) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override

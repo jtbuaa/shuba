@@ -24,7 +24,6 @@ import com.qiwenge.android.adapters.MainMenuAdapter;
 import com.qiwenge.android.adapters.MainPagerAdapter;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
-import com.qiwenge.android.listeners.OnFragmentClickListener;
 import com.qiwenge.android.login.LoginType;
 import com.qiwenge.android.login.SinaWeiboLogin;
 import com.qiwenge.android.login.ThirdLoginUtils;
@@ -40,8 +39,6 @@ import java.util.List;
 public class MainActivity extends BaseActivity implements OnClickListener {
 
     private static final int ACTION_ITEM_DELETE = 1;
-
-    private RelativeLayout layoutMainContainer;
 
     private ImageView ivLayer;
 
@@ -64,9 +61,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         if (!NetworkUtils.isWifiEnabled(getApplicationContext())) {
             ImageLoaderUtils.setWifiEnable(false);
         }
-        ImageLoaderUtils.init(getApplicationContext());
+
         initViews();
-        initFragment();
         initActionBar();
         chkUpdate();
         LevelUtils.dailyLogin(getApplicationContext());
@@ -95,19 +91,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        LogUtils.i("main", "onSaveInstanceState");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        LogUtils.i("main", "onRestoreInstanceState");
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
     public void onBackPressed() {
-        System.out.println("onBackPressed");
         if (doubleBackToExitPressedOnce) {
             exitApp();
             return;
@@ -138,21 +122,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        ThemeUtils.setThemeBg(layoutMainContainer);
-    }
-
-    private void initFragment() {
-        adapter.setOnFragmentClickListener(new OnFragmentClickListener() {
-            @Override
-            public void onClick() {
-                //长按Fragment中的item，回调到MainActivity.
-                startActionMode(new MainActionMode());
-            }
-        });
     }
 
     private void initMenu() {
-        String[] titles = {"收藏", "书城", "我"};
+        String[] titles = getResources().getStringArray(R.array.main_menu_titles);
         int[] iconNormal = {R.drawable.ic_main_menu_fav_n,
                 R.drawable.ic_main_menu_bookcity_n, R.drawable.ic_main_menu_me_n};
         int[] iconSelected = {R.drawable.ic_main_menu_fav_s,
@@ -211,17 +184,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
             }
         });
-        adapter.setOnFragmentClickListener(new OnFragmentClickListener() {
-            @Override
-            public void onClick() {
-                startActionMode(new MainActionMode());
-            }
-        });
 
         ivLayer = (ImageView) this.findViewById(R.id.iv_layer);
         ivLayer.setOnClickListener(this);
-
-        layoutMainContainer = (RelativeLayout) this.findViewById(R.id.layout_main_container);
     }
 
     @Override

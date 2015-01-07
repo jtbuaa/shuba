@@ -50,9 +50,9 @@ public class SourceUtils {
     public static int getSource(Context context) {
         int source = PreferencesUtils.getInt(context, Constants.PRE_SAVE_NAME, SOURCE_KEY, AUTO);
 
-        if (source == AUTO && !Constants.openAutoReading) {
-            source = TIEBA;
-        }
+//        if (source == AUTO && !Constants.openAutoReading) {
+//            source = TIEBA;
+//        }
 
         return source;
     }

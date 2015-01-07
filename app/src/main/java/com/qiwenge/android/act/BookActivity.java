@@ -3,7 +3,6 @@ package com.qiwenge.android.act;
 
 import android.os.Bundle;
 
-import com.liuguangqiang.common.utils.AppUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.fragments.BookFragment;
@@ -16,17 +15,22 @@ public class BookActivity extends BaseActivity {
 
     private BookFragment fragment;
 
+    private boolean hasInited = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-        if (savedInstanceState == null) {
-            fragment = new BookFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commit();
+        fragment = (BookFragment) getSupportFragmentManager().findFragmentById(R.id.bookFragment);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!hasInited) {
+            hasInited = true;
+            getIntentExtras();
         }
-        getIntentExtras();
     }
 
     private void getIntentExtras() {
@@ -39,6 +43,5 @@ public class BookActivity extends BaseActivity {
             }
         }
     }
-
 
 }

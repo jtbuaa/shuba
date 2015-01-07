@@ -34,7 +34,7 @@ public class FadeInDisplayer implements BitmapDisplayer {
      * @param animateFromMemory  Whether animation should be played if image is loaded from memory cache
      */
     public FadeInDisplayer(int durationMillis, boolean animateFromNetwork, boolean animateFromDisk,
-                                 boolean animateFromMemory) {
+                           boolean animateFromMemory) {
         this.durationMillis = durationMillis;
         this.animateFromNetwork = animateFromNetwork;
         this.animateFromDisk = animateFromDisk;

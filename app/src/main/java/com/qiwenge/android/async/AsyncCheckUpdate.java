@@ -53,7 +53,6 @@ public class AsyncCheckUpdate {
 
             @Override
             public void onStart() {
-                //TODO DialogUtils
                 if (!onlyCheck)
                     DialogUtils.showLoading(mAct);
             }
@@ -85,7 +84,6 @@ public class AsyncCheckUpdate {
         String title = mAct.getString(R.string.update_title);
         String message = String.format(mAct.getString(R.string.update_message), result.upgrade.android.ver);
         String sure = mAct.getString(R.string.update_sure);
-        //TODO DialogUtils
 
         if (logoutDialog == null) {
             logoutDialog = new MyDialog(mAct, title);

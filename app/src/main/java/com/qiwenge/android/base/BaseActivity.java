@@ -1,12 +1,12 @@
 package com.qiwenge.android.base;
 
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import com.liuguangqiang.common.utils.IntentUtils;
@@ -15,15 +15,15 @@ import com.qiwenge.android.utils.MyFilters;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
+import roboguice.activity.RoboFragmentActivity;
 
-public class BaseActivity extends FragmentActivity {
+public class BaseActivity extends RoboFragmentActivity {
 
     private FinishAppReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
         showActionBarBack();
         initReceiver();
     }
@@ -31,7 +31,6 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        System.out.println("onDestroy");
         if (receiver != null) {
             unregisterReceiver(receiver);
             receiver = null;
@@ -120,16 +119,6 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
-    public void hideFragment(Fragment fragment) {
-        if (fragment != null)
-            getSupportFragmentManager().beginTransaction().hide(fragment).commit();
-    }
-
-    public void showFragment(Fragment fragment) {
-        if (fragment != null)
-            getSupportFragmentManager().beginTransaction().show(fragment).commit();
-    }
-
     private void initReceiver() {
         receiver = new FinishAppReceiver();
         IntentFilter filter = new IntentFilter(MyFilters.ACTION_QUIT_APP);
@@ -140,10 +129,7 @@ public class BaseActivity extends FragmentActivity {
      * 退出.
      */
     public void exitApp() {
-
         IntentUtils.sendBroadcast(getApplicationContext(), MyFilters.ACTION_QUIT_APP);
-
-//        IntentUtils.sendBroadcast(getApplicationContext(), MyFilters.ACTION_QUIT_APP);
     }
 
     public class FinishAppReceiver extends BroadcastReceiver {
@@ -151,7 +137,6 @@ public class BaseActivity extends FragmentActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(MyFilters.ACTION_QUIT_APP)) {
-                System.out.println("finish");
                 finish();
             }
         }

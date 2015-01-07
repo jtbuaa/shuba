@@ -11,7 +11,7 @@ import com.liuguangqiang.common.utils.PreferencesUtils;
 
 /**
  * 屏幕亮度工具类.
- *
+ * <p/>
  * Created by Eric on 2014-5-31
  */
 public class ScreenBrightnessUtils {
@@ -35,7 +35,7 @@ public class ScreenBrightnessUtils {
 
     /**
      * 从共享引用中获取屏幕亮度设置。
-     * 
+     *
      * @param context
      * @return
      */
@@ -47,7 +47,7 @@ public class ScreenBrightnessUtils {
 
     /**
      * 获取屏幕亮度。
-     * 
+     *
      * @param context
      * @return
      */
@@ -69,9 +69,9 @@ public class ScreenBrightnessUtils {
 
     /**
      * 设置屏幕亮度。
-     * 
+     *
      * @param context
-     * @param p 0-255;
+     * @param p       0-255;
      */
     public static void setBrightness(Activity context, int p) {
         WindowManager.LayoutParams params = context.getWindow().getAttributes();

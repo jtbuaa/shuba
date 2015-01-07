@@ -8,6 +8,9 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.utils.LoadAnim;
@@ -17,7 +20,7 @@ import com.qiwenge.android.utils.LoadAnim;
  * <p/>
  * Created by John on 2014－7－21
  */
-public class PagePullToRefreshListView extends PullToRefreshListView {
+public class PagePullToRefreshListView extends ListView {
 
     private boolean isLoading = false;
     private boolean mLastItemVisible = false;
@@ -27,7 +30,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
     /**
      * 是否允许分页
      */
-    private boolean enablePage=true;
+    private boolean enablePage = true;
 
     public PagePullToRefreshListView(Context context) {
         super(context);
@@ -43,7 +46,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
         this.isLoading = b;
     }
 
-    public boolean isLoading(){
+    public boolean isLoading() {
         return isLoading;
     }
 
@@ -59,7 +62,6 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
      */
     public void loadFinished() {
         setIsLoading(false);
-        onRefreshComplete();
     }
 
     public void setOnScrollPageListener(ScrollPageListener listener) {
@@ -67,11 +69,8 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
     }
 
     public View createPagerFooterView(Context context) {
-        View view= LayoutInflater.from(context).inflate(R.layout.layout_pager_footer,
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_pager_footer,
                 null);
-        ImageView ivLoading=(ImageView)view.findViewById(R.id.iv_footer_loading);
-        LoadAnim mLoadAnim = new LoadAnim(ivLoading);
-        mLoadAnim.start();
         return view;
     }
 
@@ -83,13 +82,13 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
     /**
      * 重置
      */
-    public void reset(){
-        enablePage=true;
+    public void reset() {
+        enablePage = true;
         removePageFooterView();
     }
 
-    public void setPageEnable(boolean b){
-        this.enablePage=b;
+    public void setPageEnable(boolean b) {
+        this.enablePage = b;
     }
 
     /**
@@ -98,7 +97,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
     public void addPageFooterView() {
         if (pagerFooter == null) {
             pagerFooter = createPagerFooterView(getContext());
-            getRefreshableView().addFooterView(pagerFooter);
+            addFooterView(pagerFooter);
         }
     }
 
@@ -107,7 +106,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
      */
     public void removePageFooterView() {
         if (pagerFooter != null) {
-            getRefreshableView().removeFooterView(pagerFooter);
+            removeFooterView(pagerFooter);
             pagerFooter = null;
         }
     }
@@ -122,7 +121,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (!isLoading && mLastItemVisible
                         && scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
-                    if (pageListener != null&&enablePage) {
+                    if (pageListener != null && enablePage) {
                         pageListener.onPage();
                         addPageFooterView();
                     }
@@ -133,7 +132,7 @@ public class PagePullToRefreshListView extends PullToRefreshListView {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
                                  int totalItemCount) {
                 if (!isLoading && (totalItemCount > 0)
-                        && (firstVisibleItem + visibleItemCount >= totalItemCount-1))
+                        && (firstVisibleItem + visibleItemCount >= totalItemCount - 1))
                     mLastItemVisible = true;
                 else
                     mLastItemVisible = false;

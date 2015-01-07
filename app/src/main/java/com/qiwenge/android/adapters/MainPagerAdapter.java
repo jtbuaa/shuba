@@ -21,8 +21,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     private BookCityFragment bookCity;
     private BookshelfFragment bookShelf;
 
-    private OnFragmentClickListener clickListener;
-
     public MainPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -48,10 +46,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return NUM;
-    }
-
-    public void setOnFragmentClickListener(OnFragmentClickListener listener) {
-        this.clickListener = listener;
     }
 
 }

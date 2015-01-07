@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liuguangqiang.common.utils.GsonUtils;
@@ -28,7 +28,6 @@ import com.qiwenge.android.entity.ChapterList;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.SkipUtils;
-import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
 
@@ -41,24 +40,15 @@ public class ChapterActivity extends BaseActivity {
 
     public static final String EXTRA_BOOK = "book";
 
-    public static final String EXTRA_BOOK_ID = "book_id";
-
-    public static final String EXTRA_BOOK_TITLE = "book_title";
-
     private ListView lvChapters;
     private View emptyView;
-    private RelativeLayout layoutContainer;
     private ProgressBar ivLoading;
 
     private ChapterAdapter adapter;
 
-    private List<Chapter> list = new ArrayList<Chapter>();
+    private List<Chapter> data = new ArrayList<>();
 
     private Book book;
-
-    private String bookId;
-
-    private String bookTitle;
 
     private int pageindex = 1;
 
@@ -77,7 +67,6 @@ public class ChapterActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ThemeUtils.setThemeBg(layoutContainer);
         selectedReadNumber();
     }
 
@@ -94,28 +83,23 @@ public class ChapterActivity extends BaseActivity {
         Bundle extra = getIntent().getExtras();
         if (extra.containsKey(EXTRA_BOOK)) {
             book = extra.getParcelable(EXTRA_BOOK);
-            bookId = book.getId();
+            Log.i("book", "id:" + book.getId());
             setTitle(book.title);
-        } else if (extra.containsKey(EXTRA_BOOK_ID) && extra.containsKey(EXTRA_BOOK_TITLE)) {
-            bookId = extra.getString(EXTRA_BOOK_ID);
-            bookTitle = extra.getString(EXTRA_BOOK_TITLE);
-            setTitle(bookTitle);
         }
     }
 
     private void initViews() {
         ivLoading = (ProgressBar) this.findViewById(R.id.pb_loading);
-        layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_container);
-
-        adapter = new ChapterAdapter(this, list);
         lvChapters = (ListView) this.findViewById(R.id.listview_common);
+
+        adapter = new ChapterAdapter(this, data);
         lvChapters.setAdapter(adapter);
         lvChapters.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < list.size()) {
-                    SkipUtils.skipToReader(getApplicationContext(), book, list.get(position).getId());
+                if (position < data.size()) {
+                    SkipUtils.skipToReader(getApplicationContext(), book, data.get(position).getId());
                 }
             }
         });
@@ -137,10 +121,9 @@ public class ChapterActivity extends BaseActivity {
      * 获取一本书下的，所有章节。
      */
     private void getBookChpaters() {
-        if (bookId == null) return;
         String url = ApiUtils.getBookChpaters();
         RequestParams params = new RequestParams();
-        params.put("book_id", bookId);
+        params.put("book_id", book.getId());
         params.put("limit", "9999");
         params.put("page", "" + pageindex);
         JHttpClient.get(url, params, new StringResponseHandler() {
@@ -153,7 +136,7 @@ public class ChapterActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (list.isEmpty()) {
+                if (data.isEmpty()) {
                     showEmptyView();
                 }
                 ivLoading.setVisibility(View.GONE);
@@ -171,7 +154,7 @@ public class ChapterActivity extends BaseActivity {
     private ViewTreeObserver viewTreeObserver;
 
     private void selectedReadNumber() {
-        final int number = BookShelfUtils.getReadNumber(getApplicationContext(), bookId) - 1;
+        final int number = BookShelfUtils.getReadNumber(getApplicationContext(), book.getId()) - 1;
         if (number < 0) return;
         if (number > adapter.getCount()) return;
         //改变颜色

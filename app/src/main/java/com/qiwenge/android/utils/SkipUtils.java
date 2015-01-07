@@ -9,6 +9,7 @@ import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.act.BrowserActivity;
 import com.qiwenge.android.act.ChapterActivity;
 import com.qiwenge.android.act.ReadActivity;
+import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.entity.Book;
 
 public class SkipUtils {
@@ -37,8 +38,13 @@ public class SkipUtils {
      * @param context
      */
     public static void skipToReader(Context context, Book book) {
-        String lastReadId =
-                BookShelfUtils.getRecordChapterId(context, book.getId());
+        String lastReadId = null;
+
+        Book record = DaoFactory.createBookDao(context).queryById(book.getId());
+        if (record != null && record.chapter_id != null) {
+            lastReadId = record.chapter_id;
+        }
+
         if (StringUtils.isEmptyOrNull(lastReadId) && SourceUtils.getSource(context) == SourceUtils.AUTO) {
             skipToChapter(context, book);
         } else {
@@ -88,9 +94,7 @@ public class SkipUtils {
                                    String chapterId) {
         Bundle extra = new Bundle();
         extra.putParcelable(ReadActivity.Extra_Book, book);
-        extra.putString(ReadActivity.Extra_BookId, book.getId());
         extra.putString(ReadActivity.Extra_ChapterId, chapterId);
-        extra.putString(ReadActivity.Extra_BookTitle, book.title);
         Intent intent = new Intent(context, ReadActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtras(extra);

@@ -33,7 +33,6 @@ import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.BookStatus;
-import com.qiwenge.android.dao.BookDao;
 import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.listeners.CommonHandler;
 import com.qiwenge.android.entity.Book;
@@ -42,31 +41,55 @@ import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ReaderUtils;
-import com.qiwenge.android.utils.SkipUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
+
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
 /**
  * 小说详情。
  * <p/>
- * Created by John on 2014-5-5
+ * Created by Eric on 2014-5-5
  */
+@ContentView(R.layout.activity_book_intro)
 public class BookDetailActivity extends BaseActivity implements OnClickListener {
 
     public static final String EXTRA_BOOK = "book";
 
     private static final int ACTION_ITEM_SOURCE = 1;
 
+    @InjectView(R.id.tv_title)
     private TextView tvTitle;
+
+    @InjectView(R.id.tv_intro)
     private TextView tvIntro;
+
+    @InjectView(R.id.tv_author)
     private TextView tvAuthor;
+
+    @InjectView(R.id.tv_category)
     private TextView tvCategory;
+
+    @InjectView(R.id.tv_status)
     private TextView tvStatus;
+
+    @InjectView(R.id.btn_chapter)
     private Button btnChapter;
+
+    @InjectView(R.id.btn_add)
     private Button btnAdd;
+
+    @InjectView(R.id.lv_recommend)
     private ListView lvRecommend;
-    private ScrollView scrollView;
+
+//    @InjectView(R.id.scrollView_container)
+//    private ScrollView scrollView;
+
+    @InjectView(R.id.iv_cover)
     private ImageView ivCover;
+
+    @InjectView(R.id.layout_related)
     private LinearLayout layoutRelated;
 
     private Book book;
@@ -83,12 +106,11 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
      * <p/>
      * 初始化时，ScrollView滑动到顶部。
      */
-    private boolean scrollToTop = true;
+//    private boolean scrollToTop = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_intro);
         setTitle(R.string.book_intro_detail);
         getIntentData();
         initViews();
@@ -187,25 +209,11 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     }
 
     private void initViews() {
-        scrollView = (ScrollView) this.findViewById(R.id.scrollView_container);
-        ivCover = (ImageView) this.findViewById(R.id.iv_cover);
-        tvTitle = (TextView) this.findViewById(R.id.tv_title);
-        tvIntro = (TextView) this.findViewById(R.id.tv_intro);
-        tvAuthor = (TextView) this.findViewById(R.id.tv_author);
-        tvCategory = (TextView) this.findViewById(R.id.tv_category);
-        tvStatus = (TextView) this.findViewById(R.id.tv_status);
-        btnChapter = (Button) this.findViewById(R.id.btn_chapter);
         btnChapter.setOnClickListener(this);
-        btnAdd = (Button) this.findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
-
-        layoutRelated = (LinearLayout) this.findViewById(R.id.layout_related);
         layoutRelated.setVisibility(View.GONE);
 
-        showBookInfo();
-
         // 相关推荐
-        lvRecommend = (ListView) this.findViewById(R.id.gv_recommend);
         adapter = new AboutRmdAdapter(getApplicationContext(), dataRecommend);
         lvRecommend.setAdapter(adapter);
         lvRecommend.setOnItemClickListener(new OnItemClickListener() {
@@ -216,10 +224,11 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                     Bundle extra = new Bundle();
                     extra.putParcelable(BookDetailActivity.EXTRA_BOOK, dataRecommend.get(position));
                     startActivity(BookDetailActivity.class, extra);
-                    finish();
                 }
             }
         });
+
+        showBookInfo();
     }
 
     private void showAddBtn() {
@@ -236,14 +245,14 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         isAdded = true;
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && scrollToTop) {
-            scrollToTop = false;
-            scrollView.scrollTo(0, 0);
-        }
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (hasFocus && scrollToTop) {
+//            scrollToTop = false;
+////            scrollView.scrollTo(0, 0);
+//        }
+//    }
 
     private void showBookInfo() {
         if (book != null) {

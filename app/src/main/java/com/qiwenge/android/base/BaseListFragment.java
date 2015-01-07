@@ -1,18 +1,21 @@
 package com.qiwenge.android.base;
 
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.ui.PagePullToRefreshListView;
+import com.qiwenge.android.utils.StyleUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,8 @@ import java.util.List;
 public class BaseListFragment<T> extends BaseFragment {
 
     public PagePullToRefreshListView mListView;
+
+    public SwipeRefreshLayout mSwipeRefreshLayout;
 
     public List<T> data = new ArrayList<T>();
 
@@ -40,6 +45,19 @@ public class BaseListFragment<T> extends BaseFragment {
     private TextView tvEmpty;
     private Button btnEmpty;
     private ImageView ivEmpty;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_base, container, false);
+        return rootView;
+    }
+
+    public void initViews() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
+        StyleUtils.setColorSchemeResources(mSwipeRefreshLayout);
+        mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
+    }
 
     private void showEmptyView() {
         if (layoutEmpty == null) return;
@@ -75,7 +93,7 @@ public class BaseListFragment<T> extends BaseFragment {
     }
 
     public void setEmptyIcon(int resId) {
-        if(ivEmpty!=null){
+        if (ivEmpty != null) {
             ivEmpty.setBackgroundResource(resId);
             ivEmpty.setVisibility(View.VISIBLE);
         }
@@ -94,8 +112,8 @@ public class BaseListFragment<T> extends BaseFragment {
 
 
     public void setDisablePullToRefresh() {
-        if (mListView != null) {
-            mListView.setMode(PullToRefreshBase.Mode.DISABLED);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setEnabled(false);
         }
     }
 
@@ -107,11 +125,10 @@ public class BaseListFragment<T> extends BaseFragment {
     }
 
     public void setEnablePullToRefresh() {
-        if (mListView != null) {
-            mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
-                public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                public void onRefresh() {
                     pageindex = 1;
                     mListView.reset();
                     requestData();
@@ -122,12 +139,13 @@ public class BaseListFragment<T> extends BaseFragment {
 
     public void setEnableProgressBar() {
         pbLoading = (ProgressBar) getView().findViewById(R.id.pb_loading);
-        pbLoading.setVisibility(View.GONE);
+        if (pbLoading != null)
+            pbLoading.setVisibility(View.GONE);
     }
 
     public void setEnableFooterPage() {
         if (mListView != null) {
-            mListView.getRefreshableView().setFooterDividersEnabled(true);
+            mListView.setFooterDividersEnabled(true);
             enableFooterPage = true;
             mListView.addPageFooterView();
             mListView.setOnScrollPageListener(new PagePullToRefreshListView.ScrollPageListener() {
@@ -179,6 +197,11 @@ public class BaseListFragment<T> extends BaseFragment {
         if (mListView != null) {
             mListView.loadFinished();
         }
+
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+
         if (data.isEmpty()) showEmptyView();
 
         if (pbLoading != null) pbLoading.setVisibility(View.GONE);

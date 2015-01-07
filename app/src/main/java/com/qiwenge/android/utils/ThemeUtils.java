@@ -123,7 +123,7 @@ public class ThemeUtils {
      * 设置夜间模式
      *
      * @param context
-     * @param isNight    true：夜间模式，false：正常模式
+     * @param isNight true：夜间模式，false：正常模式
      */
     public static void setNightModle(Context context, boolean isNight) {
         isNightModel = isNight;
@@ -167,6 +167,7 @@ public class ThemeUtils {
 
     /**
      * 设置底部菜单背景
+     *
      * @param view
      */
     public static void setBottomMenuBg(View view) {
@@ -180,6 +181,7 @@ public class ThemeUtils {
 
     /**
      * 设置字体颜色，用于区分夜间模式和普通模式
+     *
      * @param tv
      */
     public static void setTextColor(TextView tv) {

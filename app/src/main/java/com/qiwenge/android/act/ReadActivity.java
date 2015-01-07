@@ -32,13 +32,13 @@ import com.qiwenge.android.adapters.ReadThemeAdapter;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
+import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.fragments.ReadFragment;
 import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.ReadMenu;
 import com.qiwenge.android.entity.ReadTheme;
 import com.qiwenge.android.ui.dialogs.SourceDialog;
-import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ScreenBrightnessUtils;
 import com.qiwenge.android.utils.ThemeUtils;
@@ -107,16 +107,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      */
     public final static String Extra_ChapterId = "chapterId";
 
-    /**
-     * 小说标题
-     */
-    public final static String Extra_BookTitle = "bookTitle";
-
-    /**
-     * 小说Id
-     */
-    public final static String Extra_BookId = "bookId";
-
     public final static String Extra_Book = "book";
 
     private ReadFragment fragment;
@@ -138,9 +128,9 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      */
     private LinearLayout layoutBottomMenu;
 
-    private TextView tvBookTitle;
+    private LinearLayout layoutMenuAaSet;
 
-    private TextView tvAddCollect;
+    private TextView tvBookTitle;
 
     private ImageView ivBtnSource;
 
@@ -244,12 +234,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
                 if (book != null)
                     new SourceDialog(this, book).show(true);
                 break;
-            case R.id.tv_add_collect://收藏
-                if (book != null) {
-                    BookShelfUtils.addBook(getApplicationContext(), book);
-                    tvAddCollect.setVisibility(View.GONE);
-                }
-                break;
             case R.id.layout_bottom_menu:
                 break;
             case R.id.layout_back:
@@ -272,9 +256,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private String bookId;
-    private String bookTitle;
-    private String chapterId;
     private Book book;
 
     /**
@@ -285,35 +266,30 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         handleExtras(extra);
     }
 
-    //TODO SingleTask Bundle Extras
     private void handleExtras(Bundle extra) {
-        Log.i(TAG, "handleExtras");
-
         fragment.clearReader();
-
-        if (extra.containsKey(Extra_BookId)) {
-            bookId = extra.getString(Extra_BookId);
-            fragment.setBookId(bookId);
-            AsyncUtils.postViewTotal(bookId);
-        }
-
-        if (extra.containsKey(Extra_BookTitle)) {
-            bookTitle = extra.getString(Extra_BookTitle);
-            tvBookTitle.setText(bookTitle);
-        }
-
-        if (extra.containsKey(Extra_ChapterId)) {
-            chapterId = extra.getString(Extra_ChapterId);
-            int length = BookShelfUtils.getReadLenght(getApplicationContext(), chapterId);
-            fragment.getChapter(chapterId, length);
-        }
 
         if (extra.containsKey(Extra_Book)) {
             book = extra.getParcelable(Extra_Book);
-            if (book != null && !BookShelfUtils.contains(getApplicationContext(), book)) {
-                tvAddCollect.setVisibility(View.VISIBLE);
+            fragment.setBook(book);
+            AsyncUtils.postViewTotal(book.getId());
+            tvBookTitle.setText(book.title);
+        }
+
+        if (extra.containsKey(Extra_ChapterId)) {
+            String chapterId = extra.getString(Extra_ChapterId);
+            getChapter(chapterId);
+        }
+    }
+
+    private void getChapter(String chapterId) {
+        if (book != null) {
+            Book record = DaoFactory.createBookDao(getApplicationContext()).queryById(book.getId());
+            if (record != null && chapterId.equals(record.chapter_id)) {
+                int length = record.character_number;
+                fragment.getChapter(chapterId, length);
             } else {
-                tvAddCollect.setVisibility(View.GONE);
+                fragment.getChapter(chapterId);
             }
         }
     }
@@ -325,7 +301,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         String[] titles = getResources().getStringArray(R.array.read_menu_titles);
         int[] icons =
                 {R.drawable.icon_menu_mode_night,
-                        R.drawable.icon_menu_chapters, R.drawable.icon_menu_favour};
+                        R.drawable.icon_menu_aa, R.drawable.icon_menu_chapters};
 
         ReadMenu menu;
         for (int i = 0; i < titles.length; i++) {
@@ -354,9 +330,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_read_container);
         layoutTop = (LinearLayout) this.findViewById(R.id.layout_reader_top);
         tvBookTitle = (TextView) this.findViewById(R.id.tv_book_title);
-        tvAddCollect = (TextView) this.findViewById(R.id.tv_add_collect);
-        tvAddCollect.setVisibility(View.GONE);
-        tvAddCollect.setOnClickListener(this);
         ivBtnSource = (ImageView) this.findViewById(R.id.btn_source);
         ivBtnSource.setOnClickListener(this);
         actionBack = (LinearLayout) this.findViewById(R.id.layout_back);
@@ -374,6 +347,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         layoutBottomMenu = (LinearLayout) this.findViewById(R.id.layout_bottom_menu);
         layoutBottomMenu.setVisibility(View.GONE);
         layoutBottomMenu.setOnClickListener(this);
+        layoutMenuAaSet = (LinearLayout) this.findViewById(R.id.layout_menu_aa_set);
+        layoutMenuAaSet.setVisibility(View.GONE);
 
         ivBrightnessMinus = (ImageView) this.findViewById(R.id.iv_brightness_minus);
         ivBrightnessPlus = (ImageView) this.findViewById(R.id.iv_brightness_plus);
@@ -461,14 +436,15 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
                             showNighitModel(true);
                         }
                         break;
-                    case 1:// 目录
-                        Bundle extra = new Bundle();
-                        extra.putString(ChapterActivity.EXTRA_BOOK_ID, bookId);
-                        extra.putString(ChapterActivity.EXTRA_BOOK_TITLE, bookTitle);
-                        startActivity(ChapterActivity.class, extra);
+                    case 1:// Aa
+                        if (layoutMenuAaSet.getVisibility() == View.GONE)
+                            layoutMenuAaSet.setVisibility(View.VISIBLE);
+                        else layoutMenuAaSet.setVisibility(View.GONE);
                         break;
-                    case 2:// 赞
-                        AsyncUtils.postVoteup(getApplicationContext(), bookId);
+                    case 2:// 目录
+                        Bundle extra = new Bundle();
+                        extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
+                        startActivity(ChapterActivity.class, extra);
                         break;
 
                     default:

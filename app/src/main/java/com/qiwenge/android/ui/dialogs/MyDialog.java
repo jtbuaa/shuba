@@ -2,9 +2,12 @@ package com.qiwenge.android.ui.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Outline;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewOutlineProvider;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;

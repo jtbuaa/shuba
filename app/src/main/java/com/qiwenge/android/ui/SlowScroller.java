@@ -5,9 +5,8 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 /**
- * 
  * 缓慢Scroller.
- *
+ * <p/>
  * Created by John on 2014-7-17.
  */
 public class SlowScroller extends Scroller {

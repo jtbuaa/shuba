@@ -1,6 +1,7 @@
 package com.qiwenge.android.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.qiwenge.android.entity.Book;
 
@@ -15,6 +16,8 @@ import cn.jpush.android.api.TagAliasCallback;
  * Created by Eric on 14/12/3.
  */
 public class PushUtils {
+
+    private final static String TAG = "PushUtils";
 
     private final static int STATUS_SUCCESS = 0;
 
@@ -31,27 +34,25 @@ public class PushUtils {
     }
 
     private void setAlias(final Context context, final String alias, final int retryCount) {
-        System.out.println("setAlias:" + alias);
         JPushInterface.setAlias(context, alias, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> strings) {
                 if (i == STATUS_TIMEOUT && retryCount > 0) {
                     setAlias(context, alias, retryCount - 1);
                 } else if (i == STATUS_SUCCESS) {
-                    System.out.println("setAlias success:" + alias);
+                    Log.i(TAG, "setAlias success:" + alias);
                 }
             }
         });
     }
 
     public void setTags(Context context, List<Book> books) {
-        Set<String> tags = new HashSet<String>();
+        Set<String> tags = new HashSet<>();
         for (Book book : books) {
             tags.add(book.getId());
         }
         setTags(context, tags, RETRY_COUNT);
     }
-
 
     private void setTags(final Context context, final Set<String> tags, final int retryCount) {
         JPushInterface.setTags(context, tags, new TagAliasCallback() {
@@ -60,14 +61,10 @@ public class PushUtils {
                 if (i == STATUS_TIMEOUT && retryCount > 0) {
                     setTags(context, tags, retryCount - 1);
                 } else if (i == STATUS_SUCCESS) {
-                    System.out.println("setTags success");
+                    Log.i(TAG, "setTags success:" + tags.toString());
                 }
             }
         });
-    }
-
-    public void clearTags(Context context) {
-        setTags(context, new HashSet<String>(), RETRY_COUNT);
     }
 
     public void clearAlias(Context context) {
