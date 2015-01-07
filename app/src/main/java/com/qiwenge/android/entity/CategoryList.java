@@ -7,7 +7,7 @@ import com.qiwenge.android.entity.base.BaseModel;
 
 /**
  * 分类的集合。
- * 
+ * <p/>
  * Created by John on 2014年7月6日
  */
 public class CategoryList extends BaseModel {

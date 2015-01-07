@@ -11,6 +11,6 @@ public class UserLevel {
 
     public int next = 0;
 
-    public String title;
+    public String title = "";
 
 }

@@ -7,7 +7,7 @@ import com.qiwenge.android.entity.base.BaseModel;
 
 public class ChapterList extends BaseModel {
 
-	public List<Chapter> result = new ArrayList<Chapter>();
+    public List<Chapter> result = new ArrayList<Chapter>();
 
     public int total;
 
