@@ -9,7 +9,6 @@
         android:fromDegrees="0"
         android:toDegrees="360"
         android:interpolator="@android:anim/linear_interpolator"
-        android:repeatCount="-1"
-        />
+        android:repeatCount="-1" />
 
 </set>

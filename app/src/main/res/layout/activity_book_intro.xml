@@ -17,17 +17,19 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="horizontal"
-            android:padding="@dimen/default_padding">
+            android:padding="@dimen/default_padding"
+            android:transitionName="book_detail">
 
             <ImageView
                 android:id="@+id/iv_cover"
-                android:layout_width="80dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/item_cover_width"
+                android:layout_height="@dimen/item_cover_height"
                 android:background="@drawable/cover_border"
                 android:contentDescription="@string/str_empty"
-                android:padding="1dp"
+                android:padding="1px"
                 android:scaleType="fitXY"
-                android:src="@drawable/icon_place_holder" />
+                android:src="@drawable/icon_place_holder"
+                android:transitionName="book_cover" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -42,8 +44,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:textColor="@color/main_dress_color"
-                    android:textSize="@dimen/font_size_middle" />
+                    android:textColor="@color/tv_title_color"
+                    android:textSize="@dimen/font_size_middle"
+                    android:transitionName="book_title" />
 
                 <TextView
                     android:id="@+id/tv_author"
@@ -73,7 +76,8 @@
                     android:gravity="center_vertical"
                     android:text="@string/book_intro_status_format"
                     android:textColor="@color/tv_desc_color"
-                    android:textSize="@dimen/font_size_small" />
+                    android:textSize="@dimen/font_size_small"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 

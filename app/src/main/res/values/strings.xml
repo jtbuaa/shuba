@@ -31,9 +31,9 @@
 
     <!-- BookIntro -->
     <string name="book_intro_detail">小说详情</string>
-    <string name="book_intro_author_format">作者 : %s</string>
-    <string name="book_intro_category_format">类型 : %s</string>
-    <string name="book_intro_status_format">状态 : %s</string>
+    <string name="book_intro_author_format">%s</string>
+    <string name="book_intro_category_format">%s</string>
+    <string name="book_intro_status_format">%s</string>
     <string name="book_intro_chapters">查看目录</string>
     <string name="book_intro_add">加入书架</string>
     <string name="book_intro_remove">移出书架</string>

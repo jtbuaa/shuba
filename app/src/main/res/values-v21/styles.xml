@@ -18,8 +18,10 @@
         <item name="android:actionMenuTextAppearance">@style/MyActionBar.MenuItem</item>
         <item name="android:actionModeCloseButtonStyle">@style/MyActionModeCloseButton</item>
 
-        <!--&lt;!&ndash; 启用窗口的内容转换&ndash;&gt;-->
+        <!-- 允许使用transitions -->
         <!--<item name="android:windowContentTransitions">true</item>-->
+        <!--<item name="android:windowAllowEnterTransitionOverlap">true</item>-->
+        <!--<item name="android:windowAllowReturnTransitionOverlap">true</item>-->
         <!--&lt;!&ndash; 进入、退出的转换(效果) &ndash;&gt;-->
         <!--<item name="android:windowEnterTransition">@android:transition/explode</item>-->
         <!--<item name="android:windowExitTransition">@android:transition/explode</item>-->

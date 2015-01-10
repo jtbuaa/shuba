@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.Explode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -108,13 +109,17 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
      */
 //    private boolean scrollToTop = true;
 
+    private boolean hasInited = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.book_intro_detail);
         getIntentData();
         initViews();
-        getRelated();
+
+//        if (Build.VERSION.SDK_INT >= 21)
+//            getWindow().setEnterTransition(new Explode());
     }
 
     @Override
@@ -245,14 +250,16 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         isAdded = true;
     }
 
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        if (hasFocus && scrollToTop) {
-//            scrollToTop = false;
-////            scrollView.scrollTo(0, 0);
-//        }
-//    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && !hasInited) {
+            hasInited = true;
+
+            getRelated();
+//            scrollView.scrollTo(0, 0);
+        }
+    }
 
     private void showBookInfo() {
         if (book != null) {

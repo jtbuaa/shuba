@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.transition.Explode;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,10 +68,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         chkUpdate();
         LevelUtils.dailyLogin(getApplicationContext());
 
-        if (Build.VERSION.SDK_INT > 20) {
-            // 设置一个退出的过渡(动画)
+//        if (Build.VERSION.SDK_INT >= 21) {
 //            getWindow().setExitTransition(new Explode());
-        }
+//        }
 
     }
 
