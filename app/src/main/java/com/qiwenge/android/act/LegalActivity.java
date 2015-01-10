@@ -37,7 +37,7 @@ public class LegalActivity extends BaseActivity {
 
     private void getStatement() {
         String url = ApiUtils.getStatement();
-        JHttpClient.get(url, null, new StringResponseHandler() {
+        JHttpClient.get(getApplicationContext(), url, null, new StringResponseHandler() {
             @Override
             public void onSuccess(String result) {
                 if (result != null)

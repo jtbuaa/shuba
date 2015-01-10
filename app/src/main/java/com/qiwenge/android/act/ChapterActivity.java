@@ -126,7 +126,7 @@ public class ChapterActivity extends BaseActivity {
         params.put("book_id", book.getId());
         params.put("limit", "9999");
         params.put("page", "" + pageindex);
-        JHttpClient.get(url, params, new StringResponseHandler() {
+        JHttpClient.get(getApplicationContext(), url, params, new StringResponseHandler() {
 
             @Override
             public void onStart() {

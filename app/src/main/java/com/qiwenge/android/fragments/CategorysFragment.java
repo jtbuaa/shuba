@@ -99,7 +99,7 @@ public class CategorysFragment extends BaseListFragment<Category> {
         String url = ApiUtils.getCategories();
         RequestParams params = new RequestParams();
         params.put("limit", "100");
-        JHttpClient.get(url, params, new JsonResponseHandler<CategoryList>(CategoryList.class) {
+        JHttpClient.get(getActivity(), url, params, new JsonResponseHandler<CategoryList>(CategoryList.class) {
 
             @Override
             public void onOrigin(String json) {

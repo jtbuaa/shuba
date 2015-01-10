@@ -105,7 +105,7 @@ public class RankFragment extends BaseListFragment<Book> {
      */
     private void getRank() {
         String url = ApiUtils.getBooksByTop();
-        AsyncUtils.getBooks(url, pageindex, new JsonResponseHandler<BookList>(BookList.class) {
+        AsyncUtils.getBooks(getActivity(), url, pageindex, new JsonResponseHandler<BookList>(BookList.class) {
 
             @Override
             public void onOrigin(String json) {

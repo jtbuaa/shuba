@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.liuguangqiang.common.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.BookShelfAdapter;
@@ -138,7 +140,7 @@ public class BookshelfFragment extends BaseFragment {
         RequestParams params = new RequestParams();
         params.put("books", bookIds.toString());
         params.put("chapter_totals", chapterTotals.toString());
-        JHttpClient.get(url, params, new JsonResponseHandler<BookUpdateList>(BookUpdateList.class) {
+        JHttpClient.get(getActivity(), url, params, new JsonResponseHandler<BookUpdateList>(BookUpdateList.class) {
 
             @Override
             public void onOrigin(String json) {

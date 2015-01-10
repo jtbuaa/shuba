@@ -189,7 +189,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void getUser(String userId) {
         System.out.println("getUser:" + userId);
         String url = ApiUtils.getUser(userId);
-        JHttpClient.get(url, null, new JsonResponseHandler<User>(User.class, false) {
+        JHttpClient.get(getActivity(), url, null, new JsonResponseHandler<User>(User.class, false) {
 
             @Override
             public void onOrigin(String json) {

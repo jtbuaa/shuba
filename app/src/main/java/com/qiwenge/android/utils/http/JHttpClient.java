@@ -1,10 +1,13 @@
 package com.qiwenge.android.utils.http;
 
+import android.content.Context;
+
 import com.liuguangqiang.common.utils.LogUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.qiwenge.android.entity.Auth;
+import com.qiwenge.android.utils.FailureUtils;
 import com.qiwenge.android.utils.LoginManager;
 
 import org.apache.http.Header;
@@ -40,7 +43,7 @@ public class JHttpClient {
      * @param params  参数
      * @param handler 回调
      */
-    public static void get(String url, RequestParams params, final BaseResponseHandler handler) {
+    public static void get(final Context context, String url, RequestParams params, final BaseResponseHandler handler) {
         if (params != null) LogUtils.i(TAG, "get:" + url + "?" + params.toString());
         else LogUtils.i(TAG, "get:" + url);
         createHttpCilent();
@@ -50,6 +53,9 @@ public class JHttpClient {
                 if (handler != null) {
                     handler.onFailure(responseString);
                     handler.onFailure(statusCode, responseString);
+                    if (context != null) {
+                        FailureUtils.handleHttpRequest(context, responseString, statusCode, throwable);
+                    }
                 }
             }
 

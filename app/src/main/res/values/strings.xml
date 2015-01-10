@@ -101,4 +101,7 @@
     <string name="empty_search">没有找到您想要的小说</string>
     <string name="empty_chapter">恭喜您发现一本无字天书</string>
 
+    <!--Error-->
+    <string name="error_network_unavailable_format">网络不可用 , %s请检查您的网络设置</string>
+
 </resources>

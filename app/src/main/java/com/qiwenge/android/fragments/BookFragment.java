@@ -75,7 +75,7 @@ public class BookFragment extends BaseListFragment<Book> {
         if (searchCategory != null) {
             params.put("categories", searchCategory);
         }
-        AsyncUtils.getBooks(url, params, new JsonResponseHandler<BookList>(BookList.class) {
+        AsyncUtils.getBooks(getActivity(), url, params, new JsonResponseHandler<BookList>(BookList.class) {
 
             @Override
             public void onSuccess(BookList result) {

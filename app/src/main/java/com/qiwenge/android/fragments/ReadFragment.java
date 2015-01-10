@@ -396,7 +396,7 @@ public class ReadFragment extends BaseFragment {
         }
 
         String url = ApiUtils.getChapter(chapterId);
-        JHttpClient.get(url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
+        JHttpClient.get(getActivity(), url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
 
             @Override
             public void onSuccess(final Chapter result) {
@@ -446,7 +446,7 @@ public class ReadFragment extends BaseFragment {
         }
 
         String url = ApiUtils.getChapter(chapterId);
-        JHttpClient.get(url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
+        JHttpClient.get(getActivity(), url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
 
             @Override
             public void onSuccess(final Chapter result) {
@@ -479,7 +479,7 @@ public class ReadFragment extends BaseFragment {
         }
 
         String url = ApiUtils.getChapter(chapterId);
-        JHttpClient.get(url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
+        JHttpClient.get(getActivity(), url, null, new JsonResponseHandler<Chapter>(Chapter.class, false) {
 
             @Override
             public void onSuccess(final Chapter result) {

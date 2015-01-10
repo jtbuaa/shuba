@@ -90,7 +90,7 @@ public class SplashActivity extends BaseActivity {
         RequestParams params = new RequestParams();
         params.put("version", AppUtils.getVersionName(this));
         params.put("platform", Constants.PLATFORM);
-        JHttpClient.get(url, params, new JsonResponseHandler<Configures>(Configures.class, false) {
+        JHttpClient.get(getApplicationContext(), url, params, new JsonResponseHandler<Configures>(Configures.class, false) {
             @Override
             public void onSuccess(Configures result) {
                 if (result != null && result.functions != null) {

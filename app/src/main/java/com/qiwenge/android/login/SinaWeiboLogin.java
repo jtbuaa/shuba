@@ -34,7 +34,7 @@ public class SinaWeiboLogin {
      */
     public static void login(final Activity activity,
                              AuthListener listener) {
-        ThirdLoginUtils.loginType=LoginType.weibo;
+        ThirdLoginUtils.loginType = LoginType.weibo;
         authListener = listener;
         authListener.onStart();
         mWeiboAPI = WeiboSDK.createWeiboAPI(activity, Constant_Sina.APP_KEY);
@@ -93,7 +93,7 @@ public class SinaWeiboLogin {
         RequestParams params = new RequestParams();
         params.put("access_token", accessToken);
         params.put("uid", uid);
-        JHttpClient.get(url, params, new BaseResponseHandler() {
+        JHttpClient.get(null, url, params, new BaseResponseHandler() {
             @Override
             public void onSuccess(String result) {
                 SinaUser sinaUser = new Gson().fromJson(result, SinaUser.class);

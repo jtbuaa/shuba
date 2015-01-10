@@ -49,7 +49,7 @@ public class AsyncCheckUpdate {
     public void checkUpdate() {
         if (mAct == null) return;
         String url = ApiUtils.getConfigures();
-        JHttpClient.get(url, null, new JsonResponseHandler<Configures>(Configures.class, false) {
+        JHttpClient.get(null, url, null, new JsonResponseHandler<Configures>(Configures.class, false) {
 
             @Override
             public void onStart() {

@@ -78,7 +78,7 @@ public class RecommendFragment extends BaseListFragment<Book> {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < data.size()) {
                     Bundle extra = new Bundle();
-                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position - 1));
+                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position));
                     startActivity(BookDetailActivity.class, extra);
                 }
             }
@@ -97,7 +97,7 @@ public class RecommendFragment extends BaseListFragment<Book> {
      */
     private void getRecommend() {
         String url = ApiUtils.getRecommend();
-        AsyncUtils.getBooks(url, pageindex, new JsonResponseHandler<BookList>(BookList.class) {
+        AsyncUtils.getBooks(getActivity(), url, pageindex, new JsonResponseHandler<BookList>(BookList.class) {
             @Override
             public void onOrigin(String json) {
                 if (pageindex == 1)

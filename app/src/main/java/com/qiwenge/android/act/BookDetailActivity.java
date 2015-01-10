@@ -302,7 +302,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
             RequestParams params = new RequestParams();
             params.put("limit", "4");
             params.put("status", "" + BookStatus.APPROVED);
-            JHttpClient.get(url, params, new StringResponseHandler() {
+            JHttpClient.get(getApplicationContext(), url, params, new StringResponseHandler() {
                 @Override
                 public void onSuccess(String result) {
                     BookList list = GsonUtils.getModel(result, BookList.class);

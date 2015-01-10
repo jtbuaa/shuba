@@ -27,19 +27,19 @@ public class AsyncUtils {
      * @param url
      * @param page
      */
-    public static void getBooks(String url, int page, JsonResponseHandler<BookList> handler) {
+    public static void getBooks(Context context, String url, int page, JsonResponseHandler<BookList> handler) {
         RequestParams params = new RequestParams();
         params.put("page", "" + page);
-        getBooks(url, params, handler);
+        getBooks(context, url, params, handler);
     }
 
-    public static void getBooks(String url, RequestParams params,
+    public static void getBooks(Context context, String url, RequestParams params,
                                 JsonResponseHandler<BookList> handler) {
         if (params != null) {
             params.put("limit", "" + Constants.DEFAULT_PAGE_SIZE);
             params.put("status", "" + BookStatus.APPROVED);
         }
-        JHttpClient.get(url, params, handler);
+        JHttpClient.get(context, url, params, handler);
     }
 
     /**

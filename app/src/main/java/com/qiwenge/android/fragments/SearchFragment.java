@@ -88,7 +88,7 @@ public class SearchFragment extends BaseListFragment<Book> {
         RequestParams params = new RequestParams();
         params.put("page", "" + pageindex);
         params.put("title", keyword);
-        AsyncUtils.getBooks(url, params, new JsonResponseHandler<BookList>(BookList.class) {
+        AsyncUtils.getBooks(getActivity(), url, params, new JsonResponseHandler<BookList>(BookList.class) {
 
             @Override
             public void onSuccess(BookList result) {
