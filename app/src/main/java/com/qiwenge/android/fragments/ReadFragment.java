@@ -278,6 +278,7 @@ public class ReadFragment extends BaseFragment {
     private void initViewPager() {
         adapter = new ReaderAdapter(getActivity(), pageList);
         viewPager = (SlowViewPager) getView().findViewById(R.id.viewpager_reader);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 

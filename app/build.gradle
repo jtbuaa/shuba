@@ -19,12 +19,7 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
-    ext {
-        UEMNG_APPKEY_DEV = '53b5654c56240b75180224e9'
-        UMENG_APPKEY_RELEASE = '5368adef56240b3e410337a7'
-    }
-
+    
     buildTypes {
         release {
             zipAlignEnabled true
@@ -52,6 +47,6 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'org.roboguice:roboguice:3.0.1'
     compile 'org.roboguice:roboblender:3.0.1'
-    compile 'com.github.liuguangqiang:common:0.1.1'
+    compile 'com.github.liuguangqiang:common:0.1.+'
 }
 

@@ -3,6 +3,7 @@ package com.qiwenge.android.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.qiwenge.android.entity.Book;
 
 import java.util.HashSet;
@@ -24,6 +25,30 @@ public class PushUtils {
     private final static int STATUS_TIMEOUT = 6002;
 
     private final static int RETRY_COUNT = 5;
+
+    private final static String PUSH_MANAGER = "PUSH_MANAGER";
+
+    private final static String IS_OPEN = "IS_OPEN";
+
+    private Context mContext;
+
+    public PushUtils(Context context) {
+        mContext = context;
+    }
+
+    public boolean isOpenPush() {
+        return PreferencesUtils.getBoolean(mContext, PUSH_MANAGER, IS_OPEN);
+    }
+
+    public void stopPush() {
+        JPushInterface.stopPush(mContext);
+        PreferencesUtils.putBoolean(mContext, PUSH_MANAGER, IS_OPEN, false);
+    }
+
+    public void openPush() {
+        JPushInterface.resumePush(mContext);
+        PreferencesUtils.putBoolean(mContext, PUSH_MANAGER, IS_OPEN, true);
+    }
 
     public void setAlias(Context context) {
         if (LoginManager.isLogin()) {

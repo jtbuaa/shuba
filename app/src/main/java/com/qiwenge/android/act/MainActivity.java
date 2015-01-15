@@ -126,10 +126,13 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
     private void initMenu() {
         String[] titles = getResources().getStringArray(R.array.main_menu_titles);
-        int[] iconNormal = {R.drawable.ic_main_menu_fav_n,
+
+        int[] iconNormal = {R.drawable.ic_main_menu_bookshelf_n,
                 R.drawable.ic_main_menu_bookcity_n, R.drawable.ic_main_menu_me_n};
-        int[] iconSelected = {R.drawable.ic_main_menu_fav_s,
+
+        int[] iconSelected = {R.drawable.ic_main_menu_bookshelf_s,
                 R.drawable.ic_main_menu_bookcity_s, R.drawable.ic_main_menu_me_s};
+
         MainMenuItem item;
         for (int i = 0; i < titles.length; i++) {
             item = new MainMenuItem();

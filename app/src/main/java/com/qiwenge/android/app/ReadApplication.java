@@ -4,6 +4,7 @@ import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.openudid.OpenUDIDUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
+import com.qiwenge.android.utils.PushUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 
 import android.app.Application;
@@ -25,6 +26,10 @@ public class ReadApplication extends Application {
     private void initJPush() {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        PushUtils pushUtils = new PushUtils();
+        if (!pushUtils.isOpenPush(getApplicationContext())) {
+            pushUtils.stopPush(getApplicationContext());
+        }
     }
 
     private void initOpenUDID() {
