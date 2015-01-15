@@ -28,7 +28,7 @@ public class AsyncRemoveBook extends AsyncTask<Book, Integer, Boolean> {
     protected Boolean doInBackground(Book... params) {
         if (params != null && params[0] != null) {
             DaoFactory.createBookDao(mContext).remove(params[0]);
-            new PushUtils().setTags(mContext, DaoFactory.createBookDao(mContext).queryAll());
+            new PushUtils(mContext).setTags(mContext, DaoFactory.createBookDao(mContext).queryAll());
             return true;
         } else {
             return false;
