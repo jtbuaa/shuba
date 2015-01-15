@@ -9,8 +9,8 @@ import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.act.BrowserActivity;
 import com.qiwenge.android.act.ChapterActivity;
 import com.qiwenge.android.act.ReadActivity;
-import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.utils.book.BookManager;
 
 public class SkipUtils {
 
@@ -40,7 +40,7 @@ public class SkipUtils {
     public static void skipToReader(Context context, Book book) {
         String lastReadId = null;
 
-        Book record = DaoFactory.createBookDao(context).queryById(book.getId());
+        Book record = BookManager.getInstance().getById(book.getId());
         if (record != null && record.chapter_id != null) {
             lastReadId = record.chapter_id;
         }

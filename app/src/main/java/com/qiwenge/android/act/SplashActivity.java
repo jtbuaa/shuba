@@ -22,9 +22,6 @@ public class SplashActivity extends BaseActivity {
 
     private final int mDuration = 500;
 
-    /**
-     * 是否初始化完毕
-     */
     private boolean inited = false;
 
     @Override
@@ -71,9 +68,6 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 跳转到主页
-     */
     private void skipToMain() {
         new Handler().postDelayed(new Runnable() {
             @Override

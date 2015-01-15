@@ -7,6 +7,7 @@ import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.entity.Auth;
 import com.qiwenge.android.entity.User;
+import com.qiwenge.android.utils.book.BookManager;
 
 /**
  * Created by Eric on 14/11/22.
@@ -35,11 +36,13 @@ public class LoginManager {
         isLogout = true;
         saveUser(context, null);
         saveAuth(context, null);
+        BookManager.getInstance().clear();
     }
 
     public static void init(Context context) {
         mUser = getUser(context);
         mAuth = getAuth(context);
+        BookManager.getInstance().init(context);
     }
 
     public static void saveAuth(Context context, Auth auth) {
@@ -69,6 +72,7 @@ public class LoginManager {
             Gson gson = new Gson();
             String json = gson.toJson(user);
             PreferencesUtils.putString(context, LOGIN, KEY_USER, json);
+            BookManager.getInstance().init(context);
         } else {
             PreferencesUtils.putString(context, LOGIN, KEY_USER, "");
         }

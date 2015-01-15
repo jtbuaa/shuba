@@ -604,30 +604,9 @@ public class ReadFragment extends BaseFragment {
         if (batteryReceiver != null) getActivity().unregisterReceiver(batteryReceiver);
     }
 
-
-    /**
-     * 获取分享内容
-     *
-     * @return
-     */
-    public String getShareContent() {
-        if (current != null)
-            return String.format(getString(R.string.str_share_format), current.content);
-        return "";
-    }
-
     public void setBook(Book book) {
         this.book = book;
     }
-
-    /**
-     * 保存阅读记录。
-     *
-     * @param chapterId
-     */
-//    private void saveRecord(String chapterId) {
-//        if (book != null) BookShelfUtils.saveRecord(getActivity(), book.getId(), chapterId);
-//    }
 
     /**
      * 设置字体大小。

@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.transition.Explode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.liuguangqiang.common.utils.DisplayUtils;
@@ -34,7 +32,6 @@ import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.BookStatus;
-import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.listeners.CommonHandler;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
@@ -42,6 +39,7 @@ import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ReaderUtils;
+import com.qiwenge.android.utils.book.BookManager;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
 
@@ -117,9 +115,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         setTitle(R.string.book_intro_detail);
         getIntentData();
         initViews();
-
-//        if (Build.VERSION.SDK_INT >= 21)
-//            getWindow().setEnterTransition(new Explode());
     }
 
     @Override
@@ -141,10 +136,9 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     @Override
     protected void onResume() {
         super.onResume();
-        if (book != null && DaoFactory.createBookDao(this).isExists(book)) {
+        if (book != null && BookManager.getInstance().contains(book)) {
             showRemoveBtn();
         }
-
     }
 
     @Override
@@ -255,9 +249,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && !hasInited) {
             hasInited = true;
-
             getRelated();
-//            scrollView.scrollTo(0, 0);
         }
     }
 

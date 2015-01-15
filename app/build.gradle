@@ -19,7 +19,7 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-    
+
     buildTypes {
         release {
             zipAlignEnabled true
@@ -47,6 +47,6 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'org.roboguice:roboguice:3.0.1'
     compile 'org.roboguice:roboblender:3.0.1'
-    compile 'com.github.liuguangqiang:common:0.1.+'
+    compile 'com.github.liuguangqiang:common:0.1.3'
 }
 

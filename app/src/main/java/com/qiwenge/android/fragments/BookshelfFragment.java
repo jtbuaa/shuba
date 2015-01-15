@@ -6,7 +6,6 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +15,18 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.liuguangqiang.common.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.BookShelfAdapter;
 import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.base.BaseFragment;
-import com.qiwenge.android.dao.BookDao;
-import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookUpdateList;
 import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.SkipUtils;
 import com.qiwenge.android.utils.StyleUtils;
+import com.qiwenge.android.utils.book.BookManager;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
@@ -182,7 +176,7 @@ public class BookshelfFragment extends BaseFragment {
 
         @Override
         protected List<Book> doInBackground(Void... params) {
-            return DaoFactory.createBookDao(getActivity()).queryAll();
+            return BookManager.getInstance().getAll();
         }
 
         @Override

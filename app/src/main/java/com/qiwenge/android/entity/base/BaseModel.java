@@ -9,15 +9,7 @@ public class BaseModel {
     @DatabaseField
     private String id;
 
-    private Id _id;
-
-    public Id get_id() {
-        return _id;
-    }
-
-    public void set_id(Id _id) {
-        this._id = _id;
-    }
+    public Id _id;
 
     public String getId() {
         if (id == null)

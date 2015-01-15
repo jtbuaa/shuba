@@ -154,7 +154,7 @@ public class ChapterActivity extends BaseActivity {
     private ViewTreeObserver viewTreeObserver;
 
     private void selectedReadNumber() {
-        final int number = BookShelfUtils.getReadNumber(getApplicationContext(), book.getId()) - 1;
+        final int number = BookShelfUtils.getReadNumber(book.getId()) - 1;
         if (number < 0) return;
         if (number > adapter.getCount()) return;
         //改变颜色

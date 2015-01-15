@@ -32,7 +32,6 @@ import com.qiwenge.android.adapters.ReadThemeAdapter;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.dao.DaoFactory;
 import com.qiwenge.android.fragments.ReadFragment;
 import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.entity.Book;
@@ -42,6 +41,7 @@ import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ScreenBrightnessUtils;
 import com.qiwenge.android.utils.ThemeUtils;
+import com.qiwenge.android.utils.book.BookManager;
 
 public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
@@ -284,9 +284,9 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     private void getChapter(String chapterId) {
         if (book != null) {
-            Book record = DaoFactory.createBookDao(getApplicationContext()).queryById(book.getId());
-            if (record != null && chapterId.equals(record.chapter_id)) {
-                int length = record.character_number;
+            Book b = BookManager.getInstance().getById(book.getId());
+            if (b != null && chapterId.equals(b.chapter_id)) {
+                int length = b.character_number;
                 fragment.getChapter(chapterId, length);
             } else {
                 fragment.getChapter(chapterId);
