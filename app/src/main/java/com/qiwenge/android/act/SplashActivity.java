@@ -58,7 +58,7 @@ public class SplashActivity extends BaseActivity {
      */
     private void initJPush() {
 //        new AsyncSetAlias(getApplicationContext()).execute(Constants.OEPN_UD_ID);
-        new PushUtils().setAlias(getApplicationContext());
+        new PushUtils(getApplication()).setAlias(getApplicationContext());
     }
 
     public void getScreenSize() {
