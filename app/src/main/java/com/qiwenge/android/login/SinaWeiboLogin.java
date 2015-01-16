@@ -48,6 +48,7 @@ public class SinaWeiboLogin {
                 Toast.makeText(activity.getApplicationContext(),
                         "Auth error : " + e.getMessage(), Toast.LENGTH_LONG)
                         .show();
+                if (authListener != null) authListener.onFailure();
             }
 
             @Override
@@ -55,6 +56,7 @@ public class SinaWeiboLogin {
                 Toast.makeText(activity.getApplicationContext(),
                         "Auth error : " + e.getMessage(), Toast.LENGTH_LONG)
                         .show();
+                if (authListener != null) authListener.onFailure();
             }
 
             @Override
@@ -76,13 +78,11 @@ public class SinaWeiboLogin {
 
                     getUserInfoOfSina(token, uid, username);
                 }
-
-
             }
 
             @Override
             public void onCancel() {
-                System.out.println("login sina onCancel");
+                if (authListener != null) authListener.onFailure();
             }
         });
     }
@@ -104,6 +104,11 @@ public class SinaWeiboLogin {
                                 LoginType.weibo);
                     }
                 }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (authListener != null) authListener.onFailure();
             }
         });
     }

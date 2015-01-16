@@ -16,10 +16,12 @@ import com.qiwenge.android.act.FeedbackActivity;
 import com.qiwenge.android.act.SettingActivity;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
+import com.qiwenge.android.listeners.LoginListener;
 import com.qiwenge.android.login.AuthSuccess;
 import com.qiwenge.android.entity.Auth;
 import com.qiwenge.android.entity.User;
 import com.qiwenge.android.entity.UserLevel;
+import com.qiwenge.android.ui.dialogs.LoginDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
@@ -38,6 +40,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private TextView tvSet;
     private TextView tvFeedback;
     private LinearLayout layoutUser;
+    private LoginDialog loginDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,9 +76,22 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(FeedbackActivity.class);
                 break;
             case R.id.layout_user:
-                showAuthDialog();
+                showLoginDialog();
                 break;
         }
+    }
+
+    private void showLoginDialog() {
+        if (loginDialog == null) {
+            loginDialog = new LoginDialog(getActivity());
+            loginDialog.setLoginListener(new LoginListener() {
+                @Override
+                public void onSuccess() {
+                    showUser(LoginManager.getUser());
+                }
+            });
+        }
+        loginDialog.show();
     }
 
     private void initViews() {
@@ -115,75 +131,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         tvUserName.setText(R.string.choose_login_type);
         tvLevel.setText(R.string.login_desc);
         ivAvatar.setImageResource(R.drawable.default_avatar);
-    }
-
-    @Override
-    public void onAuthStart() {
-        super.onAuthStart();
-        tvUserName.setText("正在登录...");
-    }
-
-    @Override
-    public void onAuthSuccess(AuthSuccess authSuccess) {
-        super.onAuthSuccess(authSuccess);
-        login(authSuccess);
-    }
-
-    private void login(final AuthSuccess authSuccess) {
-        String url = ApiUtils.putAuth();
-        System.out.println("login:" + url);
-        RequestParams params = new RequestParams();
-        params.put("open_id", authSuccess.getOpenId().toLowerCase());
-        JHttpClient.put(url, params, new JsonResponseHandler<Auth>(Auth.class, false) {
-            @Override
-            public void onSuccess(Auth result) {
-                if (result != null && isAdded()) {
-                    getUser(result.userId);
-                    LoginManager.saveAuth(getActivity(), result);
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, String msg) {
-                System.out.println("login-onFailure-statusCode:" + statusCode);
-                System.out.println("login-onFailure-msg:" + msg);
-                if (statusCode == Constants.STATUS_CODE_UN_REG) {
-                    reg(authSuccess);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                System.out.println("login-onFinish");
-            }
-        });
-    }
-
-    private void reg(AuthSuccess authSuccess) {
-        String url = ApiUtils.postUser();
-        System.out.println("reg:" + url);
-        RequestParams params = new RequestParams();
-        params.put("username", authSuccess.getUsername());
-        params.put("avatar", authSuccess.getAvatarUrl());
-        params.put("open_id", authSuccess.getOpenId().toLowerCase());
-        params.put("from", authSuccess.getLoginType().toString());
-        System.out.println("reg:" + url + "?" + params.toString());
-        JHttpClient.post(url, params, new BaseResponseHandler() {
-            @Override
-            public void onSuccess(String result) {
-                System.out.println("reg-onSuccess:" + result);
-            }
-
-            @Override
-            public void onFailure(int statusCode, String msg) {
-                System.out.println("reg-onFailure-statusCode:" + statusCode);
-                System.out.println("reg-onFailure-msg:" + msg);
-            }
-
-            @Override
-            public void onFinish() {
-            }
-        });
     }
 
     private void getUser(String userId) {

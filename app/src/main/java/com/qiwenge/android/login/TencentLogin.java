@@ -48,6 +48,7 @@ public class TencentLogin {
             @Override
             public void onError(UiError arg0) {
                 System.out.println("TencentLogin-onError:" + arg0.errorMessage);
+                if (authListener != null) authListener.onFailure();
             }
 
             @Override
@@ -87,40 +88,48 @@ public class TencentLogin {
                         @Override
                         public void onUnknowException(Exception arg0,
                                                       Object arg1) {
+                            if (authListener != null) authListener.onFailure();
                         }
 
                         @Override
                         public void onSocketTimeoutException(
                                 SocketTimeoutException arg0, Object arg1) {
+                            if (authListener != null) authListener.onFailure();
                         }
 
                         @Override
                         public void onNetworkUnavailableException(
                                 NetworkUnavailableException arg0, Object arg1) {
+                            if (authListener != null) authListener.onFailure();
                         }
 
                         @Override
                         public void onMalformedURLException(
                                 MalformedURLException arg0, Object arg1) {
+                            if (authListener != null) authListener.onFailure();
                         }
 
                         @Override
                         public void onJSONException(JSONException arg0,
                                                     Object arg1) {
+                            if (authListener != null) authListener.onFailure();
                         }
 
                         @Override
                         public void onIOException(IOException arg0, Object arg1) {
+                            if (authListener != null) authListener.onFailure();
                         }
 
                         @Override
                         public void onHttpStatusException(
                                 HttpStatusException arg0, Object arg1) {
+                            if (authListener != null) authListener.onFailure();
                         }
 
                         @Override
                         public void onConnectTimeoutException(
                                 ConnectTimeoutException arg0, Object arg1) {
+                            if (authListener != null) authListener.onFailure();
                         }
 
                         @Override

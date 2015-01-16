@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,6 +41,10 @@ public class MyDialog {
     private Activity mContext;
 
     private LinearLayout layoutContainer;
+
+    private LinearLayout layoutContent;
+
+    private ProgressBar pbLoading;
 
     private TextView tvTitle;
 
@@ -82,6 +87,8 @@ public class MyDialog {
         } else {
             tvTitle.setVisibility(View.GONE);
         }
+        layoutContent = (LinearLayout) container.findViewById(R.id.layout_content);
+        pbLoading = (ProgressBar) container.findViewById(R.id.pb_loading);
         layoutContainer = (LinearLayout) container.findViewById(R.id.layout_dialog_content);
         container.setOnClickListener(new OnClickListener() {
             @Override
@@ -91,6 +98,16 @@ public class MyDialog {
         });
         mDialog.setContentView(container);
         mDialog.setCancelable(true);
+    }
+
+    public void showLoading() {
+        pbLoading.setVisibility(View.VISIBLE);
+        layoutContent.setVisibility(View.GONE);
+    }
+
+    public void showContent() {
+        pbLoading.setVisibility(View.GONE);
+        layoutContent.setVisibility(View.VISIBLE);
     }
 
     public void setMessage(int resId) {
@@ -105,15 +122,23 @@ public class MyDialog {
     }
 
     public void setItems(String[] items, OnItemClickListener listener) {
+        setItems(items, listener, true);
+    }
+
+    public void setItems(String[] items, OnItemClickListener listener, boolean autoDismiss) {
         List<String> data = new ArrayList<String>();
         for (int i = 0; i < items.length; i++) {
             data.add(items[i]);
         }
         DialogSimpleAdapter adpater = new DialogSimpleAdapter(mContext, data);
-        setItems(adpater, listener);
+        setItems(adpater, listener, autoDismiss);
     }
 
     public void setItems(BaseAdapter adapter, final OnItemClickListener listener) {
+        setItems(adapter, listener, true);
+    }
+
+    public void setItems(BaseAdapter adapter, final OnItemClickListener listener, final boolean autoDismiss) {
         View view = getView(mContext, R.layout.dialog_l_list);
         ListView listView = (ListView) view.findViewById(R.id.listview_dialog);
         listView.setAdapter(adapter);
@@ -122,7 +147,8 @@ public class MyDialog {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (listener != null) listener.onItemClick(parent, view, position, id);
-                dismiss();
+                if (autoDismiss)
+                    dismiss();
             }
         });
         addView(view);
@@ -163,9 +189,11 @@ public class MyDialog {
         layoutContainer.removeAllViews();
     }
 
-
     public void show() {
-        if (mDialog != null) mDialog.show();
+        if (mDialog != null) {
+            mDialog.show();
+            showContent();
+        }
     }
 
     public void dismiss() {
