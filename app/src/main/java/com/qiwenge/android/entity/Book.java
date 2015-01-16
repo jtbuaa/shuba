@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.j256.ormlite.field.DataType;
-import com.j256.ormlite.field.DatabaseField;
 import com.qiwenge.android.entity.base.BaseModel;
 
 /**
@@ -17,49 +15,40 @@ import com.qiwenge.android.entity.base.BaseModel;
  */
 public class Book extends BaseModel implements Parcelable {
 
-    @DatabaseField(generatedId = true, canBeNull = false)
-    public int generatedId;
-
-    @DatabaseField
     public String title;
 
-    @DatabaseField
     public String description;
 
-    @DatabaseField
     public String author;
 
-    @DatabaseField
     public String cover;
 
-    @DatabaseField
     public int status;
 
     /**
      * 1：完本；0:连载
      */
-    @DatabaseField
+    
     public int finish;
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
     public ArrayList<String> categories;
 
     /**
      * 阅读进度:章节Id
      */
-    @DatabaseField
+    
     public String chapter_id;
 
     /**
      * 阅读进度:章节number
      */
-    @DatabaseField
+    
     public int chapter_number;
 
     /**
      * 阅读进度:阅读字数
      */
-    @DatabaseField
+    
     public int character_number = 0;
 
     /**
