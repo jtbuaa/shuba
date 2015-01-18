@@ -1,4 +1,4 @@
-package com.qiwenge.android.fragments;
+package com.qiwenge.android.fragments.bookcity;
 
 import java.util.List;
 

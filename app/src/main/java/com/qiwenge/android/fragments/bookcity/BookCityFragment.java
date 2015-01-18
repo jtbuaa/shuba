@@ -1,4 +1,4 @@
-package com.qiwenge.android.fragments;
+package com.qiwenge.android.fragments.bookcity;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;

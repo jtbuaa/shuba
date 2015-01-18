@@ -1,31 +1,16 @@
-package com.qiwenge.android.fragments;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.qiwenge.android.fragments.bookcity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.liuguangqiang.common.utils.GsonUtils;
 import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.liuguangqiang.common.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
-import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookActivity;
 import com.qiwenge.android.adapters.CategoryAdapter;
-import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Category;
@@ -42,7 +27,6 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
 public class CategorysFragment extends BaseListFragment<Category> {
 
     private final String CACHE_CATEGORIES = "cache_categories";
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -75,8 +59,7 @@ public class CategorysFragment extends BaseListFragment<Category> {
     public void initViews() {
         super.initViews();
         adapter = new CategoryAdapter(getActivity(), data);
-//        setEnablePullToRefresh();
-        setDisablePullToRefresh();
+        setEnablePullToRefresh();
         setEnableEmptyView();
         setAdapter();
         mListView.setOnItemClickListener(new OnItemClickListener() {
