@@ -11,6 +11,9 @@ import android.view.MenuItem;
 
 import com.liuguangqiang.common.utils.IntentUtils;
 import com.qiwenge.android.R;
+import com.qiwenge.android.login.LoginType;
+import com.qiwenge.android.login.SinaWeiboLogin;
+import com.qiwenge.android.login.ThirdLoginUtils;
 import com.qiwenge.android.utils.MyFilters;
 import com.umeng.analytics.MobclickAgent;
 
@@ -139,6 +142,15 @@ public class BaseActivity extends RoboFragmentActivity {
             if (intent.getAction().equals(MyFilters.ACTION_QUIT_APP)) {
                 finish();
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (ThirdLoginUtils.loginType != null && ThirdLoginUtils.loginType == LoginType.weibo
+                && SinaWeiboLogin.mSsoHandler != null && data != null) {
+            SinaWeiboLogin.mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
     }
 

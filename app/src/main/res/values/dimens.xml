@@ -25,6 +25,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="default_line_space">10dp</dimen>
+    <dimen name="dialog_progressbar_size">40dp</dimen>
 
     <!-- Item -->
     <dimen name="item_cover_height">78dp</dimen>

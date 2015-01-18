@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.qiwenge.android.fragments.BookCityFragment;
+import com.qiwenge.android.fragments.bookcity.BookCityFragment;
 import com.qiwenge.android.fragments.BookshelfFragment;
 
 /**

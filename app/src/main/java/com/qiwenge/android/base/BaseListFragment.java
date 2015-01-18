@@ -39,12 +39,11 @@ public class BaseListFragment<T> extends BaseFragment {
 
     //EmptyView
     private LinearLayout layoutEmpty;
+    private TextView tvEmpty;
+    private Button btnRetry;
+    private ImageView ivEmpty;
 
     public ProgressBar pbLoading;
-
-    private TextView tvEmpty;
-    private Button btnEmpty;
-    private ImageView ivEmpty;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,19 +76,17 @@ public class BaseListFragment<T> extends BaseFragment {
         layoutEmpty = (LinearLayout) getView().findViewById(R.id.layout_empty);
         layoutEmpty.setVisibility(View.GONE);
         tvEmpty = (TextView) getView().findViewById(R.id.tv_empty);
-        tvEmpty.setText("网络不给力，请重试");
-        tvEmpty.setVisibility(View.GONE);
-        btnEmpty = (Button) getView().findViewById(R.id.btn_empty);
-        btnEmpty.setText("重试");
-        btnEmpty.setVisibility(View.GONE);
-        btnEmpty.setOnClickListener(new View.OnClickListener() {
+        tvEmpty.setText(R.string.empty_defualt);
+        btnRetry = (Button) getView().findViewById(R.id.btn_empty);
+        btnRetry.setText(R.string.str_retry);
+        btnRetry.setVisibility(View.GONE);
+        btnRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requestData();
             }
         });
         ivEmpty = (ImageView) getView().findViewById(R.id.iv_empty);
-        ivEmpty.setVisibility(View.GONE);
     }
 
     public void setEmptyIcon(int resId) {
@@ -99,8 +96,10 @@ public class BaseListFragment<T> extends BaseFragment {
         }
     }
 
-    public void setRetryTxt(int resId) {
-
+    public void setEnableRetry() {
+        if (btnRetry != null) {
+            btnRetry.setText(View.VISIBLE);
+        }
     }
 
     public void setEmptyMessage(int resId) {

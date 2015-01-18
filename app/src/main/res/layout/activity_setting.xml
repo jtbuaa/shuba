@@ -25,7 +25,7 @@
             android:layout_height="@dimen/set_item_height">
 
             <ImageView
-                android:id="@+id/iv_night_model"
+                android:id="@+id/iv_push_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

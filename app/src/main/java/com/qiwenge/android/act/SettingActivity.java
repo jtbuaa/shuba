@@ -17,6 +17,7 @@ import com.qiwenge.android.listeners.OnPositiveClickListener;
 import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
+import com.qiwenge.android.utils.PushUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 
 /**
@@ -33,10 +34,12 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     private TextView tvLogout;
     private LinearLayout layoutUser;
 
-    private ImageView ivNightModel;
+    private ImageView ivPushMessage;
     private ImageView ivSaveModel;
 
     private boolean selectSaveModel = false;
+
+    private PushUtils pushUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,11 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_push_message:
+                switchPussMessage();
+                break;
             case R.id.iv_save_model:// 控制流量
-                setSaveModel();
+                switchSaveModel();
                 break;
             case R.id.set_tv_rating:// 评分
                 skipToMarket();
@@ -87,19 +93,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         }
     }
 
-    /**
-     * 设置流量模式
-     */
-    private void setSaveModel() {
-        if (selectSaveModel) {
-            setCheckbox(ivSaveModel, false);
-            ImageLoaderUtils.openLoader(getApplicationContext());
-        } else {
-            setCheckbox(ivSaveModel, true);
-            ImageLoaderUtils.closeLoader(getApplicationContext());
-        }
-        selectSaveModel = !selectSaveModel;
-    }
 
     private void initViews() {
         layoutUser = (LinearLayout) this.findViewById(R.id.layout_set_user);
@@ -113,9 +106,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         tvVersionName = (TextView) this.findViewById(R.id.tv_version_name);
         tvVersionName.setText(AppUtils.getVersionName(getApplicationContext()));
 
-        ivNightModel = (ImageView) this.findViewById(R.id.iv_night_model);
-        ivNightModel.setOnClickListener(this);
-        ivNightModel.setTag(1);
+        ivPushMessage = (ImageView) this.findViewById(R.id.iv_push_message);
+        ivPushMessage.setOnClickListener(this);
+        ivPushMessage.setTag(1);
 
         ivSaveModel = (ImageView) this.findViewById(R.id.iv_save_model);
         ivSaveModel.setOnClickListener(this);
@@ -132,12 +125,40 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
             selectSaveModel = true;
         }
 
-        if (ThemeUtils.getIsNightModel()) {
-            setCheckbox(ivNightModel, true);
-        } else {
-            setCheckbox(ivNightModel, false);
-        }
+        pushUtils = new PushUtils(this);
 
+        if (pushUtils.isOpenPush()) {
+            setCheckbox(ivPushMessage, true);
+        } else {
+            setCheckbox(ivPushMessage, false);
+        }
+    }
+
+    /**
+     * 切换推送消息开关
+     */
+    private void switchPussMessage() {
+        if (pushUtils.isOpenPush()) {
+            pushUtils.stopPush();
+            setCheckbox(ivPushMessage, false);
+        } else {
+            pushUtils.openPush();
+            setCheckbox(ivPushMessage, true);
+        }
+    }
+
+    /**
+     * 切换流量模式
+     */
+    private void switchSaveModel() {
+        if (selectSaveModel) {
+            setCheckbox(ivSaveModel, false);
+            ImageLoaderUtils.openLoader(getApplicationContext());
+        } else {
+            setCheckbox(ivSaveModel, true);
+            ImageLoaderUtils.closeLoader(getApplicationContext());
+        }
+        selectSaveModel = !selectSaveModel;
     }
 
     private void setCheckbox(ImageView iv, boolean ischecked) {

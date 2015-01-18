@@ -270,13 +270,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (ThirdLoginUtils.loginType != null && ThirdLoginUtils.loginType == LoginType.weibo
-                && SinaWeiboLogin.mSsoHandler != null && data != null) {
-            SinaWeiboLogin.mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
-    }
+
 
 }

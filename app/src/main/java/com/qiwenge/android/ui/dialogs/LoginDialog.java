@@ -53,6 +53,7 @@ public class LoginDialog implements AuthListener {
                         loginByTencent();
                         break;
                 }
+                dialog.showLoading();
             }
         }, false);
     }

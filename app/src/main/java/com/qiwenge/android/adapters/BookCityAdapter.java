@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.qiwenge.android.fragments.CategorysFragment;
-import com.qiwenge.android.fragments.RankFragment;
-import com.qiwenge.android.fragments.RecommendFragment;
+import com.qiwenge.android.fragments.bookcity.CategorysFragment;
+import com.qiwenge.android.fragments.bookcity.RankFragment;
+import com.qiwenge.android.fragments.bookcity.RecommendFragment;
 
 /**
  * 书城适配器。
