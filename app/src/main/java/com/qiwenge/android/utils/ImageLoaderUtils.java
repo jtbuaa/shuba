@@ -5,11 +5,11 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
@@ -41,7 +41,6 @@ public class ImageLoaderUtils {
      */
     public static void init(Context context) {
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
-//        initImageLoader(context);
         LOADER_STATUS = PreferencesUtils.getInt(context, SAVE_NAME, SAVE_KEY, STATUS_OPENED);
     }
 
@@ -101,24 +100,16 @@ public class ImageLoaderUtils {
         PreferencesUtils.putInt(context, SAVE_NAME, SAVE_KEY, STATUS_OPENED);
     }
 
-    /**
-     * 初始化ImageLoader
-     *
-     * @param context
-     */
-    public static void initImageLoader(Context context) {
-        ImageLoaderConfiguration config =
-                new ImageLoaderConfiguration.Builder(context)
-                        .threadPriority(Thread.NORM_PRIORITY - 2)
-                                // .memoryCache(new LruMemoryCache(1024 * 1024 * 10))
-                        .memoryCache(new WeakMemoryCache()).denyCacheImageMultipleSizesInMemory()
-                        .tasksProcessingOrder(QueueProcessingType.LIFO).build();
-        ImageLoader.getInstance().init(config);
-    }
-
     public static DisplayImageOptions createOptions(int imgLoading) {
         return new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
                 .showImageOnLoading(imgLoading).cacheInMemory(true).cacheOnDisk(true).build();
+    }
+
+    public static DisplayImageOptions createOptions(int imgLoading, int radiusPixels) {
+        return new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
+                .showImageOnLoading(imgLoading).imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                .cacheInMemory(true).displayer(new RoundedBitmapDisplayer(radiusPixels))
+                .cacheOnDisk(true).build();
     }
 
 }

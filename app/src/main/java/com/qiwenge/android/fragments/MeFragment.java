@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.liuguangqiang.common.utils.DisplayUtils;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -23,6 +24,7 @@ import com.qiwenge.android.entity.User;
 import com.qiwenge.android.entity.UserLevel;
 import com.qiwenge.android.ui.dialogs.LoginDialog;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.DialogUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.http.BaseResponseHandler;
@@ -64,6 +66,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             LoginManager.isLogout = false;
             clearUser();
         }
+        showUser();
     }
 
     @Override
@@ -106,8 +109,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
         layoutUser = (LinearLayout) getView().findViewById(R.id.layout_user);
         layoutUser.setOnClickListener(this);
-
-        showUser();
     }
 
     private void showUser() {
@@ -119,7 +120,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void showUser(User user) {
         if (user != null) {
             tvUserName.setText(user.username);
-            DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.default_avatar);
+            DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.default_avatar,
+                    DisplayUtils.dip2px(getActivity(), 70));
             ImageLoader.getInstance().displayImage(user.avatar, ivAvatar, options);
             UserLevel level = user.level;
             tvLevel.setText(String.format(LEVEL_FORMAT, level.title, level.rank, level.exp, level.next));
