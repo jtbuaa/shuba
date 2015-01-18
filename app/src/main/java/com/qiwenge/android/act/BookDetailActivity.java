@@ -35,9 +35,12 @@ import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.listeners.CommonHandler;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
+import com.qiwenge.android.listeners.LoginListener;
+import com.qiwenge.android.ui.dialogs.LoginDialog;
 import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
+import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.book.BookManager;
 import com.qiwenge.android.utils.http.JHttpClient;
@@ -81,9 +84,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
     @InjectView(R.id.lv_recommend)
     private ListView lvRecommend;
-
-//    @InjectView(R.id.scrollView_container)
-//    private ScrollView scrollView;
 
     @InjectView(R.id.iv_cover)
     private ImageView ivCover;
@@ -136,9 +136,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     @Override
     protected void onResume() {
         super.onResume();
-        if (book != null && BookManager.getInstance().contains(book)) {
-            showRemoveBtn();
-        }
+        showBookStatus();
     }
 
     @Override
@@ -158,11 +156,30 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     }
 
     private void addOrRemoveBook() {
-        if (isAdded) {
-            removeBook();
+        if (LoginManager.isLogin()) {
+            if (isAdded) {
+                removeBook();
+            } else {
+                addBook();
+            }
         } else {
-            addBook();
+            login();
         }
+    }
+
+    private LoginDialog loginDialog;
+
+    private void login() {
+        if (loginDialog == null) {
+            loginDialog = new LoginDialog(this);
+            loginDialog.setLoginListener(new LoginListener() {
+                @Override
+                public void onSuccess() {
+                    showBookStatus();
+                }
+            });
+        }
+        loginDialog.show();
     }
 
     /**
@@ -242,6 +259,12 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         btnAdd.setBackgroundResource(R.drawable.btn_hollow_gray);
         btnAdd.setTextColor(getResources().getColorStateList(R.color.btn_remove_text_color));
         isAdded = true;
+    }
+
+    private void showBookStatus() {
+        if (book != null && BookManager.getInstance().contains(book)) {
+            showRemoveBtn();
+        }
     }
 
     @Override
