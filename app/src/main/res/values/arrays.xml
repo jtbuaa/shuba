@@ -22,8 +22,8 @@
 
     <!--  -->
     <string-array name="book_city_tabs">
-        <item>推荐</item>
         <item>排行</item>
+        <item>推荐</item>
         <item>分类</item>
     </string-array>
 
