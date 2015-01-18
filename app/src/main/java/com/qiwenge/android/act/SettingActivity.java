@@ -18,12 +18,11 @@ import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.PushUtils;
-import com.qiwenge.android.utils.ThemeUtils;
 
 /**
  * 设置。
  * <p/>
- * Created by John on 2014-7-9
+ * Created by Eric on 2014-7-9
  */
 public class SettingActivity extends BaseActivity implements OnClickListener {
 

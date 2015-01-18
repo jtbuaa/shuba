@@ -20,7 +20,7 @@ import android.app.ActionBar.LayoutParams;
 /**
  * 搜索。
  * <p/>
- * Created by John on 2014-7-6
+ * Created by Eric on 2014-7-6
  */
 public class SearchActivity extends BaseActivity implements View.OnClickListener {
 

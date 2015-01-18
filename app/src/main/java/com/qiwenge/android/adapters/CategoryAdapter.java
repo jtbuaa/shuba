@@ -14,8 +14,6 @@ import com.qiwenge.android.entity.Category;
 
 /**
  * CategoryAdapter
- * 
- * Created by John on 2014-5-10
  */
 public class CategoryAdapter extends MyBaseAdapter<Category> {
 

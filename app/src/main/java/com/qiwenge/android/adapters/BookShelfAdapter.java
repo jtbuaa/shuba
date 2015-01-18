@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * 书架
  * <p/>
- * Created by John on 2014-7-26
  */
 public class BookShelfAdapter extends MyBaseAdapter<Book> {
 

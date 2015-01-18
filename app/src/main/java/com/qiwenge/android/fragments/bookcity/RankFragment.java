@@ -2,19 +2,12 @@ package com.qiwenge.android.fragments.bookcity;
 
 import java.util.List;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.transition.Explode;
-import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncGetCacheBooks;

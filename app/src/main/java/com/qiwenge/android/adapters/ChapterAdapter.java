@@ -14,8 +14,6 @@ import com.qiwenge.android.entity.Chapter;
 
 /**
  * 目录.
- * 
- * Created by John on 2014-5-5
  */
 public class ChapterAdapter extends MyBaseAdapter<Chapter> {
 
@@ -23,17 +21,17 @@ public class ChapterAdapter extends MyBaseAdapter<Chapter> {
 
     private ViewHolder viewHolder;
 
-    private int colorNormal=0;
+    private int colorNormal = 0;
 
-    private int colorSelected=0;
+    private int colorSelected = 0;
 
     public ChapterAdapter(Context context, List<Chapter> data) {
         this.data = data;
         this.context = context;
         SHOW_FORMAT = context.getString(R.string.str_chapter_title);
 
-        colorNormal=context.getResources().getColor(R.color.tv_title_color);
-        colorSelected=context.getResources().getColor(R.color.main_dress_color);
+        colorNormal = context.getResources().getColor(R.color.tv_title_color);
+        colorSelected = context.getResources().getColor(R.color.main_dress_color);
     }
 
     @Override
@@ -49,9 +47,9 @@ public class ChapterAdapter extends MyBaseAdapter<Chapter> {
         Chapter model = data.get(position);
         if (model != null) {
             viewHolder.tvTitle.setText(model.title);
-            if(model.isSelected){
+            if (model.isSelected) {
                 viewHolder.tvTitle.setTextColor(colorSelected);
-            }else{
+            } else {
                 viewHolder.tvTitle.setTextColor(colorNormal);
             }
         }

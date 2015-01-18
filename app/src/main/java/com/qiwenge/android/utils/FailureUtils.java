@@ -1,7 +1,6 @@
 package com.qiwenge.android.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.liuguangqiang.common.utils.NetworkUtils;
 import com.liuguangqiang.common.utils.ToastUtils;

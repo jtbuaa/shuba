@@ -18,8 +18,6 @@ import com.qiwenge.android.utils.ReaderUtils;
 
 /**
  * 相关推荐适配器。 AboutRmdAdapter
- * 
- * Created by John on 2014-6-9
  */
 public class AboutRmdAdapter extends MyBaseAdapter<Book> {
 

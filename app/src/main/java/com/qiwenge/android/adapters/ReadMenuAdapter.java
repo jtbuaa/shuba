@@ -15,8 +15,6 @@ import com.qiwenge.android.entity.ReadMenu;
 
 /**
  * ReadMenuAdapter
- * 
- * Created by John on 2014-6-14
  */
 public class ReadMenuAdapter extends MyBaseAdapter<ReadMenu> {
 

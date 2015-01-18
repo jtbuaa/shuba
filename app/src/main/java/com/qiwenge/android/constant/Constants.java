@@ -2,8 +2,6 @@ package com.qiwenge.android.constant;
 
 /**
  * Constants
- * <p/>
- * Created by John on 2014-7-2
  */
 public class Constants {
 
@@ -12,7 +10,7 @@ public class Constants {
      */
     public static final String PLATFORM = Platform.COMMON;
 
-    public static String OEPN_UD_ID="";
+    public static String OEPN_UD_ID = "";
 
     /**
      * 是否开启智能阅读模式。
@@ -48,7 +46,7 @@ public class Constants {
     /**
      * status_code未注册
      */
-    public static final int STATUS_CODE_UN_REG=404;
+    public static final int STATUS_CODE_UN_REG = 404;
 
 
 }

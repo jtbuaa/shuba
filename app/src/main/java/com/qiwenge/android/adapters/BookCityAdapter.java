@@ -11,7 +11,6 @@ import com.qiwenge.android.fragments.bookcity.RecommendFragment;
 /**
  * 书城适配器。
  * 
- * Created by John on 2014-5-15
  */
 public class BookCityAdapter extends FragmentPagerAdapter {
 

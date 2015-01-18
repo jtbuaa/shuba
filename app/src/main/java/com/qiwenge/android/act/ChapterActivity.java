@@ -34,7 +34,7 @@ import com.qiwenge.android.utils.http.StringResponseHandler;
 /**
  * 目录。
  * <p/>
- * Created by John on 2014-5-5
+ * Created by Eric on 2014-5-5
  */
 public class ChapterActivity extends BaseActivity {
 

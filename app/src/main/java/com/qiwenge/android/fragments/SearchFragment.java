@@ -15,15 +15,10 @@ import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
-import com.qiwenge.android.ui.PagePullToRefreshListView;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
-/**
- * 搜索。
- * <p/>
- * Created by John on 2014-7-6
- */
+
 public class SearchFragment extends BaseListFragment<Book> {
 
     @Override

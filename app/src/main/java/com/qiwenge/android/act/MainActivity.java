@@ -1,11 +1,9 @@
 package com.qiwenge.android.act;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.transition.Explode;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,23 +13,17 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.liuguangqiang.common.utils.LogUtils;
 import com.liuguangqiang.common.utils.NetworkUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.MainMenuAdapter;
 import com.qiwenge.android.adapters.MainPagerAdapter;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
-import com.qiwenge.android.login.LoginType;
-import com.qiwenge.android.login.SinaWeiboLogin;
-import com.qiwenge.android.login.ThirdLoginUtils;
 import com.qiwenge.android.entity.MainMenuItem;
 import com.qiwenge.android.ui.SlowViewPager;
 import com.qiwenge.android.utils.ImageLoaderUtils;
-import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.level.LevelUtils;
 
 import java.util.ArrayList;
@@ -269,7 +261,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
             actionMode = null;
         }
     }
-
 
 
 }

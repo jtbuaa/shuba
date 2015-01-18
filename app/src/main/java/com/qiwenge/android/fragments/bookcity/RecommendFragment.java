@@ -3,15 +3,11 @@ package com.qiwenge.android.fragments.bookcity;
 import java.util.List;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ProgressBar;
 
 import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.qiwenge.android.R;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncGetCacheBooks;
@@ -21,7 +17,6 @@ import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
-import com.qiwenge.android.ui.PagePullToRefreshListView;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 

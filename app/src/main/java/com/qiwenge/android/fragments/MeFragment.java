@@ -9,25 +9,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liuguangqiang.common.utils.DisplayUtils;
-import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.FeedbackActivity;
 import com.qiwenge.android.act.SettingActivity;
 import com.qiwenge.android.base.BaseFragment;
-import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.listeners.LoginListener;
-import com.qiwenge.android.login.AuthSuccess;
-import com.qiwenge.android.entity.Auth;
 import com.qiwenge.android.entity.User;
 import com.qiwenge.android.entity.UserLevel;
 import com.qiwenge.android.ui.dialogs.LoginDialog;
 import com.qiwenge.android.utils.ApiUtils;
-import com.qiwenge.android.utils.DialogUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.LoginManager;
-import com.qiwenge.android.utils.http.BaseResponseHandler;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 

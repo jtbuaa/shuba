@@ -15,8 +15,6 @@ import com.qiwenge.android.utils.ThemeUtils;
 
 /**
  * 阅读主题适配器
- * 
- * Created by John on 2014-6-22
  */
 public class ReadThemeAdapter extends MyBaseAdapter<ReadTheme> {
 
@@ -40,7 +38,7 @@ public class ReadThemeAdapter extends MyBaseAdapter<ReadTheme> {
         }
         ReadTheme model = data.get(position);
         if (model != null) {
-            ThemeUtils.setReaderTheme(model.theme,viewHolder.ivIcon);
+            ThemeUtils.setReaderTheme(model.theme, viewHolder.ivIcon);
             if (model.selected)
                 viewHolder.ivSelected.setVisibility(View.VISIBLE);
             else

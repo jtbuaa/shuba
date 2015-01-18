@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 /**
  * BaseFragment
  * <p/>
- * Created by John on 2014-4-26
+ * Created by Eric on 2014-4-26
  */
 public class BaseFragment extends Fragment {
 

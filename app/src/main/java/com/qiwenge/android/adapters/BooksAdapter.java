@@ -19,7 +19,6 @@ import com.qiwenge.android.utils.ReaderUtils;
 /**
  * BooksAdapter
  * <p/>
- * Created by John on 2014-7-6
  */
 public class BooksAdapter extends MyBaseAdapter<Book> {
 

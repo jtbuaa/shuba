@@ -10,8 +10,6 @@ import com.qiwenge.android.fragments.MeFragment;
 
 /**
  * 书城适配器。
- * <p/>
- * Created by John on 2014-5-15
  */
 public class MainPagerAdapter extends FragmentPagerAdapter {
 

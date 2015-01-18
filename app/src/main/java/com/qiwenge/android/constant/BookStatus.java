@@ -2,8 +2,6 @@ package com.qiwenge.android.constant;
 
 /**
  * 小说状态
- *
- * Created by John on 2014－7－21
  */
 public class BookStatus {
 

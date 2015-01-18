@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
-import android.view.View;
 
 import com.liuguangqiang.common.utils.AppUtils;
 import com.liuguangqiang.common.utils.LogUtils;
@@ -16,7 +15,6 @@ import com.qiwenge.android.listeners.OnPositiveClickListener;
 import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.DialogUtils;
-import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 

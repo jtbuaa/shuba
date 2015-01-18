@@ -5,13 +5,11 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.liuguangqiang.common.utils.LogUtils;
 import com.qiwenge.android.R;
-import com.qiwenge.android.utils.LoadAnim;
 
 /**
  * ListView-滚动分页加载。

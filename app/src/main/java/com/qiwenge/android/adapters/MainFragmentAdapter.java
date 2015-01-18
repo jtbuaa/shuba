@@ -9,8 +9,6 @@ import com.qiwenge.android.fragments.BookshelfFragment;
 
 /**
  * 首页Fragment适配器。
- * 
- * Created by John on 2014-5-15
  */
 public class MainFragmentAdapter extends FragmentPagerAdapter {
 

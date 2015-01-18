@@ -1,6 +1,5 @@
 package com.qiwenge.android.act;
 
-
 import android.os.Bundle;
 
 import com.qiwenge.android.R;
