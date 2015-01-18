@@ -36,6 +36,14 @@ public class PushUtils {
         mContext = context;
     }
 
+    public void init() {
+        if (isOpenPush()) {
+            stopPush();
+        } else {
+            stopPush();
+        }
+    }
+
     public boolean isOpenPush() {
         return PreferencesUtils.getBoolean(mContext, PUSH_MANAGER, IS_OPEN);
     }

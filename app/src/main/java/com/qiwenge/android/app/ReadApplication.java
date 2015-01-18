@@ -24,7 +24,8 @@ public class ReadApplication extends Application {
     }
 
     private void initJPush() {
-        JPushInterface.setDebugMode(true);
+        new PushUtils(this).init();
+        JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
         PushUtils pushUtils = new PushUtils(getApplicationContext());
         if (!pushUtils.isOpenPush()) {
