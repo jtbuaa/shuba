@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liuguangqiang.common.utils.DisplayUtils;
+import com.liuguangqiang.common.utils.IntentUtils;
+import com.liuguangqiang.common.utils.ToastUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiwenge.android.R;
@@ -27,13 +29,14 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 public class MeFragment extends BaseFragment implements View.OnClickListener {
 
-    private final static String LEVEL_FORMAT = "%s LV.%s (%s/%s)";
+    private final static String LEVEL_FORMAT = "LV.%s (%s/%s)";
 
     private ImageView ivAvatar;
     private TextView tvUserName;
     private TextView tvLevel;
 
     private TextView tvSet;
+    private TextView tvRating;
     private TextView tvFeedback;
     private LinearLayout layoutUser;
     private LoginDialog loginDialog;
@@ -72,9 +75,20 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_feed_back:
                 startActivity(FeedbackActivity.class);
                 break;
+            case R.id.tv_rating:
+                skipToMarket();
+                break;
             case R.id.layout_user:
                 showLoginDialog();
                 break;
+        }
+    }
+
+    private void skipToMarket() {
+        try {
+            IntentUtils.skipToMarket(getActivity());
+        } catch (Exception ex) {
+            ToastUtils.show(getActivity(), getString(R.string.error_not_find_market));
         }
     }
 
@@ -100,6 +114,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         tvSet.setOnClickListener(this);
         tvFeedback = (TextView) getView().findViewById(R.id.tv_feed_back);
         tvFeedback.setOnClickListener(this);
+        tvRating = (TextView) getView().findViewById(R.id.tv_rating);
+        tvRating.setOnClickListener(this);
 
         layoutUser = (LinearLayout) getView().findViewById(R.id.layout_user);
         layoutUser.setOnClickListener(this);
@@ -118,7 +134,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                     DisplayUtils.dip2px(getActivity(), 70));
             ImageLoader.getInstance().displayImage(user.avatar, ivAvatar, options);
             UserLevel level = user.level;
-            tvLevel.setText(String.format(LEVEL_FORMAT, level.title, level.rank, level.exp, level.next));
+            tvLevel.setText(String.format(LEVEL_FORMAT, level.rank, level.exp, level.next));
             tvLevel.setVisibility(View.VISIBLE);
         }
     }

@@ -105,5 +105,6 @@
 
     <!--Error-->
     <string name="error_network_unavailable_format">网络不可用 , %s请检查您的网络设置</string>
+    <string name="error_not_find_market">你没有安装任何电子市场</string>
 
 </resources>

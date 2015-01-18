@@ -78,7 +78,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         try {
             IntentUtils.skipToMarket(SettingActivity.this);
         } catch (Exception ex) {
-            ToastUtils.show(getApplicationContext(), "你没有安装任何电子市场");
+            ToastUtils.show(getApplicationContext(), getString(R.string.error_not_find_market));
         }
     }
 

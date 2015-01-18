@@ -71,8 +71,9 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_rating"
                 style="@style/ItemMe"
-                android:text="我的评论" />
+                android:text="@string/set_rating" />
 
             <TextView
                 android:id="@+id/tv_feed_back"
