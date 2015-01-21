@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -31,8 +30,6 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
 
-    private static final int ACTION_ITEM_DELETE = 1;
-
     private ImageView ivLayer;
 
     private SlowViewPager viewPager;
@@ -40,8 +37,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     private MainPagerAdapter adapter;
 
     private boolean doubleBackToExitPressedOnce = false;
-
-    private ActionMode actionMode;
 
     private GridView gvMenu;
     private MainMenuAdapter menuAdapter;
@@ -59,11 +54,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         initActionBar();
         chkUpdate();
         LevelUtils.dailyLogin(getApplicationContext());
-
-//        if (Build.VERSION.SDK_INT >= 21) {
-//            getWindow().setExitTransition(new Explode());
-//        }
-
     }
 
     private void chkUpdate() {
@@ -153,7 +143,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         menuData.get(position).selected = true;
         lastPosition = position;
         menuAdapter.notifyDataSetChanged();
-        closeActionMode();
     }
 
     private void initViews() {
@@ -207,60 +196,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 2:
-                sendFeedback();
+                startActivity(FeedbackActivity.class);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private void sendFeedback() {
-        startActivity(FeedbackActivity.class);
-    }
-
-    /**
-     * Main ActionMode
-     * <p/>
-     * Created by John on 2014年6月25日
-     */
-    public class MainActionMode implements ActionMode.Callback {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            menu.add(0, ACTION_ITEM_DELETE, 1, R.string.remove_from_bookshelf).setIcon(R.drawable.ic_action_mode_delete)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mode.setTitle(R.string.remove_from_bookshelf);
-            actionMode = mode;
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-
-            if (item.getItemId() == ACTION_ITEM_DELETE) {
-                mode.finish();
-            }
-
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            actionMode = null;
-        }
-
-    }
-
-    private void closeActionMode() {
-        if (actionMode != null) {
-            actionMode.finish();
-            actionMode = null;
-        }
-    }
-
 
 }
