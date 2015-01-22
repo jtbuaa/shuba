@@ -26,7 +26,6 @@ public class BookFragment extends BaseListFragment<Book> {
 
     @Override
     public void initViews() {
-        System.out.println("BookFragment-initViews");
         super.initViews();
         adapter = new BooksAdapter(getActivity(), data);
         setEnableProgressBar();
@@ -38,10 +37,9 @@ public class BookFragment extends BaseListFragment<Book> {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int p = position - 1;
-                if (p >= 0 && p < data.size()) {
+                if (position >= 0 && position < data.size()) {
                     Bundle extra = new Bundle();
-                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(p));
+                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position));
                     startActivity(BookDetailActivity.class, extra);
                 }
             }
@@ -59,7 +57,6 @@ public class BookFragment extends BaseListFragment<Book> {
     private String searchKeyword;
 
     public void search(String category) {
-        System.out.println("BookFragment-search");
         searchCategory = category;
         requestData();
     }
