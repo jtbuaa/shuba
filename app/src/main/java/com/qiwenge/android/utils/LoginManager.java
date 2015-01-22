@@ -3,8 +3,10 @@ package com.qiwenge.android.utils;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.liuguangqiang.common.utils.IntentUtils;
 import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.liuguangqiang.common.utils.StringUtils;
+import com.qiwenge.android.constant.MyActions;
 import com.qiwenge.android.entity.Auth;
 import com.qiwenge.android.entity.User;
 import com.qiwenge.android.utils.book.BookManager;
@@ -37,6 +39,7 @@ public class LoginManager {
         saveUser(context, null);
         saveAuth(context, null);
         BookManager.getInstance().clear();
+        IntentUtils.sendBroadcast(context, MyActions.UPDATE_BOOK_SHELF);
     }
 
     public static void init(Context context) {
@@ -73,6 +76,7 @@ public class LoginManager {
             String json = gson.toJson(user);
             PreferencesUtils.putString(context, LOGIN, KEY_USER, json);
             BookManager.getInstance().init(context);
+            IntentUtils.sendBroadcast(context, MyActions.UPDATE_BOOK_SHELF);
         } else {
             PreferencesUtils.putString(context, LOGIN, KEY_USER, "");
         }

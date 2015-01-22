@@ -3,6 +3,10 @@ package com.qiwenge.android.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
@@ -20,6 +24,7 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.BookShelfAdapter;
 import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.base.BaseFragment;
+import com.qiwenge.android.constant.MyActions;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookUpdateList;
 import com.qiwenge.android.ui.dialogs.MyDialog;
@@ -35,15 +40,14 @@ import com.qiwenge.android.utils.http.JsonResponseHandler;
  */
 public class BookshelfFragment extends BaseFragment {
 
+    private SwipeRefreshLayout mSwipeLayout;
     private ListView lvBookShelf;
+    private LinearLayout layoutEmpty;
 
     private List<Book> data = new ArrayList<Book>();
-
     private BookShelfAdapter adapter;
 
-    private View emptyView;
-
-    private SwipeRefreshLayout mSwipeLayout;
+    private BookShelfReceiver bookShelfReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,19 +58,34 @@ public class BookshelfFragment extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
+
+        bookShelfReceiver = new BookShelfReceiver();
+        IntentFilter intentFilter = new IntentFilter(MyActions.UPDATE_BOOK_SHELF);
+        getActivity().registerReceiver(bookShelfReceiver, intentFilter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getBooks();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (bookShelfReceiver != null) {
+            getActivity().unregisterReceiver(bookShelfReceiver);
+            bookShelfReceiver = null;
+        }
     }
 
     private void initViews() {
+        layoutEmpty = (LinearLayout) getView().findViewById(R.id.layout_empty);
+        layoutEmpty.setVisibility(View.GONE);
         mSwipeLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
         StyleUtils.setColorSchemeResources(mSwipeLayout);
-
-        emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
-        ImageView ivEmpty = (ImageView) emptyView.findViewById(R.id.iv_empty);
-        ivEmpty.setBackgroundResource(R.drawable.icon_empty_tree);
         adapter = new BookShelfAdapter(getActivity(), data);
         lvBookShelf = (ListView) getView().findViewById(R.id.lv_book_shelf);
-        lvBookShelf.setEmptyView(emptyView);
-        emptyView.setVisibility(View.GONE);
         lvBookShelf.setAdapter(adapter);
         lvBookShelf.setOnItemClickListener(new OnItemClickListener() {
 
@@ -94,6 +113,13 @@ public class BookshelfFragment extends BaseFragment {
             }
         });
     }
+
+    private void showOrHideEmpty() {
+        if (data.isEmpty())
+            layoutEmpty.setVisibility(View.VISIBLE);
+        else layoutEmpty.setVisibility(View.GONE);
+    }
+
 
     private void showBookDialog(final Book book) {
         MyDialog myDialog = new MyDialog(getActivity(), book.title);
@@ -152,6 +178,7 @@ public class BookshelfFragment extends BaseFragment {
         new AsyncRemoveBook(getActivity(), null).execute(book);
         data.remove(book);
         adapter.notifyDataSetChanged();
+        showOrHideEmpty();
     }
 
     /**
@@ -159,12 +186,6 @@ public class BookshelfFragment extends BaseFragment {
      */
     private void getBooks() {
         new AsyncBookShelfs().execute();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getBooks();
     }
 
     /**
@@ -184,6 +205,17 @@ public class BookshelfFragment extends BaseFragment {
             if (result != null) {
                 data.clear();
                 adapter.add(result);
+            }
+            showOrHideEmpty();
+        }
+    }
+
+    public class BookShelfReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(MyActions.UPDATE_BOOK_SHELF)) {
+                getBooks();
             }
         }
     }

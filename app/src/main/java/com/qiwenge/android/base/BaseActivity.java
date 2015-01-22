@@ -11,10 +11,10 @@ import android.view.MenuItem;
 
 import com.liuguangqiang.common.utils.IntentUtils;
 import com.qiwenge.android.R;
+import com.qiwenge.android.constant.MyActions;
 import com.qiwenge.android.login.LoginType;
 import com.qiwenge.android.login.SinaWeiboLogin;
 import com.qiwenge.android.login.ThirdLoginUtils;
-import com.qiwenge.android.utils.MyFilters;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
@@ -124,7 +124,7 @@ public class BaseActivity extends RoboFragmentActivity {
 
     private void initReceiver() {
         receiver = new FinishAppReceiver();
-        IntentFilter filter = new IntentFilter(MyFilters.ACTION_QUIT_APP);
+        IntentFilter filter = new IntentFilter(MyActions.ACTION_QUIT_APP);
         registerReceiver(receiver, filter);
     }
 
@@ -132,14 +132,14 @@ public class BaseActivity extends RoboFragmentActivity {
      * 退出.
      */
     public void exitApp() {
-        IntentUtils.sendBroadcast(getApplicationContext(), MyFilters.ACTION_QUIT_APP);
+        IntentUtils.sendBroadcast(getApplicationContext(), MyActions.ACTION_QUIT_APP);
     }
 
     public class FinishAppReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(MyFilters.ACTION_QUIT_APP)) {
+            if (intent.getAction().equals(MyActions.ACTION_QUIT_APP)) {
                 finish();
             }
         }
