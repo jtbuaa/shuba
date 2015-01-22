@@ -9,7 +9,7 @@
     <dimen name="default_item_padding_horizontal">16dp</dimen>
     <dimen name="default_item_padding_small">5dp</dimen>
     <dimen name="default_activity_padding">10dp</dimen>
-    <dimen name="action_btn_height">48dp</dimen>
+    <dimen name="action_btn_height">56dp</dimen>
     <dimen name="action_bar_height">56dp</dimen>
 
     <!-- Font Size -->

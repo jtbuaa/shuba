@@ -3,6 +3,7 @@
     <style name="AppBaseTheme" parent="@android:style/Theme.Holo.Light"></style>
 
     <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:actionBarSize">@dimen/action_bar_height</item>
         <item name="android:windowBackground">@color/main_bg_color</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_action_home</item>
         <item name="android:logo">@drawable/transparent_bg</item>
@@ -45,6 +46,7 @@
     <style name="MyActionBar.MenuItem" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Menu">
         <item name="android:textSize">@dimen/font_size_middle</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:height">@dimen/action_bar_height</item>
     </style>
 
     <!-- Setup the style of the ActionMode here -->
