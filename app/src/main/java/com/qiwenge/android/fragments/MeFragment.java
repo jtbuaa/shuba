@@ -130,7 +130,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void showUser(User user) {
         if (user != null) {
             tvUserName.setText(user.username);
-            DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.default_avatar,
+            DisplayImageOptions options = ImageLoaderUtils.createOptions(R.drawable.ic_default_avatar,
                     DisplayUtils.dip2px(getActivity(), 70));
             ImageLoader.getInstance().displayImage(user.avatar, ivAvatar, options);
             UserLevel level = user.level;
@@ -142,7 +142,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void clearUser() {
         tvUserName.setText(R.string.choose_login_type);
         tvLevel.setText(R.string.login_desc);
-        ivAvatar.setImageResource(R.drawable.default_avatar);
+        ivAvatar.setImageResource(R.drawable.ic_default_avatar);
     }
 
     private void getUser(String userId) {

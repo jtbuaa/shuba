@@ -42,17 +42,16 @@ public class SearchFragment extends BaseListFragment<Book> {
         setEnableFooterPage();
         setEnableProgressBar();
         setEnableEmptyView();
-        setEmptyIcon(R.drawable.icon_empty_search);
+        setEmptyIcon(R.drawable.ic_empty_search);
         setEmptyMessage(R.string.empty_search);
         setAdapter();
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int p = position - 1;
-                if (p >= 0 && p < data.size()) {
+                if (position >= 0 && position < data.size()) {
                     Bundle extra = new Bundle();
-                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(p));
+                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position));
                     startActivity(BookDetailActivity.class, extra);
                 }
             }
