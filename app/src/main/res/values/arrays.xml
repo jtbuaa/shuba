@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="book_detail_action_titles">
+        <item>查看详情</item>
+        <item>删除</item>
+    </string-array>
+
     <string-array name="main_menu_titles">
         <item>书架</item>
         <item>发现</item>
@@ -60,6 +65,5 @@
         <item>新浪微博登陆</item>
         <item>QQ登陆</item>
     </string-array>
-
 
 </resources>

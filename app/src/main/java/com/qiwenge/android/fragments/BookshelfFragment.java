@@ -123,7 +123,7 @@ public class BookshelfFragment extends BaseFragment {
 
     private void showBookDialog(final Book book) {
         MyDialog myDialog = new MyDialog(getActivity(), book.title);
-        String[] items = {"查看详情", "删除"};
+        String[] items = getResources().getStringArray(R.array.book_detail_action_titles);
         myDialog.setItems(items, new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
