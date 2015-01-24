@@ -28,7 +28,12 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppThemeRead" parent="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"></style>
+    <style name="AppThemeRead" parent="AppTheme">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
     <!-- ActionBar样式 -->
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">

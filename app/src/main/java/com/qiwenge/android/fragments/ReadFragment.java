@@ -409,10 +409,11 @@ public class ReadFragment extends BaseFragment {
 
             @Override
             public void onStart() {
-                if (layoutEmpty.getVisibility() == View.VISIBLE) {
+                if (layoutEmpty.getVisibility() == View.VISIBLE)
                     hideEmptyView();
+
+                if (pageList.isEmpty())
                     pbLoading.setVisibility(View.VISIBLE);
-                }
             }
 
             @Override
