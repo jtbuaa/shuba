@@ -156,35 +156,13 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     }
 
     private void addOrRemoveBook() {
-        if (LoginManager.isLogin()) {
-            if (isAdded) {
-                removeBook();
-            } else {
-                addBook();
-            }
+        if (isAdded) {
+            removeBook();
         } else {
-            login();
+            addBook();
         }
     }
 
-    private LoginDialog loginDialog;
-
-    private void login() {
-        if (loginDialog == null) {
-            loginDialog = new LoginDialog(this);
-            loginDialog.setLoginListener(new LoginListener() {
-                @Override
-                public void onSuccess() {
-                    showBookStatus();
-                }
-            });
-        }
-        loginDialog.show();
-    }
-
-    /**
-     * 添加小说到书架
-     */
     private void addBook() {
         new AsyncAddBook(this, new CommonHandler() {
             @Override

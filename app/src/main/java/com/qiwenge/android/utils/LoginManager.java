@@ -39,6 +39,7 @@ public class LoginManager {
         saveUser(context, null);
         saveAuth(context, null);
         BookManager.getInstance().clear();
+        BookManager.getInstance().init(context);
         IntentUtils.sendBroadcast(context, MyActions.UPDATE_BOOK_SHELF);
     }
 

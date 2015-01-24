@@ -89,7 +89,6 @@ public class LoginDialog implements AuthListener {
         authSuccess.setLoginType(loginType);
         login(authSuccess);
 
-
         Message msg = mHandler.obtainMessage();
         msg.what = 0;
         msg.sendToTarget();

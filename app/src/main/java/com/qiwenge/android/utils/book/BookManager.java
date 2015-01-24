@@ -7,7 +7,6 @@ import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
-import com.qiwenge.android.entity.User;
 import com.qiwenge.android.utils.LoginManager;
 
 import java.util.ArrayList;
@@ -22,6 +21,11 @@ public class BookManager {
 
     private static final String SHUBA_BOOK_SHELF = "SHUBA_BOOK_SHELF";
 
+    /**
+     * 未登录的时候，用DEFAULT_KEY来保存数据。
+     */
+    private static final String DEFAULT_KEY = "DEFAULT_KEY";
+
     private static ArrayList<Book> books = new ArrayList<>();
 
     private static BookManager ourInstance = new BookManager();
@@ -35,28 +39,60 @@ public class BookManager {
 
     public void init(Context context) {
         books.clear();
+        String json = PreferencesUtils.getString(context, SHUBA_BOOK_SHELF, getSaveKey());
+        if (!StringUtils.isEmptyOrNull(json)) {
+            BookList bookList = new Gson().fromJson(json, BookList.class);
+            if (bookList != null && bookList.result != null) {
+                books.addAll(bookList.result);
+            }
+        }
+        transferToUserAccount(context);
+    }
+
+    /**
+     * 把在未登录情况下保存的小说，转移到重新登陆的用户名下。
+     */
+    private void transferToUserAccount(Context context) {
         if (LoginManager.isLogin()) {
-            User user = LoginManager.getUser();
-            String json = PreferencesUtils.getString(context, SHUBA_BOOK_SHELF, user.getId());
+            String json = PreferencesUtils.getString(context, SHUBA_BOOK_SHELF, DEFAULT_KEY);
             if (!StringUtils.isEmptyOrNull(json)) {
                 BookList bookList = new Gson().fromJson(json, BookList.class);
                 if (bookList != null && bookList.result != null) {
-                    books.addAll(bookList.result);
+                    merge(context, bookList.result);
                 }
             }
         }
+    }
+
+    private void merge(Context context, List<Book> bookList) {
+        for (Book book : bookList) {
+            if (!contains(book)) {
+                addWithoutSave(book);
+            }
+        }
+        save(context);
+        clearUnloginBook(context);
+    }
+
+    private String getSaveKey() {
+        if (LoginManager.isLogin()) return LoginManager.getUser().getId();
+        return DEFAULT_KEY;
     }
 
     private void save(Context context) {
         BookList bookList = new BookList();
         bookList.result = books;
         String json = new Gson().toJson(bookList);
-        PreferencesUtils.putString(context, SHUBA_BOOK_SHELF, LoginManager.getUser().getId(), json);
+        PreferencesUtils.putString(context, SHUBA_BOOK_SHELF, getSaveKey(), json);
     }
 
 
     public void clear() {
         books.clear();
+    }
+
+    private void clearUnloginBook(Context context) {
+        PreferencesUtils.putString(context, SHUBA_BOOK_SHELF, DEFAULT_KEY, "");
     }
 
     public List<Book> getAll() {
@@ -76,18 +112,18 @@ public class BookManager {
         return null;
     }
 
+    public void addWithoutSave(Book book) {
+        books.add(book);
+    }
+
     public void add(Context context, Book book) {
-        if (LoginManager.isLogin()) {
-            books.add(book);
-            save(context);
-        }
+        books.add(book);
+        save(context);
     }
 
     public void delete(Context context, Book book) {
-        if (LoginManager.isLogin()) {
-            books.remove(book);
-            save(context);
-        }
+        books.remove(book);
+        save(context);
     }
 
     public void update(Context context, Book book) {
