@@ -56,6 +56,13 @@ public class BaseListFragment<T> extends BaseFragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
         StyleUtils.setColorSchemeResources(mSwipeRefreshLayout);
         mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
+        initDefault();
+    }
+
+    public void initDefault() {
+        setEnableFooterPage();
+        setEnablePullToRefresh();
+        setEnableEmptyView();
     }
 
     private void showEmptyView() {
@@ -108,7 +115,6 @@ public class BaseListFragment<T> extends BaseFragment {
             tvEmpty.setVisibility(View.VISIBLE);
         }
     }
-
 
     public void setDisablePullToRefresh() {
         if (mSwipeRefreshLayout != null) {

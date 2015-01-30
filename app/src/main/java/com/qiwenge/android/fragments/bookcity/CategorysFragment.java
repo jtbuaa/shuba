@@ -59,8 +59,7 @@ public class CategorysFragment extends BaseListFragment<Category> {
     public void initViews() {
         super.initViews();
         adapter = new CategoryAdapter(getActivity(), data);
-        setEnablePullToRefresh();
-        setEnableEmptyView();
+
         setAdapter();
         mListView.setOnItemClickListener(new OnItemClickListener() {
 

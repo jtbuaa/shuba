@@ -63,9 +63,6 @@ public class RecommendFragment extends BaseListFragment<Book> {
     public void initViews() {
         super.initViews();
         adapter = new BooksAdapter(getActivity(), data);
-        setEnableFooterPage();
-        setEnablePullToRefresh();
-        setEnableEmptyView();
         setAdapter();
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
