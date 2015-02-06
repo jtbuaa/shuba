@@ -32,18 +32,17 @@ import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.BookStatus;
+import com.qiwenge.android.entity.MirrorList;
 import com.qiwenge.android.listeners.CommonHandler;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
-import com.qiwenge.android.listeners.LoginListener;
-import com.qiwenge.android.ui.dialogs.LoginDialog;
-import com.qiwenge.android.ui.dialogs.SourceDialog;
+import com.qiwenge.android.ui.dialogs.MirrorDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
-import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.book.BookManager;
 import com.qiwenge.android.utils.http.JHttpClient;
+import com.qiwenge.android.utils.http.JsonResponseHandler;
 import com.qiwenge.android.utils.http.StringResponseHandler;
 
 import roboguice.inject.ContentView;
@@ -100,14 +99,9 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
      */
     private boolean isAdded = false;
 
-    /**
-     * 是否需要滑动到顶部。
-     * <p/>
-     * 初始化时，ScrollView滑动到顶部。
-     */
-//    private boolean scrollToTop = true;
-
     private boolean hasInited = false;
+
+    private MirrorDialog sourceDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +120,8 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == ACTION_ITEM_SOURCE) {
-            new SourceDialog(this, book).show();
+        if (item.getItemId() == ACTION_ITEM_SOURCE && sourceDialog != null) {
+            sourceDialog.show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -198,6 +192,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         Bundle extra = getIntent().getExtras();
         if (extra.containsKey(EXTRA_BOOK)) {
             book = extra.getParcelable(EXTRA_BOOK);
+            getMirrors(book.getId());
             AsyncUtils.postViewTotal(book.getId());
         }
     }
@@ -357,8 +352,22 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                 }
             });
         }
-
     }
 
+    private void getMirrors(String bookId) {
+        String url = ApiUtils.getMirrors();
+        RequestParams params = new RequestParams();
+        params.put("book_id", bookId);
+        JHttpClient.get(getApplicationContext(), url, params,
+                new JsonResponseHandler<MirrorList>(MirrorList.class) {
+                    @Override
+                    public void onSuccess(MirrorList result) {
+                        if (result != null) {
+                            book.mirrorList = result.result;
+                            sourceDialog = new MirrorDialog(BookDetailActivity.this, book, result.result);
+                        }
+                    }
+                });
+    }
 
 }

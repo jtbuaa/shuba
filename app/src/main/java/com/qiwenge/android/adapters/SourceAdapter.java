@@ -11,16 +11,16 @@ import android.widget.TextView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
-import com.qiwenge.android.entity.Source;
+import com.qiwenge.android.entity.Mirror;
 
 /**
  * SourceAdapter
  */
-public class SourceAdapter extends MyBaseAdapter<Source> {
+public class SourceAdapter extends MyBaseAdapter<Mirror> {
 
     private ViewHolder viewholder;
 
-    public SourceAdapter(Context c, List<Source> list) {
+    public SourceAdapter(Context c, List<Mirror> list) {
         this.context = c;
         this.data = list;
     }
@@ -36,9 +36,9 @@ public class SourceAdapter extends MyBaseAdapter<Source> {
         } else {
             viewholder = (ViewHolder) convertView.getTag();
         }
-        viewholder.tvTitle.setText(data.get(position).title);
+        viewholder.tvTitle.setText(data.get(position).template.title);
 
-        if (data.get(position).isSelected) {
+        if (data.get(position).current) {
             viewholder.ivSeleted.setBackgroundResource(R.drawable.icon_check_selected);
         } else {
             viewholder.ivSeleted.setBackgroundResource(R.drawable.icon_check_normal);

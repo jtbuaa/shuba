@@ -26,7 +26,7 @@ public class AsyncRemoveBook extends AsyncTask<Book, Integer, Boolean> {
     protected Boolean doInBackground(Book... params) {
         if (params != null && params[0] != null) {
             BookManager.getInstance().delete(mContext, params[0]);
-            new PushUtils(mContext).setTags(mContext, BookManager.getInstance().getAll());
+            new PushUtils(mContext).setTags(BookManager.getInstance().getAll());
             return true;
         } else {
             return false;

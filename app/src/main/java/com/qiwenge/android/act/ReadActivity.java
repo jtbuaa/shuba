@@ -32,12 +32,12 @@ import com.qiwenge.android.adapters.ReadThemeAdapter;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
+import com.qiwenge.android.entity.Mirror;
 import com.qiwenge.android.fragments.ReadFragment;
 import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.ReadMenu;
 import com.qiwenge.android.entity.ReadTheme;
-import com.qiwenge.android.ui.dialogs.SourceDialog;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ScreenBrightnessUtils;
 import com.qiwenge.android.utils.ThemeUtils;
@@ -231,8 +231,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_source://Source
-                if (book != null)
-                    new SourceDialog(this, book).show(true);
+//                if (book != null)
+//                    new SourceDialog(this, book).show(true);
                 break;
             case R.id.layout_bottom_menu:
                 break;
@@ -285,8 +285,9 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     private void getChapter(String chapterId) {
         if (book != null) {
             Book b = BookManager.getInstance().getById(book.getId());
-            if (b != null && chapterId.equals(b.chapter_id)) {
-                int length = b.character_number;
+            Mirror mirror = b.currentMirror();
+            if (b != null && mirror != null && chapterId.equals(mirror.progress.chapter_id)) {
+                int length = mirror.progress.chars;
                 fragment.getChapter(chapterId, length);
             } else {
                 fragment.getChapter(chapterId);

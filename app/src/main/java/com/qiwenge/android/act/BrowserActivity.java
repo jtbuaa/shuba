@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.entity.Book;
-import com.qiwenge.android.ui.dialogs.SourceDialog;
+import com.qiwenge.android.ui.dialogs.MirrorDialog;
 
 /**
  * 网页浏览器。
@@ -42,7 +42,7 @@ public class BrowserActivity extends BaseActivity {
 
     private String url;
 
-    private SourceDialog sourceDialog;
+    private MirrorDialog sourceDialog;
 
     /**
      * Called when the activity is first created.
@@ -65,10 +65,10 @@ public class BrowserActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == ACTION_ITEM_SOURCE) {
-            if (sourceDialog == null) {
-                sourceDialog = new SourceDialog(this, book);
-            }
-            sourceDialog.show(true);
+//            if (sourceDialog == null) {
+//                sourceDialog = new SourceDialog(this, book);
+//            }
+//            sourceDialog.show(true);
         }
 
         return super.onOptionsItemSelected(item);

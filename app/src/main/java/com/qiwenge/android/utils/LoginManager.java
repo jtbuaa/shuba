@@ -46,6 +46,7 @@ public class LoginManager {
     public static void init(Context context) {
         mUser = getUser(context);
         mAuth = getAuth(context);
+        new PushUtils(context).setAlias();
         BookManager.getInstance().init(context);
     }
 

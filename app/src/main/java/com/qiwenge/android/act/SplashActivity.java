@@ -14,7 +14,6 @@ import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.constant.Platform;
 import com.qiwenge.android.entity.Configures;
 import com.qiwenge.android.utils.ApiUtils;
-import com.qiwenge.android.utils.PushUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
@@ -36,7 +35,6 @@ public class SplashActivity extends BaseActivity {
         if (hasFocus && !inited) {
             inited = true;
             getScreenSize();
-            initJPush();
             start();
         }
     }
@@ -48,14 +46,6 @@ public class SplashActivity extends BaseActivity {
         } else {
             connect();
         }
-    }
-
-    /**
-     * 初始化极光推送
-     */
-    private void initJPush() {
-//        new AsyncSetAlias(getApplicationContext()).execute(Constants.OEPN_UD_ID);
-        new PushUtils(getApplication()).setAlias(getApplicationContext());
     }
 
     public void getScreenSize() {

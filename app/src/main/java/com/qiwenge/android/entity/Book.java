@@ -1,12 +1,13 @@
 package com.qiwenge.android.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.qiwenge.android.entity.base.BaseModel;
+import com.qiwenge.android.entity.base.Id;
 
 /**
  * Book
@@ -14,6 +15,27 @@ import com.qiwenge.android.entity.base.BaseModel;
  * Created by John on 2014-5-6
  */
 public class Book extends BaseModel implements Parcelable {
+
+    public boolean hasUpdate = false;
+
+    public int updateArrival = 0;
+
+    public List<Mirror> mirrorList = new ArrayList<Mirror>();
+
+    public Mirror currentMirror() {
+        if (mirrorList.isEmpty()) return null;
+
+        for (Mirror mirror : mirrorList) {
+            if (mirror.current) return mirror;
+        }
+
+        return mirrorList.get(0);
+    }
+
+    public String currentMirrorId() {
+        Mirror current = currentMirror();
+        return current == null ? "" : current.getId();
+    }
 
     public String title;
 
@@ -28,71 +50,14 @@ public class Book extends BaseModel implements Parcelable {
     /**
      * 1：完本；0:连载
      */
-    
+
     public int finish;
 
     public ArrayList<String> categories;
 
-    /**
-     * 阅读进度:章节Id
-     */
-    
-    public String chapter_id;
-
-    /**
-     * 阅读进度:章节number
-     */
-    
-    public int chapter_number;
-
-    /**
-     * 阅读进度:阅读字数
-     */
-    
-    public int character_number = 0;
-
-    /**
-     * 是否被选中
-     */
-    public boolean selected = false;
-
-    public boolean showAnim = false;
-
     public int chapter_total;
 
     public Book() {
-    }
-
-    public Book(Parcel source) {
-        Bundle bundle = source.readBundle();
-        title = bundle.getString("title");
-        description = bundle.getString("description");
-        author = bundle.getString("author");
-        cover = bundle.getString("cover");
-        status = bundle.getInt("status");
-        finish = bundle.getInt("finish");
-        categories = bundle.getStringArrayList("categories");
-        chapter_id = bundle.getString("chapter_id");
-        chapter_total = bundle.getInt("chapter_total");
-        character_number = bundle.getInt("character_number");
-        setId(bundle.getString("id"));
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        Bundle data = new Bundle();
-        data.putString("title", title);
-        data.putString("description", description);
-        data.putString("author", author);
-        data.putString("cover", cover);
-        data.putInt("status", status);
-        data.putInt("finish", finish);
-        data.putString("chapter_id", chapter_id);
-        data.putString("id", getId());
-        data.putStringArrayList("categories", categories);
-        data.putInt("chapter_total", chapter_total);
-        data.putInt("character_number", character_number);
-        dest.writeBundle(data);
     }
 
     @Override
@@ -100,14 +65,42 @@ public class Book extends BaseModel implements Parcelable {
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(mirrorList);
+        dest.writeString(this.title);
+        dest.writeString(this.description);
+        dest.writeString(this.author);
+        dest.writeString(this.cover);
+        dest.writeInt(this.status);
+        dest.writeInt(this.finish);
+        dest.writeSerializable(this.categories);
+        dest.writeInt(this.chapter_total);
+        dest.writeString(this.id);
+        dest.writeParcelable(this._id, 0);
+    }
+
+    private Book(Parcel in) {
+        in.readTypedList(mirrorList, Mirror.CREATOR);
+        this.title = in.readString();
+        this.description = in.readString();
+        this.author = in.readString();
+        this.cover = in.readString();
+        this.status = in.readInt();
+        this.finish = in.readInt();
+        this.categories = (ArrayList<String>) in.readSerializable();
+        this.chapter_total = in.readInt();
+        this.id = in.readString();
+        this._id = in.readParcelable(Id.class.getClassLoader());
+    }
+
     public static final Creator<Book> CREATOR = new Creator<Book>() {
-        public Book createFromParcel(Parcel data) {
-            return new Book(data);
+        public Book createFromParcel(Parcel source) {
+            return new Book(source);
         }
 
         public Book[] newArray(int size) {
             return new Book[size];
         }
     };
-
 }

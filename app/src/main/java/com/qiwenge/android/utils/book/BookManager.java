@@ -8,6 +8,7 @@ import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.utils.LoginManager;
+import com.qiwenge.android.utils.PushUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class BookManager {
             }
         }
         transferToUserAccount(context);
+        new PushUtils(context).setTags(books);
     }
 
     /**

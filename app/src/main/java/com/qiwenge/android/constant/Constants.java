@@ -5,6 +5,8 @@ package com.qiwenge.android.constant;
  */
 public class Constants {
 
+    public static boolean DEBUG = true;
+
     /**
      * 平台，为多渠道发布。
      */

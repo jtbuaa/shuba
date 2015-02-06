@@ -16,21 +16,16 @@ public class ReadApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initJPush();
         ImageLoaderUtils.init(getApplicationContext());
         ThemeUtils.initTheme(getApplicationContext());
         LoginManager.init(getApplicationContext());
-        initJPush();
         initOpenUDID();
     }
 
     private void initJPush() {
-        new PushUtils(this).init();
         JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
-        PushUtils pushUtils = new PushUtils(getApplicationContext());
-        if (!pushUtils.isOpenPush()) {
-            pushUtils.stopPush();
-        }
     }
 
     private void initOpenUDID() {
