@@ -7,30 +7,16 @@
     android:orientation="horizontal"
     android:padding="@dimen/default_item_padding">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/item_iv_cover"
-            android:layout_width="@dimen/item_cover_width"
-            android:layout_height="@dimen/item_cover_height"
-            android:layout_centerInParent="true"
-            android:background="@drawable/cover_border"
-            android:contentDescription="@string/str_empty"
-            android:padding="1px"
-            android:scaleType="fitXY"
-            android:src="@drawable/icon_place_holder" />
-
-        <ImageView
-            android:id="@+id/item_iv_select"
-            android:layout_width="@dimen/item_cover_width"
-            android:layout_height="@dimen/item_cover_height"
-            android:layout_centerInParent="true"
-            android:background="@drawable/icon_place_holder"
-            android:contentDescription="@string/str_empty"
-            android:visibility="gone" />
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/item_iv_cover"
+        android:layout_width="@dimen/item_cover_width"
+        android:layout_height="@dimen/item_cover_height"
+        android:layout_centerInParent="true"
+        android:background="@drawable/cover_border"
+        android:contentDescription="@string/str_empty"
+        android:padding="1px"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_place_holder" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -65,10 +51,10 @@
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:paddingTop="1dp"
-                android:text="@string/app_name"
+                android:text="@string/updated"
                 android:textColor="@android:color/white"
                 android:textSize="10dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </LinearLayout>
 

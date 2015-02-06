@@ -1,8 +1,11 @@
 package com.qiwenge.android.entity.base;
 
-public class BaseModel {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    private String id;
+public class BaseModel implements Parcelable {
+
+    public String id;
 
     public Id _id;
 
@@ -14,6 +17,25 @@ public class BaseModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeParcelable(this._id, 0);
+    }
+
+    public BaseModel() {
+    }
+
+    private BaseModel(Parcel in) {
+        this.id = in.readString();
+        this._id = in.readParcelable(Id.class.getClassLoader());
     }
 
 }

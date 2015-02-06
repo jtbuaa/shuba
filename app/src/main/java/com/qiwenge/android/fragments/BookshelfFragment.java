@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,9 @@ import com.qiwenge.android.async.AsyncRemoveBook;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.MyActions;
 import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.BookUpdate;
 import com.qiwenge.android.entity.BookUpdateList;
+import com.qiwenge.android.entity.Mirror;
 import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.SkipUtils;
@@ -35,16 +38,13 @@ import com.qiwenge.android.utils.book.BookManager;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
-/**
- * 书架Fragment。
- */
 public class BookshelfFragment extends BaseFragment {
 
     private SwipeRefreshLayout mSwipeLayout;
     private ListView lvBookShelf;
     private LinearLayout layoutEmpty;
 
-    private List<Book> data = new ArrayList<Book>();
+    private List<Book> data = new ArrayList<>();
     private BookShelfAdapter adapter;
 
     private BookShelfReceiver bookShelfReceiver;
@@ -144,23 +144,35 @@ public class BookshelfFragment extends BaseFragment {
      * 检查书架中的书，是否有更新。
      */
     private void chkBookUpdated() {
-        StringBuilder bookIds = new StringBuilder();
+        StringBuilder mirrorsId = new StringBuilder();
         StringBuilder chapterTotals = new StringBuilder();
         Book book;
+        Mirror mirror;
         for (int i = 0; i < data.size(); i++) {
             book = data.get(i);
+            mirror = book.currentMirror();
             if (i > 0) {
-                bookIds.append(",");
+                mirrorsId.append(",");
                 chapterTotals.append(",");
             }
-            bookIds.append(book.getId());
+
+            if (mirror != null)
+                mirrorsId.append(mirror.getId());
             chapterTotals.append(book.chapter_total);
         }
+
         String url = ApiUtils.checkBookUpdate();
         RequestParams params = new RequestParams();
-        params.put("books", bookIds.toString());
+        params.put("mirrors", mirrorsId.toString());
         params.put("chapter_totals", chapterTotals.toString());
         JHttpClient.get(getActivity(), url, params, new JsonResponseHandler<BookUpdateList>(BookUpdateList.class) {
+
+            @Override
+            public void onSuccess(BookUpdateList result) {
+                if (result != null) {
+                    showUpdate(result.result);
+                }
+            }
 
             @Override
             public void onOrigin(String json) {
@@ -174,6 +186,25 @@ public class BookshelfFragment extends BaseFragment {
         });
     }
 
+    private void showUpdate(List<BookUpdate> updates) {
+        Book book;
+        BookUpdate bookUpdate;
+        int shelfSize = data.size();
+        int updateSize = updates.size();
+
+        for (int i = 0; i < shelfSize; i++) {
+            for (int j = 0; j < updateSize; j++) {
+                book = data.get(i);
+                bookUpdate = updates.get(j);
+                if (book.getId().equals(bookUpdate.book_id)) {
+                    book.hasUpdate = bookUpdate.updated();
+                    book.updateArrival = bookUpdate.arrival;
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     private void deleteBook(Book book) {
         new AsyncRemoveBook(getActivity(), null).execute(book);
         data.remove(book);
@@ -181,18 +212,10 @@ public class BookshelfFragment extends BaseFragment {
         showOrHideEmpty();
     }
 
-    /**
-     * 获取书架内容。
-     */
     private void getBooks() {
         new AsyncBookShelfs().execute();
     }
 
-    /**
-     * 异步获取书架内容 AsyncBookShelfs
-     * <p/>
-     * Created by John on 2014年6月27日
-     */
     private class AsyncBookShelfs extends AsyncTask<Void, Integer, List<Book>> {
 
         @Override
@@ -205,6 +228,7 @@ public class BookshelfFragment extends BaseFragment {
             if (result != null) {
                 data.clear();
                 adapter.add(result);
+                chkBookUpdated();
             }
             showOrHideEmpty();
         }

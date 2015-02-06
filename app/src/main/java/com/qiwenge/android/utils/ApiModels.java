@@ -58,6 +58,10 @@ public enum ApiModels {
 
     users,
 
-    levels
+    levels,
 
+    /**
+     * 镜像
+     */
+    mirrors
 }

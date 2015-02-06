@@ -7,8 +7,20 @@ public class BookUpdate {
 
     public String book_id;
 
-    public int has_update;
+    public String mirror_id;
 
-    public int arrival;
+    /**
+     * 是否更新
+     */
+    public int has_update = 0;
+
+    public boolean updated() {
+        return has_update == 1;
+    }
+
+    /**
+     * 更新的数量
+     */
+    public int arrival = 0;
 
 }

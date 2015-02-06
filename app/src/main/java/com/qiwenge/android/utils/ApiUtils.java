@@ -167,6 +167,10 @@ public class ApiUtils {
         return String.format(FORMAT_1_PARAMS, ApiModels.levels);
     }
 
+    public static String getMirrors() {
+        return String.format(FORMAT_1_PARAMS, ApiModels.mirrors);
+    }
+
     /**
      * Test
      *
