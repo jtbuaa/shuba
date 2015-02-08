@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * 阅读进度。
  * Created by Eric on 15/2/6.
  */
-public class Progress implements Parcelable {
+public class Progresses implements Parcelable {
 
     /**
      * 阅读进度:章节Id
@@ -24,6 +24,12 @@ public class Progress implements Parcelable {
      */
     public int chars = 0;
 
+    public String mirror_id = "";
+
+    public String book_id;
+
+    public Book book;
+
     @Override
     public int describeContents() {
         return 0;
@@ -36,22 +42,22 @@ public class Progress implements Parcelable {
         dest.writeInt(this.chars);
     }
 
-    public Progress() {
+    public Progresses() {
     }
 
-    private Progress(Parcel in) {
+    private Progresses(Parcel in) {
         this.chapter_id = in.readString();
         this.chapters = in.readInt();
         this.chars = in.readInt();
     }
 
-    public static final Parcelable.Creator<Progress> CREATOR = new Parcelable.Creator<Progress>() {
-        public Progress createFromParcel(Parcel source) {
-            return new Progress(source);
+    public static final Parcelable.Creator<Progresses> CREATOR = new Parcelable.Creator<Progresses>() {
+        public Progresses createFromParcel(Parcel source) {
+            return new Progresses(source);
         }
 
-        public Progress[] newArray(int size) {
-            return new Progress[size];
+        public Progresses[] newArray(int size) {
+            return new Progresses[size];
         }
     };
 }
