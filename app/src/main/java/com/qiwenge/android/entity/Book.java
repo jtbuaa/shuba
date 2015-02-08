@@ -23,10 +23,20 @@ public class Book extends BaseModel implements Parcelable {
     public List<Mirror> mirrorList = new ArrayList<Mirror>();
 
     public Mirror currentMirror() {
-        if (mirrorList.isEmpty()) return null;
+        if (mirrorList == null || mirrorList.isEmpty()) return null;
 
         for (Mirror mirror : mirrorList) {
             if (mirror.current) return mirror;
+        }
+
+        return mirrorList.get(0);
+    }
+
+    public Mirror getMirror(String mirrorId) {
+        if (mirrorList == null || mirrorList.isEmpty()) return null;
+
+        for (Mirror mirror : mirrorList) {
+            if (mirror.getId().equals(mirrorId)) return mirror;
         }
 
         return mirrorList.get(0);

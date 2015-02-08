@@ -30,8 +30,11 @@ import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookUpdate;
 import com.qiwenge.android.entity.BookUpdateList;
 import com.qiwenge.android.entity.Mirror;
+import com.qiwenge.android.entity.Progresses;
+import com.qiwenge.android.entity.ProgressesList;
 import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.SkipUtils;
 import com.qiwenge.android.utils.StyleUtils;
 import com.qiwenge.android.utils.book.BookManager;
@@ -39,6 +42,8 @@ import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 public class BookshelfFragment extends BaseFragment {
+
+    private static final String TAG = "BookShelf";
 
     private SwipeRefreshLayout mSwipeLayout;
     private ListView lvBookShelf;
@@ -62,6 +67,14 @@ public class BookshelfFragment extends BaseFragment {
         bookShelfReceiver = new BookShelfReceiver();
         IntentFilter intentFilter = new IntentFilter(MyActions.UPDATE_BOOK_SHELF);
         getActivity().registerReceiver(bookShelfReceiver, intentFilter);
+
+        BookManager.getInstance().setOnUpdatedListener(new BookManager.OnUpdatedListener() {
+            @Override
+            public void onUpdatedSuccess() {
+                Log.i(TAG, "updated bookshelf");
+                getBooks();
+            }
+        });
     }
 
     @Override
@@ -94,6 +107,13 @@ public class BookshelfFragment extends BaseFragment {
                 if (position < data.size()) {
                     Book book = data.get(position);
                     SkipUtils.skipToReader(getActivity(), book);
+                    if (book.updateArrival > 0) {
+                        data.get(position).chapter_total = book.chapter_total + book.updateArrival;
+                        data.get(position).hasUpdate = false;
+
+                        BookShelfUtils.updateChapterTotal(getActivity(), book.getId(), book.updateArrival);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
@@ -130,6 +150,7 @@ public class BookshelfFragment extends BaseFragment {
                 switch (position) {
                     case 0:
                         SkipUtils.skipToBookDetail(getActivity(), book);
+
                         break;
                     case 1:
                         deleteBook(book);
@@ -213,8 +234,14 @@ public class BookshelfFragment extends BaseFragment {
     }
 
     private void getBooks() {
-        new AsyncBookShelfs().execute();
+        if (!gettingBooks) {
+            Log.i(TAG, "updated getBooks");
+            new AsyncBookShelfs().execute();
+            gettingBooks = true;
+        }
     }
+
+    private boolean gettingBooks = false;
 
     private class AsyncBookShelfs extends AsyncTask<Void, Integer, List<Book>> {
 
@@ -231,6 +258,7 @@ public class BookshelfFragment extends BaseFragment {
                 chkBookUpdated();
             }
             showOrHideEmpty();
+            gettingBooks = false;
         }
     }
 

@@ -1,14 +1,22 @@
 package com.qiwenge.android.utils.book;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
+import com.qiwenge.android.entity.Mirror;
+import com.qiwenge.android.entity.Progresses;
+import com.qiwenge.android.entity.ProgressesList;
+import com.qiwenge.android.entity.base.Id;
+import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.PushUtils;
+import com.qiwenge.android.utils.http.JHttpClient;
+import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +27,8 @@ import java.util.List;
  * Created by Eric on 15/1/15.
  */
 public class BookManager {
+
+    private static final String TAG = "BookManager";
 
     private static final String SHUBA_BOOK_SHELF = "SHUBA_BOOK_SHELF";
 
@@ -49,6 +59,7 @@ public class BookManager {
         }
         transferToUserAccount(context);
         new PushUtils(context).setTags(books);
+        updateProgresses(context);
     }
 
     /**
@@ -81,7 +92,7 @@ public class BookManager {
         return DEFAULT_KEY;
     }
 
-    private void save(Context context) {
+    private synchronized void save(Context context) {
         BookList bookList = new BookList();
         bookList.result = books;
         String json = new Gson().toJson(bookList);
@@ -123,6 +134,13 @@ public class BookManager {
         save(context);
     }
 
+    public void addWithoutSave(Context context, Book book) {
+        Log.i(TAG, "addWithoutSave");
+        books.add(book);
+        save(context);
+    }
+
+
     public void delete(Context context, Book book) {
         books.remove(book);
         save(context);
@@ -132,6 +150,14 @@ public class BookManager {
         int position = indexOf(book);
         if (position >= 0) {
             books.set(position, book);
+            save(context);
+        }
+    }
+
+    public void update(Context context, List<Book> bookList) {
+        if (bookList != null && !bookList.isEmpty()) {
+            books.clear();
+            books.addAll(bookList);
             save(context);
         }
     }
@@ -153,6 +179,108 @@ public class BookManager {
         if (books.isEmpty()) return false;
 
         return indexOf(book) >= 0;
+    }
+
+
+    public void updateProgresses(final Context context) {
+        String url = ApiUtils.getProgresses();
+        JHttpClient.get(context, url, null, new JsonResponseHandler<ProgressesList>(ProgressesList.class) {
+            @Override
+            public void onSuccess(ProgressesList result) {
+                if (result != null) {
+                    updateBooksFromProgressses(context, result.result);
+                    updateProgresses(context, result.result);
+                }
+            }
+
+            @Override
+            public void onOrigin(String json) {
+            }
+        });
+    }
+
+    private boolean hasUpdatedBook = false;
+
+    private void updateBooksFromProgressses(Context context, List<Progresses> list) {
+        Log.i(TAG, "updateBooksFromProgressses-size:" + list.size());
+        Book book;
+        Progresses progresses;
+        Progresses realProgresses;
+        Mirror mirror;
+        Id id;
+
+        List<Book> newBooks = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            progresses = list.get(i);
+            book = progresses.book;
+            if (book != null && !contains(book)) {
+                realProgresses = new Progresses();
+
+                realProgresses.chapter_id = progresses.chapter_id;
+                realProgresses.book_id = progresses.book_id;
+                realProgresses.chapters = progresses.chapters;
+                realProgresses.chars = progresses.chars;
+
+                mirror = new Mirror();
+                id = new Id();
+                id.set$id(progresses.mirror_id);
+                mirror._id = id;
+                mirror.progress = realProgresses;
+                mirror.book_id = book.getId();
+                book.mirrorList.add(mirror);
+
+                newBooks.add(book);
+                hasUpdatedBook = true;
+            }
+        }
+
+        if (!newBooks.isEmpty()) {
+            books.addAll(newBooks);
+            save(context);
+        }
+
+    }
+
+    private void updateProgresses(Context context, List<Progresses> list) {
+        Log.i(TAG, "updateProgresses-size:" + list.size());
+        Book book;
+        Mirror mirror;
+        Progresses progresses;
+        int bookShelfSize = books.size();
+        int progressSize = list.size();
+
+        for (int i = 0; i < bookShelfSize; i++) {
+            for (int j = 0; j < progressSize; j++) {
+                book = books.get(i);
+                progresses = list.get(j);
+                if (book.getId().equals(progresses.book_id)) {
+                    mirror = book.getMirror(progresses.mirror_id);
+                    if (mirror != null) {
+                        mirror.progress = progresses;
+                    }
+                }
+            }
+        }
+
+        if (hasUpdatedBook && onUpdatedListener != null) {
+            onUpdatedListener.onUpdatedSuccess();
+            hasUpdatedBook = true;
+        }
+
+        save(context);
+    }
+
+    private OnUpdatedListener onUpdatedListener;
+
+    public void setOnUpdatedListener(OnUpdatedListener listener) {
+        onUpdatedListener = listener;
+    }
+
+    public interface OnUpdatedListener {
+
+        public void onUpdatedSuccess();
+
     }
 
 }

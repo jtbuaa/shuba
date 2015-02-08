@@ -63,5 +63,10 @@ public enum ApiModels {
     /**
      * 镜像
      */
-    mirrors
+    mirrors,
+
+    /**
+     * 阅读进度
+     */
+    progresses
 }

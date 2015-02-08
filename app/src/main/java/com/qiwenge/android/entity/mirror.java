@@ -16,7 +16,7 @@ public class Mirror extends BaseModel implements Parcelable {
 
     public Template template = new Template();
 
-    public Progress progress = new Progress();
+    public Progresses progress = new Progresses();
 
     public boolean current = false;
 
@@ -41,7 +41,7 @@ public class Mirror extends BaseModel implements Parcelable {
     private Mirror(Parcel in) {
         this.book_id = in.readString();
         this.template = in.readParcelable(Template.class.getClassLoader());
-        this.progress = in.readParcelable(Progress.class.getClassLoader());
+        this.progress = in.readParcelable(Progresses.class.getClassLoader());
         this.current = in.readByte() != 0;
         this.id = in.readString();
         this._id = in.readParcelable(Id.class.getClassLoader());

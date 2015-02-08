@@ -1,6 +1,7 @@
 package com.qiwenge.android.utils.http;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.liuguangqiang.common.utils.LogUtils;
 import com.loopj.android.http.AsyncHttpClient;
@@ -24,15 +25,17 @@ public class JHttpClient {
         if (httpClient == null) {
             httpClient = new AsyncHttpClient();
         }
+        setAuthToken();
     }
 
-    public static void setAuthToken() {
-        createHttpCilent();
+    private static void setAuthToken() {
         if (LoginManager.isLogin()) {
             Auth auth = LoginManager.getAuth();
             httpClient.removeHeader(HEADER_AUTH);
             httpClient.addHeader(HEADER_AUTH, auth.authToken);
-            System.out.println(HEADER_AUTH + auth.authToken);
+            Log.i(TAG, "AUTH_TOKEN:" + auth.authToken);
+        } else {
+            httpClient.removeHeader(HEADER_AUTH);
         }
     }
 
@@ -110,6 +113,39 @@ public class JHttpClient {
     public static void put(String url, RequestParams params, final BaseResponseHandler handler) {
         createHttpCilent();
         httpClient.put(url, params, new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                if (handler != null) {
+                    handler.onFailure(responseString);
+                    handler.onFailure(statusCode, responseString);
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if (handler != null) handler.onSuccess(responseString);
+            }
+
+            @Override
+            public void onStart() {
+                if (handler != null) handler.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                if (handler != null) handler.onFinish();
+            }
+        });
+    }
+
+    public static void delete(String url, RequestParams params, final BaseResponseHandler handler) {
+        if (url.contains("?")) {
+            url = url + "&" + params.toString();
+        } else {
+            url = url + "?" + params.toString();
+        }
+        createHttpCilent();
+        httpClient.delete(url, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 if (handler != null) {

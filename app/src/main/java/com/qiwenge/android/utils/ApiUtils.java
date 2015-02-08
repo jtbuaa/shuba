@@ -171,6 +171,14 @@ public class ApiUtils {
         return String.format(FORMAT_1_PARAMS, ApiModels.mirrors);
     }
 
+    public static String putProgresses() {
+        return String.format(FORMAT_1_PARAMS, ApiModels.progresses);
+    }
+
+    public static String getProgresses() {
+        return String.format(FORMAT_1_PARAMS, ApiModels.progresses);
+    }
+
     /**
      * Test
      *
