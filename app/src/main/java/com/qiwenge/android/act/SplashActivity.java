@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 
 import com.liuguangqiang.common.utils.AppUtils;
@@ -12,14 +13,23 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.constant.Platform;
+import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.Configures;
+import com.qiwenge.android.entity.Mirror;
+import com.qiwenge.android.entity.Progresses;
+import com.qiwenge.android.entity.ProgressesList;
 import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.utils.book.BookManager;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
+import java.util.List;
+
 public class SplashActivity extends BaseActivity {
 
-    private final int mDuration = 500;
+    private static final String TAG = "splash";
+
+    private static final int mDuration = 500;
 
     private boolean inited = false;
 
@@ -35,8 +45,56 @@ public class SplashActivity extends BaseActivity {
         if (hasFocus && !inited) {
             inited = true;
             getScreenSize();
-            start();
+            getProgresses();
         }
+    }
+
+    private void getProgresses() {
+        String url = ApiUtils.getProgresses();
+        JHttpClient.get(getApplicationContext(), url, null, new JsonResponseHandler<ProgressesList>(ProgressesList.class) {
+            @Override
+            public void onSuccess(ProgressesList result) {
+                if (result != null) {
+                    Log.i(TAG, "getProgresses.size:" + result.result.size());
+                    filterBooks(result.result);
+                    skipToMain();
+                }
+            }
+
+            @Override
+            public void onOrigin(String json) {
+            }
+        });
+    }
+
+    private void filterBooks(List<Progresses> list) {
+        Book book;
+        Mirror mirror;
+        Progresses realProgresses;
+        Progresses p;
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            p = list.get(i);
+            book = p.book;
+
+            realProgresses = new Progresses();
+            realProgresses.chapter_id = p.chapter_id;
+            realProgresses.book_id = p.book_id;
+            realProgresses.chapters = p.chapters;
+            realProgresses.chars = p.chars;
+
+            mirror = new Mirror();
+            mirror.setId(p.mirror_id);
+            mirror.progress = realProgresses;
+            mirror.book_id = book.getId();
+            book.mirrorList.add(mirror);
+
+            if (!BookManager.getInstance().contains(book)) {
+                BookManager.getInstance().add(getApplicationContext(), book);
+            }
+        }
+
+        BookManager.getInstance().updateProgresses(getApplicationContext(), list);
     }
 
     private void start() {
