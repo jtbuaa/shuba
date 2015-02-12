@@ -11,7 +11,7 @@ import android.widget.TextView;
 /**
  * 分页器.
  * <p/>
- * Created by John on 2014-5.
+ * Created by Eric on 2014-5.
  */
 public class ReadPagerView extends TextView {
 
@@ -40,7 +40,7 @@ public class ReadPagerView extends TextView {
      */
     public void onPage(OnReaderPageListener listener) {
         Layout layout = getLayout();
-        if(layout==null) return;
+        if (layout == null) return;
 
         int length = length();
         int height = getHeight() - getPaddingTop() - getPaddingBottom();

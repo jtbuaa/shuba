@@ -54,7 +54,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int MESSAGE_SET_BRIGHTNESS = 0x1;
 
-    private final static int ANIM_DURITATION = 200;
+    private final static int ANIM_DURITATION = 300;
 
     /**
      * 最大屏幕亮度
@@ -126,7 +126,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 底部菜单
      */
-    private LinearLayout layoutBottomMenu;
+    private RelativeLayout layoutBottomMenu;
 
     private LinearLayout layoutMenuAaSet;
 
@@ -193,7 +193,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.i("TAG", "onNewIntent");
         if (intent != null && intent.getExtras() != null) {
             handleExtras(intent.getExtras());
         }
@@ -230,12 +229,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_source://Source
-//                if (book != null)
-//                    new SourceDialog(this, book).show(true);
-                break;
-            case R.id.layout_bottom_menu:
-                break;
             case R.id.layout_back:
                 finish();
                 break;
@@ -345,9 +338,8 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void initBottomMenu() {
-        layoutBottomMenu = (LinearLayout) this.findViewById(R.id.layout_bottom_menu);
+        layoutBottomMenu = (RelativeLayout) this.findViewById(R.id.layout_bottom_menu);
         layoutBottomMenu.setVisibility(View.GONE);
-        layoutBottomMenu.setOnClickListener(this);
         layoutMenuAaSet = (LinearLayout) this.findViewById(R.id.layout_menu_aa_set);
         layoutMenuAaSet.setVisibility(View.GONE);
 
@@ -438,9 +430,11 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
                         }
                         break;
                     case 1:// Aa
-                        if (layoutMenuAaSet.getVisibility() == View.GONE)
-                            layoutMenuAaSet.setVisibility(View.VISIBLE);
-                        else layoutMenuAaSet.setVisibility(View.GONE);
+                        if (layoutMenuAaSet.getVisibility() == View.GONE) {
+                            showAaSet();
+                        } else {
+                            hideAaSet();
+                        }
                         break;
                     case 2:// 目录
                         Bundle extra = new Bundle();
@@ -460,6 +454,24 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectTheme(position, true);
+            }
+        });
+    }
+
+    private void showAaSet() {
+        AnimUtils.showFromBottom(layoutMenuAaSet, ANIM_DURITATION, new AnimListener() {
+            @Override
+            public void onStart() {
+                layoutMenuAaSet.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void hideAaSet() {
+        AnimUtils.hideFromBottom(layoutMenuAaSet, ANIM_DURITATION, new AnimListener() {
+            @Override
+            public void onEnd() {
+                layoutMenuAaSet.setVisibility(View.GONE);
             }
         });
     }
@@ -555,15 +567,18 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      * 显示底部菜单
      */
     private void showBottomMenu() {
-
         AnimUtils.showFromBottom(layoutBottomMenu, ANIM_DURITATION, new AnimListener() {
             @Override
             public void onEnd() {
                 bottomIsShow = true;
                 menuAnimActioning = false;
             }
-        });
 
+            @Override
+            public void onStart() {
+                layoutBottomMenu.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     /**
@@ -575,6 +590,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
             public void onEnd() {
                 bottomIsShow = false;
                 menuAnimActioning = false;
+                layoutBottomMenu.setVisibility(View.GONE);
             }
         });
     }

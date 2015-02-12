@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import com.qiwenge.android.entity.Page;
 import com.qiwenge.android.utils.ThemeUtils;
 
 /**
- * 阅读适配器。Created by John at 2014.
+ * 阅读适配器。Created by Eric at 2014.
  */
 public class ReaderAdapter extends PagerAdapter {
 
@@ -36,7 +35,6 @@ public class ReaderAdapter extends PagerAdapter {
 
     @Override
     public View instantiateItem(ViewGroup container, final int position) {
-        Log.i("ReaderAdapter", "instantiateItem");
         View view = mInflater.inflate(R.layout.item_reader, container, false);
         TextView tv = (TextView) view.findViewById(R.id.tv_reader);
         tv.setText(pages.get(position).content);
@@ -63,7 +61,6 @@ public class ReaderAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        Log.i("ReaderAdapter", "destroyItem");
         final View view = (View) object;
         container.removeView(view);
     }

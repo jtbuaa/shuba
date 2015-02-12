@@ -251,7 +251,7 @@ public class ReadFragment extends BaseFragment {
         layoutEmpty = (LinearLayout) getView().findViewById(R.id.layout_empty);
         layoutEmpty.setVisibility(View.GONE);
         TextView tvEmpty = (TextView) getView().findViewById(R.id.tv_empty);
-        tvEmpty.setText("网络不给力，请重试");
+        tvEmpty.setText("对不起, 请求失败");
         Button btnEmpty = (Button) getView().findViewById(R.id.btn_empty);
         btnEmpty.setText("重试");
         btnEmpty.setVisibility(View.VISIBLE);
@@ -287,7 +287,6 @@ public class ReadFragment extends BaseFragment {
                 Page p = pageList.get(arg0);
 
                 if (nextChapter != null && nextChapter.getId().equals(p.chapterId)) {
-                    System.out.println("已经进入下一章");
                     current = nextChapter;
                     listCurrent = listNext;
                     currentChapterId = current.getId();
@@ -295,7 +294,6 @@ public class ReadFragment extends BaseFragment {
                 }
 
                 if (prevChapter != null && prevChapter.getId().equals(p.chapterId)) {
-                    System.out.println("已经进入上一章");
                     current = prevChapter;
                     listCurrent = listPrev;
                     currentChapterId = current.getId();
@@ -494,7 +492,6 @@ public class ReadFragment extends BaseFragment {
             @Override
             public void onFailure(String msg) {
                 if (msg == null) msg = "unknow msg";
-                System.out.println(msg);
             }
 
         });
