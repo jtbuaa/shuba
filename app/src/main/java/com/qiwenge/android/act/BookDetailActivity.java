@@ -103,6 +103,8 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
 
     private MirrorDialog sourceDialog;
 
+    private int mirrorCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,12 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(ACTION_ITEM_SOURCE).setVisible(mirrorCount > 1);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -283,8 +291,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
      * 获取相关推荐。
      */
     private void getRelated() {
-        System.out.println("getRelated");
-
         if (book != null && !StringUtils.isEmptyOrNull(book.getId())) {
             String url = ApiUtils.getRelated(book.getId());
             RequestParams params = new RequestParams();
@@ -363,8 +369,10 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener 
                     @Override
                     public void onSuccess(MirrorList result) {
                         if (result != null) {
+                            mirrorCount = result.total;
                             book.mirrorList = result.result;
                             sourceDialog = new MirrorDialog(BookDetailActivity.this, book, result.result);
+                            invalidateOptionsMenu();
                         }
                     }
                 });
