@@ -79,7 +79,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 skipToMarket();
                 break;
             case R.id.layout_user:
-                showLoginDialog();
+                if (!LoginManager.isLogin())
+                    showLoginDialog();
                 break;
         }
     }
@@ -146,13 +147,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void getUser(String userId) {
-        System.out.println("getUser:" + userId);
         String url = ApiUtils.getUser(userId);
         JHttpClient.get(getActivity(), url, null, new JsonResponseHandler<User>(User.class, false) {
 
             @Override
             public void onOrigin(String json) {
-                System.out.println("getUser-onSuccess:" + json);
             }
 
             @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.liuguangqiang.common.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.Constant_Sina;
 import com.qiwenge.android.entity.SinaUser;
@@ -39,6 +40,12 @@ public class SinaWeiboLogin {
         authListener.onStart();
         mWeiboAPI = WeiboSDK.createWeiboAPI(activity, Constant_Sina.APP_KEY);
         mWeiboAPI.registerApp();
+
+        if (!mWeiboAPI.isWeiboAppInstalled()) {
+            ToastUtils.show(activity.getApplicationContext(), "你尚未安装微博,不能用微博登陆");
+            listener.onFailure();
+            return;
+        }
 
         mSsoHandler = new SsoHandler(activity, getSinaWeibo());
         mSsoHandler.authorize(new WeiboAuthListener() {
