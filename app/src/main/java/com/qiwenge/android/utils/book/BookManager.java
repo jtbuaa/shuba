@@ -1,23 +1,16 @@
 package com.qiwenge.android.utils.book;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.liuguangqiang.common.utils.StringUtils;
-import com.qiwenge.android.async.AsyncSaveBook;
-import com.qiwenge.android.async.AsyncUpdateBook;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.entity.Mirror;
 import com.qiwenge.android.entity.Progresses;
-import com.qiwenge.android.entity.ProgressesList;
-import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.LoginManager;
 import com.qiwenge.android.utils.PushUtils;
-import com.qiwenge.android.utils.http.JHttpClient;
-import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +21,6 @@ import java.util.List;
  * Created by Eric on 15/1/15.
  */
 public class BookManager {
-
-    private static final String TAG = "BookManager";
 
     private static final String SHUBA_BOOK_SHELF = "SHUBA_BOOK_SHELF";
 
@@ -143,7 +134,6 @@ public class BookManager {
         int position = indexOf(book);
         if (position >= 0) {
             books.set(position, book);
-//            new AsyncSaveBook(context).execute();
             save(context);
         }
     }
@@ -168,7 +158,6 @@ public class BookManager {
     }
 
     public void updateProgresses(Context context, List<Progresses> list) {
-        Log.i(TAG, "updateProgresses-size:" + list.size());
         Book book;
         Mirror mirror;
         Progresses progresses;

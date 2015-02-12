@@ -13,6 +13,8 @@ import com.qiwenge.android.utils.http.JHttpClient;
 
 public class BookShelfUtils {
 
+    private static final String TAG = "BookShelf";
+
     /**
      * 获取阅读的章节Number
      *
@@ -37,6 +39,7 @@ public class BookShelfUtils {
      * @param chars
      */
     public static void updateReadRecord(Context context, Book book, Chapter chapter, int chars) {
+        Log.i(TAG, "mirrorList-size:" + book.mirrorList.size());
         Mirror mirror = book.currentMirror();
         if (mirror != null) {
             mirror.progress.chapter_id = chapter.getId();
@@ -61,6 +64,8 @@ public class BookShelfUtils {
         }
 
         BookManager.getInstance().update(context, book);
+
+//        new AsyncUpdateBook(context).execute(book);
     }
 
     /**
@@ -68,14 +73,13 @@ public class BookShelfUtils {
      *
      * @param context
      * @param bookId
-     * @param arrival
+     * @param chapterTotal
      */
-    public static void updateChapterTotal(Context context, String bookId, int arrival) {
+    public static void updateChapterTotal(Context context, String bookId, int chapterTotal) {
         Book book = BookManager.getInstance().getById(bookId);
         if (book != null) {
-            book.chapter_total = book.chapter_total + arrival;
+            book.chapter_total = chapterTotal;
             BookManager.getInstance().update(context, book);
         }
     }
-
 }

@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +29,6 @@ import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookUpdate;
 import com.qiwenge.android.entity.BookUpdateList;
 import com.qiwenge.android.entity.Mirror;
-import com.qiwenge.android.entity.Progresses;
-import com.qiwenge.android.entity.ProgressesList;
 import com.qiwenge.android.ui.dialogs.MyDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.BookShelfUtils;
@@ -42,8 +39,6 @@ import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
 public class BookshelfFragment extends BaseFragment {
-
-    private static final String TAG = "BookShelf";
 
     private SwipeRefreshLayout mSwipeLayout;
     private ListView lvBookShelf;
@@ -67,14 +62,6 @@ public class BookshelfFragment extends BaseFragment {
         bookShelfReceiver = new BookShelfReceiver();
         IntentFilter intentFilter = new IntentFilter(MyActions.UPDATE_BOOK_SHELF);
         getActivity().registerReceiver(bookShelfReceiver, intentFilter);
-
-        BookManager.getInstance().setOnUpdatedListener(new BookManager.OnUpdatedListener() {
-            @Override
-            public void onUpdatedSuccess() {
-                Log.i(TAG, "updated bookshelf");
-                getBooks();
-            }
-        });
     }
 
     @Override
@@ -107,13 +94,7 @@ public class BookshelfFragment extends BaseFragment {
                 if (position < data.size()) {
                     Book book = data.get(position);
                     SkipUtils.skipToReader(getActivity(), book);
-                    if (book.updateArrival > 0) {
-                        data.get(position).chapter_total = book.chapter_total + book.updateArrival;
-                        data.get(position).hasUpdate = false;
-
-                        BookShelfUtils.updateChapterTotal(getActivity(), book.getId(), book.updateArrival);
-                        adapter.notifyDataSetChanged();
-                    }
+                    updateChapterTotal(book);
                 }
             }
         });
@@ -134,12 +115,20 @@ public class BookshelfFragment extends BaseFragment {
         });
     }
 
+    private void updateChapterTotal(Book book) {
+        if (book.updateArrival > 0) {
+            book.hasUpdate = false;
+            book.updateArrival = 0;
+            BookShelfUtils.updateChapterTotal(getActivity(), book.getId(), book.chapter_total);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private void showOrHideEmpty() {
         if (data.isEmpty())
             layoutEmpty.setVisibility(View.VISIBLE);
         else layoutEmpty.setVisibility(View.GONE);
     }
-
 
     private void showBookDialog(final Book book) {
         MyDialog myDialog = new MyDialog(getActivity(), book.title);
@@ -149,8 +138,8 @@ public class BookshelfFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
+                        updateChapterTotal(book);
                         SkipUtils.skipToBookDetail(getActivity(), book);
-
                         break;
                     case 1:
                         deleteBook(book);
@@ -220,6 +209,7 @@ public class BookshelfFragment extends BaseFragment {
                 if (book.getId().equals(bookUpdate.book_id)) {
                     book.hasUpdate = bookUpdate.updated();
                     book.updateArrival = bookUpdate.arrival;
+                    book.chapter_total = bookUpdate.chapter_total;
                 }
             }
         }
@@ -235,7 +225,6 @@ public class BookshelfFragment extends BaseFragment {
 
     private void getBooks() {
         if (!gettingBooks) {
-            Log.i(TAG, "updated getBooks");
             new AsyncBookShelfs().execute();
             gettingBooks = true;
         }

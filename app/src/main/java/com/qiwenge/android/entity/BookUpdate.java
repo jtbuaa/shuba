@@ -23,4 +23,9 @@ public class BookUpdate {
      */
     public int arrival = 0;
 
+    /**
+     * 章节总数
+     */
+    public int chapter_total = 0;
+
 }
