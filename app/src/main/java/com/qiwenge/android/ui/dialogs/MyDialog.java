@@ -89,7 +89,8 @@ public class MyDialog {
         container.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialog.dismiss();
+                if (cancelable)
+                    mDialog.dismiss();
             }
         });
         mDialog.setContentView(container);
@@ -154,11 +155,12 @@ public class MyDialog {
         setPositiveButton(mContext.getString(sureTextResId), listener);
     }
 
-    public void setPositiveButton(String btnSureText, final OnPositiveClickListener listener) {
+    public void setPositiveButton(String btnSureText, String btnCancelText, final OnPositiveClickListener listener) {
         View view = getView(mContext, R.layout.dialog_l_simple);
         TextView btnCancel = (TextView) view.findViewById(R.id.tv_btn_cancel);
         TextView btnSure = (TextView) view.findViewById(R.id.tv_btn_sure);
         if (btnSureText != null) btnSure.setText(btnSureText);
+        if (btnCancelText != null) btnCancel.setText(btnCancelText);
         btnCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +177,10 @@ public class MyDialog {
             }
         });
         addView(view);
+    }
+
+    public void setPositiveButton(String btnSureText, final OnPositiveClickListener listener) {
+        setPositiveButton(btnSureText, null, listener);
     }
 
     public void addView(View view) {
@@ -196,8 +202,11 @@ public class MyDialog {
         if (mDialog != null) mDialog.dismiss();
     }
 
+    private boolean cancelable = true;
+
     public void setCancelable(boolean b) {
         mDialog.setCancelable(b);
+        cancelable = b;
     }
 
     private View getContainerView(Activity context) {
