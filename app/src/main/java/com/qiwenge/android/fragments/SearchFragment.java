@@ -38,10 +38,7 @@ public class SearchFragment extends BaseListFragment<Book> {
     public void initViews() {
         super.initViews();
         adapter = new BooksAdapter(getActivity().getApplicationContext(), data);
-        setDisablePullToRefresh();
-        setEnableFooterPage();
         setEnableProgressBar();
-        setEnableEmptyView();
         setEmptyIcon(R.drawable.ic_empty_search);
         setEmptyMessage(R.string.empty_search);
         setAdapter();

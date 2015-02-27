@@ -28,8 +28,6 @@ public class BookFragment extends BaseListFragment<Book> {
         super.initViews();
         adapter = new BooksAdapter(getActivity(), data);
         setEnableProgressBar();
-        setEnableFooterPage();
-        setEnablePullToRefresh();
         setEnableEmptyView();
         setAdapter();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

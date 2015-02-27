@@ -59,7 +59,8 @@ public class CategorysFragment extends BaseListFragment<Category> {
     public void initViews() {
         super.initViews();
         adapter = new CategoryAdapter(getActivity(), data);
-
+        setPageable(false);
+        setRefreshable(false);
         setAdapter();
         mListView.setOnItemClickListener(new OnItemClickListener() {
 

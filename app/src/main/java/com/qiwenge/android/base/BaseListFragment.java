@@ -25,6 +25,8 @@ import java.util.List;
  */
 public class BaseListFragment<T> extends BaseFragment {
 
+    private boolean pageable = true;
+
     public PagePullToRefreshListView mListView;
 
     public SwipeRefreshLayout mSwipeRefreshLayout;
@@ -56,12 +58,29 @@ public class BaseListFragment<T> extends BaseFragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
         StyleUtils.setColorSchemeResources(mSwipeRefreshLayout);
         mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
+        mListView.setOnScrollPageListener(new PagePullToRefreshListView.ScrollPageListener() {
+            @Override
+            public void onPage() {
+                pageindex++;
+                requestData();
+            }
+        });
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageindex = 1;
+                mListView.reset();
+                requestData();
+            }
+        });
+
         initDefault();
     }
 
     public void initDefault() {
-        setEnableFooterPage();
-        setEnablePullToRefresh();
+        setRefreshable(true);
+        setPageable(true);
         setEnableEmptyView();
     }
 
@@ -116,29 +135,10 @@ public class BaseListFragment<T> extends BaseFragment {
         }
     }
 
-    public void setDisablePullToRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setEnabled(false);
-        }
-    }
-
     public void setAdapter() {
         if (mListView != null && adapter != null) {
             mListView.setAdapter(adapter);
             mListView.removePageFooterView();
-        }
-    }
-
-    public void setEnablePullToRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    pageindex = 1;
-                    mListView.reset();
-                    requestData();
-                }
-            });
         }
     }
 
@@ -148,18 +148,17 @@ public class BaseListFragment<T> extends BaseFragment {
             pbLoading.setVisibility(View.GONE);
     }
 
-    public void setEnableFooterPage() {
-        if (mListView != null) {
-            mListView.setFooterDividersEnabled(true);
-            enableFooterPage = true;
-            mListView.addPageFooterView();
-            mListView.setOnScrollPageListener(new PagePullToRefreshListView.ScrollPageListener() {
-                @Override
-                public void onPage() {
-                    pageindex++;
-                    requestData();
-                }
-            });
+    public void setRefreshable(boolean refreshable) {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setEnabled(refreshable);
+        }
+    }
+
+    public void setPageable(boolean pageable) {
+        this.pageable = pageable;
+        mListView.setPageEnable(pageable);
+        if (!pageable) {
+            mListView.removePageFooterView();
         }
     }
 
@@ -176,13 +175,14 @@ public class BaseListFragment<T> extends BaseFragment {
     }
 
     public void requestSuccess(List<T> newData) {
-
-        if (newData.size() < Constants.DEFAULT_PAGE_SIZE) {
-            mListView.removePageFooterView();
-            mListView.setPageEnable(false);
-        } else {
-            mListView.addPageFooterView();
-            mListView.setPageEnable(true);
+        if (pageable) {
+            if (newData.size() < Constants.DEFAULT_PAGE_SIZE) {
+                mListView.removePageFooterView();
+                mListView.setPageEnable(false);
+            } else {
+                mListView.addPageFooterView();
+                mListView.setPageEnable(true);
+            }
         }
 
         if (pageindex == 1)
