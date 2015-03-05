@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
@@ -64,9 +65,13 @@ public class JPushReceiver extends BroadcastReceiver {
         builder.setSmallIcon(R.drawable.ic_launcher);
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        notification.icon = R.drawable.ic_launcher;
         notification.tickerText = summary;
         notification.defaults = Notification.DEFAULT_SOUND;
+        if (Build.VERSION.SDK_INT >= 19) {
+            notification.icon = R.drawable.ic_notify_logo;
+        } else {
+            notification.icon = R.drawable.ic_launcher;
+        }
         manager.notify(NOTIFY_NUM, notification);
     }
 
