@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Display;
 
 import com.liuguangqiang.common.utils.AppUtils;
+import com.liuguangqiang.common.utils.NetworkUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
@@ -45,7 +46,12 @@ public class SplashActivity extends BaseActivity {
         if (hasFocus && !inited) {
             inited = true;
             getScreenSize();
-            getProgresses();
+
+            if (NetworkUtils.isAvailable(getApplicationContext())) {
+                getProgresses();
+            } else {
+                skipToMain();
+            }
         }
     }
 
@@ -55,7 +61,6 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onSuccess(ProgressesList result) {
                 if (result != null) {
-                    Log.i(TAG, "getProgresses.size:" + result.result.size());
                     filterBooks(result.result);
                     skipToMain();
                 }
@@ -95,15 +100,6 @@ public class SplashActivity extends BaseActivity {
         }
 
         BookManager.getInstance().updateProgresses(getApplicationContext(), list);
-    }
-
-    private void start() {
-        if (Constants.PLATFORM.equals(Platform.COMMON)) {
-            Constants.openAutoReading = true;
-            skipToMain();
-        } else {
-            connect();
-        }
     }
 
     public void getScreenSize() {
