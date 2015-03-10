@@ -17,6 +17,8 @@ public class JHttpClient {
 
     private static final String TAG = "JHttpClient";
 
+    private static final int CONNECT_TIMEOUT = 20 * 1000;
+
     private static AsyncHttpClient httpClient;
 
     private static final String HEADER_AUTH = "Authorization";
@@ -24,6 +26,7 @@ public class JHttpClient {
     private static void createHttpCilent() {
         if (httpClient == null) {
             httpClient = new AsyncHttpClient();
+            httpClient.setTimeout(CONNECT_TIMEOUT);
         }
         setAuthToken();
     }
@@ -53,6 +56,7 @@ public class JHttpClient {
         httpClient.get(url, params, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.i(TAG, "get-onFailure:" + statusCode);
                 if (handler != null) {
                     handler.onFailure(responseString);
                     handler.onFailure(statusCode, responseString);
@@ -64,7 +68,16 @@ public class JHttpClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                if (handler != null) handler.onSuccess(responseString);
+                if (handler != null) {
+                    if (statusCode > 300) {
+                        handler.onFailure(statusCode, responseString);
+                        if (context != null) {
+                            FailureUtils.handleHttpRequest(context, responseString, statusCode, null);
+                        }
+                    } else {
+                        handler.onSuccess(responseString);
+                    }
+                }
             }
 
             @Override
