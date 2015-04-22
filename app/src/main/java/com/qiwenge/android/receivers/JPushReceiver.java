@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.liuguangqiang.common.utils.StringUtils;
 import com.qiwenge.android.R;
@@ -27,27 +28,40 @@ public class JPushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         String action = intent.getAction();
+
+        Log.i(TAG, "onReceive:" + action);
 
         if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(action)) {
             receiveMessage(context, intent.getExtras());
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(action)) {
-
+            receiveMessage(context, intent.getExtras());
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(action)) {
             openNotify(context, intent.getExtras());
         }
     }
 
     private void receiveMessage(Context context, Bundle bundle) {
+        Log.i(TAG, "receiveMessage");
+        printBundle(bundle);
         String title = context.getString(R.string.app_name);
+
         String msg = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+
+        if (StringUtils.isEmptyOrNull(msg)) {
+            msg = bundle.getString(JPushInterface.EXTRA_ALERT);
+        }
+
         if (StringUtils.isEmptyOrNull(msg)) {
             msg = "unknown message";
         }
+
         showJPUSHNotify(context, title, msg, bundle);
     }
 
     private void showJPUSHNotify(Context context, String title, String summary, Bundle extras) {
+        Log.i(TAG, "showJPUSHNotify");
         NOTIFY_NUM = NOTIFY_NUM + 1;
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -72,6 +86,7 @@ public class JPushReceiver extends BroadcastReceiver {
         } else {
             notification.icon = R.drawable.ic_launcher;
         }
+        manager.cancelAll();
         manager.notify(NOTIFY_NUM, notification);
     }
 
@@ -80,15 +95,30 @@ public class JPushReceiver extends BroadcastReceiver {
         intent.putExtras(extras);
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, NOTIFY_NUM, intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent.FLAG_CANCEL_CURRENT);
         return pendingIntent;
     }
 
     private void openNotify(Context context, Bundle bundle) {
+        Log.i(TAG, "openNotify");
         Intent i = new Intent(context, MainActivity.class);
         i.putExtras(bundle);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
+    }
+
+    private void printBundle(Bundle bundle) {
+        StringBuilder sb = new StringBuilder();
+        for (String key : bundle.keySet()) {
+            if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
+                sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
+            } else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)) {
+                sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
+            } else {
+                sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+            }
+        }
+        Log.i(TAG, "printBundle:" + sb.toString());
     }
 
 }
