@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_bottom_menu"
+    android:id="@+id/layout_menu_aa_set"
     android:layout_width="match_parent"
     android:layout_height="226dp"
     android:layout_alignParentBottom="true"
-    android:orientation="vertical">
+    android:layout_marginBottom="-226dp"
+    android:background="@color/reader_menu_bg_color">
 
     <LinearLayout
-        android:id="@+id/layout_menu_aa_set"
         android:layout_width="fill_parent"
         android:layout_height="170dp"
-        android:layout_above="@+id/gv_menu"
-        android:background="@color/reader_menu_bg_color"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -107,20 +104,5 @@
             android:scrollbars="none"></GridView>
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_above="@+id/gv_menu"
-        android:background="@color/main_night_bg_color" />
-
-    <GridView
-        android:id="@+id/gv_menu"
-        android:layout_width="fill_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/reader_menu_bg_color"
-        android:listSelector="@drawable/item_common_bg"
-        android:numColumns="3"
-        android:scrollbars="none" />
 
 </RelativeLayout>

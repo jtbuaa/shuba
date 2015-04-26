@@ -21,6 +21,7 @@
 # removes such information by default, so configure it to keep all of it.
 -keepattributes Signature
 
+-keepattributes *Annotation*
 
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
@@ -36,6 +37,8 @@ public static final android.os.Parcelable$Creator *;
 }
 
 -dontwarn android.net.http.**
+
+-dontwarn roboguice.**
 
 #google
 -keep class com.google.** { *; }
@@ -54,5 +57,5 @@ public static final android.os.Parcelable$Creator *;
 -keep class * extends android.app.Dialog
 
 #shuba
--keep class com.qiwenge.android.models.** { *; }
--keep class com.qiwenge.android.models.base.** { *; }
+-keep class com.qiwenge.android.entity.** { *; }
+-keep class com.qiwenge.android.entity.base.** { *; }

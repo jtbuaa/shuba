@@ -10,53 +10,51 @@
 
     <include layout="@layout/layout_read_bottom" />
 
-    <LinearLayout
-        android:id="@+id/layout_reader_top"
+    <RelativeLayout
+        android:id="@+id/layout_top_menu"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/action_bar_height"
-        android:layout_marginTop="-56dp"
-        android:background="@color/reader_menu_bg_color"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/layout_back"
-            android:layout_width="56dp"
-            android:layout_height="fill_parent"
-            android:background="@drawable/action_bar_item_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_action_home" />
-
-        </LinearLayout>
+        android:layout_height="76dp"
+        android:layout_marginTop="-76dp"
+        android:background="@color/reader_menu_bg_color">
 
         <TextView
             android:id="@+id/tv_book_title"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_alignRight="@+id/layout_back"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/action_bar_item_bg"
+            android:drawableLeft="@drawable/ic_action_home"
             android:ellipsize="end"
             android:gravity="center_vertical"
+            android:paddingRight="10dp"
             android:singleLine="true"
+            android:text="11"
             android:textColor="@color/action_bar_text_color"
             android:textSize="@dimen/font_size_action_title" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-76dp"
+        android:background="@color/reader_menu_bg_color">
+
+        <GridView
+            android:id="@+id/gv_menu"
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:background="@color/reader_menu_bg_color"
+            android:listSelector="@drawable/item_common_bg"
+            android:numColumns="4"
+            android:scrollbars="none" />
         <ImageView
-            android:id="@+id/btn_source"
-            android:layout_width="54dp"
-            android:layout_height="fill_parent"
-            android:background="@drawable/action_bar_item_bg"
-            android:gravity="center_vertical"
-            android:scaleType="center"
-            android:src="@drawable/ic_action_source"
-            android:visibility="gone" />
-
-    </LinearLayout>
-
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.15"
+            android:background="@android:color/white"/>
+    </RelativeLayout>
 
 </RelativeLayout>

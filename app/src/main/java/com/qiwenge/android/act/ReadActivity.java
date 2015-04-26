@@ -1,49 +1,51 @@
 package com.qiwenge.android.act;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.liuguangqiang.common.utils.AnimUtils;
-import com.liuguangqiang.common.utils.listener.AnimListener;
+import com.facebook.rebound.SimpleSpringListener;
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringSystem;
+import com.liuguangqiang.common.utils.DisplayUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ReadMenuAdapter;
 import com.qiwenge.android.adapters.ReadThemeAdapter;
 import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.entity.Mirror;
-import com.qiwenge.android.fragments.ReadFragment;
-import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.entity.Book;
+import com.qiwenge.android.entity.Mirror;
 import com.qiwenge.android.entity.ReadMenu;
 import com.qiwenge.android.entity.ReadTheme;
+import com.qiwenge.android.fragments.ReadFragment;
+import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ScreenBrightnessUtils;
 import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.book.BookManager;
 
-public class ReadActivity extends BaseActivity implements View.OnClickListener {
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+public class ReadActivity extends BaseActivity {
 
     private static final String TAG = "ReadActivity";
 
@@ -53,8 +55,6 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     private boolean inited = false;
 
     private static final int MESSAGE_SET_BRIGHTNESS = 0x1;
-
-    private final static int ANIM_DURITATION = 300;
 
     /**
      * 最大屏幕亮度
@@ -111,63 +111,42 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     private ReadFragment fragment;
 
-    private LinearLayout actionBack;
+    @InjectView(R.id.layout_read_container)
+    RelativeLayout layoutContainer;
 
-    /**
-     * 阅读器最外层容器
-     */
-    private RelativeLayout layoutContainer;
+    @InjectView(R.id.layout_top_menu)
+    RelativeLayout topMenu;
 
-    /**
-     * 顶部导航
-     */
-    private LinearLayout layoutTop;
+    @InjectView(R.id.layout_bottom_menu)
+    RelativeLayout layoutBottomMenu;
 
-    /**
-     * 底部菜单
-     */
-    private RelativeLayout layoutBottomMenu;
+    @InjectView(R.id.layout_menu_aa_set)
+    RelativeLayout layoutMenuAaSet;
 
-    private LinearLayout layoutMenuAaSet;
+    @InjectView(R.id.tv_book_title)
+    TextView tvBookTitle;
 
-    private TextView tvBookTitle;
-
-    private ImageView ivBtnSource;
-
-    private GridView gvMenu;
+    @InjectView(R.id.gv_menu)
+    GridView gvBottomMenu;
 
     private GridView gvTheme;
 
     private SeekBar seekBarBrightness;
-
     private SeekBar seekFontSize;
 
-    private ImageView ivBrightnessMinus;
-
-    private ImageView ivBrightnessPlus;
-
-    private TextView tvFontSizeMinus;
-
-    private TextView tvFontSizePlus;
-
     private boolean topIsShow = false;
-
     private boolean bottomIsShow = false;
-
-    /**
-     * 菜单动画，是否正在进行。避免重复执行动画。
-     */
-    private boolean menuAnimActioning = false;
+    private boolean isShowAsSet = false;
 
     /**
      * Menu
      */
-    private List<ReadMenu> menuData = new ArrayList<ReadMenu>();
+    private List<ReadMenu> menuData = new ArrayList<>();
 
     /**
      * Theme
      */
-    private List<ReadTheme> themeData = new ArrayList<ReadTheme>();
+    private List<ReadTheme> themeData = new ArrayList<>();
 
     private ReadMenuAdapter menuAdapter;
 
@@ -184,6 +163,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
+        ButterKnife.inject(this);
         initData();
         initViews();
         initReadFragment();
@@ -217,36 +197,13 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU && !menuAnimActioning) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
             showOrHideMenu();
         } else if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (topIsShow) showOrHideMenu();
             else finish();
         }
         return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.layout_back:
-                finish();
-                break;
-            case R.id.iv_brightness_minus:
-                minusBrightness();
-                break;
-            case R.id.iv_brightness_plus:
-                plusBirghtness();
-                break;
-            case R.id.tv_fontsize_minus:
-                minusFontSize();
-                break;
-            case R.id.tv_fontsize_plus:
-                plusFontSize();
-                break;
-            default:
-                break;
-        }
     }
 
     private Book book;
@@ -278,7 +235,13 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     private void getChapter(String chapterId) {
         if (book != null) {
             Book b = BookManager.getInstance().getById(book.getId());
-            Mirror mirror = b.currentMirror();
+
+            Mirror mirror = null;
+
+            if (b != null) {
+                mirror = b.currentMirror();
+            }
+
             if (b != null && mirror != null && chapterId.equals(mirror.progress.chapter_id)) {
                 int length = mirror.progress.chars;
                 fragment.getChapter(chapterId, length);
@@ -293,15 +256,13 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      */
     private void initData() {
         String[] titles = getResources().getStringArray(R.array.read_menu_titles);
-        int[] icons =
-                {R.drawable.icon_menu_mode_night,
-                        R.drawable.icon_menu_aa, R.drawable.icon_menu_chapters};
+        TypedArray icons = getResources().obtainTypedArray(R.array.read_menu_icons);
 
         ReadMenu menu;
         for (int i = 0; i < titles.length; i++) {
             menu = new ReadMenu();
             menu.title = titles[i];
-            menu.icon = icons[i];
+            menu.icon = icons.getResourceId(i, R.mipmap.icon_menu_chapters);
             menuData.add(menu);
         }
 
@@ -317,44 +278,18 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         // 屏幕亮度。
         mProgress = ScreenBrightnessUtils.getBrightness(getApplicationContext());
         ScreenBrightnessUtils.setBrightness(this, mProgress);
-
     }
 
     private void initViews() {
-        layoutContainer = (RelativeLayout) this.findViewById(R.id.layout_read_container);
-        layoutTop = (LinearLayout) this.findViewById(R.id.layout_reader_top);
-        tvBookTitle = (TextView) this.findViewById(R.id.tv_book_title);
-        ivBtnSource = (ImageView) this.findViewById(R.id.btn_source);
-        ivBtnSource.setOnClickListener(this);
-        actionBack = (LinearLayout) this.findViewById(R.id.layout_back);
-        actionBack.setOnClickListener(this);
-
         initBottomMenu();
-
         initBrightnessSeekBar();
-
         initFontSizeSeekBar();
     }
 
 
     private void initBottomMenu() {
-        layoutBottomMenu = (RelativeLayout) this.findViewById(R.id.layout_bottom_menu);
-        layoutBottomMenu.setVisibility(View.GONE);
-        layoutMenuAaSet = (LinearLayout) this.findViewById(R.id.layout_menu_aa_set);
-        layoutMenuAaSet.setVisibility(View.GONE);
-
-        ivBrightnessMinus = (ImageView) this.findViewById(R.id.iv_brightness_minus);
-        ivBrightnessPlus = (ImageView) this.findViewById(R.id.iv_brightness_plus);
-        tvFontSizeMinus = (TextView) this.findViewById(R.id.tv_fontsize_minus);
-        tvFontSizePlus = (TextView) this.findViewById(R.id.tv_fontsize_plus);
-        ivBrightnessMinus.setOnClickListener(this);
-        ivBrightnessPlus.setOnClickListener(this);
-        tvFontSizeMinus.setOnClickListener(this);
-        tvFontSizePlus.setOnClickListener(this);
-
         menuAdapter = new ReadMenuAdapter(getApplicationContext(), menuData);
-        gvMenu = (GridView) this.findViewById(R.id.gv_menu);
-        gvMenu.setAdapter(menuAdapter);
+        gvBottomMenu.setAdapter(menuAdapter);
 
         themeAdapter = new ReadThemeAdapter(getApplicationContext(), themeData);
         gvTheme = (GridView) this.findViewById(R.id.gv_theme);
@@ -416,7 +351,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initListeners() {
-        gvMenu.setOnItemClickListener(new OnItemClickListener() {
+        gvBottomMenu.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -430,7 +365,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
                         }
                         break;
                     case 1:// Aa
-                        if (layoutMenuAaSet.getVisibility() == View.GONE) {
+                        if (!isShowAsSet) {
                             showAaSet();
                         } else {
                             hideAaSet();
@@ -458,23 +393,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private void showAaSet() {
-        AnimUtils.showFromBottom(layoutMenuAaSet, ANIM_DURITATION, new AnimListener() {
-            @Override
-            public void onStart() {
-                layoutMenuAaSet.setVisibility(View.VISIBLE);
-            }
-        });
-    }
 
-    private void hideAaSet() {
-        AnimUtils.hideFromBottom(layoutMenuAaSet, ANIM_DURITATION, new AnimListener() {
-            @Override
-            public void onEnd() {
-                layoutMenuAaSet.setVisibility(View.GONE);
-            }
-        });
-    }
 
     /**
      * 选择主题。
@@ -503,7 +422,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
      * 取消夜间模式
      */
     private void cancelNightModel() {
-        menuData.get(0).icon = R.drawable.icon_menu_mode_night;
+        menuData.get(0).icon = R.mipmap.icon_menu_mode_night;
         menuData.get(0).title = getString(R.string.reader_night_model);
         menuAdapter.notifyDataSetChanged();
         fragment.refreshTextColor();
@@ -518,7 +437,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         ThemeUtils.setNightModle(getApplicationContext(), isNight);
         ThemeUtils.setThemeBg(layoutContainer);
         if (isNight) {
-            menuData.get(0).icon = R.drawable.icon_menu_mode_normal;
+            menuData.get(0).icon = R.mipmap.icon_menu_mode_normal;
             menuData.get(0).title = getString(R.string.reader_normal_model);
             clearThemeSelected();
         } else {
@@ -553,54 +472,109 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+
+
+    private SpringSystem springSystem = SpringSystem.create();
+    private Spring springTopMenu;
+    private Spring springBottomMenu;
+    private Spring springAaSet;
+    private int topMenuTranY;
+
+    private void animTopMenu(boolean isShow) {
+        if (springTopMenu == null) {
+            springTopMenu = springSystem.createSpring();
+            springTopMenu.addListener(new SimpleSpringListener() {
+
+                @Override
+                public void onSpringUpdate(Spring spring) {
+                    float value = (float) spring.getCurrentValue();
+                    topMenu.setTranslationY(value);
+                }
+            });
+
+            topMenuTranY = topMenu.getHeight() - DisplayUtils.dip2px(this, 20);
+        }
+
+        springTopMenu.setEndValue(isShow ? topMenuTranY : 0);
+    }
+
+    private void animBottomMenu(final boolean isShow) {
+        if (springBottomMenu == null) {
+            springBottomMenu = springSystem.createSpring();
+            springBottomMenu.addListener(new SimpleSpringListener() {
+
+                @Override
+                public void onSpringUpdate(Spring spring) {
+                    float value = (float) spring.getCurrentValue();
+                    layoutBottomMenu.setTranslationY(value);
+                }
+
+                @Override
+                public void onSpringEndStateChange(Spring spring) {
+                    super.onSpringEndStateChange(spring);
+                }
+            });
+        }
+
+        springBottomMenu.setEndValue(isShow ? -gvBottomMenu.getHeight() : 0);
+    }
+
+    private void animAaSet(final boolean isShow) {
+        if (springAaSet == null) {
+            springAaSet = springSystem.createSpring();
+            springAaSet.addListener(new SimpleSpringListener() {
+
+                @Override
+                public void onSpringUpdate(Spring spring) {
+                    float value = (float) spring.getCurrentValue();
+                    layoutMenuAaSet.setTranslationY(value);
+                }
+
+                @Override
+                public void onSpringEndStateChange(Spring spring) {
+                    super.onSpringEndStateChange(spring);
+                }
+            });
+        }
+
+        springAaSet.setEndValue(isShow ? -layoutMenuAaSet.getHeight() : 0);
+    }
+
     private void showTop() {
         topIsShow = true;
-        animate(layoutTop).setDuration(ANIM_DURITATION).y(0).start();
+        animTopMenu(true);
     }
 
     private void hideTop() {
         topIsShow = false;
-        animate(layoutTop).setDuration(ANIM_DURITATION).y(-layoutTop.getHeight()).start();
+        animTopMenu(false);
     }
 
-    /**
-     * 显示底部菜单
-     */
     private void showBottomMenu() {
-        AnimUtils.showFromBottom(layoutBottomMenu, ANIM_DURITATION, new AnimListener() {
-            @Override
-            public void onEnd() {
-                bottomIsShow = true;
-                menuAnimActioning = false;
-            }
-
-            @Override
-            public void onStart() {
-                layoutBottomMenu.setVisibility(View.VISIBLE);
-            }
-        });
+        animBottomMenu(true);
+        bottomIsShow = true;
     }
 
-    /**
-     * 隐藏底部菜单
-     */
     private void hideBottomMenu() {
-        AnimUtils.hideFromBottom(layoutBottomMenu, ANIM_DURITATION, new AnimListener() {
-            @Override
-            public void onEnd() {
-                bottomIsShow = false;
-                menuAnimActioning = false;
-                layoutBottomMenu.setVisibility(View.GONE);
-            }
-        });
+        animBottomMenu(false);
+        hideAaSet();
+        bottomIsShow = false;
+    }
+
+    private void showAaSet() {
+        animAaSet(true);
+        isShowAsSet = true;
+    }
+
+    private void hideAaSet() {
+        animAaSet(false);
+        isShowAsSet = false;
     }
 
     /**
      * 显示或者隐藏菜单。
      */
     private void showOrHideMenu() {
-        if (menuAnimActioning) return;
-        menuAnimActioning = true;
         handleTop();
         handleBottom();
     }
@@ -631,9 +605,7 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onClick() {
-                if (!menuAnimActioning) {
-                    showOrHideMenu();
-                }
+                showOrHideMenu();
             }
         });
     }
@@ -656,28 +628,37 @@ public class ReadActivity extends BaseActivity implements View.OnClickListener {
         msg.sendToTarget();
     }
 
-    private void minusBrightness() {
+    @OnClick(R.id.layout_top_menu)
+    public void onFinish() {
+        finish();
+    }
+
+    @OnClick(R.id.iv_brightness_minus)
+    public void minusBrightness() {
         mProgress = mProgress - INCREMENT_BRIGHTNESS;
         if (mProgress < 0) mProgress = 0;
         seekBarBrightness.setProgress(mProgress);
         setBrightness(mProgress);
     }
 
-    private void plusBirghtness() {
+    @OnClick(R.id.iv_brightness_plus)
+    public void plusBirghtness() {
         mProgress = mProgress + INCREMENT_BRIGHTNESS;
         if (mProgress > MAX_BRIGHTNESS) mProgress = MAX_BRIGHTNESS;
         seekBarBrightness.setProgress(mProgress);
         setBrightness(mProgress);
     }
 
-    private void minusFontSize() {
+    @OnClick(R.id.tv_fontsize_minus)
+    public void minusFontSize() {
         mFontSizeOffest = mFontSizeOffest - 1;
         if (mFontSizeOffest < 0) mFontSizeOffest = 0;
         seekFontSize.setProgress(mFontSizeOffest * OFFSET_ZOOM_OUT);
         setReadTextSize();
     }
 
-    private void plusFontSize() {
+    @OnClick(R.id.tv_fontsize_plus)
+    public void plusFontSize() {
         mFontSizeOffest = mFontSizeOffest + 1;
         if (mFontSizeOffest > MAX_FONTSIZE_OFFSET) mFontSizeOffest = MAX_FONTSIZE_OFFSET;
         seekFontSize.setProgress(mFontSizeOffest * OFFSET_ZOOM_OUT);
