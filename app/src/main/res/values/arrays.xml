@@ -68,4 +68,11 @@
         <item>QQ登陆</item>
     </string-array>
 
+    <string-array name="offline_items">
+        <item>10章</item>
+        <item>50章</item>
+        <item>100章</item>
+        <item>全部</item>
+    </string-array>
+
 </resources>

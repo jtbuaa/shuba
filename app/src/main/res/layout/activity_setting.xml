@@ -22,7 +22,8 @@
         <RelativeLayout
             android:id="@+id/layout_night_model"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/set_item_height">
+            android:layout_height="@dimen/set_item_height"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_push_message"

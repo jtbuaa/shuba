@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include layout="@layout/layout_read_bottom" />
+    <include layout="@layout/layout_read_aa_set" />
+
+    <include layout="@layout/layout_read_offline" />
 
     <RelativeLayout
         android:id="@+id/layout_top_menu"

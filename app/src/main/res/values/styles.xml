@@ -90,7 +90,7 @@
     </style>
 
     <style name="ItemSummary">
-        <item name="android:textSize">@dimen/font_size_12</item>
+        <item name="android:textSize">@dimen/font_size_least</item>
         <item name="android:ellipsize">end</item>
     </style>
 

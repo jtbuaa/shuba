@@ -8,6 +8,7 @@
         android:id="@+id/listview_common"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fastScrollEnabled="true"
         android:listSelector="@drawable/item_common_bg" >
     </ListView>
 

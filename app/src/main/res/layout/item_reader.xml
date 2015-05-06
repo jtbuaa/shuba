@@ -2,6 +2,6 @@
     android:id="@+id/tv_reader"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textColor="@color/tv_title_color"
+    android:textColor="@color/tv_content_color_normal"
     android:layerType="software"
     style="@style/ReaderText"  />
