@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <com.qiwenge.android.ui.OfflineMenu
+        android:id="@+id/offline_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
