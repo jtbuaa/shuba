@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.liuguangqiang.common.utils.PreferencesUtils;
 import com.liuguangqiang.common.utils.StringUtils;
+import com.liuguangqiang.framework.utils.Logs;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.entity.Mirror;
@@ -121,13 +122,19 @@ public class BookManager {
     }
 
     public void add(Context context, Book book) {
+        Logs.i("add:" + book.title);
         books.add(book);
         save(context);
     }
 
     public void delete(Context context, Book book) {
-        books.remove(book);
-        save(context);
+        Logs.i("delete:" + book.title);
+        int p = indexOf(book);
+        if (p >= 0) {
+            books.remove(p);
+            save(context);
+            Logs.i("delete success");
+        }
     }
 
     public void update(Context context, Book book) {

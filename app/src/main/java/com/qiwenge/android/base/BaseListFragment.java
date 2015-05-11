@@ -137,6 +137,7 @@ public class BaseListFragment<T> extends BaseFragment {
 
     public void setAdapter() {
         if (mListView != null && adapter != null) {
+            mListView.addPageFooterView();
             mListView.setAdapter(adapter);
             mListView.removePageFooterView();
         }

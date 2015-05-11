@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
+import com.liuguangqiang.android.mvp.BaseUi;
+import com.liuguangqiang.android.mvp.Presenter;
 import com.liuguangqiang.common.utils.IntentUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.MyActions;
@@ -18,17 +21,33 @@ import com.qiwenge.android.login.ThirdLoginUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
-import roboguice.activity.RoboFragmentActivity;
 
-public class BaseActivity extends RoboFragmentActivity {
+public class BaseActivity extends FragmentActivity {
 
     private FinishAppReceiver receiver;
+    private Presenter presenter;
+    private BaseUi baseUi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getContentView());
+        presenter = setPresenter();
+        baseUi = setUi();
         showActionBarBack();
         initReceiver();
+    }
+
+    protected int getContentView() {
+        return R.layout.activity_base;
+    }
+
+    public Presenter setPresenter() {
+        return null;
+    }
+
+    public BaseUi setUi() {
+        return null;
     }
 
     @Override
@@ -43,12 +62,16 @@ public class BaseActivity extends RoboFragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (presenter != null && baseUi != null)
+            presenter.attach(baseUi);
         MobclickAgent.onResume(this);
         JPushInterface.onResume(this);
     }
 
     @Override
     protected void onPause() {
+        if (presenter != null && baseUi != null)
+            presenter.detach(baseUi);
         super.onPause();
         MobclickAgent.onPause(this);
         JPushInterface.onPause(this);
@@ -152,6 +175,14 @@ public class BaseActivity extends RoboFragmentActivity {
                 && SinaWeiboLogin.mSsoHandler != null && data != null) {
             SinaWeiboLogin.mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
+    }
+
+    public void replaceFragment(int resId, Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(resId, fragment).commit();
     }
 
 }
