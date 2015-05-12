@@ -4,18 +4,17 @@ import android.content.Context;
 import android.view.View;
 
 import com.liuguangqiang.android.mvp.Presenter;
+import com.qiwenge.android.app.ReadApplication;
 import com.qiwenge.android.mvp.model.SettingsModel;
 import com.qiwenge.android.mvp.ui.SettingUiCallback;
 import com.qiwenge.android.mvp.ui.SettingsUi;
 import com.qiwenge.android.utils.LoginManager;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Created by Eric on 15/5/7.
  */
-@Singleton
 public class SettingsPresenter extends Presenter<SettingsUi, SettingUiCallback> {
 
     Context mContext;
@@ -25,7 +24,7 @@ public class SettingsPresenter extends Presenter<SettingsUi, SettingUiCallback> 
 
     public SettingsPresenter(Context context) {
         this.mContext = context;
-        settingsModel = new SettingsModel();
+        ReadApplication.from(context).inject(this);
     }
 
     @Override
