@@ -1,6 +1,7 @@
 package com.qiwenge.android.module;
 
 import com.qiwenge.android.mvp.presenter.BookDetailPresenter;
+import com.qiwenge.android.mvp.presenter.LegalPresenter;
 import com.qiwenge.android.mvp.presenter.SettingsPresenter;
 
 import dagger.Module;
@@ -11,7 +12,8 @@ import dagger.Module;
 @Module(
         injects = {
                 SettingsPresenter.class,
-                BookDetailPresenter.class
+                BookDetailPresenter.class,
+                LegalPresenter.class
         }
 )
 public class PresenterModule {
