@@ -2,7 +2,7 @@ package com.qiwenge.android.mvp.model;
 
 import android.content.Context;
 
-import com.liuguangqiang.common.utils.AppUtils;
+import com.liuguangqiang.framework.utils.AppUtils;
 
 import javax.inject.Inject;
 

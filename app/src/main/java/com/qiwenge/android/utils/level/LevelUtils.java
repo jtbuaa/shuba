@@ -2,7 +2,7 @@ package com.qiwenge.android.utils.level;
 
 import android.content.Context;
 
-import com.liuguangqiang.common.utils.PreferencesUtils;
+import com.liuguangqiang.framework.utils.PreferencesUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.TimeUtils;
@@ -24,7 +24,6 @@ public class LevelUtils {
         String url = ApiUtils.postLevel();
         RequestParams param = new RequestParams();
         param.put("type", "" + type);
-        JHttpClient.setAuthToken();
         JHttpClient.post(url, param, responseHandler);
     }
 

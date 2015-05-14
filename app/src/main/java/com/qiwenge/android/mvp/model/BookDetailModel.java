@@ -1,6 +1,6 @@
 package com.qiwenge.android.mvp.model;
 
-import com.liuguangqiang.common.utils.GsonUtils;
+import com.liuguangqiang.framework.utils.GsonUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.entity.Book;

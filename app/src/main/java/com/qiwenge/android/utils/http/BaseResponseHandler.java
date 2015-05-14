@@ -1,7 +1,6 @@
 package com.qiwenge.android.utils.http;
 
-
-import com.liuguangqiang.common.utils.LogUtils;
+import com.liuguangqiang.framework.utils.Logs;
 
 /**
  * BaseResponseHandler
@@ -14,7 +13,7 @@ public abstract class BaseResponseHandler {
 
     public void onFailure(String msg) {
         if (msg != null)
-            LogUtils.i("BaseResponseHandler", msg);
+            Logs.i("BaseResponseHandler", msg);
     }
 
     public void onFailure(int statusCode, String msg) {

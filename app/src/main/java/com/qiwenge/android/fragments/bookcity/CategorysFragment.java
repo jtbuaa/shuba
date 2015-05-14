@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.liuguangqiang.common.utils.GsonUtils;
-import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.liuguangqiang.common.utils.StringUtils;
+import com.liuguangqiang.framework.utils.GsonUtils;
+import com.liuguangqiang.framework.utils.PreferencesUtils;
+import com.liuguangqiang.framework.utils.StringUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.act.BookActivity;
 import com.qiwenge.android.adapters.CategoryAdapter;

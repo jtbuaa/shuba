@@ -2,8 +2,8 @@ package com.qiwenge.android.openudid;
 
 import android.content.Context;
 
-import com.liuguangqiang.common.utils.AppUtils;
-import com.liuguangqiang.common.utils.StringUtils;
+import com.liuguangqiang.framework.utils.AppUtils;
+import com.liuguangqiang.framework.utils.StringUtils;
 
 /**
  * Created by Eric on 14/11/30.

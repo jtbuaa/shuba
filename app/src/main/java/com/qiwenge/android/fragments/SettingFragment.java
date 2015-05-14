@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.liuguangqiang.android.mvp.BaseUi;
 import com.liuguangqiang.android.mvp.Presenter;
-import com.liuguangqiang.common.utils.IntentUtils;
-import com.liuguangqiang.common.utils.ToastUtils;
+import com.liuguangqiang.framework.utils.IntentUtils;
+import com.liuguangqiang.framework.utils.ToastUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.LegalActivity;
 import com.qiwenge.android.async.AsyncCheckUpdate;

@@ -1,8 +1,5 @@
 package com.qiwenge.android.act;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.liuguangqiang.common.utils.GsonUtils;
+import com.liuguangqiang.framework.utils.GsonUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ChapterAdapter;
@@ -30,6 +27,9 @@ import com.qiwenge.android.utils.BookShelfUtils;
 import com.qiwenge.android.utils.SkipUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.StringResponseHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 目录。

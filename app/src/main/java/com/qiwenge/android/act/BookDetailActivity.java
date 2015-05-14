@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.liuguangqiang.android.mvp.BaseUi;
 import com.liuguangqiang.android.mvp.Presenter;
-import com.liuguangqiang.common.utils.DisplayUtils;
+import com.liuguangqiang.framework.utils.DisplayUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiwenge.android.R;

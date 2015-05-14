@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringSystem;
-import com.liuguangqiang.common.utils.DisplayUtils;
+import com.liuguangqiang.framework.utils.DisplayUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.ReadMenuAdapter;
 import com.qiwenge.android.adapters.ReadThemeAdapter;
@@ -32,6 +33,7 @@ import com.qiwenge.android.entity.ReadMenu;
 import com.qiwenge.android.entity.ReadTheme;
 import com.qiwenge.android.fragments.ReadFragment;
 import com.qiwenge.android.listeners.ReadPageClickListener;
+import com.qiwenge.android.ui.OfflineMenu;
 import com.qiwenge.android.utils.ReaderUtils;
 import com.qiwenge.android.utils.ScreenBrightnessUtils;
 import com.qiwenge.android.utils.ThemeUtils;
@@ -123,11 +125,17 @@ public class ReadActivity extends BaseActivity {
     @InjectView(R.id.layout_menu_aa_set)
     RelativeLayout layoutMenuAaSet;
 
+    @InjectView(R.id.layout_menu_offline)
+    LinearLayout layoutMenuOffline;
+
     @InjectView(R.id.tv_book_title)
     TextView tvBookTitle;
 
     @InjectView(R.id.gv_menu)
     GridView gvBottomMenu;
+
+    @InjectView(R.id.offline_menu)
+    OfflineMenu offlineMenu;
 
     private GridView gvTheme;
 
@@ -137,19 +145,12 @@ public class ReadActivity extends BaseActivity {
     private boolean topIsShow = false;
     private boolean bottomIsShow = false;
     private boolean isShowAsSet = false;
+    private boolean isShowOffline = false;
 
-    /**
-     * Menu
-     */
     private List<ReadMenu> menuData = new ArrayList<>();
-
-    /**
-     * Theme
-     */
     private List<ReadTheme> themeData = new ArrayList<>();
 
     private ReadMenuAdapter menuAdapter;
-
     private ReadThemeAdapter themeAdapter;
 
     /**
@@ -224,6 +225,8 @@ public class ReadActivity extends BaseActivity {
             fragment.setBook(book);
             AsyncUtils.postViewTotal(book.getId());
             tvBookTitle.setText(book.title);
+
+            offlineMenu.setBook(book);
         }
 
         if (extra.containsKey(Extra_ChapterId)) {
@@ -365,10 +368,10 @@ public class ReadActivity extends BaseActivity {
                         }
                         break;
                     case 1:// Aa
-                        if (!isShowAsSet) {
-                            showAaSet();
-                        } else {
+                        if (isShowAsSet) {
                             hideAaSet();
+                        } else {
+                            showAaSet();
                         }
                         break;
                     case 2:// 目录
@@ -376,7 +379,13 @@ public class ReadActivity extends BaseActivity {
                         extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
                         startActivity(ChapterActivity.class, extra);
                         break;
-
+                    case 3:
+                        if (isShowOffline) {
+                            hideOffline();
+                        } else {
+                            showOffline();
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -392,7 +401,6 @@ public class ReadActivity extends BaseActivity {
             }
         });
     }
-
 
 
     /**
@@ -473,11 +481,11 @@ public class ReadActivity extends BaseActivity {
     }
 
 
-
     private SpringSystem springSystem = SpringSystem.create();
     private Spring springTopMenu;
     private Spring springBottomMenu;
     private Spring springAaSet;
+    private Spring springOffline;
     private int topMenuTranY;
 
     private void animTopMenu(boolean isShow) {
@@ -540,6 +548,27 @@ public class ReadActivity extends BaseActivity {
         springAaSet.setEndValue(isShow ? -layoutMenuAaSet.getHeight() : 0);
     }
 
+    private void animOffline(final boolean isShow) {
+        if (springOffline == null) {
+            springOffline = springSystem.createSpring();
+            springOffline.addListener(new SimpleSpringListener() {
+
+                @Override
+                public void onSpringUpdate(Spring spring) {
+                    float value = (float) spring.getCurrentValue();
+                    layoutMenuOffline.setTranslationY(value);
+                }
+
+                @Override
+                public void onSpringEndStateChange(Spring spring) {
+                    super.onSpringEndStateChange(spring);
+                }
+            });
+        }
+
+        springOffline.setEndValue(isShow ? -layoutMenuOffline.getHeight() : 0);
+    }
+
     private void showTop() {
         topIsShow = true;
         animTopMenu(true);
@@ -558,17 +587,30 @@ public class ReadActivity extends BaseActivity {
     private void hideBottomMenu() {
         animBottomMenu(false);
         hideAaSet();
+        hideOffline();
         bottomIsShow = false;
     }
 
     private void showAaSet() {
         animAaSet(true);
+        hideOffline();
         isShowAsSet = true;
     }
 
     private void hideAaSet() {
         animAaSet(false);
         isShowAsSet = false;
+    }
+
+    private void showOffline() {
+        animOffline(true);
+        hideAaSet();
+        isShowOffline = true;
+    }
+
+    private void hideOffline() {
+        animOffline(false);
+        isShowOffline = false;
     }
 
     /**
@@ -683,7 +725,6 @@ public class ReadActivity extends BaseActivity {
                 ScreenBrightnessUtils.setBrightness(mActivity.get(), msg.arg1);
             }
         }
-
     }
 
 }

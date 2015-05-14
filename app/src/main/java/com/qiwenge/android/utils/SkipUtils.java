@@ -3,8 +3,9 @@ package com.qiwenge.android.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.liuguangqiang.common.utils.StringUtils;
+import com.liuguangqiang.framework.utils.StringUtils;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.act.ChapterActivity;
 import com.qiwenge.android.act.ReadActivity;
@@ -37,10 +38,11 @@ public class SkipUtils {
             Mirror mirror = record.currentMirror();
             if (mirror != null && !StringUtils.isEmptyOrNull(mirror.progress.chapter_id)) {
                 lastReadId = mirror.progress.chapter_id;
+                Log.i("BookShelf", "lastReadId:" + lastReadId);
             }
         }
 
-        if (StringUtils.isEmptyOrNull(lastReadId) && SourceUtils.getSource(context) == SourceUtils.AUTO) {
+        if (StringUtils.isEmptyOrNull(lastReadId)) {
             skipToChapter(context, book);
         } else {
             skipToReader(context, book, lastReadId);

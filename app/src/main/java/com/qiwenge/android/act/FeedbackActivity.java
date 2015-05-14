@@ -5,7 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.liuguangqiang.common.utils.ToastUtils;
+import com.liuguangqiang.framework.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
@@ -24,8 +24,12 @@ public class FeedbackActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedback);
         initViews();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_feedback;
     }
 
     @Override

@@ -1,9 +1,5 @@
 package com.qiwenge.android.fragments;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,15 +21,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.liuguangqiang.common.utils.LogUtils;
-import com.liuguangqiang.common.utils.StringUtils;
+import com.liuguangqiang.framework.utils.Logs;
+import com.liuguangqiang.framework.utils.StringUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Book;
-import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.entity.Chapter;
 import com.qiwenge.android.entity.Page;
+import com.qiwenge.android.listeners.ReadPageClickListener;
 import com.qiwenge.android.reader.OnReaderPageListener;
 import com.qiwenge.android.reader.ReadPagerView;
 import com.qiwenge.android.reader.ReaderAdapter;
@@ -45,6 +41,10 @@ import com.qiwenge.android.utils.ThemeUtils;
 import com.qiwenge.android.utils.TimeUtils;
 import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ReadFragment extends BaseFragment {
 
@@ -387,10 +387,10 @@ public class ReadFragment extends BaseFragment {
      * @param chapterId
      */
     public void getChapter(final String chapterId, final int length) {
-        LogUtils.i("getChapter", "" + length);
+        Logs.i("getChapter", "" + length);
         if (chapterCache.containsKey(chapterId)) {
             handleCurrent(chapterId, chapterCache.get(chapterId), length);
-            LogUtils.i("Reader", "get current chapter from cache");
+            Logs.i("Reader", "get current chapter from cache");
             return;
         }
 
@@ -441,7 +441,7 @@ public class ReadFragment extends BaseFragment {
     public void getNext(final String chapterId) {
         if (chapterCache.containsKey(chapterId)) {
             handleNext(chapterCache.get(chapterId));
-            LogUtils.i("Reader", "get next chapter from cache");
+            Logs.i("Reader", "get next chapter from cache");
             return;
         }
 
@@ -474,7 +474,7 @@ public class ReadFragment extends BaseFragment {
     public void getPrev(final String chapterId) {
         if (chapterCache.containsKey(chapterId)) {
             handlePrev(chapterCache.get(chapterId));
-            LogUtils.i("Reader", "get prev chapter from cache");
+            Logs.i("Reader", "get prev chapter from cache");
             return;
         }
 

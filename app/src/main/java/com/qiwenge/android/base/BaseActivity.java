@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import com.liuguangqiang.android.mvp.BaseUi;
 import com.liuguangqiang.android.mvp.Presenter;
-import com.liuguangqiang.common.utils.IntentUtils;
+import com.liuguangqiang.framework.utils.IntentUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.MyActions;
 import com.qiwenge.android.login.LoginType;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import com.liuguangqiang.common.utils.PreferencesUtils;
+import com.liuguangqiang.framework.utils.PreferencesUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
 
@@ -106,7 +106,6 @@ public class ThemeUtils {
      */
     public static void setTheme(Context context, int theme) {
         currentTheme = theme;
-        System.out.println("new Theme:" + theme);
         PreferencesUtils.putInt(context, Constants.PRE_SAVE_NAME, SAVE_KEY, theme);
     }
 
@@ -188,7 +187,7 @@ public class ThemeUtils {
         if (tv == null) return;
         if (isNightModel)
             tv.setTextColor(tv.getResources().getColor(R.color.tv_title_night_color));
-        else tv.setTextColor(tv.getResources().getColor(R.color.tv_title_color));
+        else tv.setTextColor(tv.getResources().getColor(R.color.tv_content_color_normal));
     }
 
     public static void setThemeSecondBg(View view) {

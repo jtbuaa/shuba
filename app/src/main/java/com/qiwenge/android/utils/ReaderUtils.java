@@ -2,7 +2,7 @@ package com.qiwenge.android.utils;
 
 import android.content.Context;
 
-import com.liuguangqiang.common.utils.PreferencesUtils;
+import com.liuguangqiang.framework.utils.PreferencesUtils;
 import com.qiwenge.android.constant.Constants;
 
 /**
@@ -52,12 +52,12 @@ public class ReaderUtils {
      * @return
      */
     public static String formatContent(String str) {
-        str = str.trim();
-        str = str.replace(" ", "");
-        str = str.replace("　", "");
+        str = str.replaceAll("[ ]*", "");//替换来自服务器上的，特殊空格
+        str = str.replaceAll("[ ]*", "");//
         str = str.replace("\n\n", "\n");
         str = str.replace("\n", "\n" + getTwoSpaces());
         str = getTwoSpaces() + str;
+//        str = convertToSBC(str);
         return str;
     }
 
@@ -74,6 +74,22 @@ public class ReaderUtils {
     public static String formatItemDesc(String str) {
         str = str.replace(" ", "").replace("　", "");
         return str;
+    }
+
+    public static String convertToSBC(String input) {
+        input = input.replaceAll("\\“", "\" ");
+        input = input.replaceAll("\\”", "\" ");
+        return input;
+//        char[] c = input.toCharArray();
+//        for (int i = 0; i < c.length; i++) {
+//            if (c[i] == 12288) {
+//                c[i] = (char) 32;
+//                continue;
+//            }
+//            if (c[i] > 65280 && c[i] < 65375)
+//                c[i] = (char) (c[i] - 65248);
+//        }
+//        return new String(c);
     }
 
 }

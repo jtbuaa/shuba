@@ -3,8 +3,7 @@ package com.qiwenge.android.utils;
 import android.content.Context;
 import android.util.Log;
 
-import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.liuguangqiang.common.utils.encrypt.Md5;
+import com.liuguangqiang.framework.utils.encrypt.Md5;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Book;
 
@@ -19,8 +18,6 @@ import cn.jpush.android.api.TagAliasCallback;
  * Created by Eric on 14/12/3.
  */
 public class PushUtils {
-
-    private final static String TAG = "PushUtils";
 
     private final static int STATUS_SUCCESS = 0;
 
@@ -38,27 +35,19 @@ public class PushUtils {
         mContext = context;
     }
 
-//    public void init() {
-//        if (isOpenPush()) {
-//            openPush();
-//        } else {
-//            stopPush();
-//        }
+//    public boolean isOpenPush() {
+//        return PreferencesUtils.getBoolean(mContext, PUSH_MANAGER, IS_OPEN);
 //    }
-
-    public boolean isOpenPush() {
-        return PreferencesUtils.getBoolean(mContext, PUSH_MANAGER, IS_OPEN);
-    }
-
-    public void stopPush() {
-        JPushInterface.stopPush(mContext);
-        PreferencesUtils.putBoolean(mContext, PUSH_MANAGER, IS_OPEN, false);
-    }
-
-    public void openPush() {
-        JPushInterface.resumePush(mContext);
-        PreferencesUtils.putBoolean(mContext, PUSH_MANAGER, IS_OPEN, true);
-    }
+//
+//    public void stopPush() {
+//        JPushInterface.stopPush(mContext);
+//        PreferencesUtils.putBoolean(mContext, PUSH_MANAGER, IS_OPEN, false);
+//    }
+//
+//    public void openPush() {
+//        JPushInterface.resumePush(mContext);
+//        PreferencesUtils.putBoolean(mContext, PUSH_MANAGER, IS_OPEN, true);
+//    }
 
     public void setAlias() {
         if (LoginManager.isLogin()) {
@@ -69,14 +58,13 @@ public class PushUtils {
     }
 
     private void setAlias(final String alias, final int retryCount) {
-        Log.i(TAG, "setAlias:" + alias);
         JPushInterface.setAlias(mContext, alias, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> strings) {
                 if (i == STATUS_TIMEOUT && retryCount > 0) {
                     setAlias(alias, retryCount - 1);
                 } else if (i == STATUS_SUCCESS) {
-                    Log.i(TAG, "setAlias success:" + alias);
+                    Log.i("PushUtils", alias);
                 }
             }
         });
@@ -98,24 +86,22 @@ public class PushUtils {
         Set<String> filterTags = JPushInterface.filterValidTags(tags);
 
         setTags(filterTags, RETRY_COUNT);
-        Log.i(TAG, "setTags:" + filterTags.toString());
     }
 
     private void setTags(final Set<String> tags, final int retryCount) {
         JPushInterface.setTags(mContext, tags, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> strings) {
-                Log.i(TAG, "设置标签-gotResult:" + i);
                 if (i == STATUS_TIMEOUT && retryCount > 0) {
                     setTags(tags, retryCount - 1);
                 } else if (i == STATUS_SUCCESS) {
-                    Log.i(TAG, "setTags success:" + tags.toString());
                 }
             }
         });
     }
 
     public void clearAlias() {
+        Log.i("PushUtils", "clearAlias");
         setAlias("", RETRY_COUNT);
     }
 

@@ -8,18 +8,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.liuguangqiang.common.utils.DisplayUtils;
-import com.liuguangqiang.common.utils.IntentUtils;
-import com.liuguangqiang.common.utils.ToastUtils;
+import com.liuguangqiang.framework.utils.DisplayUtils;
+import com.liuguangqiang.framework.utils.IntentUtils;
+import com.liuguangqiang.framework.utils.ToastUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiwenge.android.R;
 import com.qiwenge.android.act.FeedbackActivity;
 import com.qiwenge.android.act.SettingActivity;
 import com.qiwenge.android.base.BaseFragment;
-import com.qiwenge.android.listeners.LoginListener;
 import com.qiwenge.android.entity.User;
 import com.qiwenge.android.entity.UserLevel;
+import com.qiwenge.android.listeners.LoginListener;
 import com.qiwenge.android.ui.dialogs.LoginDialog;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.ImageLoaderUtils;
@@ -156,8 +156,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onSuccess(User result) {
-                LoginManager.saveUser(getActivity(), result);
-                showUser(result);
+                if (isAdded()) {
+                    LoginManager.saveUser(getActivity(), result);
+                    showUser(result);
+                }
             }
 
             @Override

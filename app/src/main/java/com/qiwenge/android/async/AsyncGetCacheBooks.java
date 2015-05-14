@@ -1,16 +1,16 @@
 package com.qiwenge.android.async;
 
-import java.util.List;
-
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.liuguangqiang.common.utils.GsonUtils;
-import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.liuguangqiang.common.utils.StringUtils;
+import com.liuguangqiang.framework.utils.GsonUtils;
+import com.liuguangqiang.framework.utils.PreferencesUtils;
+import com.liuguangqiang.framework.utils.StringUtils;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
+
+import java.util.List;
 
 
 /**
@@ -18,7 +18,7 @@ import com.qiwenge.android.entity.BookList;
  * <p>
  * 比如: 推荐,排行
  * </p>
- *
+ * <p/>
  * Created by John on 2014年7月19日
  */
 public class AsyncGetCacheBooks extends AsyncTask<String, Integer, BookList> {

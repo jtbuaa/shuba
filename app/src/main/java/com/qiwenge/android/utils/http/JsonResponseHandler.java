@@ -1,7 +1,6 @@
 package com.qiwenge.android.utils.http;
 
-
-import com.liuguangqiang.common.utils.GsonUtils;
+import com.liuguangqiang.framework.utils.GsonUtils;
 
 /**
  * JsonResponseHandler

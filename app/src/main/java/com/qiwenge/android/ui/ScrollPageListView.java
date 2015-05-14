@@ -8,7 +8,6 @@ import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.liuguangqiang.common.utils.LogUtils;
 import com.qiwenge.android.R;
 
 /**
@@ -79,7 +78,6 @@ public class ScrollPageListView extends ListView {
         if (currentSize == total) {
             removePageFooterView();
             enablePage = false;
-            LogUtils.i("onLoadFinished", "page over");
         }
     }
 

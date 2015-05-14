@@ -3,9 +3,9 @@ package com.qiwenge.android.utils;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.liuguangqiang.common.utils.IntentUtils;
-import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.liuguangqiang.common.utils.StringUtils;
+import com.liuguangqiang.framework.utils.IntentUtils;
+import com.liuguangqiang.framework.utils.PreferencesUtils;
+import com.liuguangqiang.framework.utils.StringUtils;
 import com.qiwenge.android.constant.MyActions;
 import com.qiwenge.android.entity.Auth;
 import com.qiwenge.android.entity.User;

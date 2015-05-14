@@ -3,9 +3,9 @@ package com.qiwenge.android.utils.book;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.liuguangqiang.common.utils.PreferencesUtils;
-import com.liuguangqiang.common.utils.StringUtils;
 import com.liuguangqiang.framework.utils.Logs;
+import com.liuguangqiang.framework.utils.PreferencesUtils;
+import com.liuguangqiang.framework.utils.StringUtils;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.entity.Mirror;

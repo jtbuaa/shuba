@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 
-import com.liuguangqiang.common.utils.AppUtils;
-import com.liuguangqiang.common.utils.NetworkUtils;
+import com.liuguangqiang.framework.utils.AppUtils;
+import com.liuguangqiang.framework.utils.NetworkUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.constant.Platform;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.Configures;
 import com.qiwenge.android.entity.Mirror;
@@ -68,6 +66,11 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onOrigin(String json) {
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                skipToMain();
             }
         });
     }

@@ -1,7 +1,5 @@
 package com.qiwenge.android.receivers;
 
-import java.io.File;
-
 import android.app.DownloadManager;
 import android.app.DownloadManager.Query;
 import android.content.BroadcastReceiver;
@@ -9,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
-import com.liuguangqiang.common.utils.IntentUtils;
+import com.liuguangqiang.framework.utils.IntentUtils;
 import com.qiwenge.android.constant.Constants;
+
+import java.io.File;
 
 /**
  * 版本更新，接收下载结束后的通知，并安装。
@@ -40,7 +40,7 @@ public class UpdateReceiver extends BroadcastReceiver {
 					if (columnName.equals("local_uri")) {
 					} else if (columnName.equals("local_filename")) {
 						if (string != null) {
-                            IntentUtils.installApk(context, new File(string));
+							IntentUtils.installApk(context, new File(string));
 						}
 					}
 				}

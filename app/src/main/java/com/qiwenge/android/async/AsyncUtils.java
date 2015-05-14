@@ -2,9 +2,9 @@ package com.qiwenge.android.async;
 
 import android.content.Context;
 
-import com.liuguangqiang.common.utils.LogUtils;
-import com.liuguangqiang.common.utils.StringUtils;
-import com.liuguangqiang.common.utils.ToastUtils;
+import com.liuguangqiang.framework.utils.Logs;
+import com.liuguangqiang.framework.utils.StringUtils;
+import com.liuguangqiang.framework.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.BookStatus;
 import com.qiwenge.android.constant.Constants;
@@ -53,17 +53,17 @@ public class AsyncUtils {
 
             @Override
             public void onStart() {
-                LogUtils.i("postViewTotal", "onStart");
+                Logs.i("postViewTotal", "onStart");
             }
 
             @Override
             public void onSuccess(String result) {
-                LogUtils.i("postViewTotal", "onSuccess");
+                Logs.i("postViewTotal", "onSuccess");
             }
 
             @Override
             public void onFailure(String msg) {
-                LogUtils.e("postViewTotal", "onFailure");
+                Logs.i("postViewTotal", "onFailure");
             }
         });
     }
@@ -79,20 +79,20 @@ public class AsyncUtils {
 
             @Override
             public void onStart() {
-                LogUtils.i("postViewVoteup-onStart", "onStart");
+                Logs.i("postViewVoteup-onStart", "onStart");
             }
 
             @Override
             public void onSuccess(String result) {
                 if (StringUtils.isEmptyOrNull(result)) result = "success with empty result.";
-                LogUtils.i("postViewVoteup-onSuccess", result);
+                Logs.i("postViewVoteup-onSuccess", result);
                 ToastUtils.show(context, "点赞成功");
             }
 
             @Override
             public void onFailure(String msg) {
                 if (StringUtils.isEmptyOrNull(msg)) msg = "Failure with unknow message.";
-                LogUtils.e("postViewVoteup-onFailure", msg);
+                Logs.i("postViewVoteup-onFailure", msg);
                 ToastUtils.show(context, "点赞失败");
             }
         });

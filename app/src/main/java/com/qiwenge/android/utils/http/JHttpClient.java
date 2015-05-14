@@ -3,10 +3,10 @@ package com.qiwenge.android.utils.http;
 import android.content.Context;
 import android.util.Log;
 
-import com.liuguangqiang.common.utils.LogUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Auth;
 import com.qiwenge.android.utils.FailureUtils;
 import com.qiwenge.android.utils.LoginManager;
@@ -27,6 +27,7 @@ public class JHttpClient {
         if (httpClient == null) {
             httpClient = new AsyncHttpClient();
             httpClient.setTimeout(CONNECT_TIMEOUT);
+            httpClient.addHeader("X-Device", Constants.OEPN_UD_ID);
         }
         setAuthToken();
     }
@@ -36,10 +37,13 @@ public class JHttpClient {
             Auth auth = LoginManager.getAuth();
             httpClient.removeHeader(HEADER_AUTH);
             httpClient.addHeader(HEADER_AUTH, auth.authToken);
-            Log.i(TAG, "AUTH_TOKEN:" + auth.authToken);
         } else {
             httpClient.removeHeader(HEADER_AUTH);
         }
+    }
+
+    public static void get(String url, RequestParams params, BaseResponseHandler handler) {
+        get(null, url, params, handler);
     }
 
     /**
@@ -50,8 +54,6 @@ public class JHttpClient {
      * @param handler 回调
      */
     public static void get(final Context context, String url, RequestParams params, final BaseResponseHandler handler) {
-        if (params != null) LogUtils.i(TAG, "get:" + url + "?" + params.toString());
-        else LogUtils.i(TAG, "get:" + url);
         createHttpCilent();
         httpClient.get(url, params, new TextHttpResponseHandler() {
             @Override
@@ -94,8 +96,6 @@ public class JHttpClient {
     }
 
     public static void post(String url, RequestParams params, final BaseResponseHandler handler) {
-        if (params != null) LogUtils.i(TAG, "post:" + url + "?" + params.toString());
-        else LogUtils.i(TAG, "post:" + url);
         createHttpCilent();
         httpClient.post(url, params, new TextHttpResponseHandler() {
             @Override

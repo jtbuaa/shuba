@@ -2,9 +2,9 @@ package com.qiwenge.android.utils;
 
 import android.content.Context;
 
-import com.liuguangqiang.common.utils.NetworkUtils;
-import com.liuguangqiang.common.utils.ToastUtils;
-import com.qiwenge.android.R;
+import com.liuguangqiang.framework.utils.NetworkUtils;
+import com.liuguangqiang.framework.utils.ToastUtils;
+
 
 /**
  * Created by Eric on 15/1/10.
@@ -18,13 +18,17 @@ public class FailureUtils {
 
     public static void handleHttpRequest(Context context, String error, int statusCode, Throwable throwable) {
 //        Log.i(TAG, String.format(ERROR_DETAIL, error, statusCode, throwable));
-        if (NetworkUtils.isAvailable(context)) {
+        if (statusCode == 403) {
+            ToastUtils.show(context, "登录已过期,请重新登录");
+        }
 
+        if (NetworkUtils.isAvailable(context)) {
+            ToastUtils.show(context, error);
         } else {
             long now = TimeUtils.getTimestampSecond();
             if (now - lastToastOnNetwork > 1) {
                 String username = LoginManager.isLogin() ? LoginManager.getUser().username : "";
-                ToastUtils.show(context, String.format(context.getString(R.string.error_network_unavailable_format), username));
+                ToastUtils.show(context, String.format("error_network_unavailable_format:%s", username));
             }
             lastToastOnNetwork = now;
         }

@@ -6,17 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.liuguangqiang.android.mvp.BaseUi;
+import com.liuguangqiang.android.mvp.Presenter;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseFragment;
-import com.qiwenge.android.utils.ApiUtils;
-import com.qiwenge.android.utils.ThemeUtils;
-import com.qiwenge.android.utils.http.JHttpClient;
-import com.qiwenge.android.utils.http.StringResponseHandler;
+import com.qiwenge.android.mvp.presenter.LegalPresenter;
+import com.qiwenge.android.mvp.ui.LegalUi;
+import com.qiwenge.android.mvp.ui.LegalUiCallback;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LegalFragment extends BaseFragment {
+public class LegalFragment extends BaseFragment implements LegalUi {
 
     @InjectView(R.id.tv_legal)
     TextView tvLegal;
@@ -30,25 +31,27 @@ public class LegalFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getStatement();
+    public Presenter setPresenter() {
+        return new LegalPresenter(getActivity());
+    }
+
+    @Override
+    public BaseUi setUi() {
+        return this;
+    }
+
+    @Override
+    public void setUiCallback(LegalUiCallback legalUiCallback) {
+
     }
 
     public void initViews() {
         tvLegal = (TextView) getView().findViewById(R.id.tv_legal);
-        ThemeUtils.setTextColor(tvLegal);
     }
 
-    private void getStatement() {
-        String url = ApiUtils.getStatement();
-        JHttpClient.get(getActivity(), url, null, new StringResponseHandler() {
-            @Override
-            public void onSuccess(String result) {
-                if (result != null)
-                    tvLegal.setText(result);
-            }
-        });
+    @Override
+    public void setLegal(String legal) {
+        tvLegal.setText(legal);
     }
 
 }

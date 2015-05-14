@@ -1,24 +1,24 @@
 package com.qiwenge.android.fragments.bookcity;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.liuguangqiang.common.utils.PreferencesUtils;
+import com.liuguangqiang.framework.utils.PreferencesUtils;
 import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
 import com.qiwenge.android.async.AsyncGetCacheBooks;
-import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.async.AsyncGetCacheBooks.CacheBooksHandler;
+import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
+
+import java.util.List;
 
 /**
  * 排行。

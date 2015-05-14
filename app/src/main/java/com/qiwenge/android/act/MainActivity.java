@@ -14,7 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.liuguangqiang.common.utils.NetworkUtils;
+import com.liuguangqiang.framework.utils.NetworkUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.MainMenuAdapter;
 import com.qiwenge.android.adapters.MainPagerAdapter;

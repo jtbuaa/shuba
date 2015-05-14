@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.liuguangqiang.common.utils.ToastUtils;
+import com.liuguangqiang.framework.utils.ToastUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.constant.Constant_Sina;
 import com.qiwenge.android.entity.SinaUser;

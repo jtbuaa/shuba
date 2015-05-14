@@ -5,9 +5,8 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 
-import com.liuguangqiang.common.utils.AppUtils;
-import com.liuguangqiang.common.utils.LogUtils;
-import com.liuguangqiang.common.utils.ToastUtils;
+import com.liuguangqiang.framework.utils.AppUtils;
+import com.liuguangqiang.framework.utils.ToastUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Configures;
@@ -82,11 +81,12 @@ public class AsyncCheckUpdate {
         String title = mAct.getString(R.string.update_title);
         String message = String.format(mAct.getString(R.string.update_message), result.upgrade.android.ver);
         String sure = mAct.getString(R.string.update_sure);
-
+        String cancel = mAct.getString(R.string.update_cancel);
         if (logoutDialog == null) {
             logoutDialog = new MyDialog(mAct, title);
             logoutDialog.setMessage(message);
-            logoutDialog.setPositiveButton(sure, new OnPositiveClickListener() {
+            logoutDialog.setCancelable(false);
+            logoutDialog.setPositiveButton(sure, cancel, new OnPositiveClickListener() {
                 @Override
                 public void onClick() {
                     downloadLatest(mAct.getApplicationContext(), result.upgrade.android.url,
@@ -99,8 +99,6 @@ public class AsyncCheckUpdate {
 
 
     public void downloadLatest(Context context, String url, String ver) {
-//        url="http://dl.qiwenge.com/latest";
-        LogUtils.i("downloadLatest", url);
         DownloadManager downloadManager =
                 (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
