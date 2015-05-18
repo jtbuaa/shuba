@@ -31,10 +31,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <!--<meta-data-->
-        <!--android:name="roboguice.annotations.packages"-->
-        <!--android:value="com.qiwenge.android"/>-->
-
         <activity
             android:name=".act.SplashActivity"
             android:label="@string/app_name"
@@ -84,14 +80,6 @@
         <activity
             android:name=".act.BookActivity"
             android:label="@string/title_activity_book"></activity>
-
-        <service
-            android:name=".openudid.OpenUDID_service"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.qiwenge.android.openudid.GETUDID" />
-            </intent-filter>
-        </service>
 
         <!-- receivers -->
         <receiver android:name=".receivers.WifiStatusChangeReceiver">
