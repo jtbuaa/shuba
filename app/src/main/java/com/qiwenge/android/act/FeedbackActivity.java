@@ -14,12 +14,14 @@ import com.qiwenge.android.utils.DialogUtils;
 import com.qiwenge.android.utils.http.BaseResponseHandler;
 import com.qiwenge.android.utils.http.JHttpClient;
 
+import butterknife.InjectView;
 
 public class FeedbackActivity extends BaseActivity {
 
     private static final int ACTION_SEND = 0;
 
-    private EditText etContent;
+    @InjectView(R.id.et_content)
+    EditText etContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
