@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
@@ -17,8 +15,9 @@ import android.widget.ProgressBar;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
-import com.qiwenge.android.entity.Book;
-import com.qiwenge.android.ui.dialogs.MirrorDialog;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * 网页浏览器。
@@ -27,22 +26,17 @@ import com.qiwenge.android.ui.dialogs.MirrorDialog;
  */
 public class BrowserActivity extends BaseActivity {
 
-    private static final int ACTION_ITEM_SOURCE = 1;
-
-    private Book book;
-
     public static final String EXTRA_TITLE = "EXTRA_TITLE";
 
     public static final String EXTRA_URL = "EXTRA_URL";
 
-    public static final String EXTRA_BOOK = "EXTRA_BOOK";
+    @InjectView(R.id.webview)
+    WebView webview;
 
-    private WebView webview = null;
-    private ProgressBar pbLoading;
+    @InjectView(R.id.pb_loading)
+    ProgressBar pbLoading;
 
     private String url;
-
-    private MirrorDialog sourceDialog;
 
     /**
      * Called when the activity is first created.
@@ -51,27 +45,9 @@ public class BrowserActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
+        ButterKnife.inject(this);
         getIntentParams();
         initViews();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, ACTION_ITEM_SOURCE, 0, "换源").setIcon(R.drawable.ic_action_source).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == ACTION_ITEM_SOURCE) {
-//            if (sourceDialog == null) {
-//                sourceDialog = new SourceDialog(this, book);
-//            }
-//            sourceDialog.show(true);
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void getIntentParams() {
@@ -84,10 +60,6 @@ public class BrowserActivity extends BaseActivity {
 
         if (extra != null && extra.containsKey(EXTRA_URL)) {
             url = extra.getString(EXTRA_URL);
-        }
-
-        if (extra != null && extra.containsKey(EXTRA_BOOK)) {
-            book = extra.getParcelable(EXTRA_BOOK);
         }
     }
 
