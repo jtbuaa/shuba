@@ -3,11 +3,8 @@ package com.qiwenge.android.act;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,25 +30,46 @@ import com.qiwenge.android.utils.ReaderUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+
 /**
- * 小说详情。
+ * Book detail.
  * <p/>
  * Created by Eric on 2014-5-5
  */
-public class BookDetailActivity extends BaseActivity implements OnClickListener, BookDetailUi {
+public class BookDetailActivity extends BaseActivity implements BookDetailUi {
 
     public static final String EXTRA_BOOK = "book";
 
-    private TextView tvTitle;
-    private TextView tvIntro;
-    private TextView tvAuthor;
-    private TextView tvCategory;
-    private TextView tvStatus;
-    private Button btnChapter;
-    private Button btnAdd;
-    private ListView lvRecommend;
-    private ImageView ivCover;
-    private LinearLayout layoutRelated;
+    @InjectView(R.id.iv_cover)
+    ImageView ivCover;
+
+    @InjectView(R.id.tv_title)
+    TextView tvTitle;
+
+    @InjectView(R.id.tv_author)
+    TextView tvAuthor;
+
+    @InjectView(R.id.tv_category)
+    TextView tvCategory;
+
+    @InjectView(R.id.tv_status)
+    TextView tvStatus;
+
+    @InjectView(R.id.btn_add)
+    Button btnAdd;
+
+    @InjectView(R.id.tv_intro)
+    TextView tvIntro;
+
+    @InjectView(R.id.lv_recommend)
+    ListView lvRecommend;
+
+    @InjectView(R.id.layout_related)
+    LinearLayout layoutRelated;
 
     private Book book;
     private List<Book> dataRecommend = new ArrayList<Book>();
@@ -65,6 +83,7 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_intro);
+        ButterKnife.inject(this);
         setTitle(R.string.book_intro_detail);
         initViews();
         getIntentData();
@@ -86,42 +105,24 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener,
     }
 
     private void initViews() {
-        tvTitle = (TextView) findViewById(R.id.tv_title);
-        tvIntro = (TextView) findViewById(R.id.tv_intro);
-        tvAuthor = (TextView) findViewById(R.id.tv_author);
-        tvCategory = (TextView) findViewById(R.id.tv_category);
-        tvStatus = (TextView) findViewById(R.id.tv_status);
-
-        btnAdd = (Button) findViewById(R.id.btn_add);
-        ivCover = (ImageView) findViewById(R.id.iv_cover);
-
-        btnChapter = (Button) findViewById(R.id.btn_chapter);
-        btnChapter.setOnClickListener(this);
-        btnAdd.setOnClickListener(this);
-        layoutRelated = (LinearLayout) findViewById(R.id.layout_related);
         layoutRelated.setVisibility(View.GONE);
-
-        // 相关推荐
-        lvRecommend = (ListView) findViewById(R.id.lv_recommend);
         adapter = new AboutRmdAdapter(getApplicationContext(), dataRecommend);
         lvRecommend.setAdapter(adapter);
-        lvRecommend.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < dataRecommend.size()) {
-                    Bundle extra = new Bundle();
-                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, dataRecommend.get(position));
-                    startActivity(BookDetailActivity.class, extra);
-                }
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mCallback.checkAdded(book);
+    }
+
+    @OnItemClick(R.id.lv_recommend)
+    public void onItemClickRecommend(int position) {
+        if (position < dataRecommend.size()) {
+            Bundle extra = new Bundle();
+            extra.putParcelable(BookDetailActivity.EXTRA_BOOK, dataRecommend.get(position));
+            startActivity(BookDetailActivity.class, extra);
+        }
     }
 
     @Override
@@ -133,20 +134,16 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener,
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_chapter:
-                Bundle extra = new Bundle();
-                extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
-                startActivity(ChapterActivity.class, extra);
-                break;
-            case R.id.btn_add:
-                mCallback.addOrRemove(book);
-                break;
-            default:
-                break;
-        }
+    @OnClick(R.id.btn_chapter)
+    public void showChapters() {
+        Bundle extra = new Bundle();
+        extra.putParcelable(ChapterActivity.EXTRA_BOOK, book);
+        startActivity(ChapterActivity.class, extra);
+    }
+
+    @OnClick(R.id.btn_add)
+    public void addOrRemove() {
+        mCallback.addOrRemove(book);
     }
 
     private void getIntentData() {
@@ -214,7 +211,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener,
         }
     }
 
-
     @Override
     public void showRelatedBooks(List<Book> books) {
         layoutRelated.setVisibility(View.VISIBLE);
@@ -262,7 +258,6 @@ public class BookDetailActivity extends BaseActivity implements OnClickListener,
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
             });

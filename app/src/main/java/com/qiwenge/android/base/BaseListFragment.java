@@ -196,7 +196,6 @@ public class BaseListFragment<T> extends BaseFragment {
         if (mListView != null) {
             mListView.removePageFooterView();
         }
-
     }
 
     public void requestFinished() {
