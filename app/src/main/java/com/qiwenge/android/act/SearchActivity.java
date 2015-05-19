@@ -1,6 +1,7 @@
 package com.qiwenge.android.act;
 
 import android.app.ActionBar;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -15,10 +16,8 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.fragments.SearchFragment;
 
-import android.app.ActionBar.LayoutParams;
-
 /**
- * 搜索。
+ * Search books。
  * <p/>
  * Created by Eric on 2014-7-6
  */
@@ -32,10 +31,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
         initActionBar();
         fragment = new SearchFragment();
-        setContent(fragment);
+        replaceFragment(fragment);
     }
 
     @Override

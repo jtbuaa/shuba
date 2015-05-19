@@ -18,7 +18,6 @@ import com.qiwenge.android.entity.BookList;
 import com.qiwenge.android.utils.ApiUtils;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 
-
 public class SearchFragment extends BaseListFragment<Book> {
 
     @Override
@@ -53,9 +52,7 @@ public class SearchFragment extends BaseListFragment<Book> {
                 }
             }
         });
-
     }
-
 
     @Override
     public void requestData() {
