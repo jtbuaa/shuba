@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.view.Display;
 
 import com.liuguangqiang.framework.utils.AppUtils;
-import com.liuguangqiang.framework.utils.NetworkUtils;
 import com.loopj.android.http.RequestParams;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
@@ -45,11 +44,12 @@ public class SplashActivity extends BaseActivity {
             inited = true;
             getScreenSize();
 
-            if (NetworkUtils.isAvailable(getApplicationContext())) {
-                getProgresses();
-            } else {
-                skipToMain();
-            }
+//            if (NetworkUtils.isAvailable(getApplicationContext())) {
+//                getProgresses();
+//            } else {
+//                skipToMain();
+//            }
+            skipToMain();
         }
     }
 

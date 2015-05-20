@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.liuguangqiang.framework.utils.DeviceId;
+import com.liuguangqiang.framework.utils.Logs;
+import com.liuguangqiang.framework.utils.MetaDataUtils;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.module.AppModule;
 import com.qiwenge.android.module.PresenterModule;
@@ -26,13 +28,13 @@ public class ReadApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        disableCheckUpdate();
         initJPush();
         ImageLoaderUtils.init(getApplicationContext());
         ThemeUtils.initTheme(getApplicationContext());
         LoginManager.init(getApplicationContext());
         initOpenUDID();
         createFolder();
-
         createObjectsGraph();
     }
 
@@ -60,4 +62,15 @@ public class ReadApplication extends Application {
     public void inject(Object object) {
         mObjectGraph.inject(object);
     }
+
+    /**
+     * 禁用更新功能
+     * <p>GooglePlay禁止开发者在应用中检查版本更新</p>
+     */
+    private void disableCheckUpdate() {
+        String channel = MetaDataUtils.getMetaData(this, "UMENG_CHANNEL");
+        Logs.i("channel:" + channel);
+        Constants.DISABLE_UPDATE = channel.equals("googleplay");
+    }
+
 }

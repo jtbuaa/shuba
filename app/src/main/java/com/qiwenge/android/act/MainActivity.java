@@ -20,6 +20,7 @@ import com.qiwenge.android.adapters.MainMenuAdapter;
 import com.qiwenge.android.adapters.MainPagerAdapter;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
+import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.MainMenuItem;
 import com.qiwenge.android.ui.SlowViewPager;
 import com.qiwenge.android.utils.ImageLoaderUtils;
@@ -57,9 +58,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     private void chkUpdate() {
-        AsyncCheckUpdate update = new AsyncCheckUpdate(this);
-        update.setOnlyCheck();
-        update.checkUpdate();
+        if (!Constants.DISABLE_UPDATE) {
+            AsyncCheckUpdate update = new AsyncCheckUpdate(this);
+            update.setOnlyCheck();
+            update.checkUpdate();
+        }
     }
 
     private void initActionBar() {

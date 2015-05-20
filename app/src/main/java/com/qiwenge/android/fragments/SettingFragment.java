@@ -16,6 +16,7 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.act.LegalActivity;
 import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseFragment;
+import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.listeners.OnPositiveClickListener;
 import com.qiwenge.android.mvp.presenter.SettingsPresenter;
 import com.qiwenge.android.mvp.ui.SettingUiCallback;
@@ -28,6 +29,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class SettingFragment extends BaseFragment implements SettingsUi {
+
+    @InjectView(R.id.set_tv_update)
+    TextView tvCheckUpdate;
 
     @InjectView(R.id.tv_version_name)
     TextView tvVersionName;
@@ -76,6 +80,10 @@ public class SettingFragment extends BaseFragment implements SettingsUi {
         if (!ImageLoaderUtils.isOpen()) {
             setCheckbox(ivSaveModel, true);
             selectSaveModel = true;
+        }
+
+        if (Constants.DISABLE_UPDATE) {
+            tvCheckUpdate.setVisibility(View.GONE);
         }
     }
 

@@ -7,6 +7,8 @@ public class Constants {
 
     public static boolean DEBUG = true;
 
+    public static boolean DISABLE_UPDATE = false;
+
     /**
      * 平台，为多渠道发布。
      */

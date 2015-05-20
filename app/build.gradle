@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 21
     buildToolsVersion '21.1.1'
@@ -8,8 +12,9 @@ android {
         applicationId "com.qiwenge.android"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 202
-        versionName "2.0.2"
+        versionCode 203
+        versionName "2.0.3"
+        manifestPlaceholders = [meta_umeng_channel: "shuba"]
     }
 
     packagingOptions {
@@ -34,17 +39,37 @@ android {
         }
     }
 
+    productFlavors {
+        shuba {}
+//        googleplay {}
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [meta_umeng_channel: name]
+    }
+
     buildTypes {
+        debug {
+            manifestPlaceholders = [meta_umeng_appkey: UEMNG_APPKEY_DEV]
+        }
+
         release {
             zipAlignEnabled true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             manifestPlaceholders = [meta_umeng_appkey: UMENG_APPKEY_RELEASE]
             signingConfig signingConfigs.release
-        }
 
-        debug {
-            manifestPlaceholders = [meta_umeng_appkey: UEMNG_APPKEY_DEV]
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // shuba_v2.0.0_2015-05-20_googleplay.apk
+                        def fileName = "shuba_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
     }
 }

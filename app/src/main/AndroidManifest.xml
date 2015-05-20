@@ -103,7 +103,7 @@
             android:value="${meta_umeng_appkey}" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="shuba" />
+            android:value="${meta_umeng_channel}" />
 
         <!-- ****************************jpush***************************** -->
 
