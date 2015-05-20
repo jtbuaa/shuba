@@ -19,9 +19,16 @@
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
 # removes such information by default, so configure it to keep all of it.
+
 -keepattributes Signature
 
 -keepattributes *Annotation*
+
+-dontwarn dagger.internal.codegen.**
+
+-dontwarn com.squareup.**
+
+-dontwarn  com.google.common.**
 
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
@@ -59,3 +66,59 @@ public static final android.os.Parcelable$Creator *;
 #shuba
 -keep class com.qiwenge.android.entity.** { *; }
 -keep class com.qiwenge.android.entity.base.** { *; }
+
+
+
+#ButterKnife --------------------------------------------------------------------------------------
+-keep class butterknife.** { *; }
+
+-dontwarn butterknife.internal.**
+
+-keep class **$$ViewInjector { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+#Dagger --------------------------------------------------------------------------------------
+
+-keep class * extends dagger.internal.Binding
+-keep class * extends dagger.internal.ModuleAdapter
+-keep class * extends dagger.internal.StaticInjection﻿
+
+-keep class dagger.** { *; }
+
+-keep class com.qiwenge.android.module.** { *; }
+
+-keep class com.qiwenge.android.app.** { *; }
+
+#Keep the annotated things annotated
+-keepattributes *Annotation*
+
+#Keep the dagger annotation classes themselves
+-keep @interface dagger.*,javax.inject.*
+
+#Keep the Modules intact
+-keep @dagger.Module class *
+
+-keep class javax.inject.** { *; }
+
+##-Keep the fields annotated with @Inject of any class that is not deleted.
+-keepclasseswithmembernames class * {
+  @javax.inject.* <fields>;
+  @javax.inject.* <methods>;
+  @javax.inject.* <init>(...);
+}
+
+# Keep the generated classes by dagger-compile
+-keep class **$$ModuleAdapter
+-keep class **$$InjectAdapter
+-keep class **$$StaticInjection
+
+# MVP
+-keep class com.qiwenge.android.mvp.** { *; }
+-keep class com.liuguangqiang.android.mvp** { *; }
