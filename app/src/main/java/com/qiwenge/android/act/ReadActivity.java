@@ -289,9 +289,9 @@ public class ReadActivity extends BaseActivity {
         initFontSizeSeekBar();
     }
 
-
     private void initBottomMenu() {
         menuAdapter = new ReadMenuAdapter(getApplicationContext(), menuData);
+        gvBottomMenu.setNumColumns(3);
         gvBottomMenu.setAdapter(menuAdapter);
 
         themeAdapter = new ReadThemeAdapter(getApplicationContext(), themeData);
