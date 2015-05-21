@@ -169,8 +169,10 @@ public class BaseListFragment<T> extends BaseFragment {
         if (mListView != null)
             mListView.loadStart();
 
-        if (pbLoading != null && data.isEmpty() && pageindex == 1)
+        if (pbLoading != null && data.isEmpty() && pageindex == 1) {
+            mListView.removePageFooterView();
             pbLoading.setVisibility(View.VISIBLE);
+        }
 
         hideEmptyView();
     }

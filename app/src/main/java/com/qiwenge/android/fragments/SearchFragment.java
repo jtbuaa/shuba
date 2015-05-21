@@ -7,18 +7,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.loopj.android.http.RequestParams;
+import com.liuguangqiang.android.mvp.BaseUi;
+import com.liuguangqiang.android.mvp.Presenter;
 import com.qiwenge.android.R;
-import com.qiwenge.android.act.BookDetailActivity;
 import com.qiwenge.android.adapters.BooksAdapter;
-import com.qiwenge.android.async.AsyncUtils;
 import com.qiwenge.android.base.BaseListFragment;
 import com.qiwenge.android.entity.Book;
-import com.qiwenge.android.entity.BookList;
-import com.qiwenge.android.utils.ApiUtils;
-import com.qiwenge.android.utils.http.JsonResponseHandler;
+import com.qiwenge.android.mvp.presenter.SearchPresenter;
+import com.qiwenge.android.mvp.ui.SearchUi;
+import com.qiwenge.android.mvp.ui.SearchUiCallback;
 
-public class SearchFragment extends BaseListFragment<Book> {
+public class SearchFragment extends BaseListFragment<Book> implements SearchUi {
+
+    private String keyword;
+
+    private SearchUiCallback mCallback;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -34,6 +37,21 @@ public class SearchFragment extends BaseListFragment<Book> {
     }
 
     @Override
+    public void setUiCallback(SearchUiCallback searchUiCallback) {
+        mCallback = searchUiCallback;
+    }
+
+    @Override
+    public Presenter setPresenter() {
+        return new SearchPresenter(getActivity());
+    }
+
+    @Override
+    public BaseUi setUi() {
+        return this;
+    }
+
+    @Override
     public void initViews() {
         super.initViews();
         adapter = new BooksAdapter(getActivity().getApplicationContext(), data);
@@ -46,9 +64,7 @@ public class SearchFragment extends BaseListFragment<Book> {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position >= 0 && position < data.size()) {
-                    Bundle extra = new Bundle();
-                    extra.putParcelable(BookDetailActivity.EXTRA_BOOK, data.get(position));
-                    startActivity(BookDetailActivity.class, extra);
+                    mCallback.onItemClick(data.get(position));
                 }
             }
         });
@@ -57,10 +73,8 @@ public class SearchFragment extends BaseListFragment<Book> {
     @Override
     public void requestData() {
         super.requestData();
-        searchBook();
+        mCallback.getBooks(pageindex, keyword);
     }
-
-    private String keyword = "";
 
     public void search(String title) {
         keyword = title;
@@ -69,28 +83,4 @@ public class SearchFragment extends BaseListFragment<Book> {
         adapter.notifyDataSetChanged();
         requestData();
     }
-
-    private void searchBook() {
-        System.out.println("search book");
-        String url = ApiUtils.getBooks();
-        RequestParams params = new RequestParams();
-        params.put("page", "" + pageindex);
-        params.put("title", keyword);
-        AsyncUtils.getBooks(getActivity(), url, params, new JsonResponseHandler<BookList>(BookList.class) {
-
-            @Override
-            public void onSuccess(BookList result) {
-                if (result != null && result.result != null) {
-                    requestSuccess(result.result);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                requestFinished();
-            }
-
-        });
-    }
-
 }
