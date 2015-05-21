@@ -1,8 +1,19 @@
-android-client
+书吧
 ==============
 
-android-client
+书吧，专注为用户提供人性化的搜书引擎，快捷，方便，为用户找到最好的小说。
 
+应用特点：
+
+* 快捷的搜索网络小说，自动为用户筛选最好的小说来源。
+* 人性化的阅读体验，精致的内容排版。
+* 绿色无广告，并自动过滤小说内容中的错别字和无用广告。
+* 检查小说更新，更新后推送消息，让用户及时阅读最新内容。 
+
+
+[![Get it on Google Play](art/googleplay.png)][1]
+
+[1]:https://play.google.com/store/apps/details?id=com.qiwenge.android
 
 ##License
 
