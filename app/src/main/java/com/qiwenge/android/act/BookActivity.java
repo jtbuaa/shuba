@@ -18,7 +18,6 @@ package com.qiwenge.android.act;
 
 import android.os.Bundle;
 
-import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.fragments.BookFragment;
 
@@ -35,8 +34,8 @@ public class BookActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book);
-        fragment = (BookFragment) getSupportFragmentManager().findFragmentById(R.id.bookFragment);
+        fragment = new BookFragment();
+        replaceFragment(fragment);
     }
 
     @Override

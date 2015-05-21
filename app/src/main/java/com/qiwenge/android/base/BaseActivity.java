@@ -21,7 +21,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class BaseActivity extends FragmentActivity {
+public class BaseActivity extends FragmentActivity implements Presenter.OnUiAttachedListener {
 
     private FinishAppReceiver receiver;
     private Presenter presenter;
@@ -61,16 +61,26 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (presenter != null && baseUi != null)
+        if (presenter != null && !presenter.isAttachedUi() && baseUi != null) {
+            presenter.setOnUiAttachedListener(this);
             presenter.attach(baseUi);
+        }
         MobclickAgent.onResume(this);
         JPushInterface.onResume(this);
     }
 
     @Override
+    public void onAttached() {
+
+    }
+
+    @Override
+    public void onDetached() {
+
+    }
+
+    @Override
     protected void onPause() {
-        if (presenter != null && baseUi != null)
-            presenter.detach(baseUi);
         super.onPause();
         MobclickAgent.onPause(this);
         JPushInterface.onPause(this);

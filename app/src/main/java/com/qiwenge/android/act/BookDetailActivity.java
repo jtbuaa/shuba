@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.liuguangqiang.android.mvp.BaseUi;
 import com.liuguangqiang.android.mvp.Presenter;
 import com.liuguangqiang.framework.utils.DisplayUtils;
+import com.liuguangqiang.framework.utils.Logs;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiwenge.android.R;
@@ -111,8 +112,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailUi {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onAttached() {
+        Logs.i("onAttached");
         mCallback.checkAdded(book);
     }
 
