@@ -30,6 +30,17 @@ Find the best novel for users.
 ###阅读页面－夜间模式
 ![image](art/6.png)
 
+##Open Source Libraries Used
+
+* [dagger](https://github.com/square/dagger)
+* [butterknife](https://github.com/JakeWharton/butterknife)
+* [rebound](https://github.com/facebook/rebound)
+* [universal-image-loader](https://github.com/nostra13/Android-Universal-Image-Loader)
+* [android-async-http](https://github.com/loopj/android-async-http)
+* [viewpagerindicator](https://github.com/JakeWharton/ViewPagerIndicator)
+* [aframework](https://github.com/liuguangqiang/AFramework)
+* [AndroidMVP](https://github.com/liuguangqiang/AndroidMVP)
+
 ##License
 
     Copyright 2015 qiwenge
