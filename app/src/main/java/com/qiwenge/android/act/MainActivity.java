@@ -7,13 +7,11 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.liuguangqiang.android.mvp.BaseUi;
+import com.liuguangqiang.android.mvp.Presenter;
 import com.liuguangqiang.framework.utils.NetworkUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.MainMenuAdapter;
@@ -22,6 +20,9 @@ import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.MainMenuItem;
+import com.qiwenge.android.mvp.presenter.MainPresenter;
+import com.qiwenge.android.mvp.ui.MainUi;
+import com.qiwenge.android.mvp.ui.MainUiCallback;
 import com.qiwenge.android.ui.SlowViewPager;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.level.LevelUtils;
@@ -29,9 +30,17 @@ import com.qiwenge.android.utils.level.LevelUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements OnClickListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnItemClick;
 
-    private ImageView ivLayer;
+public class MainActivity extends BaseActivity implements MainUi {
+
+    private static final int ACTION_SEARCH = 0;
+
+    private static final int ACTION_SETTING = 1;
+
+    private static final int ACTION_FEEDBACK = 2;
 
     private SlowViewPager viewPager;
 
@@ -39,14 +48,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
     private boolean doubleBackToExitPressedOnce = false;
 
-    private GridView gvMenu;
+    @InjectView(R.id.gv_menu)
+    GridView gvMenu;
+
     private MainMenuAdapter menuAdapter;
-    private List<MainMenuItem> menuData = new ArrayList<MainMenuItem>();
+    private List<MainMenuItem> menuData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
         if (!NetworkUtils.isWifiEnabled(getApplicationContext())) {
             ImageLoaderUtils.setWifiEnable(false);
         }
@@ -55,6 +67,21 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         initActionBar();
         chkUpdate();
         LevelUtils.dailyLogin(getApplicationContext());
+    }
+
+    @Override
+    public Presenter setPresenter() {
+        return new MainPresenter(getApplicationContext());
+    }
+
+    @Override
+    public BaseUi setUi() {
+        return this;
+    }
+
+    @Override
+    public void setUiCallback(MainUiCallback mainUiCallback) {
+
     }
 
     private void chkUpdate() {
@@ -93,50 +120,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_layer:// 点击遮罩层
-                invalidateOptionsMenu();
-                ivLayer.setVisibility(View.GONE);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    private void initMenu() {
-        String[] titles = getResources().getStringArray(R.array.main_menu_titles);
-
-        int[] iconNormal = {R.drawable.ic_main_menu_bookshelf_n,
-                R.drawable.ic_main_menu_bookcity_n, R.drawable.ic_main_menu_me_n};
-
-        int[] iconSelected = {R.drawable.ic_main_menu_bookshelf_s,
-                R.drawable.ic_main_menu_bookcity_s, R.drawable.ic_main_menu_me_s};
-
-        MainMenuItem item;
-        for (int i = 0; i < titles.length; i++) {
-            item = new MainMenuItem();
-            item.title = titles[i];
-            item.icon = iconNormal[i];
-            item.iconSelected = iconSelected[i];
-            menuData.add(item);
-        }
-        menuData.get(0).selected = true;
-        menuAdapter = new MainMenuAdapter(getApplicationContext(), menuData);
-        gvMenu = (GridView) this.findViewById(R.id.gv_menu);
-        gvMenu.setAdapter(menuAdapter);
-        gvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedMenu(position);
-                viewPager.setCurrentItem(position);
-            }
-        });
+    public void showMenu(List<MainMenuItem> list) {
+        menuData.addAll(list);
+        menuAdapter.notifyDataSetChanged();
     }
 
     private int lastPosition = 0;
@@ -149,7 +135,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initViews() {
-        initMenu();
+        menuAdapter = new MainMenuAdapter(getApplicationContext(), menuData);
+        gvMenu.setAdapter(menuAdapter);
 
         adapter = new MainPagerAdapter(getSupportFragmentManager());
         viewPager = (SlowViewPager) this.findViewById(R.id.viewpager_main);
@@ -171,23 +158,26 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
             }
         });
+    }
 
-        ivLayer = (ImageView) this.findViewById(R.id.iv_layer);
-        ivLayer.setOnClickListener(this);
+    @OnItemClick(R.id.gv_menu)
+    public void onMenuItemClick(int position) {
+        selectedMenu(position);
+        viewPager.setCurrentItem(position);
     }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        menu.add(0, 0, 0, R.string.action_search)
+        menu.add(0, ACTION_SEARCH, 0, R.string.action_search)
                 .setIcon(R.drawable.ic_action_search).setIntent(new Intent(getApplicationContext(),
                 SearchActivity.class)).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         SubMenu submenu = menu.addSubMenu(0, 1, 0, R.string.action_more);
 
-        submenu.add(0, 1, 2, R.string.action_setting).setIntent(
+        submenu.add(0, ACTION_SETTING, 2, R.string.action_setting).setIntent(
                 new Intent(getApplicationContext(), SettingActivity.class));
 
-        submenu.add(0, 2, 1, R.string.action_feedback);
+        submenu.add(0, ACTION_FEEDBACK, 1, R.string.action_feedback);
 
         submenu.getItem().setIcon(R.drawable.ic_action_more)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -198,7 +188,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case 2:
+            case ACTION_FEEDBACK:
                 startActivity(FeedbackActivity.class);
                 break;
         }

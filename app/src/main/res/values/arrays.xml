@@ -12,6 +12,18 @@
         <item>我</item>
     </string-array>
 
+    <string-array name="main_menu_icon_n">
+        <item>@drawable/ic_main_menu_bookshelf_n</item>
+        <item>@drawable/ic_main_menu_bookcity_n</item>
+        <item>@drawable/ic_main_menu_me_n</item>
+    </string-array>
+
+    <string-array name="main_menu_icon_s">
+        <item>@drawable/ic_main_menu_bookshelf_s</item>
+        <item>@drawable/ic_main_menu_bookcity_s</item>
+        <item>@drawable/ic_main_menu_me_s</item>
+    </string-array>
+
     <!-- ReadMenu -->
     <string-array name="read_menu_titles">
         <item>夜间</item>

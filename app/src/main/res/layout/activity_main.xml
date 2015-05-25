@@ -37,12 +37,4 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_layer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:alpha="0.2"
-        android:background="@color/action_bar_bg_color"
-        android:visibility="gone" />
-
 </RelativeLayout>
