@@ -1,5 +1,11 @@
 书吧
 ==============
+Find the best novel for users.
+
+* Quickly and Automatic.
+* Wonderful user experience.
+* For free and without ad.
+* Send the update message to users.
 
 书吧，专注为用户提供人性化的搜书引擎，快捷，方便，为用户找到最好的小说。
 
@@ -29,7 +35,7 @@
 
 ##License
 
-Copyright 2015 Eric Liu
+Copyright 2015 qiwenge
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
