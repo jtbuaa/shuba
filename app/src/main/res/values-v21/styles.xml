@@ -28,15 +28,15 @@
 
     </style>
 
-    <style name="Pull_To_Refresh">
-        <item name="ptrAnimationStyle">flip</item>
-        <item name="ptrDrawable">@drawable/icon_pull_to_refresh</item>
-        <item name="ptrHeaderTextColor">@color/tv_desc_color</item>
-        <item name="ptrShowIndicator">false</item>
-        <item name="ptrListViewExtrasEnabled">true</item>
-        <item name="ptrHeaderTextAppearance">@style/ptrHeaderTextStyle</item>
-        <item name="android:listSelector">?android:attr/selectableItemBackground</item>
-    </style>
+    <!--<style name="Pull_To_Refresh">-->
+        <!--<item name="ptrAnimationStyle">flip</item>-->
+        <!--<item name="ptrDrawable">@drawable/icon_pull_to_refresh</item>-->
+        <!--<item name="ptrHeaderTextColor">@color/tv_desc_color</item>-->
+        <!--<item name="ptrShowIndicator">false</item>-->
+        <!--<item name="ptrListViewExtrasEnabled">true</item>-->
+        <!--<item name="ptrHeaderTextAppearance">@style/ptrHeaderTextStyle</item>-->
+        <!--<item name="android:listSelector">?android:attr/selectableItemBackground</item>-->
+    <!--</style>-->
 
     <style name="ListSelector">
         <item name="android:listSelector">?android:attr/selectableItemBackground</item>

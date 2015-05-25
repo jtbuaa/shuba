@@ -98,9 +98,9 @@
         <item name="android:typeface">normal</item>
     </style>
 
-    <style name="PullToRefreshDisable">
-        <item name="ptrMode">disabled</item>
-    </style>
+    <!--<style name="PullToRefreshDisable">-->
+        <!--<item name="ptrMode">disabled</item>-->
+    <!--</style>-->
 
     <style name="SetItemHeader">
         <item name="android:textSize">@dimen/font_size_small</item>
@@ -187,15 +187,15 @@
         <item name="@android:windowExitAnimation">@anim/dialog_out</item>
     </style>
 
-    <style name="Pull_To_Refresh">
-        <item name="ptrAnimationStyle">flip</item>
-        <item name="ptrDrawable">@drawable/icon_pull_to_refresh</item>
-        <item name="ptrHeaderTextColor">@color/tv_desc_color</item>
-        <item name="ptrShowIndicator">false</item>
-        <item name="ptrListViewExtrasEnabled">true</item>
-        <item name="ptrHeaderTextAppearance">@style/ptrHeaderTextStyle</item>
-        <item name="android:listSelector">@drawable/item_common_bg</item>
-    </style>
+    <!--<style name="Pull_To_Refresh">-->
+        <!--<item name="ptrAnimationStyle">flip</item>-->
+        <!--<item name="ptrDrawable">@drawable/icon_pull_to_refresh</item>-->
+        <!--<item name="ptrHeaderTextColor">@color/tv_desc_color</item>-->
+        <!--<item name="ptrShowIndicator">false</item>-->
+        <!--<item name="ptrListViewExtrasEnabled">true</item>-->
+        <!--<item name="ptrHeaderTextAppearance">@style/ptrHeaderTextStyle</item>-->
+        <!--<item name="android:listSelector">@drawable/item_common_bg</item>-->
+    <!--</style>-->
 
     <style name="ListSelector">
         <item name="android:listSelector">@drawable/item_common_bg</item>

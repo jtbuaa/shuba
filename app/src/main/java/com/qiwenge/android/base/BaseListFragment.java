@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.constant.Constants;
-import com.qiwenge.android.ui.PagePullToRefreshListView;
+import com.qiwenge.android.ui.PageableListView;
 import com.qiwenge.android.utils.StyleUtils;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class BaseListFragment<T> extends BaseFragment {
 
     private boolean pageable = true;
 
-    public PagePullToRefreshListView mListView;
+    public PageableListView mListView;
 
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -57,8 +57,8 @@ public class BaseListFragment<T> extends BaseFragment {
     public void initViews() {
         mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
         StyleUtils.setColorSchemeResources(mSwipeRefreshLayout);
-        mListView = (PagePullToRefreshListView) getView().findViewById(R.id.listview_pull_to_refresh);
-        mListView.setOnScrollPageListener(new PagePullToRefreshListView.ScrollPageListener() {
+        mListView = (PageableListView) getView().findViewById(R.id.listview_pull_to_refresh);
+        mListView.setOnScrollPageListener(new PageableListView.ScrollPageListener() {
             @Override
             public void onPage() {
                 pageindex++;

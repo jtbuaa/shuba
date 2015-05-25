@@ -10,12 +10,7 @@ import android.widget.ListView;
 
 import com.qiwenge.android.R;
 
-/**
- * PullToRefreshListView -滚动分页加载。
- * <p/>
- * Created by John on 2014－7－21
- */
-public class PagePullToRefreshListView extends ListView {
+public class PageableListView extends ListView {
 
     private boolean isLoading = false;
     private boolean mLastItemVisible = false;
@@ -27,12 +22,12 @@ public class PagePullToRefreshListView extends ListView {
      */
     private boolean enablePage = true;
 
-    public PagePullToRefreshListView(Context context) {
+    public PageableListView(Context context) {
         super(context);
         init();
     }
 
-    public PagePullToRefreshListView(Context context, AttributeSet attrs) {
+    public PageableListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
