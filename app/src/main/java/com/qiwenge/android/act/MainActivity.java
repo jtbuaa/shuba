@@ -16,9 +16,7 @@ import com.liuguangqiang.framework.utils.NetworkUtils;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.MainMenuAdapter;
 import com.qiwenge.android.adapters.MainPagerAdapter;
-import com.qiwenge.android.async.AsyncCheckUpdate;
 import com.qiwenge.android.base.BaseActivity;
-import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.MainMenuItem;
 import com.qiwenge.android.mvp.presenter.MainPresenter;
 import com.qiwenge.android.mvp.ui.MainUi;
@@ -65,13 +63,12 @@ public class MainActivity extends BaseActivity implements MainUi {
 
         initViews();
         initActionBar();
-        chkUpdate();
         LevelUtils.dailyLogin(getApplicationContext());
     }
 
     @Override
     public Presenter setPresenter() {
-        return new MainPresenter(getApplicationContext());
+        return new MainPresenter(this);
     }
 
     @Override
@@ -82,14 +79,6 @@ public class MainActivity extends BaseActivity implements MainUi {
     @Override
     public void setUiCallback(MainUiCallback mainUiCallback) {
 
-    }
-
-    private void chkUpdate() {
-        if (!Constants.DISABLE_UPDATE) {
-            AsyncCheckUpdate update = new AsyncCheckUpdate(this);
-            update.setOnlyCheck();
-            update.checkUpdate();
-        }
     }
 
     private void initActionBar() {

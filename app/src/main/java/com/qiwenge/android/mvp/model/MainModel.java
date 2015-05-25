@@ -16,10 +16,14 @@
 
 package com.qiwenge.android.mvp.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 
+import com.liuguangqiang.framework.utils.Logs;
 import com.qiwenge.android.R;
+import com.qiwenge.android.async.AsyncCheckUpdate;
+import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.MainMenuItem;
 
 import java.util.ArrayList;
@@ -53,6 +57,15 @@ public class MainModel {
         list.get(0).selected = true;
 
         return list;
+    }
+
+    public void checkUpdate(Activity context) {
+        if (!Constants.DISABLE_UPDATE) {
+            Logs.i("MainModel", "checkUpdate");
+            AsyncCheckUpdate update = new AsyncCheckUpdate(context);
+            update.setOnlyCheck();
+            update.checkUpdate();
+        }
     }
 
 }

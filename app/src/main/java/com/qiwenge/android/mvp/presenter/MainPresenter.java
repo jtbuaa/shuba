@@ -16,7 +16,7 @@
 
 package com.qiwenge.android.mvp.presenter;
 
-import android.content.Context;
+import android.app.Activity;
 
 import com.liuguangqiang.android.mvp.Presenter;
 import com.qiwenge.android.app.ReadApplication;
@@ -31,14 +31,15 @@ import javax.inject.Inject;
  */
 public class MainPresenter extends Presenter<MainUi, MainUiCallback> {
 
-    private Context mContext;
+    private Activity mContext;
 
     @Inject
     MainModel mMainModel;
 
-    public MainPresenter(Context context) {
+    public MainPresenter(Activity context) {
         mContext = context;
         ReadApplication.from(context).inject(this);
+        mMainModel.checkUpdate(mContext);
     }
 
     @Override

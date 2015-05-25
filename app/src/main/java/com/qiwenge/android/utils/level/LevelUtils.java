@@ -28,14 +28,12 @@ public class LevelUtils {
     }
 
     public static void dailyLogin(final Context context) {
-        System.out.println("dailyLogin");
         int daily = PreferencesUtils.getInt(context, NAME, DAILY_LOGIN);
         final int date = Integer.parseInt(TimeUtils.getDateTimeByFormat("yyyyMMdd"));
         if (date > daily) {
             addExp(ExpType.DAILY_LOGIN, new BaseResponseHandler() {
                 @Override
                 public void onSuccess(String result) {
-                    System.out.println("dailyLogin success");
                     PreferencesUtils.putInt(context, NAME, DAILY_LOGIN, date);
                 }
             });
