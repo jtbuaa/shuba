@@ -14,6 +14,7 @@ import com.qiwenge.android.mvp.ui.FeedbackUi;
 import com.qiwenge.android.mvp.ui.FeedbackUiCallback;
 import com.qiwenge.android.utils.DialogUtils;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class FeedbackActivity extends BaseActivity implements FeedbackUi {
@@ -28,6 +29,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackUi {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.inject(this);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackUi {
 
     @Override
     public BaseUi setUi() {
-        return super.setUi();
+        return this;
     }
 
     @Override
