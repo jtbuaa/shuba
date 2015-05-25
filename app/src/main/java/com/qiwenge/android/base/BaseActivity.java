@@ -56,6 +56,9 @@ public class BaseActivity extends FragmentActivity implements Presenter.OnUiAtta
             unregisterReceiver(receiver);
             receiver = null;
         }
+        if (presenter != null && presenter.isAttachedUi() && baseUi != null) {
+            presenter.detach(baseUi);
+        }
     }
 
     @Override

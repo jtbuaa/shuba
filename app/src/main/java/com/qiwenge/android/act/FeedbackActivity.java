@@ -5,28 +5,44 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.liuguangqiang.framework.utils.ToastUtils;
-import com.loopj.android.http.RequestParams;
+import com.liuguangqiang.android.mvp.BaseUi;
+import com.liuguangqiang.android.mvp.Presenter;
 import com.qiwenge.android.R;
 import com.qiwenge.android.base.BaseActivity;
-import com.qiwenge.android.utils.ApiUtils;
+import com.qiwenge.android.mvp.presenter.FeedbackPresenter;
+import com.qiwenge.android.mvp.ui.FeedbackUi;
+import com.qiwenge.android.mvp.ui.FeedbackUiCallback;
 import com.qiwenge.android.utils.DialogUtils;
-import com.qiwenge.android.utils.http.BaseResponseHandler;
-import com.qiwenge.android.utils.http.JHttpClient;
 
 import butterknife.InjectView;
 
-public class FeedbackActivity extends BaseActivity {
+public class FeedbackActivity extends BaseActivity implements FeedbackUi {
 
     private static final int ACTION_SEND = 0;
 
     @InjectView(R.id.et_content)
     EditText etContent;
 
+    private FeedbackUiCallback mCallback;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initViews();
+    }
+
+    @Override
+    public void setUiCallback(FeedbackUiCallback feedbackUiCallback) {
+        mCallback = feedbackUiCallback;
+    }
+
+    @Override
+    public Presenter setPresenter() {
+        return new FeedbackPresenter(getApplicationContext());
+    }
+
+    @Override
+    public BaseUi setUi() {
+        return super.setUi();
     }
 
     @Override
@@ -56,39 +72,26 @@ public class FeedbackActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initViews() {
-        etContent = (EditText) this.findViewById(R.id.et_content);
+    @Override
+    public void showLoading() {
+        DialogUtils.showLoading(FeedbackActivity.this);
+    }
+
+    @Override
+    public void hideLoading() {
+        DialogUtils.hideLoading();
+    }
+
+    @Override
+    public void onSuccess() {
+        finish();
     }
 
     private void postFeedback() {
-        if (etContent.getText().toString().trim().length() == 0) return;
-
-        String url = ApiUtils.postFeedBack();
-        RequestParams params = new RequestParams();
-        params.put("content", etContent.getText().toString().trim());
-        JHttpClient.post(url, params, new BaseResponseHandler() {
-
-            @Override
-            public void onStart() {
-                DialogUtils.showLoading(FeedbackActivity.this);
-            }
-
-            @Override
-            public void onSuccess(String result) {
-                ToastUtils.show(getApplicationContext(), "感谢你的反馈!");
-                finish();
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                ToastUtils.show(getApplicationContext(), "发送失败");
-            }
-
-            @Override
-            public void onFinish() {
-                DialogUtils.hideLoading();
-            }
-        });
+        String content = etContent.getText().toString().trim();
+        if (content.length() > 0) {
+            mCallback.feedback(content);
+        }
     }
 
 }
