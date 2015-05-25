@@ -29,7 +29,7 @@ android {
     signingConfigs {
         release {
             try {
-                storeFile file("qiwenge.keystore.jks")
+                storeFile file("/Users/Eric/Desktop/shuba/qiwenge.keystore.jks")
                 storePassword KEYSTORE_PWD
                 keyAlias KEY_ALIAS
                 keyPassword KEY_PWD
