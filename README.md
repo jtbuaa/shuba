@@ -24,9 +24,6 @@ Find the best novel for users.
 ###发现
 ![image](art/2.png)
 
-###我
-![image](art/3.png)
-
 ###小说详情
 ![image](art/4.png)
 
