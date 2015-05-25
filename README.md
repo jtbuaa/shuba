@@ -20,17 +20,22 @@ Find the best novel for users.
 [![Get it on Google Play](art/googleplay.png)][1]
 
 ##Screenshots
-
+###书架
 ![image](art/1.png)
 
+###发现
 ![image](art/2.png)
 
+###我
 ![image](art/3.png)
 
+###小说详情
 ![image](art/4.png)
 
+###阅读页面－普通模式
 ![image](art/5.png)
 
+###阅读页面－夜间模式``
 ![image](art/6.png)
 
 ##License
