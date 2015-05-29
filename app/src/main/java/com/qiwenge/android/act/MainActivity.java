@@ -68,17 +68,11 @@ public class MainActivity extends BaseActivity implements MainUi {
 
     @Override
     public Presenter setPresenter() {
-        return new MainPresenter(this);
-    }
-
-    @Override
-    public BaseUi setUi() {
-        return this;
+        return new MainPresenter(this, this);
     }
 
     @Override
     public void setUiCallback(MainUiCallback mainUiCallback) {
-
     }
 
     private void initActionBar() {

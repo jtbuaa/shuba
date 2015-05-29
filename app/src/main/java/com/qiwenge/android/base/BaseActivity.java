@@ -45,6 +45,7 @@ public class BaseActivity extends FragmentActivity implements Presenter.OnUiAtta
         return null;
     }
 
+    @Deprecated
     public BaseUi setUi() {
         return null;
     }
@@ -68,17 +69,18 @@ public class BaseActivity extends FragmentActivity implements Presenter.OnUiAtta
             presenter.setOnUiAttachedListener(this);
             presenter.attach(baseUi);
         }
+
+        if (presenter != null && !presenter.isAttachedUi()) {
+            presenter.setOnUiAttachedListener(this);
+            presenter.attach();
+        }
+
         MobclickAgent.onResume(this);
         JPushInterface.onResume(this);
     }
 
     @Override
-    public void onAttached() {
-
-    }
-
-    @Override
-    public void onDetached() {
+    public void onAttachedUi() {
 
     }
 

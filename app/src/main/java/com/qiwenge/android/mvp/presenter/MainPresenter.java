@@ -36,7 +36,8 @@ public class MainPresenter extends Presenter<MainUi, MainUiCallback> {
     @Inject
     MainModel mMainModel;
 
-    public MainPresenter(Activity context) {
+    public MainPresenter(Activity context, MainUi ui) {
+        super(ui);
         mContext = context;
         ReadApplication.from(context).inject(this);
         mMainModel.checkUpdate(mContext);
