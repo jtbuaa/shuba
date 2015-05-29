@@ -84,7 +84,7 @@ dependencies {
     compile 'com.google.code.gson:gson:+'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.facebook.rebound:rebound:0.3.7'
-    compile 'com.github.liuguangqiang.mvp:library:1.0.2'
+    compile 'com.github.liuguangqiang.mvp:library:1.0.4'
     compile 'com.github.liuguangqiang.aframework:library:1.0.2'
     compile 'com.squareup.dagger:dagger:1.2.2'
     compile 'com.squareup.dagger:dagger-compiler:1.2.2'
