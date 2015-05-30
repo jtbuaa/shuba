@@ -12,9 +12,6 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.entity.Chapter;
 
-/**
- * 目录.
- */
 public class ChapterAdapter extends MyBaseAdapter<Chapter> {
 
     private String SHOW_FORMAT;

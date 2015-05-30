@@ -12,9 +12,6 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.entity.Category;
 
-/**
- * CategoryAdapter
- */
 public class CategoryAdapter extends MyBaseAdapter<Category> {
 
     private ViewHolder viewHolder;

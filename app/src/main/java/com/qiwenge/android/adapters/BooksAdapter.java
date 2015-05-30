@@ -16,10 +16,6 @@ import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 
-/**
- * BooksAdapter
- * <p/>
- */
 public class BooksAdapter extends MyBaseAdapter<Book> {
 
     private DisplayImageOptions mOptions;

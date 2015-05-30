@@ -8,10 +8,6 @@ import com.qiwenge.android.fragments.bookcity.CategorysFragment;
 import com.qiwenge.android.fragments.bookcity.RankFragment;
 import com.qiwenge.android.fragments.bookcity.RecommendFragment;
 
-/**
- * 书城适配器。
- * 
- */
 public class BookCityAdapter extends FragmentPagerAdapter {
 
     private RecommendFragment recommend;
@@ -46,7 +42,7 @@ public class BookCityAdapter extends FragmentPagerAdapter {
 
     /**
      * 刷新Fragment数据。
-     * 
+     *
      * @param position
      */
     public void refresh(int position) {
