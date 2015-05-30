@@ -92,14 +92,9 @@ public class BookDetailActivity extends BaseActivity implements BookDetailUi {
 
     @Override
     public Presenter setPresenter() {
-        return new BookDetailPresenter(this);
+        return new BookDetailPresenter(getApplicationContext(), this);
     }
-
-    @Override
-    public BaseUi setUi() {
-        return this;
-    }
-
+    
     @Override
     public void setUiCallback(BookDetailUiCallback bookDetailUiCallback) {
         mCallback = bookDetailUiCallback;
@@ -112,8 +107,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailUi {
     }
 
     @Override
-    public void onAttached() {
-        Logs.i("onAttached");
+    public void onAttachedUi() {
+        super.onAttachedUi();
         mCallback.checkAdded(book);
     }
 

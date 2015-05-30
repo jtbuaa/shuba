@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * 书城。 BookCityFragment
  * <p/>
- * Created by John on 2014-5-31
+ * Created by Eric on 2014-5-31
  */
 public class BookCityFragment extends BaseFragment {
 
