@@ -14,11 +14,6 @@ import com.qiwenge.android.utils.http.JHttpClient;
 import com.qiwenge.android.utils.http.JsonResponseHandler;
 import com.qiwenge.android.utils.http.StringResponseHandler;
 
-/**
- * 常用的一些异步处理工具类 。
- * <p/>
- * Created by John on 2014-6-30
- */
 public class AsyncUtils {
 
     /**

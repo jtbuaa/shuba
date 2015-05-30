@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 
-
 public class DialogSimpleAdapter extends MyBaseAdapter<String> {
 
     private ViewHolder viewholder;

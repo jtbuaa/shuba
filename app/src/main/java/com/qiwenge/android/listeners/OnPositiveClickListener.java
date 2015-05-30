@@ -5,6 +5,6 @@ package com.qiwenge.android.listeners;
  */
 public interface OnPositiveClickListener {
 
-    public void onClick();
+    void onClick();
 
 }

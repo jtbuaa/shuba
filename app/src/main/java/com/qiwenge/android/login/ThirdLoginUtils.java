@@ -1,6 +1,5 @@
 package com.qiwenge.android.login;
 
-
 public class ThirdLoginUtils {
 
     public static boolean loginWeixin = false;

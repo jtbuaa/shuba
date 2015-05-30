@@ -5,6 +5,6 @@ package com.qiwenge.android.listeners;
  */
 public interface LoginListener {
 
-    public void onSuccess();
+    void onSuccess();
 
 }

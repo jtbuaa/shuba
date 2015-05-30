@@ -5,7 +5,7 @@ import com.liuguangqiang.framework.utils.GsonUtils;
 /**
  * JsonResponseHandler
  * <p/>
- * Created by John on 2014-7
+ * Created by Eric on 2014-7
  */
 public class JsonResponseHandler<T> extends BaseResponseHandler {
 

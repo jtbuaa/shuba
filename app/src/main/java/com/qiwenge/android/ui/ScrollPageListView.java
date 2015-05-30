@@ -13,7 +13,7 @@ import com.qiwenge.android.R;
 /**
  * ListView-滚动分页加载。
  * <p/>
- * Created by John on 2014-7-18
+ * Created by Eric on 2014-7-18
  */
 public class ScrollPageListView extends ListView {
 

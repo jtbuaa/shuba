@@ -8,10 +8,9 @@ import android.net.wifi.WifiManager;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 
 /**
- * 
  * Wifi状态监听.
- *
- * Created by John on 2014-7-22
+ * <p/>
+ * Created by Eric on 2014-7-22
  */
 public class WifiStatusChangeReceiver extends BroadcastReceiver {
 

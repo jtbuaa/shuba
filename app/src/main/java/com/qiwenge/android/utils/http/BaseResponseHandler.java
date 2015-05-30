@@ -5,7 +5,7 @@ import com.liuguangqiang.framework.utils.Logs;
 /**
  * BaseResponseHandler
  * <p/>
- * Created by John
+ * Created by Eric
  */
 public abstract class BaseResponseHandler {
 

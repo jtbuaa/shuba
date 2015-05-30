@@ -41,7 +41,7 @@ android {
 
     productFlavors {
         shuba {}
-        googleplay {}
+//        googleplay {}
     }
 
     productFlavors.all { flavor ->
