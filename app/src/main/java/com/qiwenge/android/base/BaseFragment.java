@@ -21,29 +21,18 @@ public class BaseFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         presenter = setPresenter();
-        baseUi = setUi();
     }
 
     public Presenter setPresenter() {
         return null;
     }
 
-    public BaseUi setUi() {
-        return null;
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        if (presenter != null && baseUi != null)
-            presenter.attach(baseUi);
-    }
-
-    @Override
-    public void onPause() {
-        if (presenter != null && baseUi != null)
-            presenter.detach(baseUi);
-        super.onPause();
+        if (presenter != null && !presenter.isAttachedUi()) {
+            presenter.attach();
+        }
     }
 
     @Override

@@ -25,14 +25,12 @@ public class BaseActivity extends FragmentActivity implements Presenter.OnUiAtta
 
     private FinishAppReceiver receiver;
     private Presenter presenter;
-    private BaseUi baseUi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
         presenter = setPresenter();
-        baseUi = setUi();
         showActionBarBack();
         initReceiver();
     }
@@ -45,11 +43,6 @@ public class BaseActivity extends FragmentActivity implements Presenter.OnUiAtta
         return null;
     }
 
-    @Deprecated
-    public BaseUi setUi() {
-        return null;
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -57,19 +50,11 @@ public class BaseActivity extends FragmentActivity implements Presenter.OnUiAtta
             unregisterReceiver(receiver);
             receiver = null;
         }
-        if (presenter != null && presenter.isAttachedUi() && baseUi != null) {
-            presenter.detach(baseUi);
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (presenter != null && !presenter.isAttachedUi() && baseUi != null) {
-            presenter.setOnUiAttachedListener(this);
-            presenter.attach(baseUi);
-        }
-
         if (presenter != null && !presenter.isAttachedUi()) {
             presenter.setOnUiAttachedListener(this);
             presenter.attach();
