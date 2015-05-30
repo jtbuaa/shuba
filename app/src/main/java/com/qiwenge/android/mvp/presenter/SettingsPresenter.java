@@ -22,7 +22,8 @@ public class SettingsPresenter extends Presenter<SettingsUi, SettingUiCallback> 
     @Inject
     SettingsModel settingsModel;
 
-    public SettingsPresenter(Context context) {
+    public SettingsPresenter(Context context, SettingsUi ui) {
+        super(ui);
         this.mContext = context;
         ReadApplication.from(context).inject(this);
     }

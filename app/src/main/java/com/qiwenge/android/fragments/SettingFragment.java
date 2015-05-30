@@ -63,12 +63,7 @@ public class SettingFragment extends BaseFragment implements SettingsUi {
 
     @Override
     public Presenter setPresenter() {
-        return new SettingsPresenter(getActivity());
-    }
-
-    @Override
-    public BaseUi setUi() {
-        return this;
+        return new SettingsPresenter(getActivity(), this);
     }
 
     @Override

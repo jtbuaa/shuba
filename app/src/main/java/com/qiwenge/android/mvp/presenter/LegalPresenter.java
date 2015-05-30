@@ -18,7 +18,8 @@ public class LegalPresenter extends Presenter<LegalUi, LegalUiCallback> {
     @Inject
     LegalModel mLegalModel;
 
-    public LegalPresenter(Context context) {
+    public LegalPresenter(Context context, LegalUi ui) {
+        super(ui);
         ReadApplication.from(context).inject(this);
     }
 

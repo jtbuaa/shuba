@@ -43,12 +43,7 @@ public class SearchFragment extends BaseListFragment<Book> implements SearchUi {
 
     @Override
     public Presenter setPresenter() {
-        return new SearchPresenter(getActivity());
-    }
-
-    @Override
-    public BaseUi setUi() {
-        return this;
+        return new SearchPresenter(getActivity(), this);
     }
 
     @Override

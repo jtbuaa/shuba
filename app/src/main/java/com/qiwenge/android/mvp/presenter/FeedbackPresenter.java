@@ -36,7 +36,8 @@ public class FeedbackPresenter extends Presenter<FeedbackUi, FeedbackUiCallback>
 
     Context mContext;
 
-    public FeedbackPresenter(Context context) {
+    public FeedbackPresenter(Context context, FeedbackUi ui) {
+        super(ui);
         ReadApplication.from(context).inject(this);
         mContext = context;
     }

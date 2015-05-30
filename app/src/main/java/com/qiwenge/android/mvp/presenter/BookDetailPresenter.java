@@ -24,7 +24,8 @@ public class BookDetailPresenter extends Presenter<BookDetailUi, BookDetailUiCal
 
     private Context mContext;
 
-    public BookDetailPresenter(Context context) {
+    public BookDetailPresenter(Context context, BookDetailUi ui) {
+        super(ui);
         mContext = context;
         ReadApplication.from(context).inject(this);
     }

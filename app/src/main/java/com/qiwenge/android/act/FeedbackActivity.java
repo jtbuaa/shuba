@@ -39,12 +39,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackUi {
 
     @Override
     public Presenter setPresenter() {
-        return new FeedbackPresenter(getApplicationContext());
-    }
-
-    @Override
-    public BaseUi setUi() {
-        return this;
+        return new FeedbackPresenter(getApplicationContext(), this);
     }
 
     @Override

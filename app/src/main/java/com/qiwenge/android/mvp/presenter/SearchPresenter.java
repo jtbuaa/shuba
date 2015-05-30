@@ -38,7 +38,8 @@ public class SearchPresenter extends Presenter<SearchUi, SearchUiCallback> {
 
     Context mContext;
 
-    public SearchPresenter(Context context) {
+    public SearchPresenter(Context context, SearchUi ui) {
+        super(ui);
         ReadApplication.from(context).inject(this);
         mContext = context;
     }

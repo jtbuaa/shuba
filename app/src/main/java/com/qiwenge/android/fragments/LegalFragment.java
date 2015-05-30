@@ -32,12 +32,7 @@ public class LegalFragment extends BaseFragment implements LegalUi {
 
     @Override
     public Presenter setPresenter() {
-        return new LegalPresenter(getActivity());
-    }
-
-    @Override
-    public BaseUi setUi() {
-        return this;
+        return new LegalPresenter(getActivity(), this);
     }
 
     @Override
