@@ -16,9 +16,6 @@ import com.qiwenge.android.entity.Book;
 import com.qiwenge.android.utils.ImageLoaderUtils;
 import com.qiwenge.android.utils.ReaderUtils;
 
-/**
- * 相关推荐适配器。 AboutRmdAdapter
- */
 public class AboutRmdAdapter extends MyBaseAdapter<Book> {
 
     private ViewHolder viewHolder;

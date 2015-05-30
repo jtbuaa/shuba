@@ -9,18 +9,15 @@ import android.widget.TextView;
 
 import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
-import com.qiwenge.android.entity.Offline;
+import com.qiwenge.android.entity.OfflineMenuItem;
 
 import java.util.List;
 
-/**
- * OfflineAdapter
- */
-public class OfflineAdapter extends MyBaseAdapter<Offline> {
+public class OfflineMenuAdapter extends MyBaseAdapter<OfflineMenuItem> {
 
     private ViewHolder viewHolder;
 
-    public OfflineAdapter(Context context, List<Offline> data) {
+    public OfflineMenuAdapter(Context context, List<OfflineMenuItem> data) {
         this.data = data;
         this.context = context;
     }
@@ -36,7 +33,7 @@ public class OfflineAdapter extends MyBaseAdapter<Offline> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Offline model = data.get(position);
+        OfflineMenuItem model = data.get(position);
         if (model != null) {
             viewHolder.tvTitle.setText(model.title);
 

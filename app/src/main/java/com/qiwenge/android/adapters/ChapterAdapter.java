@@ -14,8 +14,6 @@ import com.qiwenge.android.entity.Chapter;
 
 public class ChapterAdapter extends MyBaseAdapter<Chapter> {
 
-    private String SHOW_FORMAT;
-
     private ViewHolder viewHolder;
 
     private int colorNormal = 0;
@@ -25,7 +23,6 @@ public class ChapterAdapter extends MyBaseAdapter<Chapter> {
     public ChapterAdapter(Context context, List<Chapter> data) {
         this.data = data;
         this.context = context;
-        SHOW_FORMAT = context.getString(R.string.str_chapter_title);
 
         colorNormal = context.getResources().getColor(R.color.tv_title_color);
         colorSelected = context.getResources().getColor(R.color.main_dress_color);

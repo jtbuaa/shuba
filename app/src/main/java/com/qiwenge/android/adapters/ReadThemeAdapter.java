@@ -13,9 +13,6 @@ import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.entity.ReadTheme;
 import com.qiwenge.android.utils.ThemeUtils;
 
-/**
- * 阅读主题适配器
- */
 public class ReadThemeAdapter extends MyBaseAdapter<ReadTheme> {
 
     private ViewHolder viewHolder;

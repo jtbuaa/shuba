@@ -1,6 +1,6 @@
 package com.qiwenge.android.entity;
 
-public class Offline {
+public class OfflineMenuItem {
 
     public String title;
 

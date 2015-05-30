@@ -40,11 +40,6 @@ public class BookCityAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
-    /**
-     * 刷新Fragment数据。
-     *
-     * @param position
-     */
     public void refresh(int position) {
         switch (position) {
             case 0:

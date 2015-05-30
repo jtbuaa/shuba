@@ -11,9 +11,9 @@ import android.widget.LinearLayout;
 
 import com.liuguangqiang.framework.utils.DisplayUtils;
 import com.qiwenge.android.R;
-import com.qiwenge.android.adapters.OfflineAdapter;
+import com.qiwenge.android.adapters.OfflineMenuAdapter;
 import com.qiwenge.android.entity.Book;
-import com.qiwenge.android.entity.Offline;
+import com.qiwenge.android.entity.OfflineMenuItem;
 import com.qiwenge.android.utils.OfflineUtils;
 
 import java.util.ArrayList;
@@ -47,17 +47,17 @@ public class OfflineMenu extends LinearLayout {
 
     private GridView createGridView(Context context) {
         String[] titles = context.getResources().getStringArray(R.array.offline_items);
-        final List<Offline> offlineList = new ArrayList<>();
-        Offline offline;
+        final List<OfflineMenuItem> offlineList = new ArrayList<>();
+        OfflineMenuItem offline;
         for (String str : titles) {
-            offline = new Offline();
+            offline = new OfflineMenuItem();
             offline.title = str;
             offlineList.add(offline);
         }
         offlineList.get(0).selected = true;
 
         GridView gv = new GridView(context);
-        final OfflineAdapter adapter = new OfflineAdapter(context, offlineList);
+        final OfflineMenuAdapter adapter = new OfflineMenuAdapter(context, offlineList);
         gv.setAdapter(adapter);
         gv.setNumColumns(4);
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

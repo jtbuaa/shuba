@@ -13,9 +13,6 @@ import com.qiwenge.android.R;
 import com.qiwenge.android.adapters.base.MyBaseAdapter;
 import com.qiwenge.android.entity.Mirror;
 
-/**
- * SourceAdapter
- */
 public class SourceAdapter extends MyBaseAdapter<Mirror> {
 
     private ViewHolder viewholder;
