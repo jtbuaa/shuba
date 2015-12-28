@@ -69,9 +69,9 @@ public class ReadActivity extends BaseActivity {
     private final static int MAX_VALUE_FONTSZIE_SEEKBAR = 100;
 
     /**
-     * SeekBar的progrees，缩小5倍为字体偏移量
+     * SeekBar的progrees，缩小1倍为字体偏移量
      */
-    private final static int OFFSET_ZOOM_OUT = 5;
+    private final static int OFFSET_ZOOM_OUT = 1;
 
     /**
      * 最大字体偏移量
