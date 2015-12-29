@@ -11,7 +11,7 @@ import android.widget.Scroller;
  */
 public class SlowScroller extends Scroller {
 
-    private final int mDuration = 500;
+    private final int mDuration = 0; // should not have animation on iReader device
 
     public SlowScroller(Context context) {
         super(context);
