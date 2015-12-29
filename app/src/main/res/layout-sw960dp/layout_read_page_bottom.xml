@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="0dp">
+
+    <TextView
+        android:id="@+id/tv_pages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/tv_title_color"
+        android:textSize="@dimen/font_size_biggest" />
+
+    <ProgressBar
+        android:id="@+id/progreebar_battery"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="26dp"
+        android:layout_height="14dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/tv_time"
+        android:background="@drawable/battery_bg9"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/seekbar_battery_bg" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:paddingBottom="1dp"
+        android:textColor="@color/tv_title_color"
+        android:text="21:40"
+        android:textSize="@dimen/font_size_biggest" />
+
+</RelativeLayout>
