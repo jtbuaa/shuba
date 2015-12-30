@@ -356,11 +356,12 @@ public class ReadFragment extends BaseFragment {
      * 处理点击事件。
      */
     private void handleOnClick() {
-        if (lastX < oneThird) {
+        if (clickListener != null && clickListener.isMenuShowing()) {
+            clickListener.onHideMenu();
+        } else if (lastX < oneThird) {
             if (currentItem > 0) {
                 viewPager.setCurrentItem(currentItem - 1);
             }
-
         } else if (lastX > oneThird * 2) {
             if (currentItem < adapter.getCount()) {
                 viewPager.setCurrentItem(currentItem + 1);

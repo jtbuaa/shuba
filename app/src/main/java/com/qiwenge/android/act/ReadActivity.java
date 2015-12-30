@@ -637,6 +637,13 @@ public class ReadActivity extends BaseActivity {
 
     }
 
+    private void hideMenu() {
+        if (topIsShow)
+            hideTop();
+        if (bottomIsShow)
+            hideBottomMenu();
+    }
+
     /**
      * 初始化Fragment。
      */
@@ -648,6 +655,14 @@ public class ReadActivity extends BaseActivity {
             @Override
             public void onClick() {
                 showOrHideMenu();
+            }
+            @Override
+            public boolean isMenuShowing() {
+                return topIsShow || bottomIsShow;
+            }
+            @Override
+            public void onHideMenu() {
+                hideMenu();
             }
         });
     }

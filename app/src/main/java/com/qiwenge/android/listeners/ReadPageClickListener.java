@@ -8,5 +8,6 @@ package com.qiwenge.android.listeners;
 public interface ReadPageClickListener {
 
     void onClick();
-
+    boolean isMenuShowing();
+    void onHideMenu();
 }
