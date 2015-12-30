@@ -75,6 +75,15 @@ public class MainActivity extends BaseActivity implements MainUi {
     public void setUiCallback(MainUiCallback mainUiCallback) {
     }
 
+    private boolean inited = false;
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && !inited) {
+            SplashActivity.getScreenSize(this);
+        }
+    }
+
     private void initActionBar() {
         getActionBar().setDisplayShowCustomEnabled(true);
         getActionBar().setDisplayUseLogoEnabled(false);

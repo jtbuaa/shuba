@@ -107,8 +107,8 @@ public class SplashActivity extends BaseActivity {
 
     public static void getScreenSize(Activity activity) {
         DisplayMetrics dm = activity.getResources().getDisplayMetrics();
-        Constants.WIDTH = dm.widthPixels * dm.densityDpi;
-        Constants.HEIGHT = dm.heightPixels * dm.densityDpi;
+        Constants.WIDTH = dm.widthPixels;
+        Constants.HEIGHT = dm.heightPixels;
     }
 
     private void skipToMain() {

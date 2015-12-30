@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.liuguangqiang.framework.utils.Logs;
 import com.liuguangqiang.framework.utils.StringUtils;
 import com.qiwenge.android.R;
-import com.qiwenge.android.act.SplashActivity;
 import com.qiwenge.android.base.BaseFragment;
 import com.qiwenge.android.constant.Constants;
 import com.qiwenge.android.entity.Book;
@@ -357,10 +356,6 @@ public class ReadFragment extends BaseFragment {
      * 处理点击事件。
      */
     private void handleOnClick() {
-        if (oneThird == 0) {
-            SplashActivity.getScreenSize(getActivity());
-            oneThird = Constants.WIDTH / 3;
-        }
         if (lastX < oneThird) {
             if (currentItem > 0) {
                 viewPager.setCurrentItem(currentItem - 1);
