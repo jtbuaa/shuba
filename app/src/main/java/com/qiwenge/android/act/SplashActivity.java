@@ -1,10 +1,10 @@
 package com.qiwenge.android.act;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Display;
+import android.util.DisplayMetrics;
 
 import com.liuguangqiang.framework.utils.AppUtils;
 import com.loopj.android.http.RequestParams;
@@ -42,7 +42,7 @@ public class SplashActivity extends BaseActivity {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && !inited) {
             inited = true;
-            getScreenSize();
+            getScreenSize(this);
 
 //            if (NetworkUtils.isAvailable(getApplicationContext())) {
 //                getProgresses();
@@ -105,14 +105,10 @@ public class SplashActivity extends BaseActivity {
         BookManager.getInstance().updateProgresses(getApplicationContext(), list);
     }
 
-    public void getScreenSize() {
-        Display dis = getWindowManager().getDefaultDisplay();
-        Point outSize = new Point(0, 0);
-        dis.getSize(outSize);
-        if (outSize != null) {
-            Constants.WIDTH = outSize.x;
-            Constants.HEIGHT = outSize.y;
-        }
+    public static void getScreenSize(Activity activity) {
+        DisplayMetrics dm = activity.getResources().getDisplayMetrics();
+        Constants.WIDTH = dm.widthPixels * dm.densityDpi;
+        Constants.HEIGHT = dm.heightPixels * dm.densityDpi;
     }
 
     private void skipToMain() {
